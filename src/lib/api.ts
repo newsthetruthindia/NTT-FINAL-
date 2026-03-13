@@ -28,15 +28,25 @@ export interface Post {
 }
 
 export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
-  const res = await fetch(`${API_URL}/posts/latest?limit=${limit}`, { cache: 'no-store' });
-  const json = await res.json();
-  return json.data;
+  try {
+    const res = await fetch(`${API_URL}/posts/latest?limit=${limit}`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data ?? [];
+  } catch {
+    return [];
+  }
 };
 
 export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
-  const res = await fetch(`${API_URL}/posts/top?limit=${limit}`, { cache: 'no-store' });
-  const json = await res.json();
-  return json.data;
+  try {
+    const res = await fetch(`${API_URL}/posts/top?limit=${limit}`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data ?? [];
+  } catch {
+    return [];
+  }
 };
 
 export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
@@ -47,9 +57,14 @@ export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
 };
 
 export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any> => {
-  const res = await fetch(`${API_URL}/posts/category/${slug}?limit=${limit}`, { cache: 'no-store' });
-  const json = await res.json();
-  return json.data;
+  try {
+    const res = await fetch(`${API_URL}/posts/category/${slug}?limit=${limit}`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data ?? [];
+  } catch {
+    return [];
+  }
 };
 
 export const getImageUrl = (url: string | undefined) => {
