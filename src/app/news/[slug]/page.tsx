@@ -5,6 +5,8 @@ import { fetchPostBySlug, fetchLatestPosts, getImageUrl } from '@/lib/api'
 import NewsCard from '@/components/NewsCard'
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 export default async function NewsDetails({ params }: { params: { slug: string } }) {
   let slug = '';
   try {
@@ -31,65 +33,65 @@ export default async function NewsDetails({ params }: { params: { slug: string }
 
   const latestPosts = await fetchLatestPosts(4);
   const displayImage = getImageUrl(post.thumbnails?.url);
-  const formattedDate = new Date(post.created_at).toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric'
-  });
-
-  const categoryName = post.categories && post.categories.length > 0 
-    ? post.categories[0].cat_data.title 
-    : 'News';
 
   return (
     <main className="min-h-screen bg-white">
       <Header />
       
-      {/* Article Header */}
-      <article className="pt-32 pb-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center gap-4 mb-8">
-            <span className="premium-gradient px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-              {categoryName}
+      <article className="pt-24 pb-20">
+        {/* Article Header */}
+        <div className="max-w-4xl mx-auto px-4 mb-12">
+          <div className="mb-6">
+            <span className="premium-gradient px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-white">
+              {post.categories?.[0]?.cat_data?.title || 'News'}
             </span>
-            <span className="text-gray-400 text-sm font-medium">{formattedDate}</span>
           </div>
-
-          <h1 className="text-4xl md:text-6xl font-heading font-black text-gray-900 leading-[1.1] mb-8">
+          <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-8 leading-[1.05] tracking-tight">
             {post.title}
           </h1>
-
-          <div className="flex items-center gap-4 pb-12 border-b border-gray-100">
-            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-xl font-bold text-gray-400">
-              {post.user?.firstname?.[0] || 'N'}
-            </div>
-            <div>
-              <p className="font-bold text-gray-900">{post.user?.firstname} {post.user?.lastname || 'NTT Desk'}</p>
-              <p className="text-sm text-gray-500">Investigative Journalist</p>
+          <div className="flex items-center justify-between py-6 border-y border-gray-100">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center text-white font-bold">
+                NTT
+              </div>
+              <div>
+                <p className="text-sm font-bold text-gray-900">By NTT Desk</p>
+                <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">
+                  {new Date(post.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}
+                </p>
+              </div>
             </div>
           </div>
+        </div>
 
-          <div className="py-12">
+        {/* Featured Image */}
+        <div className="max-w-6xl mx-auto px-4 mb-16">
+          <div className="aspect-[21/9] rounded-[40px] overflow-hidden shadow-2xl">
             <img 
-              src={displayImage} 
+              src={displayImage}
               alt={post.title}
-              className="w-full h-auto rounded-3xl shadow-xl mb-12"
-            />
-
-            <div 
-              className="prose prose-lg max-w-none prose-headings:font-heading prose-headings:font-black prose-headings:text-gray-900 prose-p:text-gray-600 prose-p:leading-relaxed prose-a:text-red-500 hover:prose-a:text-red-600 transition-colors"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              className="w-full h-full object-cover"
             />
           </div>
+        </div>
+
+        {/* Article Content */}
+        <div className="max-w-3xl mx-auto px-4">
+          <div 
+            className="prose prose-xl prose-red max-w-none text-gray-800 leading-relaxed font-serif"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
         </div>
       </article>
 
       {/* Recommended Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12">Related Stories</h2>
+      <section className="bg-gray-50 py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-3xl font-black text-gray-900 tracking-tight text-center lg:text-left">Recommended for you</h2>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {latestPosts.filter(p => p.id !== post.id).slice(0, 4).map((p) => (
+            {latestPosts.map((p) => (
               <NewsCard key={p.id} post={p} />
             ))}
           </div>

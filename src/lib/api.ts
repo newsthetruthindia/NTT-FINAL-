@@ -83,13 +83,15 @@ export const getImageUrl = (url: string | undefined) => {
     finalUrl = finalUrl.replace('/public/', '/');
   }
 
-  // If it's a remote HTTP URL on a production site, we proxy it to avoid Mixed Content errors
-  if (finalUrl.startsWith('http')) {
-    // If it's already HTTPS, we can return it directly
-    if (finalUrl.startsWith('https')) return finalUrl;
-    // Otherwise, proxy it via our secure API route
-    return `/img-proxy?url=${encodeURIComponent(finalUrl)}`;
+  // If it's a remote HTTP URL or a constructed insecure URL, we proxy it to avoid Mixed Content errors
+  let absoluteUrl = finalUrl;
+  if (!absoluteUrl.startsWith('http')) {
+    absoluteUrl = `${SITE_URL}${absoluteUrl.startsWith('/') ? '' : '/'}${absoluteUrl}`;
   }
 
-  return `${SITE_URL}${finalUrl.startsWith('/') ? '' : '/'}${finalUrl}`;
+  if (absoluteUrl.startsWith('http:')) {
+    return `/img-proxy?url=${encodeURIComponent(absoluteUrl)}`;
+  }
+
+  return absoluteUrl;
 };
