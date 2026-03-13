@@ -62,6 +62,10 @@ export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any>
     const res = await fetch(`${API_URL}/posts/category/${slug}?limit=${limit}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
+    // Handle Laravel paginated structure
+    if (json.data && json.data.data) {
+      return json.data.data;
+    }
     return json.data ?? [];
   } catch {
     return [];
@@ -83,6 +87,8 @@ export const getImageUrl = (url: string | undefined) => {
     finalUrl = finalUrl.replace('/public/', '/');
   } else if (finalUrl.startsWith('public/')) {
     finalUrl = finalUrl.replace('public/', '/');
+  } else if (finalUrl.includes('/public')) {
+    finalUrl = finalUrl.replace('/public', '');
   }
 
   // If it's a remote HTTP URL or a constructed insecure URL, we proxy it to avoid Mixed Content errors
