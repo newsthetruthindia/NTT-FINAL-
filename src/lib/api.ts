@@ -33,6 +33,8 @@ export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
     const res = await fetch(`${API_URL}/posts/latest?limit=${limit}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
+    // Support both direct array and paginated structure
+    if (json.data && json.data.data) return json.data.data;
     return json.data ?? [];
   } catch {
     return [];
@@ -44,6 +46,8 @@ export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
     const res = await fetch(`${API_URL}/posts/top?limit=${limit}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
+    // Support both direct array and paginated structure
+    if (json.data && json.data.data) return json.data.data;
     return json.data ?? [];
   } catch {
     return [];
