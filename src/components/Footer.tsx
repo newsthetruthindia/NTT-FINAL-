@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-background/10 mt-16 pt-8 text-center text-xs text-background/40">
-          © {new Date().getFullYear()} News The Truth. All rights reserved.
+          © <span suppressHydrationWarning>{new Date().getFullYear()}</span> News The Truth. All rights reserved.
         </div>
       </div>
     </footer>
