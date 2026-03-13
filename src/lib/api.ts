@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'; // Production: http://117.252.16.132/api
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:8000';
 
 export interface Post {
