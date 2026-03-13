@@ -57,7 +57,7 @@ export default async function NewsDetails({ params }: { params: { slug: string }
               <div>
                 <p className="text-sm font-bold text-gray-900">By NTT Desk</p>
                 <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">
-                  {new Date(post.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}
+                  {post.created_at ? new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Recent'}
                 </p>
               </div>
             </div>
