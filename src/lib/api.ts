@@ -76,6 +76,12 @@ export const getImageUrl = (url: string | undefined) => {
     finalUrl = url.replace(/https?:\/\/localhost:8000/, SITE_URL);
   }
 
+  // If the URL contains /public/, we strip it because the production server 
+  // root is the public directory itself.
+  if (finalUrl.includes('/public/')) {
+    finalUrl = finalUrl.replace('/public/', '/');
+  }
+
   if (finalUrl.startsWith('http')) return finalUrl;
   return `${SITE_URL}${finalUrl.startsWith('/') ? '' : '/'}${finalUrl}`;
 };
