@@ -5,11 +5,27 @@ import NewsCard from '@/components/NewsCard'
 import { notFound } from 'next/navigation'
 
 export default async function NewsDetails({ params }: { params: { slug: string } }) {
-  const { slug } = await params;
+  let slug = '';
+  try {
+    const resolvedParams = await params;
+    slug = resolvedParams.slug;
+  } catch (e) {
+    notFound();
+  }
+
   const post = await fetchPostBySlug(slug);
   
   if (!post) {
-    notFound();
+    return (
+      <main className="min-h-screen bg-white">
+        <Header />
+        <div className="pt-32 text-center">
+          <h1 className="text-2xl font-bold text-gray-400">Story not found.</h1>
+          <Link href="/" className="text-red-600 mt-4 block">Return to Homepage</Link>
+        </div>
+        <Footer />
+      </main>
+    );
   }
 
   const latestPosts = await fetchLatestPosts(4);

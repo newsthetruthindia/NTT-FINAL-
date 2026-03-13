@@ -87,7 +87,7 @@ export const getImageUrl = (url: string | undefined) => {
     // If it's already HTTPS, we can return it directly
     if (finalUrl.startsWith('https')) return finalUrl;
     // Otherwise, proxy it via our secure API route
-    return `/api/proxy-image?url=${encodeURIComponent(finalUrl)}`;
+    return `/img-proxy?url=${encodeURIComponent(finalUrl)}`;
   }
 
   return `${SITE_URL}${finalUrl.startsWith('/') ? '' : '/'}${finalUrl}`;
