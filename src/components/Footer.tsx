@@ -18,10 +18,10 @@ export default function Footer() {
           <div>
             <h4 className="font-heading font-bold uppercase tracking-widest text-sm mb-6">Categories</h4>
             <ul className="space-y-4 text-sm text-background/60">
-              <li><Link href="/india" className="hover:text-primary transition-colors">India</Link></li>
-              <li><Link href="/world" className="hover:text-primary transition-colors">World</Link></li>
-              <li><Link href="/bengal" className="hover:text-primary transition-colors">Bengal</Link></li>
-              <li><Link href="/politics" className="hover:text-primary transition-colors">Politics</Link></li>
+              <li><Link href="/category/india" className="hover:text-primary transition-colors">India</Link></li>
+              <li><Link href="/category/world" className="hover:text-primary transition-colors">World</Link></li>
+              <li><Link href="/category/bengal" className="hover:text-primary transition-colors">Bengal</Link></li>
+              <li><Link href="/category/politics" className="hover:text-primary transition-colors">Politics</Link></li>
             </ul>
           </div>
 

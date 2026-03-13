@@ -18,7 +18,7 @@ export default function Header() {
           {['India', 'World', 'Bengal', 'Politics', 'Business'].map((item) => (
             <Link 
               key={item} 
-              href={`/${item.toLowerCase()}`} 
+              href={`/category/${item.toLowerCase()}`} 
               className="text-sm font-heading font-semibold uppercase tracking-widest text-foreground/80 hover:text-primary transition-colors"
             >
               {item}

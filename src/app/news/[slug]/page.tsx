@@ -5,7 +5,8 @@ import NewsCard from '@/components/NewsCard'
 import { notFound } from 'next/navigation'
 
 export default async function NewsDetails({ params }: { params: { slug: string } }) {
-  const post = await fetchPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await fetchPostBySlug(slug);
   
   if (!post) {
     notFound();

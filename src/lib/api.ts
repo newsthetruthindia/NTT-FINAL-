@@ -69,6 +69,13 @@ export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any>
 
 export const getImageUrl = (url: string | undefined) => {
   if (!url) return '/placeholder-news.jpg';
-  if (url.startsWith('http')) return url;
-  return `${SITE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
+  
+  let finalUrl = url;
+  // Handle local development URLs that might be in the database
+  if (url.includes('localhost:8000')) {
+    finalUrl = url.replace(/https?:\/\/localhost:8000/, SITE_URL);
+  }
+
+  if (finalUrl.startsWith('http')) return finalUrl;
+  return `${SITE_URL}${finalUrl.startsWith('/') ? '' : '/'}${finalUrl}`;
 };
