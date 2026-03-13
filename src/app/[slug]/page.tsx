@@ -11,7 +11,7 @@ interface CategoryPageProps {
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   
   // Format the title (e.g., 'india' -> 'India News')
   const title = slug.charAt(0).toUpperCase() + slug.slice(1);
