@@ -81,6 +81,8 @@ export const getImageUrl = (url: string | undefined) => {
   // root is the public directory itself.
   if (finalUrl.includes('/public/')) {
     finalUrl = finalUrl.replace('/public/', '/');
+  } else if (finalUrl.startsWith('public/')) {
+    finalUrl = finalUrl.replace('public/', '/');
   }
 
   // If it's a remote HTTP URL or a constructed insecure URL, we proxy it to avoid Mixed Content errors
