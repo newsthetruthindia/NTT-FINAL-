@@ -16,14 +16,16 @@ export default async function NewsDetails({ params }: { params: { slug: string }
     notFound();
   }
 
+  console.log('Fetching post for slug:', slug);
   const post = await fetchPostBySlug(slug);
+  console.log('Post fetch result:', post ? 'Found' : 'Not Found');
   
   if (!post) {
     return (
       <main className="min-h-screen bg-white">
         <Header />
         <div className="pt-32 text-center">
-          <h1 className="text-2xl font-bold text-gray-400">Story not found.</h1>
+          <h1 className="text-2xl font-bold text-gray-400">Story not found ({slug}).</h1>
           <Link href="/" className="text-red-600 mt-4 block">Return to Homepage</Link>
         </div>
         <Footer />
@@ -33,6 +35,8 @@ export default async function NewsDetails({ params }: { params: { slug: string }
 
   const latestPosts = await fetchLatestPosts(4);
   const displayImage = getImageUrl(post.thumbnails?.url);
+  const categoryTitle = post.categories?.[0]?.cat_data?.title || 'News';
+  const postDate = post.created_at ? new Date(post.created_at) : null;
 
   return (
     <main className="min-h-screen bg-white">
@@ -43,7 +47,7 @@ export default async function NewsDetails({ params }: { params: { slug: string }
         <div className="max-w-4xl mx-auto px-4 mb-12">
           <div className="mb-6">
             <span className="premium-gradient px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-white">
-              {post.categories?.[0]?.cat_data?.title || 'News'}
+              {categoryTitle}
             </span>
           </div>
           <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-8 leading-[1.05] tracking-tight">
@@ -57,7 +61,7 @@ export default async function NewsDetails({ params }: { params: { slug: string }
               <div>
                 <p className="text-sm font-bold text-gray-900">By NTT Desk</p>
                 <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">
-                  {post.created_at ? new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Recent'}
+                  {postDate ? postDate.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Recent News'}
                 </p>
               </div>
             </div>
