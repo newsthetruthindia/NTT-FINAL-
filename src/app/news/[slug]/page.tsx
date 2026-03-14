@@ -40,8 +40,8 @@ export default async function NewsDetails({
       ? new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
       : 'Recent News';
 
-    // Fallback for content if it's missing but excerpt exists
-    const articleContent = post.content || post.excerpt || '<p>No content available for this story.</p>';
+    // Fallback for content if it's missing but description or excerpt exists
+    const articleContent = post.content || post.description || post.excerpt || '<p>No content available for this story.</p>';
 
     return (
       <main className="min-h-screen bg-white">

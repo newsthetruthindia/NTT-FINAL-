@@ -8,6 +8,7 @@ export interface Post {
   slug: string;
   excerpt: string;
   content: string;
+  description?: string;
   thumbnail: number | null;
   thumbnails?: {
     id: number;
