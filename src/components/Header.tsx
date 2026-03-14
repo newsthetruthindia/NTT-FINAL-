@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
+import Search from './Search';
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [progress, setProgress] = useState(0);
   const lastScrollY = useRef(0);
 
@@ -38,54 +40,67 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 transition-transform duration-500 ease-in-out shadow-sm ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-      <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl">
-        {/* Logo */}
-        <div className="shrink-0">
-          <Link href="/" className="flex items-center group">
-            <span className="text-3xl font-black tracking-tighter text-gray-900 group-hover:text-primary transition-colors duration-300">
-              NTT<span className="text-primary text-4xl">.</span>
-            </span>
-          </Link>
-        </div>
-
-        {/* Navigation */}
-        <nav className="hidden lg:flex items-center gap-10">
-          {['India', 'World', 'Bengal', 'Politics', 'Business'].map((item) => (
-            <Link 
-              key={item} 
-              href={`/category/${item.toLowerCase()}`} 
-              className="text-[12px] font-extrabold uppercase tracking-[0.25em] text-gray-700 hover:text-primary transition-all duration-300 hover:scale-105"
-            >
-              {item}
+    <>
+      <header className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 transition-transform duration-500 ease-in-out shadow-sm ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl">
+          {/* Logo */}
+          <div className="shrink-0">
+            <Link href="/" className="flex items-center group">
+              <span className="text-3xl font-black tracking-tighter text-gray-900 group-hover:text-primary transition-colors duration-300">
+                NTT<span className="text-primary text-4xl">.</span>
+              </span>
             </Link>
-          ))}
-        </nav>
+          </div>
 
-        {/* Actions */}
-        <div className="flex items-center gap-6">
-          <Link 
-            href="/login" 
-            className="hidden sm:block text-[12px] font-extrabold uppercase tracking-widest text-gray-700 hover:text-primary transition-colors duration-300"
-          >
-            Login
-          </Link>
-          <Link 
-            href="/register" 
-            className="px-8 py-3 premium-gradient text-white text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 active:scale-95"
-          >
-            Register
-          </Link>
+          {/* Navigation */}
+          <nav className="hidden lg:flex items-center gap-10">
+            {['India', 'World', 'Bengal', 'Politics', 'Business'].map((item) => (
+              <Link 
+                key={item} 
+                href={`/category/${item.toLowerCase()}`} 
+                className="text-[12px] font-extrabold uppercase tracking-[0.25em] text-gray-700 hover:text-primary transition-all duration-300 hover:scale-105"
+              >
+                {item}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Actions */}
+          <div className="flex items-center gap-6">
+            <button 
+              onClick={() => setIsSearchOpen(true)}
+              className="p-2 text-gray-700 hover:text-primary transition-colors duration-300"
+              aria-label="Search"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+            <Link 
+              href="/login" 
+              className="hidden sm:block text-[12px] font-extrabold uppercase tracking-widest text-gray-700 hover:text-primary transition-colors duration-300"
+            >
+              Login
+            </Link>
+            <Link 
+              href="/register" 
+              className="px-8 py-3 premium-gradient text-white text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 active:scale-95"
+            >
+              Register
+            </Link>
+          </div>
         </div>
-      </div>
-      
-      {/* Reading Progress Bar */}
-      <div className="absolute bottom-0 left-0 h-1 bg-primary/20 w-full overflow-hidden">
-        <div 
-          className="h-full bg-primary transition-all duration-150 ease-out" 
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-    </header>
+        
+        {/* Reading Progress Bar */}
+        <div className="absolute bottom-0 left-0 h-1 bg-primary/20 w-full overflow-hidden">
+          <div 
+            className="h-full bg-primary transition-all duration-150 ease-out" 
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </header>
+
+      <Search isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import NewsCard from '@/components/NewsCard'
+import Newsletter from '@/components/Newsletter'
 import { fetchLatestPosts, fetchTopPosts } from '@/lib/api'
 
 export default async function Home() {
@@ -13,7 +14,7 @@ export default async function Home() {
   const sidePosts = topPosts.slice(1, 4);
 
   return (
-    <main className="min-h-screen bg-[#FDFDFD]">
+    <main className="min-h-screen bg-white">
       <Header />
       
       {/* Hero Section */}
@@ -60,27 +61,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Mission/About Section */}
-      <section className="py-20 bg-gray-900 text-white mt-12">
-        <div className="max-w-4xl mx-auto text-center px-4">
-          <span className="text-red-500 font-bold tracking-widest text-sm uppercase">Our Mission</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6 leading-tight">
-            Asking the questions that <br/><span className="text-red-500">others refuse to ask.</span>
-          </h2>
-          <p className="text-gray-400 text-lg leading-relaxed mb-8">
-            NTT (News The Truth) is dedicated to investigative journalism and delivering 
-            unbiased news to the heart of our community.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-all">
-              Join Our Community
-            </button>
-            <button className="px-8 py-3 bg-transparent border border-gray-700 hover:bg-gray-800 text-white font-bold rounded-full transition-all">
-              Learn More
-            </button>
-          </div>
-        </div>
-      </section>
+      <Newsletter />
 
       <Footer />
     </main>

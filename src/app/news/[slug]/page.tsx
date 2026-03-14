@@ -43,7 +43,11 @@ export default async function NewsDetails({
       : 'Recent News';
 
     // Fallback for content if it's missing but description or excerpt exists
-    const articleContent = post.content || post.description || post.excerpt || '<p>No content available for this story.</p>';
+    // Handle cases where content might be empty tags like <p></p>
+    const stripTags = (html: string) => html.replace(/<[^>]*>/g, '').trim();
+    const articleContent = (post.content && stripTags(post.content)) ? post.content : 
+                          (post.description && stripTags(post.description)) ? post.description : 
+                          post.excerpt || '<p>No content available for this story.</p>';
     
     // Calculate reading time
     const wordCount = articleContent.replace(/<[^>]*>/g, '').split(/\s+/).length;

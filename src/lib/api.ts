@@ -108,3 +108,15 @@ export const getImageUrl = (url: string | undefined) => {
 
   return absoluteUrl;
 };
+
+export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
+  try {
+    const res = await fetch(`${API_URL}/posts/search?q=${encodeURIComponent(query)}&limit=${limit}`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    if (json.data && json.data.data) return json.data.data;
+    return json.data ?? [];
+  } catch {
+    return [];
+  }
+};
