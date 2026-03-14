@@ -3,7 +3,6 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { fetchPostBySlug, fetchLatestPosts, getImageUrl } from '@/lib/api'
 import NewsCard from '@/components/NewsCard'
-import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,93 +13,70 @@ export default async function NewsDetails({
 }) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
-  const post = await fetchPostBySlug(slug);
   
-  if (!post) {
+  try {
+    console.log('[NewsDetails] Start rendering for:', slug);
+    const post = await fetchPostBySlug(slug);
+    
+    if (!post) {
+      console.log('[NewsDetails] Post not found:', slug);
+      return (
+        <main className="min-h-screen bg-white">
+          <Header />
+          <div className="pt-32 text-center">
+            <h1>Story Not Found</h1>
+            <Link href="/">Back Home</Link>
+          </div>
+          <Footer />
+        </main>
+      );
+    }
+
+    console.log('[NewsDetails] Post loaded:', post.id);
+    const latestPosts = await fetchLatestPosts(4);
+    console.log('[NewsDetails] Latest posts loaded:', latestPosts?.length);
+
+    // Deeply safe mapping
+    const categoryTitle = post.categories?.[0]?.cat_data?.title || 'News';
+    const postDate = post.created_at ? new Date(post.created_at) : null;
+    const dateString = postDate && !isNaN(postDate.getTime()) 
+      ? postDate.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
+      : 'Recent News';
+
+    console.log('[NewsDetails] Data mapped, rendering UI...');
+
     return (
       <main className="min-h-screen bg-white">
         <Header />
-        <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl font-black text-gray-900 mb-4">Story Not Found</h1>
-          <p className="text-gray-500 mb-8">We couldn't find the article you're looking for ({slug}).</p>
-          <Link href="/" className="premium-gradient px-8 py-3 rounded-full text-white font-bold inline-block">
-            Back to Home
-          </Link>
-        </div>
+        <article className="pt-24 pb-20 max-w-4xl mx-auto px-4">
+          <h1 className="text-4xl font-bold mb-6">{post.title}</h1>
+          <p className="text-gray-500 mb-8">{categoryTitle} • {dateString}</p>
+          <div dangerouslySetInnerHTML={{ __html: post.content || '' }} />
+        </article>
+        
+        {Array.isArray(latestPosts) && latestPosts.length > 0 && (
+          <div className="bg-gray-50 py-12 px-4">
+            <h2 className="max-w-4xl mx-auto mb-8 font-bold text-xl">Recommended</h2>
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
+              {latestPosts.map((p) => (
+                <NewsCard key={p.id} post={p} />
+              ))}
+            </div>
+          </div>
+        )}
+        
         <Footer />
       </main>
     );
+  } catch (err: any) {
+    console.error('[NewsDetails] FATAL ERROR:', err.message);
+    return (
+      <div style={{ padding: '2rem', background: '#fff' }}>
+        <h1 style={{ color: 'red' }}>Article Render Error</h1>
+        <p>This happened on the server. Slug: {slug}</p>
+        <p>Error: {err.message}</p>
+        <pre>{JSON.stringify(err, null, 2)}</pre>
+      </div>
+    );
   }
-
-  const latestPosts = await fetchLatestPosts(4);
-  const displayImage = getImageUrl(post.thumbnails?.url);
-  const categoryTitle = post.categories?.[0]?.cat_data?.title || 'News';
-  const postDateFormatted = post.created_at 
-    ? new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
-    : 'Recent News';
-
-  return (
-    <main className="min-h-screen bg-white">
-      <Header />
-      
-      <article className="pt-24 pb-20">
-        <div className="max-w-4xl mx-auto px-4 mb-12">
-          <div className="mb-6">
-            <span className="premium-gradient px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-white">
-              {categoryTitle}
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-8 leading-[1.05] tracking-tight">
-            {post.title}
-          </h1>
-          <div className="flex items-center justify-between py-6 border-y border-gray-100">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center text-white font-bold">
-                NTT
-              </div>
-              <div>
-                <p className="text-sm font-bold text-gray-900">By NTT Desk</p>
-                <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">
-                  {postDateFormatted}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-6xl mx-auto px-4 mb-16">
-          <div className="aspect-[21/9] rounded-[40px] overflow-hidden shadow-2xl bg-gray-100">
-            <img 
-              src={displayImage}
-              alt={post.title}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = '/placeholder-news.jpg';
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="max-w-3xl mx-auto px-4">
-          <div 
-            className="prose prose-xl prose-red max-w-none text-gray-800 leading-relaxed font-serif"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
-        </div>
-      </article>
-
-      <section className="bg-gray-50 py-20 px-4 mt-20">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-12">Recommended for you</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {Array.isArray(latestPosts) && latestPosts.map((p) => (
-              <NewsCard key={p.id} post={p} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </main>
-  )
 }
