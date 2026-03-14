@@ -18,7 +18,7 @@ export default async function Home() {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-4 px-4 md:px-8 max-w-7xl mx-auto">
+      <section className="pt-28 pb-4 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Hero Card */}
           <div className="lg:col-span-2">
@@ -43,7 +43,7 @@ export default async function Home() {
       </section>
 
       {/* Latest News Grid */}
-      <section className="py-6 px-4 md:px-8 max-w-7xl mx-auto border-t border-gray-100">
+      <section className="py-4 px-4 md:px-8 max-w-7xl mx-auto border-t border-gray-100">
         <div className="flex justify-between items-end mb-8">
           <div>
             <h2 className="text-3xl font-bold text-gray-900">Latest News</h2>

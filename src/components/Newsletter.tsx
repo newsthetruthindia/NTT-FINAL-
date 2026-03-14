@@ -68,7 +68,7 @@ export default function Newsletter() {
                     {status === 'loading' ? 'Joining...' : 'Subscribe'}
                   </button>
                 </div>
-                <p className="px-10 text-[10px] text-gray-600 uppercase tracking-widest font-bold">
+                <p className="px-10 text-[10px] text-gray-400 uppercase tracking-widest font-bold">
                   By subscribing, you agree to our Privacy Policy.
                 </p>
               </form>

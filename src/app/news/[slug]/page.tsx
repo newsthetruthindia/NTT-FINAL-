@@ -57,24 +57,24 @@ export default async function NewsDetails({
       <main className="min-h-screen bg-white">
         <Header />
         
-        <article className="pt-36 pb-24 max-w-7xl mx-auto">
-          <div className="max-w-4xl mx-auto px-4 mb-16">
+        <article className="pt-28 pb-16 max-w-7xl mx-auto">
+          <div className="max-w-4xl mx-auto px-4 mb-8">
             <Breadcrumbs items={[
               { label: categoryTitle, href: `/category/${categorySlug}` },
               { label: post.title }
             ]} />
 
-            <div className="mb-8">
+            <div className="mb-6">
               <span className="premium-gradient px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.25em] text-white shadow-lg shadow-primary/20">
                 {categoryTitle}
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-[80px] font-black text-gray-950 mb-10 leading-[1.05] tracking-tight antialiased">
+            <h1 className="text-4xl md:text-[80px] font-black text-gray-950 mb-8 leading-[1.05] tracking-tight antialiased">
               {post.title}
             </h1>
 
-            <div className="flex items-center justify-between py-10 border-y border-gray-100 mb-12">
+            <div className="flex items-center justify-between py-8 border-y border-gray-100 mb-8">
               <div className="flex items-center gap-6">
                 <div className="w-16 h-16 rounded-full bg-gray-900 flex items-center justify-center text-white font-black text-xl shadow-2xl shadow-gray-200 ring-4 ring-white">
                   NTT
@@ -90,7 +90,7 @@ export default async function NewsDetails({
             </div>
           </div>
 
-          <div className="max-w-6xl mx-auto px-4 mb-20">
+          <div className="max-w-6xl mx-auto px-4 mb-12">
             <div className="aspect-[21/10] rounded-[64px] overflow-hidden shadow-[0_48px_80px_-24px_rgba(0,0,0,0.18)] bg-gray-50 border border-gray-100">
               <img 
                 src={displayImage}
@@ -100,12 +100,12 @@ export default async function NewsDetails({
             </div>
           </div>
 
-          <div className="max-w-3xl mx-auto px-4 space-y-8">
+          <div className="max-w-3xl mx-auto px-4 space-y-6">
             <AudioPlayer text={articleContent} />
             <AISummary content={articleContent} />
             
             <div 
-              className="prose prose-2xl prose-gray max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-4"
+              className="prose prose-2xl prose-gray max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2"
               dangerouslySetInnerHTML={{ __html: articleContent }}
             />
 
