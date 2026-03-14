@@ -68,9 +68,9 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
             {excerpt}
           </p>
         )}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-50 mt-auto">
-          <span className="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-            <span className="w-1 h-1 rounded-full bg-primary/40" />
+        <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
+          <span className="text-[11px] font-extrabold text-gray-600 uppercase tracking-widest flex items-center gap-2 italic">
+            <span className="w-1 h-1 rounded-full bg-primary" />
             {formattedDate}
           </span>
           <Link 
