@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import Search from './Search';
 import LanguageToggle from './LanguageToggle';
+import LiveTicker from './LiveTicker';
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
@@ -41,6 +42,7 @@ export default function Header() {
   return (
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 transition-transform duration-500 ease-in-out shadow-sm ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <LiveTicker />
         <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl">
           <div className="shrink-0">
             <Link href="/" className="flex items-center group">

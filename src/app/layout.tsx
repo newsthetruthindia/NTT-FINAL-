@@ -36,7 +36,6 @@ export default function RootLayout({
         className={`${inter.variable} ${playfair.variable} antialiased`}
       >
         <div className={`main-content ${playfair.variable} font-serif`}>
-          <LiveTicker />
           {children}
         </div>
       </body>
