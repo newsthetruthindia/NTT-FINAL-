@@ -27,10 +27,22 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: #ffffff !important;
-  background-image: none !important; /* Kill any gradients */
+  background-color: #ffffff !important;
+  background-image: none !important; 
   background-attachment: scroll !important;
+  background-clip: border-box !important;
+  background-origin: padding-box !important;
+  background-position: 0% 0% !important;
+  background-repeat: repeat !important;
+  background-size: auto !important;
   overflow-x: hidden;
+}
+
+html::before, html::after, 
+body::before, body::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
 }
 
 * {
