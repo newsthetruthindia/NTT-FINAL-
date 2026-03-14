@@ -60,7 +60,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
         </div>
       </div>
       <div className="p-7 flex flex-col flex-grow">
-        <h3 className="text-xl font-black leading-tight mb-4 group-hover:text-primary transition-colors line-clamp-2 decoration-primary/30 decoration-2 group-hover:underline underline-offset-4">
+        <h3 className="text-xl font-black text-gray-950 leading-tight mb-4 group-hover:text-primary transition-colors line-clamp-2 decoration-primary/30 decoration-2 group-hover:underline underline-offset-4">
           <Link href={`/news/${slug}`}>{title}</Link>
         </h3>
         {excerpt && (
