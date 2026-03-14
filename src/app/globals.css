@@ -27,8 +27,15 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: #ffffff !important; /* Force clean white background */
+  background: #ffffff !important;
+  background-image: none !important; /* Kill any gradients */
+  background-attachment: scroll !important;
   overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -52,11 +59,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .article-content {
-  font-family: var(--font-playfair), serif !important;
-  font-size: 1.25rem;
-  line-height: 1.85;
-  color: #111827; /* Darker for better contrast */
+  font-family: var(--font-playfair), "Playfair Display", serif !important;
+  font-size: 1.35rem; /* Slightly larger for premium readability */
+  line-height: 1.9;
+  color: #030712; /* Extreme contrast */
   font-weight: 400;
+  text-rendering: optimizeLegibility;
 }
 
 .glass-card {

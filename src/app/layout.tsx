@@ -27,7 +27,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} antialiased`}
       >
-        <div className="main-content">
+        <div className={`main-content ${playfair.variable} font-serif`}>
           {children}
         </div>
       </body>
