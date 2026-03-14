@@ -12,11 +12,11 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   const categoryName = categories?.[0]?.cat_data?.title || 'News';
     
   const displayImage = getImageUrl(thumbnails?.url);
-  const formattedDate = new Date(created_at).toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric'
-  });
+  
+  // Use a fixed format or suppress hydration warning to avoid mismatches
+  const formattedDate = created_at 
+    ? new Date(created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+    : 'Recent';
 
   if (variant === 'hero') {
     return (
