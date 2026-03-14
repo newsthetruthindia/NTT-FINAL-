@@ -118,21 +118,6 @@ export default async function NewsDetails({
         <Footer />
       </main>
     )
-
-        <section className="bg-gray-50 py-20 px-4 mt-20">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-12">Recommended for you</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {Array.isArray(latestPosts) && latestPosts.map((p) => (
-                <NewsCard key={p.id} post={p} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <Footer />
-      </main>
-    )
   } catch (err: any) {
     return (
       <main className="min-h-screen bg-white">
