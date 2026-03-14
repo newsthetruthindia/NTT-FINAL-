@@ -1,12 +1,10 @@
-'use client';
-
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [progress, setProgress] = useState(0);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,22 +12,23 @@ export default function Header() {
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       
       // Header visibility logic
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
       }
-      setLastScrollY(currentScrollY);
+      lastScrollY.current = currentScrollY;
 
       // Progress bar logic
       if (scrollHeight > 0) {
-        setProgress((currentScrollY / scrollHeight) * 100);
+        const p = Math.min(100, Math.max(0, (currentScrollY / scrollHeight) * 100));
+        setProgress(p);
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
