@@ -4,6 +4,9 @@ import Link from 'next/link'
 import { fetchPostBySlug, fetchLatestPosts, getImageUrl } from '@/lib/api'
 import NewsCard from '@/components/NewsCard'
 import Breadcrumbs from '@/components/Breadcrumbs'
+import AISummary from '@/components/AISummary'
+import AudioPlayer from '@/components/AudioPlayer'
+import ShareCard from '@/components/ShareCard'
 
 export const dynamic = 'force-dynamic'
 
@@ -42,14 +45,11 @@ export default async function NewsDetails({
       ? new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
       : 'Recent News';
 
-    // Fallback for content if it's missing but description or excerpt exists
-    // Handle cases where content might be empty tags like <p></p>
     const stripTags = (html: string) => html.replace(/<[^>]*>/g, '').trim();
     const articleContent = (post.content && stripTags(post.content)) ? post.content : 
                           (post.description && stripTags(post.description)) ? post.description : 
                           post.excerpt || '<p>No content available for this story.</p>';
     
-    // Calculate reading time
     const wordCount = articleContent.replace(/<[^>]*>/g, '').split(/\s+/).length;
     const readingTime = Math.ceil(wordCount / 200);
 
@@ -101,10 +101,15 @@ export default async function NewsDetails({
           </div>
 
           <div className="max-w-3xl mx-auto px-4">
+            <AudioPlayer text={articleContent} />
+            <AISummary content={articleContent} />
+            
             <div 
               className="prose prose-2xl prose-gray max-w-none article-content selection:bg-primary/10 tracking-normal antialiased"
               dangerouslySetInnerHTML={{ __html: articleContent }}
             />
+
+            <ShareCard title={post.title} />
           </div>
         </article>
 

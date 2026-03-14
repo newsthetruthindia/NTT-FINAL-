@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import Search from './Search';
+import LanguageToggle from './LanguageToggle';
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
@@ -15,7 +16,6 @@ export default function Header() {
       const currentScrollY = window.scrollY;
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       
-      // Header visibility logic
       const diff = currentScrollY - lastScrollY.current;
       
       if (currentScrollY < 50) {
@@ -28,7 +28,6 @@ export default function Header() {
       
       lastScrollY.current = currentScrollY;
 
-      // Progress bar logic
       if (scrollHeight > 0) {
         const p = Math.min(100, Math.max(0, (currentScrollY / scrollHeight) * 100));
         setProgress(p);
@@ -43,7 +42,6 @@ export default function Header() {
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 transition-transform duration-500 ease-in-out shadow-sm ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl">
-          {/* Logo */}
           <div className="shrink-0">
             <Link href="/" className="flex items-center group">
               <span className="text-3xl font-black tracking-tighter text-gray-900 group-hover:text-primary transition-colors duration-300">
@@ -52,7 +50,6 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Navigation */}
           <nav className="hidden lg:flex items-center gap-10">
             {['India', 'World', 'Bengal', 'Politics', 'Business'].map((item) => (
               <Link 
@@ -65,8 +62,8 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Actions */}
           <div className="flex items-center gap-6">
+            <LanguageToggle />
             <button 
               onClick={() => setIsSearchOpen(true)}
               className="p-2 text-gray-700 hover:text-primary transition-colors duration-300"
@@ -83,6 +80,15 @@ export default function Header() {
               Login
             </Link>
             <Link 
+              href="/report" 
+              className="hidden md:flex items-center gap-2 group/btn"
+            >
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-[11px] font-black uppercase tracking-widest text-gray-950 group-hover/btn:text-primary transition-colors">
+                Report News
+              </span>
+            </Link>
+            <Link 
               href="/register" 
               className="px-8 py-3 premium-gradient text-white text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 active:scale-95"
             >
@@ -91,7 +97,6 @@ export default function Header() {
           </div>
         </div>
         
-        {/* Reading Progress Bar */}
         <div className="absolute bottom-0 left-0 h-1 bg-primary/20 w-full overflow-hidden">
           <div 
             className="h-full bg-primary transition-all duration-150 ease-out" 
