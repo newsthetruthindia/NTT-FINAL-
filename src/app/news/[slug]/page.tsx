@@ -8,6 +8,7 @@ import AISummary from '@/components/AISummary'
 import AudioPlayer from '@/components/AudioPlayer'
 import ShareCard from '@/components/ShareCard'
 
+// Final build trigger
 export const dynamic = 'force-dynamic'
 
 export default async function NewsDetails({ 
