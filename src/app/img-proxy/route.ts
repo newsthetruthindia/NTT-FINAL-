@@ -15,6 +15,12 @@ export async function GET(request: NextRequest) {
     }
 
     const contentType = response.headers.get('content-type');
+    
+    // If the origin returned HTML instead of an image (e.g. a 404 page with 200 status)
+    if (contentType && contentType.includes('text/html')) {
+      return new NextResponse('Resource not found as image', { status: 404 });
+    }
+
     const arrayBuffer = await response.arrayBuffer();
 
     return new NextResponse(arrayBuffer, {
