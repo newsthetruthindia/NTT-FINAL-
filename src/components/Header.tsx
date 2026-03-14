@@ -38,24 +38,24 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-      <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20">
+    <header className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 transition-transform duration-500 ease-in-out shadow-sm ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl">
         {/* Logo */}
         <div className="shrink-0">
-          <Link href="/" className="flex items-center">
-            <span className="text-2xl font-black tracking-tighter text-foreground">
-              NTT<span className="text-primary">.</span>
+          <Link href="/" className="flex items-center group">
+            <span className="text-3xl font-black tracking-tighter text-gray-900 group-hover:text-primary transition-colors duration-300">
+              NTT<span className="text-primary text-4xl">.</span>
             </span>
           </Link>
         </div>
 
         {/* Navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-10">
           {['India', 'World', 'Bengal', 'Politics', 'Business'].map((item) => (
             <Link 
               key={item} 
               href={`/category/${item.toLowerCase()}`} 
-              className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500 hover:text-primary transition-colors"
+              className="text-[12px] font-extrabold uppercase tracking-[0.25em] text-gray-700 hover:text-primary transition-all duration-300 hover:scale-105"
             >
               {item}
             </Link>
@@ -63,16 +63,16 @@ export default function Header() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           <Link 
             href="/login" 
-            className="hidden sm:block text-[11px] font-bold uppercase tracking-widest text-gray-900 hover:text-primary transition-colors"
+            className="hidden sm:block text-[12px] font-extrabold uppercase tracking-widest text-gray-700 hover:text-primary transition-colors duration-300"
           >
             Login
           </Link>
           <Link 
             href="/register" 
-            className="px-6 py-2.5 premium-gradient text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:shadow-lg hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
+            className="px-8 py-3 premium-gradient text-white text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 active:scale-95"
           >
             Register
           </Link>

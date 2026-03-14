@@ -11,7 +11,7 @@ interface BreadcrumbsProps {
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
-    <nav className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-8">
+    <nav className="flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.25em] text-gray-600 mb-10 overflow-x-auto whitespace-nowrap scrollbar-hide">
       <Link href="/" className="hover:text-primary transition-colors">Home</Link>
       {items.map((item, index) => (
         <div key={index} className="flex items-center gap-2">

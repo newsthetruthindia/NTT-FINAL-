@@ -53,29 +53,32 @@ export default async function NewsDetails({
       <main className="min-h-screen bg-white">
         <Header />
         
-        <article className="pt-32 pb-24">
-          <div className="max-w-4xl mx-auto px-4 mb-16">
+        <article className="pt-32 pb-24 max-w-7xl mx-auto">
+          <div className="max-w-4xl mx-auto px-4 mb-20">
             <Breadcrumbs items={[
               { label: categoryTitle, href: `/category/${categorySlug}` },
               { label: post.title }
             ]} />
 
-            <div className="mb-8">
-              <span className="premium-gradient px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-white">
+            <div className="mb-10">
+              <span className="premium-gradient px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.25em] text-white shadow-lg shadow-primary/20">
                 {categoryTitle}
               </span>
             </div>
-            <h1 className="text-4xl md:text-7xl font-black text-gray-900 mb-10 leading-[1.05] tracking-tight">
+            
+            <h1 className="text-4xl md:text-[80px] font-black text-gray-950 mb-12 leading-[1.05] tracking-tight antialiased">
               {post.title}
             </h1>
-            <div className="flex items-center justify-between py-8 border-y border-gray-100">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-gray-900 flex items-center justify-center text-white font-bold text-lg shadow-xl shadow-gray-200">
+
+            <div className="flex items-center justify-between py-10 border-y border-gray-100 mb-16">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 rounded-full bg-gray-900 flex items-center justify-center text-white font-black text-xl shadow-2xl shadow-gray-200 ring-4 ring-white">
                   NTT
                 </div>
                 <div>
-                  <p className="text-sm font-black text-gray-900">By NTT Desk</p>
-                  <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">
+                  <p className="text-base font-black text-gray-900">By NTT Desk</p>
+                  <p className="text-[11px] text-gray-500 uppercase tracking-[0.2em] font-extrabold flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                     {postDateFormatted} • {readingTime} min read
                   </p>
                 </div>
@@ -83,19 +86,20 @@ export default async function NewsDetails({
             </div>
           </div>
 
-          <div className="max-w-6xl mx-auto px-4 mb-24">
-            <div className="aspect-[21/9] rounded-[48px] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] bg-gray-100">
+          <div className="max-w-6xl mx-auto px-4 mb-32">
+            <div className="aspect-[21/10] rounded-[64px] overflow-hidden shadow-[0_48px_80px_-24px_rgba(0,0,0,0.18)] bg-gray-50 border border-gray-100">
               <img 
                 src={displayImage}
                 alt={post.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700 ease-out"
               />
             </div>
           </div>
 
           <div className="max-w-3xl mx-auto px-4">
             <div 
-              className="prose prose-xl prose-red max-w-none text-gray-800 leading-[1.8] article-content selection:bg-primary/20"
+              className="prose prose-2xl prose-gray max-w-none text-gray-900 leading-[2] article-content selection:bg-primary/10 tracking-normal antialiased"
+              style={{ fontFamily: 'var(--font-playfair), serif' }}
               dangerouslySetInnerHTML={{ __html: articleContent }}
             />
           </div>

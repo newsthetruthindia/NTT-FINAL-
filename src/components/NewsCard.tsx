@@ -68,12 +68,20 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
             {excerpt}
           </p>
         )}
-        <div className="mt-auto pt-5 border-t border-gray-50 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.2em] text-gray-400">
-          <span className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
+        <div className="flex items-center justify-between pt-4 border-t border-gray-50 mt-auto">
+          <span className="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+            <span className="w-1 h-1 rounded-full bg-primary/40" />
             {formattedDate}
           </span>
-          <Link href={`/news/${slug}`} className="text-primary hover:tracking-[0.3em] transition-all">Read Story</Link>
+          <Link 
+            href={`/news/${post.slug}`}
+            className="text-[11px] font-black text-gray-900 group-hover:text-primary transition-colors flex items-center gap-2 uppercase tracking-widest"
+          >
+            Read Story
+            <svg className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
         </div>
       </div>
     </div>
