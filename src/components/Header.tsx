@@ -12,11 +12,16 @@ export default function Header() {
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       
       // Header visibility logic
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+      const diff = currentScrollY - lastScrollY.current;
+      
+      if (currentScrollY < 50) {
+        setIsVisible(true);
+      } else if (diff > 10) { // Scrolling down
         setIsVisible(false);
-      } else {
+      } else if (diff < -10) { // Scrolling up
         setIsVisible(true);
       }
+      
       lastScrollY.current = currentScrollY;
 
       // Progress bar logic
