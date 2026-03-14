@@ -10,7 +10,7 @@ export default function Footer() {
               NTT<span className="text-primary">.</span>
             </span>
             <p className="text-gray-500 max-w-sm mb-8 text-sm leading-relaxed">
-              Authentic storytelling and citizen journalism from across India and the world. 
+              Questions will be asked. 
               Join us in bringing the truth to light.
             </p>
             <div className="flex items-center gap-4">

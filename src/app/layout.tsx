@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "News The Truth | Premium News Portal",
-  description: "Authentic storytelling and citizen journalism.",
+  description: "Questions will be asked.",
   manifest: "/manifest.json",
   themeColor: "#ff0000",
   appleWebApp: {

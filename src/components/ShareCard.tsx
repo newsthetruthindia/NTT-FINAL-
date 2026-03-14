@@ -33,7 +33,7 @@ export default function ShareCard({ title, quote }: ShareCardProps) {
           </span>
           <div className="h-6 w-px bg-white/20" />
           <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500">
-            Truth matters
+            Questions will be asked
           </span>
         </div>
 
