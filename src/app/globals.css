@@ -24,10 +24,16 @@
   }
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff !important; /* Force clean white background */
+  overflow-x: hidden;
+}
+
 body {
   color: var(--foreground);
-  background: #fdfdfd; /* Subtle off-white for premium feel */
-  font-family: var(--font-sans);
+  font-family: var(--font-inter), sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -46,10 +52,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .article-content {
-  font-family: var(--font-serif);
-  font-size: 1.125rem;
-  line-height: 1.8;
-  color: #1f2937;
+  font-family: var(--font-playfair), serif !important;
+  font-size: 1.25rem;
+  line-height: 1.85;
+  color: #111827; /* Darker for better contrast */
+  font-weight: 400;
 }
 
 .glass-card {

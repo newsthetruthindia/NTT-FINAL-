@@ -76,8 +76,8 @@ export default async function NewsDetails({
                   NTT
                 </div>
                 <div>
-                  <p className="text-base font-black text-gray-900">By NTT Desk</p>
-                  <p className="text-[11px] text-gray-500 uppercase tracking-[0.2em] font-extrabold flex items-center gap-2">
+                  <p className="text-base font-black text-gray-950">By NTT Desk</p>
+                  <p className="text-[11px] text-gray-700 uppercase tracking-[0.2em] font-extrabold flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                     {postDateFormatted} • {readingTime} min read
                   </p>
@@ -98,8 +98,7 @@ export default async function NewsDetails({
 
           <div className="max-w-3xl mx-auto px-4">
             <div 
-              className="prose prose-2xl prose-gray max-w-none text-gray-900 leading-[2] article-content selection:bg-primary/10 tracking-normal antialiased"
-              style={{ fontFamily: 'var(--font-playfair), serif' }}
+              className="prose prose-2xl prose-gray max-w-none article-content selection:bg-primary/10 tracking-normal antialiased"
               dangerouslySetInnerHTML={{ __html: articleContent }}
             />
           </div>
