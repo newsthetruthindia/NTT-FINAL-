@@ -9,9 +9,7 @@ interface NewsCardProps {
 export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) {
   const { title, slug, categories, created_at, thumbnails, excerpt } = post;
   
-  const categoryName = categories && categories.length > 0 
-    ? categories[0].cat_data.title 
-    : 'News';
+  const categoryName = categories?.[0]?.cat_data?.title || 'News';
     
   const displayImage = getImageUrl(thumbnails?.url);
   const formattedDate = new Date(created_at).toLocaleDateString('en-GB', {
