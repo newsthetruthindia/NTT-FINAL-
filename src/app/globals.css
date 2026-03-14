@@ -2,14 +2,19 @@
 
 @theme {
   --font-sans: var(--font-inter);
-  --font-heading: var(--font-outfit);
+  --font-serif: var(--font-playfair);
+  --font-heading: var(--font-inter);
 }
 
 :root {
   --background: #ffffff;
-  --foreground: #1a1f2c;
-  --primary: #4B49AC;
-  --primary-dark: #3f3da3;
+  --foreground: #111827;
+  --primary: #E63946;
+  --primary-dark: #cc333f;
+  --secondary: #1D3557;
+  --accent: #F1FAEE;
+  --card: #ffffff;
+  --border: #e5e7eb;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,6 +34,11 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+.article-content {
+  font-family: var(--font-serif);
 }
 
 .glass-card {
@@ -39,7 +49,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .premium-gradient {
-  background: linear-gradient(135deg, var(--primary) 0%, #6c63ff 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, #ff4d6d 100%);
 }
 
 .hover-lift {

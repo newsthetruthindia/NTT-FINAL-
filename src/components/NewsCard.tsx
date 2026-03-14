@@ -46,31 +46,34 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   }
 
   return (
-    <div className="group flex flex-col hover-lift bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-full">
+    <div className="group flex flex-col hover-lift bg-white rounded-[32px] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-full">
       <div className="relative aspect-[16/10] overflow-hidden">
         <img 
           src={displayImage} 
           alt={title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute top-4 left-4">
-          <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-md text-[9px] font-heading font-black uppercase tracking-widest text-[#E63946] shadow-sm">
+        <div className="absolute top-5 left-5">
+          <span className="bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-primary shadow-sm border border-gray-100">
             {categoryName}
           </span>
         </div>
       </div>
-      <div className="p-5 flex flex-col flex-grow">
-        <h3 className="text-lg font-heading font-extrabold leading-snug mb-3 group-hover:text-[#E63946] transition-colors line-clamp-2">
+      <div className="p-7 flex flex-col flex-grow">
+        <h3 className="text-xl font-black leading-tight mb-4 group-hover:text-primary transition-colors line-clamp-2 decoration-primary/30 decoration-2 group-hover:underline underline-offset-4">
           <Link href={`/news/${slug}`}>{title}</Link>
         </h3>
         {excerpt && (
-          <p className="text-gray-500 text-sm mb-4 line-clamp-2 leading-relaxed">
+          <p className="text-gray-500 text-sm mb-6 line-clamp-3 leading-relaxed">
             {excerpt}
           </p>
         )}
-        <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between text-[10px] font-heading font-bold uppercase tracking-widest text-gray-400">
-          <span>{formattedDate}</span>
-          <Link href={`/news/${slug}`} className="text-[#E63946] hover:underline">Read More</Link>
+        <div className="mt-auto pt-5 border-t border-gray-50 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.2em] text-gray-400">
+          <span className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
+            {formattedDate}
+          </span>
+          <Link href={`/news/${slug}`} className="text-primary hover:tracking-[0.3em] transition-all">Read Story</Link>
         </div>
       </div>
     </div>

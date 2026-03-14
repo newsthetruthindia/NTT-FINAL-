@@ -1,13 +1,43 @@
+'use client';
+
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Header() {
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      
+      // Header visibility logic
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+
+      // Progress bar logic
+      if (scrollHeight > 0) {
+        setProgress((currentScrollY / scrollHeight) * 100);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
-    <header className="sticky top-0 z-50 glass-header border-b border-white/10 dark:bg-black/80">
+    <header className={`fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20">
         {/* Logo */}
         <div className="shrink-0">
           <Link href="/" className="flex items-center">
-            <span className="text-2xl font-heading font-black tracking-tighter text-foreground">
+            <span className="text-2xl font-black tracking-tighter text-foreground">
               NTT<span className="text-primary">.</span>
             </span>
           </Link>
@@ -19,7 +49,7 @@ export default function Header() {
             <Link 
               key={item} 
               href={`/category/${item.toLowerCase()}`} 
-              className="text-sm font-heading font-semibold uppercase tracking-widest text-foreground/80 hover:text-primary transition-colors"
+              className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500 hover:text-primary transition-colors"
             >
               {item}
             </Link>
@@ -30,17 +60,25 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <Link 
             href="/login" 
-            className="hidden sm:block text-sm font-heading font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors"
+            className="hidden sm:block text-[11px] font-bold uppercase tracking-widest text-gray-900 hover:text-primary transition-colors"
           >
             Login
           </Link>
           <Link 
             href="/register" 
-            className="px-6 py-2.5 premium-gradient text-white text-xs font-heading font-bold uppercase tracking-widest rounded-full hover:shadow-lg hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
+            className="px-6 py-2.5 premium-gradient text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:shadow-lg hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
           >
             Register
           </Link>
         </div>
+      </div>
+      
+      {/* Reading Progress Bar */}
+      <div className="absolute bottom-0 left-0 h-1 bg-primary/20 w-full overflow-hidden">
+        <div 
+          className="h-full bg-primary transition-all duration-150 ease-out" 
+          style={{ width: `${progress}%` }}
+        />
       </div>
     </header>
   );
