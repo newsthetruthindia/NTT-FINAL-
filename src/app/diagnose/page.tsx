@@ -7,7 +7,7 @@ export default function DiagnosePage() {
   return (
     <div style={{ padding: '2rem', fontFamily: 'monospace' }}>
       <h1>NTT Diagnostic Page</h1>
-      <p>Version: 1.1.6 (Image-Fetcher Transition)</p>
+      <p>Version: 1.1.7 (Proxy Logging Enabled)</p>
       <hr />
       <h3>Environment Variables:</h3>
       <pre>
