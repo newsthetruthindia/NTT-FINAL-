@@ -1,13 +1,13 @@
 import { getImageUrl } from '@/lib/api';
 
 export default function DiagnosePage() {
-  const testUrl = 'http://117.252.16.132/public/uploads/test.jpg';
+  const testUrl = 'http://117.252.16.132/public/uploads/test.jpg'; // Assuming the user intended to keep the full URL or change it to a valid one, not the malformed 'publ'
   const proxied = getImageUrl(testUrl);
   
   return (
     <div style={{ padding: '2rem', fontFamily: 'monospace' }}>
       <h1>NTT Diagnostic Page</h1>
-      <p>Version: 1.1.5 (Explicit Proxy Path Check)</p>
+      <p>Version: 1.1.6 (Image-Fetcher Transition)</p>
       <hr />
       <h3>Environment Variables:</h3>
       <pre>
