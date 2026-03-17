@@ -102,8 +102,10 @@ export const getImageUrl = (url: string | undefined) => {
     absoluteUrl = `${SITE_URL}${absoluteUrl.startsWith('/') ? '' : '/'}${absoluteUrl}`;
   }
 
+  // Proxy only if the URL is from the backend and it's HTTP (to avoid Mixed Content on Vercel)
+  // Or if it's an absolute URL that isn't the current site
   if (absoluteUrl.startsWith('http:')) {
-    return `/img-proxy?url=${encodeURIComponent(absoluteUrl)}`;
+    return `/api/img-proxy?url=${encodeURIComponent(absoluteUrl)}`;
   }
 
   return absoluteUrl;
