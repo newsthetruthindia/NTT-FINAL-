@@ -30,15 +30,28 @@ export interface Post {
   }
 }
 
+const handleResponse = (json: any) => {
+  // 1. Handle paginated structure { data: { data: [...] } }
+  if (json?.data?.data && Array.isArray(json.data.data)) return json.data.data;
+  // 2. Handle wrapped structure { data: [...] }
+  if (json?.data && Array.isArray(json.data)) return json.data;
+  // 3. Handle raw array [...]
+  if (Array.isArray(json)) return json;
+  // 4. Handle single object (wrapped or raw)
+  if (json?.data && typeof json.data === 'object' && !Array.isArray(json.data)) return [json.data];
+  if (json && typeof json === 'object' && !Array.isArray(json) && json.id) return [json];
+  
+  return [];
+};
+
 export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/latest?limit=${limit}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
-    // Support both direct array and paginated structure
-    if (json.data && json.data.data) return json.data.data;
-    return json.data ?? [];
-  } catch {
+    return handleResponse(json);
+  } catch (error) {
+    console.error("fetchLatestPosts error:", error);
     return [];
   }
 };
@@ -48,9 +61,7 @@ export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
     const res = await fetch(`${API_URL}posts/top?limit=${limit}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
-    // Support both direct array and paginated structure
-    if (json.data && json.data.data) return json.data.data;
-    return json.data ?? [];
+    return handleResponse(json);
   } catch {
     return [];
   }
@@ -68,11 +79,7 @@ export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any>
     const res = await fetch(`${API_URL}posts/category/${slug}?limit=${limit}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
-    // Handle Laravel paginated structure
-    if (json.data && json.data.data) {
-      return json.data.data;
-    }
-    return json.data ?? [];
+    return handleResponse(json);
   } catch {
     return [];
   }
