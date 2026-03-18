@@ -1,6 +1,6 @@
-// Version: 1.1.4 - Unique Proxy Migration
-// We use /vps-api to avoid conflicts with Next.js internal /api routes
-const API_URL = '/vps-api';
+// Version: 1.1.5 - Native Proxy Migration
+// We use a Next.js API route as a proxy to avoid Vercel rewrite issues and Mixed Content
+const API_URL = '/api/proxy/vps?path=';
 const SITE_URL = 'http://117.252.16.132';
 
 export interface Post {
@@ -32,7 +32,7 @@ export interface Post {
 
 export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
   try {
-    const res = await fetch(`${API_URL}/posts/latest?limit=${limit}`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}posts/latest?limit=${limit}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
     // Support both direct array and paginated structure
@@ -45,7 +45,7 @@ export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
 
 export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
   try {
-    const res = await fetch(`${API_URL}/posts/top?limit=${limit}`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}posts/top?limit=${limit}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
     // Support both direct array and paginated structure
@@ -57,7 +57,7 @@ export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
 };
 
 export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
-  const res = await fetch(`${API_URL}/post/${slug}`, { cache: 'no-store' });
+  const res = await fetch(`${API_URL}post/${slug}`, { cache: 'no-store' });
   if (!res.ok) return null;
   const json = await res.json();
   return json.data;
@@ -65,7 +65,7 @@ export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
 
 export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any> => {
   try {
-    const res = await fetch(`${API_URL}/posts/category/${slug}?limit=${limit}`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}posts/category/${slug}?limit=${limit}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
     // Handle Laravel paginated structure
@@ -80,7 +80,7 @@ export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any>
 
 export const fetchCategories = async (): Promise<any[]> => {
   try {
-    const res = await fetch(`${API_URL}/categories`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}categories`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
     return json.data ?? [];
@@ -91,7 +91,7 @@ export const fetchCategories = async (): Promise<any[]> => {
 
 export const fetchTags = async (): Promise<any[]> => {
   try {
-    const res = await fetch(`${API_URL}/tags`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}tags`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
     return json.data ?? [];
@@ -111,7 +111,7 @@ export interface Video {
 
 export const fetchVideos = async (): Promise<Video[]> => {
   try {
-    const res = await fetch(`${API_URL}/videos`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}videos`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
     return json.data ?? [];
@@ -156,7 +156,7 @@ export const getImageUrl = (url: string | undefined) => {
 
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
   try {
-    const res = await fetch(`${API_URL}/posts/search?q=${encodeURIComponent(query)}&limit=${limit}`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}posts/search?q=${encodeURIComponent(query)}&limit=${limit}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
     if (json.data && json.data.data) return json.data.data;
