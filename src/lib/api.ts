@@ -1,6 +1,6 @@
-// Version: 1.1.5 - Native Proxy Migration
-// We use a Next.js API route as a proxy to avoid Vercel rewrite issues and Mixed Content
-const API_URL = '/api/proxy/vps?path=';
+// Version: 1.1.6 - Catch-all Proxy Migration
+// We use a Next.js catch-all route as a proxy to handle complex paths and query params
+const API_URL = '/api/proxy/vps/';
 const SITE_URL = 'http://117.252.16.132';
 
 export interface Post {
