@@ -5,12 +5,14 @@ import { useState, useEffect, useRef } from 'react';
 import Search from './Search';
 import LanguageToggle from './LanguageToggle';
 import LiveTicker from './LiveTicker';
+import { useAuth } from './AuthProvider';
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [progress, setProgress] = useState(0);
   const lastScrollY = useRef(0);
+  const { user, logout, isLoading } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,12 +79,6 @@ export default function Header() {
               <span className="hidden xl:block text-[11px] font-black uppercase tracking-widest">Search</span>
             </button>
             <Link 
-              href="/login" 
-              className="hidden sm:block text-[12px] font-extrabold uppercase tracking-widest text-gray-700 hover:text-primary transition-colors duration-300"
-            >
-              Login
-            </Link>
-            <Link 
               href="/report" 
               className="hidden md:flex items-center gap-2 group/btn"
             >
@@ -91,12 +87,37 @@ export default function Header() {
                 Report News
               </span>
             </Link>
-            <Link 
-              href="/register" 
-              className="px-8 py-3 premium-gradient text-white text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 active:scale-95"
-            >
-              Register
-            </Link>
+
+            {!isLoading && (
+              user ? (
+                <>
+                  <div className="hidden sm:block text-[12px] font-extrabold uppercase tracking-widest text-gray-700">
+                    {user.firstname}
+                  </div>
+                  <button 
+                    onClick={logout}
+                    className="px-8 py-3 bg-gray-900 hover:bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg transition-all duration-300 hover:-translate-y-1 active:scale-95"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link 
+                    href="/login" 
+                    className="hidden sm:block text-[12px] font-extrabold uppercase tracking-widest text-gray-700 hover:text-primary transition-colors duration-300"
+                  >
+                    Login
+                  </Link>
+                  <Link 
+                    href="/register" 
+                    className="px-8 py-3 premium-gradient text-white text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 active:scale-95"
+                  >
+                    Register
+                  </Link>
+                </>
+              )
+            )}
           </div>
         </div>
         
