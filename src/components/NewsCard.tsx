@@ -20,7 +20,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
 
   if (variant === 'hero') {
     return (
-      <div className="group relative h-[600px] w-full overflow-hidden rounded-3xl shadow-2xl">
+      <div className="group relative h-full min-h-[500px] w-full overflow-hidden rounded-3xl shadow-2xl">
         <img 
           src={displayImage} 
           alt={title}
