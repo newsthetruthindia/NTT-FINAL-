@@ -17,12 +17,37 @@ export default function ReportForm() {
     e.preventDefault();
     setStatus('submitting');
     
-    // Simulating API call
-    setTimeout(() => {
-      setStatus('success');
-      setFormData({ name: '', email: '', location: '', title: '', description: '' });
-      setFile(null);
-    }, 2000);
+    // Real API call
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('location', formData.location);
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('description', formData.description);
+      if (file) {
+        formDataToSend.append('attachment_file', file);
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/citizen-report`, {
+        method: 'POST',
+        body: formDataToSend,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', location: '', title: '', description: '' });
+        setFile(null);
+      } else {
+        setStatus('error');
+        console.error("Submission failed:", result.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+      setStatus('error');
+    }
   };
 
   if (status === 'success') {

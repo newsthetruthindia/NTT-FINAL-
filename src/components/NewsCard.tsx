@@ -3,7 +3,7 @@ import { Post, getImageUrl } from '@/lib/api';
 
 interface NewsCardProps {
   post: Post;
-  variant?: 'hero' | 'standard';
+  variant?: 'hero' | 'standard' | 'landscape';
 }
 
 export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) {
@@ -17,6 +17,42 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   const formattedDate = created_at 
     ? new Date(created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
     : 'Recent';
+
+  if (variant === 'landscape') {
+    return (
+      <div className="group flex flex-col lg:flex-row h-full w-full overflow-hidden rounded-[40px] shadow-2xl bg-white border border-gray-100 hover-lift">
+        <div className="lg:w-3/5 relative overflow-hidden h-[300px] lg:h-auto">
+          <img 
+            src={displayImage} 
+            alt={title}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute top-8 left-8">
+            <span className="premium-gradient px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-white">
+              {categoryName}
+            </span>
+          </div>
+        </div>
+        <div className="lg:w-2/5 p-8 lg:p-12 flex flex-col justify-center">
+          <h2 className="text-3xl lg:text-5xl font-black text-gray-950 mb-6 leading-tight tracking-[calc(-0.02em)] group-hover:text-primary transition-colors decoration-primary/20 decoration-[6px] group-hover:underline underline-offset-8">
+            <Link href={`/news/${slug}`}>{title}</Link>
+          </h2>
+          {excerpt && (
+            <p className="text-gray-500 text-lg mb-8 line-clamp-3 leading-relaxed font-medium">
+              {excerpt}
+            </p>
+          )}
+          <div className="flex items-center gap-6 text-gray-400 text-xs font-black uppercase tracking-[0.1em]">
+            <span>{formattedDate}</span>
+            <div className="flex items-center gap-2 text-gray-900 italic">
+               <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+               By NTT Desk
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (variant === 'hero') {
     return (

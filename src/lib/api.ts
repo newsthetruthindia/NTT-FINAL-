@@ -77,6 +77,48 @@ export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any>
   }
 };
 
+export const fetchCategories = async (): Promise<any[]> => {
+  try {
+    const res = await fetch(`${API_URL}/categories`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data ?? [];
+  } catch {
+    return [];
+  }
+};
+
+export const fetchTags = async (): Promise<any[]> => {
+  try {
+    const res = await fetch(`${API_URL}/tags`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data ?? [];
+  } catch {
+    return [];
+  }
+};
+
+export interface Video {
+  id: number;
+  title: string;
+  youtube_id: string;
+  type: 'video' | 'reel';
+  is_featured: boolean;
+  sort_order: number;
+}
+
+export const fetchVideos = async (): Promise<Video[]> => {
+  try {
+    const res = await fetch(`${API_URL}/videos`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data ?? [];
+  } catch {
+    return [];
+  }
+};
+
 export const getImageUrl = (url: string | undefined) => {
   if (!url) return '/placeholder-news.jpg';
   

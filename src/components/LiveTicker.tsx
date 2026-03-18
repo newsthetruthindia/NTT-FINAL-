@@ -3,23 +3,36 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-const headlines = [
-  "ELECTION UPDATE: Commissioner cautions Bengal officials against meddling in poll work",
-  "JUST IN: New investigative report reveals irregularities in local municipality",
-  "TRENDING: Citizen journalism leads to immediate action in North Kolkata",
-  "GLOBAL: International observers arrive for West Bengal poll review",
-  "SPORTS: Local youth tournament kicks off with massive community support"
-];
-
 export default function LiveTicker() {
+  const [headlines, setHeadlines] = useState<string[]>([
+    "Loading latest news from NTT Desk..."
+  ]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    const fetchHeadlines = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/latest?limit=5`);
+        const result = await response.json();
+        if (result.success && result.data.length > 0) {
+          setHeadlines(result.data.map((post: any) => post.title));
+        }
+      } catch (error) {
+        console.error("Failed to fetch headlines:", error);
+      }
+    };
+
+    fetchHeadlines();
+
     const timer = setInterval(() => {
+      setHeadlines((current) => {
+        // Just a way to keep the interval going but we only need to change index
+        return current;
+      });
       setCurrentIndex((prev) => (prev + 1) % headlines.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [headlines.length]);
 
   return (
     <div className="bg-gray-950 text-white h-9 flex items-center overflow-hidden border-b border-white/5 relative z-[60]">
