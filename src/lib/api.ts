@@ -1,6 +1,6 @@
-// Version: 1.1.3 - Production Proxy Migration
-// We use relative /api to trigger Vercel rewrites and avoid Mixed Content (HTTPS -> HTTP) errors
-const API_URL = '/api';
+// Version: 1.1.4 - Unique Proxy Migration
+// We use /vps-api to avoid conflicts with Next.js internal /api routes
+const API_URL = '/vps-api';
 const SITE_URL = 'http://117.252.16.132';
 
 export interface Post {

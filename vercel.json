@@ -3,7 +3,7 @@
   "framework": "nextjs",
   "rewrites": [
     {
-      "source": "/api/:path*",
+      "source": "/vps-api/:path*",
       "destination": "http://117.252.16.132/api/:path*"
     }
   ]

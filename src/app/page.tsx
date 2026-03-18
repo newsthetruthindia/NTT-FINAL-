@@ -35,13 +35,10 @@ export default async function Home() {
     <main className="min-h-screen bg-white">
       <Header />
       
-      {/* Breaking News Ticker */}
-      <div className="pt-24">
-        <LiveTicker />
-      </div>
-
-      {/* Hero Section - LANDSCAPE */}
-      <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
+      {/* Main Content Area */}
+      <div className="pt-20">
+        {/* Hero Section - LANDSCAPE */}
+        <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="flex flex-col gap-12">
           {/* Main Landscape Hero */}
           <div className="w-full">

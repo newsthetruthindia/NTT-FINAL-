@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { fetchLatestPosts } from '@/lib/api';
 
 export default function LiveTicker() {
   const [headlines, setHeadlines] = useState<string[]>([
@@ -10,19 +11,18 @@ export default function LiveTicker() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const fetchHeadlines = async () => {
+    const loadHeadlines = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/latest?limit=5`);
-        const result = await response.json();
-        if (result.success && result.data.length > 0) {
-          setHeadlines(result.data.map((post: any) => post.title));
+        const posts = await fetchLatestPosts(5);
+        if (posts && posts.length > 0) {
+          setHeadlines(posts.map((post: any) => post.title));
         }
       } catch (error) {
         console.error("Failed to fetch headlines:", error);
       }
     };
 
-    fetchHeadlines();
+    loadHeadlines();
 
     const timer = setInterval(() => {
       setHeadlines((current) => {
