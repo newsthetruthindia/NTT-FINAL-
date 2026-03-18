@@ -21,7 +21,7 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://117.252.16.132/api';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://newsthetruth.com/api';
       const res = await fetch(`${apiUrl}/auth/register`, {
         method: 'POST',
         headers: {
