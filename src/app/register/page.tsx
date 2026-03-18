@@ -21,8 +21,7 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://newsthetruth.com/api';
-      const res = await fetch(`${apiUrl}/auth/register`, {
+      const res = await fetch(`/api/proxy/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

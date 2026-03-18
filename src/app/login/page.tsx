@@ -19,8 +19,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://newsthetruth.com/api';
-      const res = await fetch(`${apiUrl}/auth/login`, {
+      const res = await fetch(`/api/proxy/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

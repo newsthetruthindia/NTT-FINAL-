@@ -1,6 +1,6 @@
 // Version: 1.1.2 - Forced Redeploy for Proxy Fix
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://newsthetruth.com/api';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://117.252.16.132/api';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://117.252.16.132';
 
 export interface Post {
   id: number;
