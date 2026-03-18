@@ -35,7 +35,7 @@ export default function RegisterPage() {
 
       if (!res.ok) {
         // Handle validation errors from Laravel
-        const errorMessage = data.errors ? Object.values(data.errors)[0][0] : data.message;
+        const errorMessage = data.errors ? Object.values(data.errors as Record<string, string[]>)[0][0] : data.message;
         throw new Error(errorMessage || 'Registration failed');
       }
 
