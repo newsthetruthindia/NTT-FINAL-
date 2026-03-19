@@ -29,10 +29,10 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 md:mb-16 gap-6 md:gap-8">
           <div>
             <div className="flex items-center gap-3 mb-3">
-               <span className="w-8 h-[2px] bg-primary"></span>
-               <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] md:text-xs">NTT Visuals</span>
+               <span className="w-8 h-[2px] bg-white/20"></span>
+               <span className="text-white/40 font-black uppercase tracking-[0.4em] text-[10px] md:text-xs">NTT Visuals</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-none">YouTube <span className="text-primary italic">Spotlight</span></h2>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-none">YouTube <span className="text-white italic">Spotlight</span></h2>
           </div>
           <a 
             href="https://youtube.com/@NTTBENGAL" 

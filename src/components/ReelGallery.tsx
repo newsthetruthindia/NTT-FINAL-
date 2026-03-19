@@ -15,7 +15,7 @@ export default function ReelGallery({ reels }: ReelGalleryProps) {
       <div className="container px-4">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <span className="px-3 py-1 bg-primary/20 text-primary text-xs font-bold uppercase tracking-widest rounded-full border border-primary/30 mb-2 inline-block">
+            <span className="px-3 py-1 bg-white/10 text-white/60 text-xs font-bold uppercase tracking-widest rounded-full border border-white/20 mb-2 inline-block">
               Shorts
             </span>
             <h2 className="text-3xl font-bold font-heading">YouTube Reels</h2>
