@@ -22,7 +22,7 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  { params }: { params: Promise<{ path: string[] }> }
 ) {
   const resolvedParams = await params;
   const pathArray = resolvedParams.path;
