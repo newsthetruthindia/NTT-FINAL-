@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  { params }: { params: Promise<{ path: string[] }> }
 ) {
-  // Await params as per Next.js 15+ patterns if applicable
-  const pathArray = await params.path;
+  const resolvedParams = await params;
+  const pathArray = resolvedParams.path;
   const path = pathArray.join('/');
   const searchParams = request.nextUrl.searchParams.toString();
   
@@ -24,7 +24,8 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { path: string[] } }
 ) {
-  const pathArray = await params.path;
+  const resolvedParams = await params;
+  const pathArray = resolvedParams.path;
   const path = pathArray.join('/');
   const searchParams = request.nextUrl.searchParams.toString();
   
