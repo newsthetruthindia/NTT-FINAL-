@@ -124,7 +124,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .section-header .title span {
   color: var(--primary);
-  @apply italic editorial-heading lowercase;
+  font-family: var(--font-lora), serif !important;
+  letter-spacing: -0.01em;
+  @apply italic lowercase;
 }
 
 .section-header .view-all {
