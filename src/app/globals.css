@@ -122,7 +122,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-header .title span {
-  @apply text-gray-900 italic editorial-heading lowercase;
+  color: #111827; /* gray-900 */
+  font-family: var(--font-lora), serif !important;
+  letter-spacing: -0.01em;
+  @apply italic lowercase;
 }
 
 .section-header .view-all {
