@@ -3,6 +3,7 @@
 @theme {
   --font-sans: var(--font-poppins);
   --font-heading: var(--font-league-spartan);
+  --font-serif: var(--font-lora);
 }
 
 :root {
@@ -94,6 +95,34 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  @apply -translate-y-2 shadow-2xl;
+}
+
+.editorial-heading {
+  font-family: var(--font-lora), serif !important;
+  letter-spacing: -0.01em;
+}
+
+.section-header {
+  @apply mb-10 pb-4 border-b border-gray-100 flex items-end justify-between transition-all duration-300;
+}
+
+.section-header .title-group {
+  @apply flex flex-col gap-2;
+}
+
+.section-header .subtitle {
+  @apply text-primary font-black uppercase tracking-[0.3em] text-[10px] md:text-[11px] block;
+}
+
+.section-header .title {
+  @apply text-3xl md:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none flex items-center gap-4;
+}
+
+.section-header .title span {
+  @apply text-primary italic editorial-heading lowercase;
+}
+
+.section-header .view-all {
+  @apply text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-primary transition-colors flex items-center gap-2 mb-1 cursor-pointer;
 }

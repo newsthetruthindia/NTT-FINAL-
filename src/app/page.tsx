@@ -106,9 +106,15 @@ export default async function Home() {
           {/* Section: The Bengal */}
           {statePosts.length > 0 && (
             <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
-              <div className="flex justify-between items-end mb-8 border-b-2 border-gray-100 pb-4">
-                <h2 className="text-3xl md:text-4xl font-black text-gray-950 uppercase tracking-tighter">The <span className="text-primary underline decoration-4 underline-offset-8">Bengal</span></h2>
-                <button className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/5 px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-all">Submit News</button>
+              <div className="section-header">
+                <div className="title-group">
+                  <span className="subtitle">Regional Reports</span>
+                  <h2 className="title">The <span>Bengal</span></h2>
+                </div>
+                <div className="view-all">
+                  Full Coverage
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {statePosts.map((post: any) => (
@@ -121,8 +127,15 @@ export default async function Home() {
           {/* Section: The India */}
           {indiaPosts.length > 0 && (
             <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
-              <div className="mb-8 border-l-8 border-primary pl-6">
-                <h2 className="text-3xl md:text-4xl font-black text-gray-950 uppercase tracking-tighter">The <span className="text-primary italic">India</span></h2>
+              <div className="section-header">
+                <div className="title-group">
+                  <span className="subtitle">National Pulse</span>
+                  <h2 className="title">The <span>India</span></h2>
+                </div>
+                <div className="view-all">
+                  Trending India
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {indiaPosts.map((post: any) => (
@@ -135,9 +148,11 @@ export default async function Home() {
           {/* Featured: The Exclusive Truth */}
           {exclusivePosts.length > 0 && (
             <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
-               <div className="mb-6 flex items-center gap-4">
-                <h2 className="text-2xl md:text-3xl font-black text-gray-950 uppercase tracking-widest">THE <span className="text-primary">Exclusive</span> Truth</h2>
-                <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/20 to-transparent"></div>
+               <div className="section-header">
+                <div className="title-group">
+                  <span className="subtitle">NTT Originals</span>
+                  <h2 className="title">THE <span>Exclusive</span> Truth</h2>
+                </div>
               </div>
               <NewsCard post={exclusivePosts[0]} variant="hero" />
             </section>
@@ -149,10 +164,14 @@ export default async function Home() {
           {/* Section: The Latest Reports */}
           {latestPosts.length > 0 && (
             <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
-              <div className="flex justify-between items-end mb-8 border-b-2 border-gray-100 pb-4">
-                <div>
-                  <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] mb-2 block">World Pulse</span>
-                  <h2 className="text-3xl md:text-4xl font-black text-gray-950 uppercase tracking-tighter">The <span className="text-primary font-outline-2">Latest</span> Reports</h2>
+              <div className="section-header">
+                <div className="title-group">
+                  <span className="subtitle">World Pulse</span>
+                  <h2 className="title">The <span>Latest</span> Reports</h2>
+                </div>
+                <div className="view-all">
+                  World Feed
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
@@ -166,9 +185,11 @@ export default async function Home() {
           {/* Featured: The Untold Truth */}
           {untoldPosts.length > 0 && (
             <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
-               <div className="mb-6 flex items-center gap-4">
-                <h2 className="text-2xl md:text-3xl font-black text-gray-950 uppercase tracking-widest">THE <span className="text-primary italic">Untold</span> Truth</h2>
-                <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/20 to-transparent"></div>
+               <div className="section-header">
+                <div className="title-group">
+                  <span className="subtitle">Deep Dive</span>
+                  <h2 className="title">THE <span>Untold</span> Truth</h2>
+                </div>
               </div>
               <NewsCard post={untoldPosts[0]} variant="hero" />
             </section>
@@ -177,8 +198,15 @@ export default async function Home() {
           {/* Section: Yours Truly */}
           {yourTruthPosts.length > 0 && (
             <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
-              <div className="mb-8 border-l-8 border-primary pl-6">
-                <h2 className="text-3xl md:text-4xl font-black text-gray-950 uppercase tracking-tighter">Yours <span className="text-primary underline decoration-4 underline-offset-8">Truly</span></h2>
+              <div className="section-header">
+                <div className="title-group">
+                  <span className="subtitle">Citizen Journalism</span>
+                  <h2 className="title">Yours <span>Truly</span></h2>
+                </div>
+                <div className="view-all">
+                  Community News
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {yourTruthPosts.map((post: any) => (

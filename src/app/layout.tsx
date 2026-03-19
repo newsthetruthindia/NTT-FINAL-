@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, League_Spartan } from "next/font/google";
+import { Poppins, League_Spartan, Lora } from "next/font/google";
 import "./globals.css";
 import LiveTicker from "@/components/LiveTicker";
 import { AuthProvider } from "@/components/AuthProvider";
@@ -12,6 +12,11 @@ const poppins = Poppins({
 
 const leagueSpartan = League_Spartan({
   variable: "--font-league-spartan",
+  subsets: ["latin"],
+});
+
+const lora = Lora({
+  variable: "--font-lora",
   subsets: ["latin"],
 });
 
@@ -35,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${leagueSpartan.variable} antialiased`}
+        className={`${poppins.variable} ${leagueSpartan.variable} ${lora.variable} antialiased`}
       >
         <AuthProvider>
           <div className="main-content">

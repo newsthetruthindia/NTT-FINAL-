@@ -31,7 +31,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <span className="text-[9px] font-black text-primary uppercase tracking-widest mb-1 d-block">
             {categoryName}
           </span>
-          <h5 className="text-sm font-black text-gray-950 leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+          <h5 className="text-sm font-black text-gray-950 leading-tight line-clamp-2 group-hover:text-primary transition-colors editorial-heading">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h5>
         </div>
@@ -41,7 +41,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
 
   if (variant === 'landscape') {
     return (
-      <div className="group flex flex-col sm:flex-row h-full w-full overflow-hidden rounded-[24px] md:rounded-[32px] shadow-lg hover:shadow-2xl bg-white border border-gray-100 transition-all duration-500 hover:-translate-y-1">
+      <div className="group flex flex-col sm:flex-row h-full w-full overflow-hidden rounded-[24px] md:rounded-[32px] bg-white border border-gray-100 hover-lift">
         <div className="sm:w-[40%] relative overflow-hidden h-[180px] sm:h-auto">
           <img 
             src={displayImage} 
@@ -55,7 +55,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           </div>
         </div>
         <div className="sm:w-[60%] p-5 md:p-6 flex flex-col justify-center">
-          <h2 className="text-lg lg:text-xl font-black text-gray-950 mb-3 leading-tight tracking-tight group-hover:text-primary transition-colors line-clamp-2">
+          <h2 className="text-lg lg:text-xl font-black text-gray-950 mb-3 leading-tight tracking-tight group-hover:text-primary transition-colors line-clamp-2 editorial-heading">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           {excerpt && (
@@ -77,7 +77,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
 
   if (variant === 'hero') {
     return (
-      <div className="group relative h-full min-h-[500px] w-full overflow-hidden rounded-3xl shadow-2xl">
+      <div className="group relative h-full min-h-[500px] w-full overflow-hidden rounded-3xl hover-lift">
         <img 
           src={displayImage} 
           alt={title}
@@ -89,7 +89,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
               {categoryName}
             </span>
           </div>
-          <h2 className="text-2xl lg:text-4xl font-heading font-black text-white mb-4 leading-[1.1] tracking-tight group-hover:underline underline-offset-8 decoration-primary decoration-4">
+          <h2 className="text-2xl lg:text-4xl font-black text-white mb-4 leading-[1.1] tracking-tight group-hover:text-primary transition-colors editorial-heading">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           <div className="flex items-center gap-4 text-white/60 text-xs font-heading font-bold uppercase tracking-widest">
@@ -103,7 +103,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   }
 
   return (
-    <div className="group flex flex-col hover-lift bg-white rounded-[32px] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-full">
+    <div className="group flex flex-col hover-lift bg-white rounded-[32px] overflow-hidden border border-gray-100 h-full transition-all duration-500">
       <div className="relative aspect-[16/10] overflow-hidden">
         <img 
           src={displayImage} 
@@ -117,7 +117,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
         </div>
       </div>
       <div className="p-7 flex flex-col flex-grow">
-        <h3 className="text-xl font-black text-gray-950 leading-tight mb-4 group-hover:text-primary transition-colors line-clamp-2 decoration-primary/30 decoration-2 group-hover:underline underline-offset-4">
+        <h3 className="text-xl md:text-2xl font-black text-gray-950 leading-tight mb-4 group-hover:text-primary transition-colors line-clamp-2 editorial-heading">
           <Link href={`/news/${slug}`}>{title}</Link>
         </h3>
         {excerpt && (
