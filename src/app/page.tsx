@@ -125,6 +125,7 @@ export default async function Home() {
       )}
 
       <Newsletter />
+      </div>
       <Footer />
     </main>
   )
