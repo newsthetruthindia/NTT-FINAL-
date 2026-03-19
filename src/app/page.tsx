@@ -99,28 +99,6 @@ export default async function Home() {
               {/* Fading edge indicator */}
               <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10 hidden md:block"></div>
             </div>
-
-            <style jsx>{`
-              .no-scrollbar::-webkit-scrollbar {
-                height: 3px;
-              }
-              .no-scrollbar::-webkit-scrollbar-track {
-                background: transparent;
-              }
-              .no-scrollbar::-webkit-scrollbar-thumb {
-                background: rgba(0, 0, 0, 0.05);
-                border-radius: 10px;
-              }
-              .no-scrollbar::-webkit-scrollbar-thumb:hover {
-                background: rgba(240, 29, 35, 0.4);
-              }
-              /* Hide scrollbar for IE, Edge and Firefox */
-              .no-scrollbar {
-                -ms-overflow-style: none;  /* IE and Edge */
-                scrollbar-width: thin;  /* Firefox */
-                scrollbar-color: rgba(0,0,0,0.05) transparent;
-              }
-            `}</style>
           </section>
         )}
 
