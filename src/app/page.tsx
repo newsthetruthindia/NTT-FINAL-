@@ -75,17 +75,52 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Trending Tags Bar */}
+        {/* Trending Tags Bar - Redesigned for Premium Look */}
         {tags.length > 0 && (
-          <section className="py-6 bg-gray-50 border-y border-gray-100">
-            <div className="max-w-7xl mx-auto px-8 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 self-center mr-4">Trending Tags:</span>
-              {tags.slice(0, 10).map((tag: any) => (
-                <span key={tag.id} className="bg-white px-5 py-2 rounded-full text-xs font-bold text-gray-700 border border-gray-200 hover:border-primary hover:text-primary transition-all cursor-pointer shadow-sm">
-                  #{tag.title}
-                </span>
-              ))}
+          <section className="py-4 bg-white border-y border-gray-100 overflow-hidden relative">
+            <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center gap-6">
+              <div className="flex items-center gap-2 shrink-0 border-r border-gray-100 pr-6 mr-2">
+                <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Trending Now</span>
+              </div>
+              
+              <div className="flex-1 overflow-x-auto whitespace-nowrap py-2 flex gap-3 scroll-smooth no-scrollbar select-none">
+                {tags.slice(0, 12).map((tag: any) => (
+                  <button 
+                    key={tag.id} 
+                    className="bg-gray-50 hover:bg-primary px-5 py-2 rounded-full text-[11px] font-bold text-gray-600 hover:text-white border border-gray-100 hover:border-primary transition-all duration-300 shadow-sm hover:shadow-primary/20 active:scale-95 flex items-center gap-2 group"
+                  >
+                    <span className="text-primary group-hover:text-white/60 transition-colors">#</span>
+                    {tag.title}
+                  </button>
+                ))}
+              </div>
+
+              {/* Fading edge indicator */}
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10 hidden md:block"></div>
             </div>
+
+            <style jsx>{`
+              .no-scrollbar::-webkit-scrollbar {
+                height: 3px;
+              }
+              .no-scrollbar::-webkit-scrollbar-track {
+                background: transparent;
+              }
+              .no-scrollbar::-webkit-scrollbar-thumb {
+                background: rgba(0, 0, 0, 0.05);
+                border-radius: 10px;
+              }
+              .no-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: rgba(240, 29, 35, 0.4);
+              }
+              /* Hide scrollbar for IE, Edge and Firefox */
+              .no-scrollbar {
+                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: thin;  /* Firefox */
+                scrollbar-color: rgba(0,0,0,0.05) transparent;
+              }
+            `}</style>
           </section>
         )}
 
