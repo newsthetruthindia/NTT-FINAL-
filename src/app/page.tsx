@@ -89,12 +89,12 @@ export default async function Home() {
           </section>
         )}
 
-        <div className="flex flex-col gap-16 py-12">
+        <div className="flex flex-col gap-12 py-8">
           {/* Section: The Bengal */}
           {statePosts.length > 0 && (
-            <section className="px-4 md:px-8 max-w-7xl mx-auto">
-              <div className="flex justify-between items-end mb-10 underline-title">
-                <h2 className="text-4xl font-black text-gray-950 uppercase tracking-tighter">The <span className="text-primary">Bengal</span></h2>
+            <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
+              <div className="flex justify-between items-end mb-8 border-b-2 border-gray-100 pb-4">
+                <h2 className="text-3xl md:text-4xl font-black text-gray-950 uppercase tracking-tighter">The <span className="text-primary underline decoration-4 underline-offset-8">Bengal</span></h2>
                 <button className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/5 px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-all">Submit News</button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -107,9 +107,9 @@ export default async function Home() {
 
           {/* Section: The India */}
           {indiaPosts.length > 0 && (
-            <section className="px-4 md:px-8 max-w-7xl mx-auto">
-              <div className="mb-10">
-                <h2 className="text-4xl font-black text-gray-950 uppercase tracking-tighter border-l-8 border-primary pl-6">The <span className="text-primary">India</span></h2>
+            <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
+              <div className="mb-8 border-l-8 border-primary pl-6">
+                <h2 className="text-3xl md:text-4xl font-black text-gray-950 uppercase tracking-tighter">The <span className="text-primary italic">India</span></h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {indiaPosts.slice(0, 4).map((post: any) => (
@@ -121,24 +121,28 @@ export default async function Home() {
 
           {/* Featured: The Exclusive Truth */}
           {exclusivePosts.length > 0 && (
-            <section className="px-4 md:px-8 max-w-7xl mx-auto">
-               <div className="mb-8">
-                <h2 className="text-3xl font-black text-gray-950 uppercase tracking-widest">THE <span className="text-primary">Exclusive</span> Truth</h2>
+            <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
+               <div className="mb-6 flex items-center gap-4">
+                <h2 className="text-2xl md:text-3xl font-black text-gray-950 uppercase tracking-widest">THE <span className="text-primary">Exclusive</span> Truth</h2>
+                <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/20 to-transparent"></div>
               </div>
               <NewsCard post={exclusivePosts[0]} variant="hero" />
             </section>
           )}
 
+          {/* Section: YouTube Showcase */}
+          {videos.length > 0 && <VideoGallery videos={videos} />}
+
           {/* Section: The Latest Reports */}
           {latestPosts.length > 0 && (
-            <section className="px-4 md:px-8 max-w-7xl mx-auto">
-              <div className="flex justify-between items-end mb-10 underline-title">
+            <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
+              <div className="flex justify-between items-end mb-8 border-b-2 border-gray-100 pb-4">
                 <div>
                   <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] mb-2 block">World Pulse</span>
-                  <h2 className="text-4xl font-black text-gray-950 uppercase tracking-tighter">The <span className="text-primary">Latest</span> Reports</h2>
+                  <h2 className="text-3xl md:text-4xl font-black text-gray-950 uppercase tracking-tighter">The <span className="text-primary font-outline-2">Latest</span> Reports</h2>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
                 {latestPosts.map((post) => (
                   <NewsCard key={post.id} post={post} />
                 ))}
@@ -146,14 +150,12 @@ export default async function Home() {
             </section>
           )}
 
-          {/* Section: YouTube Showcase */}
-          {videos.length > 0 && <VideoGallery videos={videos} />}
-
           {/* Featured: The Untold Truth */}
           {untoldPosts.length > 0 && (
-            <section className="px-4 md:px-8 max-w-7xl mx-auto">
-               <div className="mb-8">
-                <h2 className="text-3xl font-black text-gray-950 uppercase tracking-widest">THE <span className="text-primary">Untold</span> Truth</h2>
+            <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
+               <div className="mb-6 flex items-center gap-4">
+                <h2 className="text-2xl md:text-3xl font-black text-gray-950 uppercase tracking-widest">THE <span className="text-primary italic">Untold</span> Truth</h2>
+                <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/20 to-transparent"></div>
               </div>
               <NewsCard post={untoldPosts[0]} variant="hero" />
             </section>
@@ -161,9 +163,9 @@ export default async function Home() {
 
           {/* Section: Yours Truly */}
           {yourTruthPosts.length > 0 && (
-            <section className="px-4 md:px-8 max-w-7xl mx-auto">
-              <div className="mb-10">
-                <h2 className="text-4xl font-black text-gray-950 uppercase tracking-tighter border-l-8 border-primary pl-6">Yours <span className="text-primary">Truly</span></h2>
+            <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
+              <div className="mb-8 border-l-8 border-primary pl-6">
+                <h2 className="text-3xl md:text-4xl font-black text-gray-950 uppercase tracking-tighter">Yours <span className="text-primary underline decoration-4 underline-offset-8">Truly</span></h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {yourTruthPosts.map((post: any) => (
@@ -174,11 +176,11 @@ export default async function Home() {
           )}
 
           {/* Sidebar Tabs Area: Politics & World */}
-          <section className="px-4 md:px-8 max-w-7xl mx-auto">
+          <section className="px-4 md:px-8 max-w-7xl mx-auto w-full pb-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {politicsPosts.length > 0 && (
                 <div>
-                  <h3 className="text-2xl font-black text-gray-950 uppercase tracking-widest mb-8 border-b-4 border-primary pb-2 inline-block">Politics</h3>
+                  <h3 className="text-xl md:text-2xl font-black text-gray-950 uppercase tracking-widest mb-6 border-b-4 border-primary pb-2 inline-block">Politics</h3>
                   <div className="flex flex-col gap-4">
                     {politicsPosts.map((post: any) => (
                       <NewsCard key={post.id} post={post} variant="compact" />
@@ -186,9 +188,8 @@ export default async function Home() {
                   </div>
                 </div>
               )}
-              {/* Fallback to World posts if available */}
               <div>
-                <h3 className="text-2xl font-black text-gray-950 uppercase tracking-widest mb-8 border-b-4 border-gray-200 pb-2 inline-block">Analysis</h3>
+                <h3 className="text-xl md:text-2xl font-black text-gray-950 uppercase tracking-widest mb-6 border-b-4 border-gray-200 pb-2 inline-block">Analysis</h3>
                 <div className="flex flex-col gap-4">
                   {latestPosts.slice(4, 8).map((post: any) => (
                     <NewsCard key={post.id} post={post} variant="compact" />
