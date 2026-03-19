@@ -49,15 +49,23 @@ export default function Search({ isOpen, onClose }: SearchProps) {
         </div>
 
         <div className="max-w-4xl mx-auto mt-20">
-          <form onSubmit={handleSearch}>
+          <form onSubmit={handleSearch} className="relative group/form">
             <input
               ref={inputRef}
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Type to search stories..."
-              className="w-full bg-transparent border-none text-4xl md:text-8xl font-black text-gray-900 placeholder-gray-100 focus:ring-0 tracking-tighter"
+              className="w-full bg-transparent border-none text-4xl md:text-8xl font-black text-gray-900 placeholder-gray-100 focus:ring-0 tracking-tighter pr-20"
             />
+            <button 
+              type="submit"
+              className={`absolute right-0 top-1/2 -translate-y-1/2 p-4 text-gray-200 hover:text-primary transition-all duration-300 ${query ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}`}
+            >
+              <svg className="w-12 h-12 md:w-20 md:h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
             <div className="h-1.5 w-full bg-gray-50 mt-8 relative rounded-full overflow-hidden">
               <div 
                 className="absolute inset-0 bg-primary origin-left transition-transform duration-500 ease-out" 
