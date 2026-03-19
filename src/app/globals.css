@@ -4,6 +4,8 @@
   --font-sans: var(--font-poppins);
   --font-heading: var(--font-league-spartan);
   --font-serif: var(--font-lora);
+  --color-primary: #8c0000;
+  --color-primary-dark: #700000;
 }
 
 :root {
@@ -112,7 +114,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-header .subtitle {
-  @apply text-primary font-black uppercase tracking-[0.3em] text-[10px] md:text-[11px] block;
+  color: var(--primary);
+  @apply font-black uppercase tracking-[0.3em] text-[10px] md:text-[11px] block;
 }
 
 .section-header .title {
@@ -120,9 +123,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-header .title span {
-  @apply text-primary italic editorial-heading lowercase;
+  color: var(--primary);
+  @apply italic editorial-heading lowercase;
 }
 
 .section-header .view-all {
-  @apply text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-primary transition-colors flex items-center gap-2 mb-1 cursor-pointer;
+  @apply text-[10px] font-black uppercase tracking-widest text-gray-400 transition-colors flex items-center gap-2 mb-1 cursor-pointer;
+}
+
+.section-header .view-all:hover {
+  color: var(--primary);
 }
