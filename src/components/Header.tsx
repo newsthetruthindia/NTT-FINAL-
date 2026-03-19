@@ -55,7 +55,7 @@ export default function Header() {
           </div>
 
           <nav className="hidden lg:flex items-center gap-10">
-            {['India', 'World', 'Bengal', 'Politics', 'Business'].map((item) => (
+            {['India', 'World', 'Bengal', 'Politics'].map((item) => (
               <Link 
                 key={item} 
                 href={`/category/${item.toLowerCase()}`} 
@@ -67,7 +67,6 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-6">
-            <LanguageToggle />
             <button 
               onClick={() => setIsSearchOpen(true)}
               className="flex items-center gap-2 p-2 text-gray-700 hover:text-primary transition-colors duration-300"
