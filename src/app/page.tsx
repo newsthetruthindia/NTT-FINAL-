@@ -44,7 +44,7 @@ export default async function Home() {
       <Header />
       
       {/* Main Content Area - Reduced top padding to prevent "Massive Gap" */}
-      <div className="pt-[80px]">
+      <div className="pt-[130px]">
         {/* HERO SECTION - Col-8 / Col-4 Split */}
         <section className="py-8 px-4 md:px-8 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

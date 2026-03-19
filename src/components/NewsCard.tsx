@@ -63,7 +63,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
               {excerpt}
             </p>
           )}
-          <div className="flex items-center gap-4 text-gray-400 text-[9px] font-black uppercase tracking-widest">
+          <div className="flex items-center gap-4 text-gray-500 text-[9px] font-black uppercase tracking-widest">
             <span className="flex items-center gap-1.5 italic">
                 <span className="w-1.5 h-1.5 bg-primary/40 rounded-full" />
                 {formattedDate}
@@ -92,7 +92,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <h2 className="text-2xl lg:text-4xl font-black text-white mb-4 leading-[1.1] tracking-tight group-hover:text-primary transition-colors editorial-heading">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
-          <div className="flex items-center gap-4 text-white/60 text-xs font-heading font-bold uppercase tracking-widest">
+          <div className="flex items-center gap-4 text-white/70 text-xs font-heading font-bold uppercase tracking-widest">
             <span>{formattedDate}</span>
             <span className="w-1 h-1 bg-white/20 rounded-full"></span>
             <span>By NTT Desk</span>
@@ -126,7 +126,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           </p>
         )}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
-          <span className="text-[11px] font-extrabold text-gray-600 uppercase tracking-widest flex items-center gap-2 italic">
+          <span className="text-[11px] font-extrabold text-gray-500 uppercase tracking-widest flex items-center gap-2 italic">
             <span className="w-1 h-1 rounded-full bg-primary" />
             {formattedDate}
           </span>

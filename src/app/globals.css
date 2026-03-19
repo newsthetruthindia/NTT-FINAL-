@@ -114,8 +114,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-header .subtitle {
-  color: var(--primary);
-  @apply font-black uppercase tracking-[0.3em] text-[10px] md:text-[11px] block;
+  @apply text-gray-500 font-black uppercase tracking-[0.3em] text-[10px] md:text-[11px] block;
 }
 
 .section-header .title {
@@ -123,16 +122,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-header .title span {
-  color: var(--primary);
-  font-family: var(--font-lora), serif !important;
-  letter-spacing: -0.01em;
-  @apply italic lowercase;
+  @apply text-gray-900 italic editorial-heading lowercase;
 }
 
 .section-header .view-all {
-  @apply text-[10px] font-black uppercase tracking-widest text-gray-400 transition-colors flex items-center gap-2 mb-1 cursor-pointer;
+  @apply text-[10px] font-black uppercase tracking-widest text-gray-500 transition-colors flex items-center gap-2 mb-1 cursor-pointer;
 }
 
 .section-header .view-all:hover {
-  color: var(--primary);
+  @apply text-primary;
 }
