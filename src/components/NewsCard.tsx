@@ -40,36 +40,35 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   }
 
   if (variant === 'landscape') {
-
     return (
-      <div className="group flex flex-col lg:flex-row h-full w-full overflow-hidden rounded-[40px] shadow-2xl bg-white border border-gray-100 hover-lift">
-        <div className="lg:w-3/5 relative overflow-hidden h-[300px] lg:h-auto">
+      <div className="group flex flex-col sm:flex-row h-full w-full overflow-hidden rounded-[24px] md:rounded-[32px] shadow-lg hover:shadow-2xl bg-white border border-gray-100 transition-all duration-500 hover:-translate-y-1">
+        <div className="sm:w-[40%] relative overflow-hidden h-[180px] sm:h-auto">
           <img 
             src={displayImage} 
             alt={title}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
-          <div className="absolute top-8 left-8">
-            <span className="premium-gradient px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-white">
+          <div className="absolute top-4 left-4">
+            <span className="bg-primary/90 backdrop-blur-sm px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest text-white shadow-lg">
               {categoryName}
             </span>
           </div>
         </div>
-        <div className="lg:w-2/5 p-8 lg:p-12 flex flex-col justify-center">
-          <h2 className="text-2xl lg:text-4xl font-black text-gray-950 mb-4 leading-tight tracking-[calc(-0.02em)] group-hover:text-primary transition-colors decoration-primary/20 decoration-[6px] group-hover:underline underline-offset-8">
+        <div className="sm:w-[60%] p-5 md:p-6 flex flex-col justify-center">
+          <h2 className="text-lg lg:text-xl font-black text-gray-950 mb-3 leading-tight tracking-tight group-hover:text-primary transition-colors line-clamp-2">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           {excerpt && (
-            <p className="text-gray-500 text-sm mb-6 line-clamp-3 leading-relaxed font-medium">
+            <p className="text-gray-500 text-[11px] lg:text-xs mb-4 line-clamp-2 leading-relaxed font-medium">
               {excerpt}
             </p>
           )}
-          <div className="flex items-center gap-6 text-gray-400 text-xs font-black uppercase tracking-[0.1em]">
-            <span>{formattedDate}</span>
-            <div className="flex items-center gap-2 text-gray-900 italic">
-               <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-               By NTT Desk
-            </div>
+          <div className="flex items-center gap-4 text-gray-400 text-[9px] font-black uppercase tracking-widest">
+            <span className="flex items-center gap-1.5 italic">
+                <span className="w-1.5 h-1.5 bg-primary/40 rounded-full" />
+                {formattedDate}
+            </span>
+            <span className="text-gray-900 font-black">BY NTT DESK</span>
           </div>
         </div>
       </div>
