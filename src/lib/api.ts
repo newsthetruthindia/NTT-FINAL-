@@ -1,7 +1,12 @@
 // Version: 1.1.6 - Catch-all Proxy Migration
 // We use a Next.js catch-all route as a proxy to handle complex paths and query params
-const API_URL = '/api/proxy/vps/';
 const SITE_URL = 'http://117.252.16.132';
+const API_BASE = '/api/proxy/vps/';
+
+// Use absolute URL on server, relative on client
+const API_URL = typeof window === 'undefined' 
+  ? `${SITE_URL}/api/`
+  : API_BASE;
 
 export interface Post {
   id: number;
