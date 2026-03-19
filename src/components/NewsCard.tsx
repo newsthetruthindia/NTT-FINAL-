@@ -3,7 +3,7 @@ import { Post, getImageUrl } from '@/lib/api';
 
 interface NewsCardProps {
   post: Post;
-  variant?: 'hero' | 'standard' | 'landscape';
+  variant?: 'hero' | 'standard' | 'landscape' | 'compact';
 }
 
 export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) {
@@ -13,12 +13,34 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
     
   const displayImage = getImageUrl(thumbnails?.url);
   
-  // Use a fixed format or suppress hydration warning to avoid mismatches
   const formattedDate = created_at 
     ? new Date(created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
     : 'Recent';
 
+  if (variant === 'compact') {
+    return (
+      <div className="group flex items-center gap-4 p-3 bg-gray-50/50 hover:bg-white rounded-2xl transition-all duration-300 border border-transparent hover:border-gray-100 hover:shadow-lg">
+        <div className="w-20 h-20 flex-shrink-0 relative overflow-hidden rounded-xl shadow-sm">
+          <img 
+            src={displayImage} 
+            alt={title}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        </div>
+        <div className="flex-grow min-w-0">
+          <span className="text-[9px] font-black text-primary uppercase tracking-widest mb-1 d-block">
+            {categoryName}
+          </span>
+          <h5 className="text-sm font-black text-gray-950 leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+            <Link href={`/news/${slug}`}>{title}</Link>
+          </h5>
+        </div>
+      </div>
+    );
+  }
+
   if (variant === 'landscape') {
+
     return (
       <div className="group flex flex-col lg:flex-row h-full w-full overflow-hidden rounded-[40px] shadow-2xl bg-white border border-gray-100 hover-lift">
         <div className="lg:w-3/5 relative overflow-hidden h-[300px] lg:h-auto">
