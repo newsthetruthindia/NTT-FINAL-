@@ -64,20 +64,31 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
                 </div>
               )}
             </div>
-            <div className="mt-6 md:mt-8">
-                <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 border border-primary/20">Playing Now</span>
-                <h3 className="text-2xl md:text-3xl font-black text-white group-hover:text-primary transition-colors leading-[1.2]">{activeVideo?.title}</h3>
+            <div className="mt-6 md:mt-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                <div className="flex-1">
+                    <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 border border-primary/20">Playing Now</span>
+                    <h3 className="text-2xl md:text-3xl font-black text-white group-hover:text-primary transition-colors leading-[1.2]">{activeVideo?.title}</h3>
+                </div>
+                <a 
+                    href="https://youtube.com/@NTTBENGAL" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="shrink-0 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-primary transition-colors mb-2"
+                >
+                    View Project on YouTube
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </a>
             </div>
           </div>
 
-          {/* Playlist - Fixed Height with custom scrollbar */}
-          <div className="lg:col-span-4 h-full flex flex-col">
+          {/* Playlist - Strictly Fixed Height to match video */}
+          <div className="lg:col-span-4 flex flex-col max-h-[600px]">
             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 border-b border-white/10 pb-4 mb-6 flex items-center justify-between">
               Latest Broadcasts
               <span className="text-[9px] bg-white/5 px-2 py-0.5 rounded-full">{videos.length} Videos</span>
             </h4>
             
-            <div className="flex-1 lg:h-[420px] overflow-y-auto pr-4 space-y-4 custom-scrollbar">
+            <div className="overflow-y-auto pr-4 space-y-4 custom-scrollbar lg:max-h-[520px]">
               {videos.map((video) => (
                 <button 
                   key={video.id} 
