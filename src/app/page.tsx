@@ -36,9 +36,9 @@ export default async function Home() {
       <Header />
       
       {/* Main Content Area */}
-      <div className="pt-20">
+      <div className="pt-[116px]">
         {/* Hero Section - LANDSCAPE */}
-        <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
+        <section className={`py-12 px-4 md:px-8 max-w-7xl mx-auto ${!heroPost ? 'hidden' : ''}`}>
         <div className="flex flex-col gap-12">
           {/* Main Landscape Hero */}
           <div className="w-full">
@@ -60,8 +60,9 @@ export default async function Home() {
       </section>
 
       {/* Featured Categories / Tags Bar */}
-      <section className="py-8 bg-gray-50 border-y border-gray-100">
-        <div className="max-w-7xl mx-auto px-8 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-4">
+      {tags.length > 0 && (
+        <section className="py-8 bg-gray-50 border-y border-gray-100">
+          <div className="max-w-7xl mx-auto px-8 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-4">
           <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 self-center mr-4">Trending Tags:</span>
           {tags.slice(0, 10).map((tag: any) => (
             <span key={tag.id} className="bg-white px-5 py-2 rounded-full text-xs font-bold text-gray-700 border border-gray-200 hover:border-primary hover:text-primary transition-all cursor-pointer shadow-sm">
@@ -70,9 +71,10 @@ export default async function Home() {
           ))}
         </div>
       </section>
+      )}
 
       {/* Latest News Section */}
-      <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+      <section className={`py-20 px-4 md:px-8 max-w-7xl mx-auto ${latestPosts.length === 0 ? 'hidden' : ''}`}>
         <div className="flex justify-between items-end mb-16 underline-title">
           <div>
             <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] mb-2 block">Breaking Now</span>
@@ -91,10 +93,10 @@ export default async function Home() {
       </section>
 
       {/* YouTube Video Section */}
-      <VideoGallery videos={videos} />
+      {videos.length > 0 && <VideoGallery videos={videos} />}
 
       {/* YouTube Reels Section */}
-      <ReelGallery reels={reels} />
+      {reels.length > 0 && <ReelGallery reels={reels} />}
 
       {/* Category Section: Politics */}
       {politicsPosts.length > 0 && (

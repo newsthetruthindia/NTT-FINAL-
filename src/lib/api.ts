@@ -36,14 +36,21 @@ export interface Post {
 }
 
 const handleResponse = (json: any) => {
+  if (!json) return [];
+  
   // 1. Handle paginated structure { data: { data: [...] } }
   if (json?.data?.data && Array.isArray(json.data.data)) return json.data.data;
-  // 2. Handle wrapped structure { data: [...] }
+  // 2. Handle wrapped structure { data: [...] } OR { news: [...] } etc
   if (json?.data && Array.isArray(json.data)) return json.data;
-  // 3. Handle raw array [...]
+  // 3. Handle successful response with data wrapped differently
+  if (json?.posts && Array.isArray(json.posts)) return json.posts;
+  if (json?.results && Array.isArray(json.results)) return json.results;
+  
+  // 4. Handle raw array [...]
   if (Array.isArray(json)) return json;
-  // 4. Handle single object (wrapped or raw)
-  if (json?.data && typeof json.data === 'object' && !Array.isArray(json.data)) return [json.data];
+  
+  // 5. Handle single object (wrapped or raw)
+  if (json?.data && typeof json.data === 'object' && !Array.isArray(json.data) && json.data.id) return [json.data];
   if (json && typeof json === 'object' && !Array.isArray(json) && json.id) return [json];
   
   return [];
