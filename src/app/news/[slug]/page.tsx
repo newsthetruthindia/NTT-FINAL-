@@ -7,6 +7,7 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 import AISummary from '@/components/AISummary'
 import AudioPlayer from '@/components/AudioPlayer'
 import ShareCard from '@/components/ShareCard'
+import ReadingProgress from '@/components/ReadingProgress'
 
 // Final build trigger
 export const dynamic = 'force-dynamic'
@@ -57,6 +58,7 @@ export default async function NewsDetails({
     return (
       <main className="min-h-screen bg-white">
         <Header />
+        <ReadingProgress />
         
         <article className="pt-28 pb-16 max-w-7xl mx-auto">
           <div className="max-w-4xl mx-auto px-4 mb-8">

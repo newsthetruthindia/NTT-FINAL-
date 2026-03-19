@@ -10,14 +10,12 @@ import { useAuth } from './AuthProvider';
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [progress, setProgress] = useState(0);
   const lastScrollY = useRef(0);
   const { user, logout, isLoading } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       
       const diff = currentScrollY - lastScrollY.current;
       
@@ -30,11 +28,6 @@ export default function Header() {
       }
       
       lastScrollY.current = currentScrollY;
-
-      if (scrollHeight > 0) {
-        const p = Math.min(100, Math.max(0, (currentScrollY / scrollHeight) * 100));
-        setProgress(p);
-      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -118,13 +111,6 @@ export default function Header() {
               )
             )}
           </div>
-        </div>
-        
-        <div className="absolute bottom-0 left-0 h-1 bg-primary/20 w-full overflow-hidden">
-          <div 
-            className="h-full bg-primary transition-all duration-150 ease-out" 
-            style={{ width: `${progress}%` }}
-          />
         </div>
       </header>
 

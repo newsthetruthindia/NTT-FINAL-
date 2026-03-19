@@ -21,16 +21,26 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #000000; /* True Black for OLED */
+    --foreground: #f3f4f6; /* gray-100 */
+    --card: #0a0a0a;
+    --border: #1f2937;
+    --secondary: #9ca3af;
   }
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
 }
 
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #ffffff !important;
+  background-color: var(--background) !important;
   background-image: none !important; 
+  transition: background-color 0.5s ease;
   background-attachment: scroll !important;
   background-clip: border-box !important;
   background-origin: padding-box !important;
