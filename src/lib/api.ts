@@ -184,3 +184,15 @@ export const searchPosts = async (query: string, limit = 20): Promise<Post[]> =>
     return [];
   }
 };
+
+export const fetchArchivePosts = async (date: string, limit = 20): Promise<Post[]> => {
+  try {
+    const res = await fetch(`${API_URL}posts/archive?date=${date}&limit=${limit}`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    if (json.data && json.data.data) return json.data.data;
+    return json.data ?? [];
+  } catch {
+    return [];
+  }
+};

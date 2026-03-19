@@ -48,11 +48,11 @@ export default function Header() {
           </div>
 
           <nav className="hidden lg:flex items-center gap-10">
-            {['India', 'World', 'Bengal', 'Politics'].map((item) => (
+            {['India', 'World', 'Bengal', 'Politics', 'Archive'].map((item) => (
               <Link 
                 key={item} 
-                href={`/category/${item.toLowerCase()}`} 
-                className="text-[12px] font-extrabold uppercase tracking-[0.25em] text-gray-700 hover:text-primary transition-all duration-300 hover:scale-105"
+                href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`} 
+                className={`text-[12px] font-extrabold uppercase tracking-[0.25em] transition-all duration-300 hover:scale-105 ${item === 'Archive' ? 'text-primary' : 'text-gray-700 hover:text-primary'}`}
               >
                 {item}
               </Link>
