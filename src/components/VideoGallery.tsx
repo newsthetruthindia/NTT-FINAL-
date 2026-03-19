@@ -21,7 +21,7 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
   if (videos.length === 0) return null;
 
   return (
-    <section className="py-20 bg-gray-950 text-white rounded-[60px] my-20 mx-4 md:mx-8 overflow-hidden shadow-2xl">
+    <section className="py-20 bg-gray-950 text-white rounded-[60px] my-10 mx-4 md:mx-8 overflow-hidden shadow-2xl">
       <div className="max-w-7xl mx-auto px-8">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-16 gap-8">
           <div>
@@ -38,15 +38,19 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
           {/* Featured Video */}
           <div className="lg:col-span-2 group">
             <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-white/5 bg-black">
-              {activeVideo && (
+              {activeVideo ? (
                 <iframe 
-                  src={`https://www.youtube.com/embed/${activeVideo.youtube_id}`}
+                  key={activeVideo.youtube_id}
+                  src={`https://www.youtube.com/embed/${activeVideo.youtube_id}?rel=0&modestbranding=1`}
                   className="w-full h-full"
                   title={activeVideo.title}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 ></iframe>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-white/20">
+                  <span className="animate-pulse">Loading Video Player...</span>
+                </div>
               )}
             </div>
             <h3 className="text-2xl font-bold mt-8 text-white/90 group-hover:text-primary transition-colors">{activeVideo?.title}</h3>

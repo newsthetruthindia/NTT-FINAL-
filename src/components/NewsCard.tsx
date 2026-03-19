@@ -34,11 +34,11 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           </div>
         </div>
         <div className="lg:w-2/5 p-8 lg:p-12 flex flex-col justify-center">
-          <h2 className="text-3xl lg:text-5xl font-black text-gray-950 mb-6 leading-tight tracking-[calc(-0.02em)] group-hover:text-primary transition-colors decoration-primary/20 decoration-[6px] group-hover:underline underline-offset-8">
+          <h2 className="text-2xl lg:text-4xl font-black text-gray-950 mb-4 leading-tight tracking-[calc(-0.02em)] group-hover:text-primary transition-colors decoration-primary/20 decoration-[6px] group-hover:underline underline-offset-8">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           {excerpt && (
-            <p className="text-gray-500 text-lg mb-8 line-clamp-3 leading-relaxed font-medium">
+            <p className="text-gray-500 text-sm mb-6 line-clamp-3 leading-relaxed font-medium">
               {excerpt}
             </p>
           )}
@@ -68,7 +68,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
               {categoryName}
             </span>
           </div>
-          <h2 className="text-3xl lg:text-5xl font-heading font-black text-white mb-4 leading-[1.1] tracking-tight group-hover:underline underline-offset-8 decoration-primary decoration-4">
+          <h2 className="text-2xl lg:text-4xl font-heading font-black text-white mb-4 leading-[1.1] tracking-tight group-hover:underline underline-offset-8 decoration-primary decoration-4">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           <div className="flex items-center gap-4 text-white/60 text-xs font-heading font-bold uppercase tracking-widest">

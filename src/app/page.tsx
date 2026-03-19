@@ -38,7 +38,7 @@ export default async function Home() {
       {/* Main Content Area */}
       <div className="pt-[116px]">
         {/* Hero Section - LANDSCAPE */}
-        <section className={`py-12 px-4 md:px-8 max-w-7xl mx-auto ${!heroPost ? 'hidden' : ''}`}>
+        <section className={`py-6 px-4 md:px-8 max-w-7xl mx-auto ${!heroPost ? 'hidden' : ''}`}>
         <div className="flex flex-col gap-12">
           {/* Main Landscape Hero */}
           <div className="w-full">
@@ -74,8 +74,8 @@ export default async function Home() {
       )}
 
       {/* Latest News Section */}
-      <section className={`py-20 px-4 md:px-8 max-w-7xl mx-auto ${latestPosts.length === 0 ? 'hidden' : ''}`}>
-        <div className="flex justify-between items-end mb-16 underline-title">
+      <section className={`py-12 px-4 md:px-8 max-w-7xl mx-auto ${latestPosts.length === 0 ? 'hidden' : ''}`}>
+        <div className="flex justify-between items-end mb-12 underline-title">
           <div>
             <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] mb-2 block">Breaking Now</span>
             <h2 className="text-5xl font-black text-gray-950 uppercase tracking-tighter">The <span className="text-primary">Latest</span> Reports</h2>
@@ -100,8 +100,8 @@ export default async function Home() {
 
       {/* Category Section: Politics */}
       {politicsPosts.length > 0 && (
-        <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto border-t border-gray-100">
-           <div className="mb-12">
+        <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto border-t border-gray-100">
+           <div className="mb-10">
             <h3 className="text-3xl font-black text-gray-950 border-l-8 border-primary pl-6 uppercase">In the World of <span className="text-primary">Politics</span></h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -114,7 +114,7 @@ export default async function Home() {
 
       {/* Category Section: West Bengal */}
       {statePosts.length > 0 && (
-        <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto border-t border-gray-100">
+        <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto border-t border-gray-100">
            <div className="mb-12">
             <h3 className="text-3xl font-black text-gray-950 border-l-8 border-primary pl-6 uppercase">West Bengal <span className="text-primary">Special</span></h3>
           </div>
