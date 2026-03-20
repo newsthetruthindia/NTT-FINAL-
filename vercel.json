@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/vps-api/:path*",
-      "destination": "https://newsthetruth.com/api/:path*"
+      "destination": "http://117.252.16.132/api/:path*"
     }
   ]
 }
