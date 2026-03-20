@@ -19,7 +19,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
 
   if (variant === 'compact') {
     return (
-      <div className="group flex items-center gap-4 p-3 bg-gray-50/50 hover:bg-white rounded-2xl transition-all duration-300 border border-transparent hover:border-gray-100 hover:shadow-lg">
+      <div className="group flex items-center gap-4 p-3 bg-card/50 hover:bg-card rounded-2xl transition-all duration-300 border border-transparent hover:border-border hover:shadow-lg">
         <div className="w-20 h-20 flex-shrink-0 relative overflow-hidden rounded-xl shadow-sm">
           <img 
             src={displayImage} 
@@ -41,7 +41,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
 
   if (variant === 'landscape') {
     return (
-      <div className="group flex flex-col sm:flex-row h-full w-full overflow-hidden rounded-[24px] md:rounded-[32px] bg-white border border-gray-100 hover-lift">
+      <div className="group flex flex-col sm:flex-row h-full w-full overflow-hidden rounded-[24px] md:rounded-[32px] bg-card border border-border hover-lift">
         <div className="sm:w-[40%] relative overflow-hidden h-[180px] sm:h-auto">
           <img 
             src={displayImage} 
@@ -103,7 +103,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   }
 
   return (
-    <div className="group flex flex-col hover-lift bg-white rounded-[32px] overflow-hidden border border-gray-100 h-full transition-all duration-500">
+    <div className="group flex flex-col hover-lift bg-card rounded-[32px] overflow-hidden border border-border h-full transition-all duration-500">
       <div className="relative aspect-[16/10] overflow-hidden">
         <img 
           src={displayImage} 
@@ -111,7 +111,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute top-5 left-5">
-          <span className="bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-primary shadow-sm border border-gray-100">
+          <span className="bg-card/95 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-primary shadow-sm border border-border">
             {categoryName}
           </span>
         </div>

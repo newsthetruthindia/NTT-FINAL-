@@ -60,7 +60,7 @@ export default function AudioPlayer({ text }: AudioPlayerProps) {
   };
 
   return (
-    <div className="mb-10 bg-white border-2 border-primary/5 rounded-[32px] p-6 shadow-xl shadow-primary/5 group transition-all duration-500 hover:border-primary/20">
+    <div className="mb-10 bg-card border-2 border-primary/5 rounded-[32px] p-6 shadow-xl shadow-primary/5 group transition-all duration-500 hover:border-primary/20">
       <div className="flex items-center justify-between gap-6">
         <div className="flex items-center gap-6 flex-grow">
           <button 

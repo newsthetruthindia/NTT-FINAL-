@@ -32,7 +32,7 @@ export default function Search({ isOpen, onClose }: SearchProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-white/98 backdrop-blur-2xl transition-all duration-500 flex flex-col">
+    <div className="fixed inset-0 z-[100] bg-background/98 backdrop-blur-2xl transition-all duration-500 flex flex-col">
       <div className="container mx-auto max-w-7xl px-4 pt-12">
         <div className="flex justify-end mb-12">
           <button 

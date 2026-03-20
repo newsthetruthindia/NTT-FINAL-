@@ -40,7 +40,7 @@ export default async function Home() {
   const statePosts = await fetchCategoryPosts('west-bengal', 4);
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
       <Header />
       
       {/* Main Content Area - Reduced top padding to prevent "Massive Gap" */}
@@ -77,7 +77,7 @@ export default async function Home() {
 
         {/* Trending Tags Bar - Redesigned for Premium Look */}
         {tags.length > 0 && (
-          <section className="py-4 bg-white border-y border-gray-100 overflow-hidden relative">
+          <section className="py-4 bg-background border-y border-border overflow-hidden relative transition-colors duration-500">
             <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center gap-6">
               <div className="flex items-center gap-2 shrink-0 border-r border-gray-100 pr-6 mr-2">
                 <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>

@@ -1,7 +1,7 @@
 import { getImageUrl } from '@/lib/api';
 
 export default function DiagnosePage() {
-  const testUrl = 'http://117.252.16.132/public/uploads/test.jpg'; // Assuming the user intended to keep the full URL or change it to a valid one, not the malformed 'publ'
+  const testUrl = 'https://newsthetruth.com/public/uploads/test.jpg';
   const proxied = getImageUrl(testUrl);
   
   return (

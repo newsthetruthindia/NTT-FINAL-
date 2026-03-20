@@ -6,6 +6,11 @@
   --font-serif: var(--font-lora);
   --color-primary: #8c0000;
   --color-primary-dark: #700000;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-secondary: var(--secondary);
 }
 
 :root {
@@ -13,19 +18,38 @@
   --foreground: #111827;
   --primary: #8c0000;
   --primary-dark: #700000;
-  --secondary: #374151; /* Darker secondary */
+  --secondary: #374151;
   --accent: #f9fafb;
   --card: #ffffff;
   --border: #f3f4f6;
+  --ntt-glass-bg: rgba(255, 255, 255, 0.85);
+  --ntt-glass-border: rgba(255, 255, 255, 0.4);
 }
 
+/* Manual Dark Mode Class */
+.dark {
+  --background: #000000;
+  --foreground: #f3f4f6;
+  --primary: #8c0000;
+  --primary-dark: #a00000;
+  --secondary: #9ca3af;
+  --accent: #111827;
+  --card: #050505;
+  --border: #1f2937;
+  --ntt-glass-bg: rgba(0, 0, 0, 0.8);
+  --ntt-glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* System Preference Fallback */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000; /* True Black for OLED */
-    --foreground: #f3f4f6; /* gray-100 */
-    --card: #0a0a0a;
+  :root:not(.light) {
+    --background: #000000;
+    --foreground: #f3f4f6;
+    --card: #050505;
     --border: #1f2937;
     --secondary: #9ca3af;
+    --ntt-glass-bg: rgba(0, 0, 0, 0.8);
+    --ntt-glass-border: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -35,11 +59,12 @@
   transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background-color: var(--background) !important;
-  background-image: none !important; 
+  background-image: none !important;
   transition: background-color 0.5s ease;
   background-attachment: scroll !important;
   background-clip: border-box !important;
@@ -50,8 +75,10 @@ html, body {
   overflow-x: hidden;
 }
 
-html::before, html::after, 
-body::before, body::after {
+html::before,
+html::after,
+body::before,
+body::after {
   display: none !important;
   content: none !important;
   background: none !important;
@@ -76,7 +103,12 @@ body {
   margin-right: auto;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   letter-spacing: -0.03em;
   font-weight: 800;
@@ -84,9 +116,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .article-content {
   font-family: var(--font-poppins), system-ui, sans-serif !important;
-  font-size: 1.125rem; /* Clean text sizing */
+  font-size: 1.125rem;
+  /* Clean text sizing */
   line-height: 1.8;
-  color: #1f2937; /* Softer dark gray contrast */
+  color: #1f2937;
+  /* Softer dark gray contrast */
   font-weight: 400;
   text-rendering: optimizeLegibility;
 }
@@ -132,7 +166,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-header .title span {
-  color: #111827; /* gray-900 */
+  color: #111827;
+  /* gray-900 */
   font-family: var(--font-lora), serif !important;
   letter-spacing: -0.01em;
   @apply italic lowercase;

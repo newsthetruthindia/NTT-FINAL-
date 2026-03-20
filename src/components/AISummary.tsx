@@ -17,7 +17,7 @@ export default function AISummary({ content }: AISummaryProps) {
   ];
 
   return (
-    <div className="rounded-[32px] overflow-hidden border border-gray-100 transition-all duration-500 hover:border-primary/20 bg-white">
+    <div className="rounded-[32px] overflow-hidden border border-border transition-all duration-500 hover:border-primary/20 bg-card">
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-8 py-6 flex items-center justify-between group text-left"

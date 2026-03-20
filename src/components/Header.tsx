@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import Search from './Search';
 import LanguageToggle from './LanguageToggle';
+import ThemeToggle from './ThemeToggle';
 import LiveTicker from './LiveTicker';
 import { useAuth } from './AuthProvider';
 
@@ -16,9 +17,9 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       const diff = currentScrollY - lastScrollY.current;
-      
+
       if (currentScrollY < 50) {
         setIsVisible(true);
       } else if (diff > 10) { // Scrolling down
@@ -26,7 +27,7 @@ export default function Header() {
       } else if (diff < -10) { // Scrolling up
         setIsVisible(true);
       }
-      
+
       lastScrollY.current = currentScrollY;
     };
 
@@ -36,12 +37,12 @@ export default function Header() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 transition-transform duration-500 ease-in-out shadow-sm ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border transition-transform duration-500 ease-in-out shadow-sm ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <LiveTicker />
         <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl">
           <div className="shrink-0">
             <Link href="/" className="flex items-center group">
-              <span className="text-3xl font-black tracking-tighter text-gray-900 group-hover:text-primary transition-colors duration-300">
+              <span className="text-3xl font-black tracking-tighter text-foreground group-hover:text-primary transition-colors duration-300">
                 NTT<span className="text-primary text-4xl">.</span>
               </span>
             </Link>
@@ -49,9 +50,9 @@ export default function Header() {
 
           <nav className="hidden lg:flex items-center gap-10">
             {['India', 'World', 'Bengal', 'Politics', 'Archive'].map((item) => (
-              <Link 
-                key={item} 
-                href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`} 
+              <Link
+                key={item}
+                href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`}
                 className={`text-[12px] font-extrabold uppercase tracking-[0.25em] transition-all duration-300 hover:scale-105 ${item === 'Archive' ? 'text-primary' : 'text-gray-700 hover:text-primary'}`}
               >
                 {item}
@@ -60,7 +61,7 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-6">
-            <button 
+            <button
               onClick={() => setIsSearchOpen(true)}
               className="flex items-center gap-2 p-2 text-gray-700 hover:text-primary transition-colors duration-300"
               aria-label="Search"
@@ -68,10 +69,10 @@ export default function Header() {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              <span className="hidden xl:block text-[11px] font-black uppercase tracking-widest">Search</span>
+              <span className="hidden xl:block text-[11px] font-black uppercase tracking-widest text-foreground">Search</span>
             </button>
-            <Link 
-              href="/report" 
+            <Link
+              href="/report"
               className="hidden md:flex items-center gap-2 group/btn"
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -80,13 +81,18 @@ export default function Header() {
               </span>
             </Link>
 
+            <div className="flex items-center gap-4 border-l border-gray-100 pl-6 ml-2 uppercase">
+              <LanguageToggle />
+              <ThemeToggle />
+            </div>
+
             {!isLoading && (
               user ? (
                 <>
                   <div className="hidden sm:block text-[12px] font-extrabold uppercase tracking-widest text-gray-700">
                     {user.firstname}
                   </div>
-                  <button 
+                  <button
                     onClick={logout}
                     className="px-8 py-3 bg-gray-900 hover:bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg transition-all duration-300 hover:-translate-y-1 active:scale-95"
                   >
@@ -95,14 +101,14 @@ export default function Header() {
                 </>
               ) : (
                 <>
-                  <Link 
-                    href="/login" 
+                  <Link
+                    href="/login"
                     className="hidden sm:block text-[12px] font-extrabold uppercase tracking-widest text-gray-700 hover:text-primary transition-colors duration-300"
                   >
                     Login
                   </Link>
-                  <Link 
-                    href="/register" 
+                  <Link
+                    href="/register"
                     className="px-8 py-3 premium-gradient text-white text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 active:scale-95"
                   >
                     Register

@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-950 text-gray-400 py-16">
+    <footer className="bg-background text-gray-400 py-16 border-t border-border transition-colors duration-500">
       <div className="container mx-auto px-4 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="md:col-span-1">
@@ -51,7 +51,7 @@ export default function Footer() {
             <h4 className="font-heading font-bold uppercase tracking-widest text-xs mb-6 text-white">Staff</h4>
             <ul className="space-y-4 text-sm">
               <li>
-                <a href="http://117.252.16.132/admin" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors flex items-center gap-2 font-black uppercase tracking-widest text-[10px]">
+                <a href="https://newsthetruth.com/admin" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors flex items-center gap-2 font-black uppercase tracking-widest text-[10px]">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                   Backend Access
                 </a>

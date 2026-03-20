@@ -73,17 +73,17 @@ export default async function NewsDetails({
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-[80px] font-black text-gray-950 mb-8 leading-[1.05] tracking-tight antialiased">
+            <h1 className="text-4xl md:text-[80px] font-black text-foreground mb-8 leading-[1.05] tracking-tight antialiased">
               {post.title}
             </h1>
 
-            <div className="flex items-center justify-between py-8 border-y border-gray-100 mb-8">
+            <div className="flex items-center justify-between py-8 border-y border-border mb-8">
               <div className="flex items-center gap-6">
                 <div className="w-16 h-16 rounded-full bg-gray-900 flex items-center justify-center text-white font-black text-xl shadow-2xl shadow-gray-200 ring-4 ring-white">
                   NTT
                 </div>
                 <div>
-                  <p className="text-base font-black text-gray-950">By NTT Desk</p>
+                  <p className="text-base font-black text-foreground">By NTT Desk</p>
                   <p className="text-[11px] text-gray-700 uppercase tracking-[0.2em] font-extrabold flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                     {postDateFormatted} • {readingTime} min read
@@ -94,7 +94,7 @@ export default async function NewsDetails({
           </div>
 
           <div className="max-w-6xl mx-auto px-4 mb-12">
-            <div className="aspect-[21/10] rounded-[64px] overflow-hidden shadow-[0_48px_80px_-24px_rgba(0,0,0,0.18)] bg-gray-50 border border-gray-100">
+            <div className="aspect-[21/10] rounded-[64px] overflow-hidden shadow-[0_48px_80px_-24px_rgba(0,0,0,0.18)] bg-card border border-border">
               <img 
                 src={displayImage}
                 alt={post.title}
@@ -116,10 +116,10 @@ export default async function NewsDetails({
           </div>
         </article>
 
-        <section className="bg-gray-50 py-24 px-4">
+        <section className="bg-card py-24 px-4 transition-colors duration-500 border-t border-border">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-16">
-              <h2 className="text-4xl font-black text-gray-900 tracking-tight">Recommended for you</h2>
+              <h2 className="text-4xl font-black text-foreground tracking-tight">Recommended for you</h2>
               <div className="h-1 flex-grow mx-8 bg-gray-200/50 rounded-full" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
