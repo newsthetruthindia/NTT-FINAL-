@@ -79,7 +79,7 @@ export default function AudioPlayer({ text }: AudioPlayerProps) {
           </button>
           
           <div className="flex-grow">
-            <h4 className="text-gray-950 font-black uppercase tracking-widest text-[11px] mb-2 flex items-center gap-2">
+            <h4 className="text-foreground font-black uppercase tracking-widest text-[11px] mb-2 flex items-center gap-2">
               <span className="w-2 h-2 bg-primary rounded-full animate-ping" />
               Listen to story
             </h4>

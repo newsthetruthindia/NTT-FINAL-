@@ -63,7 +63,7 @@ export default function Newsletter() {
                   />
                   <button 
                     disabled={status === 'loading'}
-                    className="absolute right-2 top-2 bottom-2 px-10 bg-white hover:bg-primary hover:text-white text-gray-950 font-black uppercase tracking-widest text-[11px] rounded-full transition-all duration-300 disabled:opacity-50"
+                    className="absolute right-2 top-2 bottom-2 px-10 bg-white hover:bg-primary hover:text-white text-gray-950 font-black uppercase tracking-widest text-[11px] rounded-full transition-all duration-300 disabled:opacity-50 shadow-lg"
                   >
                     {status === 'loading' ? 'Joining...' : 'Subscribe'}
                   </button>

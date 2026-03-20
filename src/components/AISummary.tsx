@@ -29,7 +29,7 @@ export default function AISummary({ content }: AISummaryProps) {
             </svg>
           </div>
           <div>
-            <h3 className="text-[11px] font-black uppercase tracking-widest text-gray-950">AI Summary</h3>
+            <h3 className="text-[11px] font-black uppercase tracking-widest text-foreground">AI Summary</h3>
             <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Powered by NTT Intelligence</p>
           </div>
         </div>

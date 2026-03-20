@@ -76,7 +76,7 @@ export default function Header() {
               className="hidden md:flex items-center gap-2 group/btn"
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-[11px] font-black uppercase tracking-widest text-gray-950 group-hover/btn:text-primary transition-colors">
+              <span className="text-[11px] font-black uppercase tracking-widest text-foreground group-hover/btn:text-primary transition-colors">
                 Report News
               </span>
             </Link>

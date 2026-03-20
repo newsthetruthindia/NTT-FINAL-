@@ -31,7 +31,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <span className="text-[9px] font-black text-primary uppercase tracking-widest mb-1 d-block">
             {categoryName}
           </span>
-          <h5 className="text-sm font-black text-gray-950 leading-tight line-clamp-2 group-hover:text-primary transition-colors editorial-heading">
+          <h5 className="text-sm font-black text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors editorial-heading">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h5>
         </div>
@@ -55,20 +55,20 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           </div>
         </div>
         <div className="sm:w-[60%] p-5 md:p-6 flex flex-col justify-center">
-          <h2 className="text-lg lg:text-xl font-black text-gray-950 mb-3 leading-tight tracking-tight group-hover:text-primary transition-colors line-clamp-2 editorial-heading">
+          <h2 className="text-lg lg:text-xl font-black text-foreground mb-3 leading-tight tracking-tight group-hover:text-primary transition-colors line-clamp-2 editorial-heading">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           {excerpt && (
-            <p className="text-gray-500 text-[11px] lg:text-xs mb-4 line-clamp-2 leading-relaxed font-medium">
+            <p className="text-foreground/60 text-[11px] lg:text-xs mb-4 line-clamp-2 leading-relaxed font-medium">
               {excerpt}
             </p>
           )}
-          <div className="flex items-center gap-4 text-gray-500 text-[9px] font-black uppercase tracking-widest">
+          <div className="flex items-center gap-4 text-foreground/50 text-[9px] font-black uppercase tracking-widest">
             <span className="flex items-center gap-1.5 italic">
                 <span className="w-1.5 h-1.5 bg-primary/40 rounded-full" />
                 {formattedDate}
             </span>
-            <span className="text-gray-900 font-black">BY NTT DESK</span>
+            <span className="text-foreground/80 font-black">BY NTT DESK</span>
           </div>
         </div>
       </div>
@@ -117,22 +117,22 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
         </div>
       </div>
       <div className="p-7 flex flex-col flex-grow">
-        <h3 className="text-xl md:text-2xl font-black text-gray-950 leading-tight mb-4 group-hover:text-primary transition-colors line-clamp-2 editorial-heading">
+        <h3 className="text-xl md:text-2xl font-black text-foreground leading-tight mb-4 group-hover:text-primary transition-colors line-clamp-2 editorial-heading">
           <Link href={`/news/${slug}`}>{title}</Link>
         </h3>
         {excerpt && (
-          <p className="text-gray-500 text-sm mb-6 line-clamp-3 leading-relaxed">
+          <p className="text-foreground/60 text-sm mb-6 line-clamp-3 leading-relaxed">
             {excerpt}
           </p>
         )}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
-          <span className="text-[11px] font-extrabold text-gray-500 uppercase tracking-widest flex items-center gap-2 italic">
+          <span className="text-[11px] font-extrabold text-foreground/50 uppercase tracking-widest flex items-center gap-2 italic">
             <span className="w-1 h-1 rounded-full bg-primary" />
             {formattedDate}
           </span>
           <Link 
             href={`/news/${post.slug}`}
-            className="text-[11px] font-black text-gray-900 group-hover:text-primary transition-colors flex items-center gap-2 uppercase tracking-widest"
+            className="text-[11px] font-black text-foreground group-hover:text-primary transition-colors flex items-center gap-2 uppercase tracking-widest"
           >
             Read Story
             <svg className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

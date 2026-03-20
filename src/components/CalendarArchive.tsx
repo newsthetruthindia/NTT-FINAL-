@@ -52,7 +52,7 @@ export default function CalendarArchive() {
       <div className="flex items-center justify-between mb-8">
         <div className="flex flex-col gap-1">
           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Browse History</span>
-          <h3 className="text-3xl font-black text-gray-950 tracking-tighter uppercase">
+          <h3 className="text-3xl font-black text-foreground tracking-tighter uppercase">
             {monthName} <span className="text-primary italic lowercase font-serif font-normal">{year}</span>
           </h3>
         </div>

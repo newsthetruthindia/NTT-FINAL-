@@ -47,7 +47,7 @@ export default function ShareCard({ title, quote }: ShareCardProps) {
         <div className="flex flex-wrap gap-4">
           <button 
             onClick={handleCopy}
-            className="flex items-center gap-3 px-8 py-4 bg-white rounded-full text-gray-950 text-[11px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300 active:scale-95 shadow-xl shadow-black/20"
+            className="flex items-center gap-3 px-8 py-4 bg-white rounded-full text-black text-[11px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300 active:scale-95 shadow-xl shadow-black/20"
           >
             {copied ? 'Link Copied!' : 'Copy Link'}
             {!copied && (

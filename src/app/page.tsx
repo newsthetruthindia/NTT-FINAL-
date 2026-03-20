@@ -63,7 +63,7 @@ export default async function Home() {
             {/* Trending Sidebar (Col-4) */}
             <div className="lg:col-span-4 flex flex-col gap-4">
               <div className="flex items-center justify-between mb-2">
-                <h4 className="text-xs font-black uppercase tracking-[0.2em] text-gray-950 border-l-4 border-primary pl-3">Trending Now</h4>
+                <h4 className="text-xs font-black uppercase tracking-[0.2em] text-foreground border-l-4 border-primary pl-3">Trending Now</h4>
                 <span className="text-[10px] font-bold text-gray-400 uppercase cursor-pointer hover:text-primary transition-colors">View All</span>
               </div>
               <div className="flex flex-col gap-3">
@@ -81,14 +81,14 @@ export default async function Home() {
             <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center gap-6">
               <div className="flex items-center gap-2 shrink-0 border-r border-gray-100 pr-6 mr-2">
                 <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Trending Now</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/60">Trending Now</span>
               </div>
               
               <div className="flex-1 overflow-x-auto whitespace-nowrap py-2 flex gap-3 scroll-smooth no-scrollbar select-none">
                 {tags.slice(0, 12).map((tag: any) => (
                   <button 
                     key={tag.id} 
-                    className="bg-gray-50 hover:bg-primary px-5 py-2 rounded-full text-[11px] font-bold text-gray-600 hover:text-white border border-gray-100 hover:border-primary transition-all duration-300 shadow-sm hover:shadow-primary/20 active:scale-95 flex items-center gap-2 group"
+                    className="bg-card hover:bg-primary px-5 py-2 rounded-full text-[11px] font-bold text-foreground/80 hover:text-white border border-border hover:border-primary transition-all duration-300 shadow-sm hover:shadow-primary/20 active:scale-95 flex items-center gap-2 group"
                   >
                     <span className="text-primary group-hover:text-white/60 transition-colors">#</span>
                     {tag.title}
@@ -97,7 +97,7 @@ export default async function Home() {
               </div>
 
               {/* Fading edge indicator */}
-              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10 hidden md:block"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent pointer-events-none z-10 hidden md:block"></div>
             </div>
           </section>
         )}
@@ -221,7 +221,7 @@ export default async function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {politicsPosts.length > 0 && (
                 <div>
-                  <h3 className="text-xl md:text-2xl font-black text-gray-950 uppercase tracking-widest mb-6 border-b-4 border-primary pb-2 inline-block">Politics</h3>
+                  <h3 className="text-xl md:text-2xl font-black text-foreground uppercase tracking-widest mb-6 border-b-4 border-primary pb-2 inline-block">Politics</h3>
                   <div className="flex flex-col gap-4">
                     {politicsPosts.map((post: any) => (
                       <NewsCard key={post.id} post={post} variant="compact" />
@@ -230,7 +230,7 @@ export default async function Home() {
                 </div>
               )}
               <div>
-                <h3 className="text-xl md:text-2xl font-black text-gray-950 uppercase tracking-widest mb-6 border-b-4 border-gray-200 pb-2 inline-block">Analysis</h3>
+                <h3 className="text-xl md:text-2xl font-black text-foreground uppercase tracking-widest mb-6 border-b-4 border-border pb-2 inline-block">Analysis</h3>
                 <div className="flex flex-col gap-4">
                   {latestPosts.slice(4, 8).map((post: any) => (
                     <NewsCard key={post.id} post={post} variant="compact" />
