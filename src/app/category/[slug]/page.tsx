@@ -19,11 +19,11 @@ export default async function CategoryPage({ params }: { params: { slug: string 
 
   if (!posts || posts.length === 0) {
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
         <Header />
         <div className="pt-32 pb-20 px-4 max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4 capitalize">{slug}</h1>
-          <p className="text-gray-500">No stories found in this category yet.</p>
+          <h1 className="text-4xl font-bold text-foreground mb-4 capitalize">{slug}</h1>
+          <p className="text-foreground/60">No stories found in this category yet.</p>
         </div>
         <Footer />
       </main>
@@ -34,7 +34,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
   const gridPosts = posts.slice(1);
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
       <Header />
       
       <div className="pt-32 pb-24 max-w-7xl mx-auto px-4 lg:px-12">
@@ -42,7 +42,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
           <p className="text-[11px] font-black uppercase tracking-[0.4em] text-primary mb-4 italic">
             Category Archives
           </p>
-          <h1 className="text-4xl md:text-8xl font-black text-gray-950 capitalize tracking-tighter">
+          <h1 className="text-4xl md:text-8xl font-black text-foreground capitalize tracking-tighter">
             {slug}
           </h1>
         </header>

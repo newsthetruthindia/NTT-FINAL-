@@ -13,7 +13,7 @@ export default async function ArchiveDatePage({
   // Format: [year, month, day]
   if (!date || date.length < 3) {
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
         <Header />
         <div className="pt-40 text-center">
             <h1 className="text-4xl font-black">Invalid Date</h1>
@@ -34,7 +34,7 @@ export default async function ArchiveDatePage({
   const posts = await fetchArchivePosts(formattedDate);
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
       <Header />
       
       <div className="pt-32 pb-24 max-w-7xl mx-auto px-4 lg:px-12">
@@ -42,10 +42,10 @@ export default async function ArchiveDatePage({
           <p className="text-[11px] font-black uppercase tracking-[0.3em] text-primary mb-4">
             Archive Explorer
           </p>
-          <h1 className="text-4xl md:text-7xl font-black text-gray-950 tracking-tighter flex flex-wrap items-center gap-x-6">
+          <h1 className="text-4xl md:text-7xl font-black text-foreground tracking-tighter flex flex-wrap items-center gap-x-6">
             Stories from <span className="text-primary italic lowercase font-serif font-normal">{displayDate}</span>
           </h1>
-          <p className="text-gray-500 mt-6 text-lg font-medium italic">
+          <p className="text-foreground/60 mt-6 text-lg font-medium italic">
             Reflecting on the truth from our history. Found {posts.length} stories.
           </p>
         </header>
@@ -57,14 +57,14 @@ export default async function ArchiveDatePage({
             ))}
           </div>
         ) : (
-          <div className="py-20 text-center border-2 border-dashed border-gray-100 rounded-[48px]">
-            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="py-20 text-center border-2 border-dashed border-border rounded-[48px]">
+            <div className="w-20 h-20 bg-card rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-10 h-10 text-foreground/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">No stories archived for this date</h2>
-            <p className="text-gray-500">Pick another date from the archive calendar.</p>
+            <h2 className="text-2xl font-bold text-foreground mb-2">No stories archived for this date</h2>
+            <p className="text-foreground/60">Pick another date from the archive calendar.</p>
           </div>
         )}
       </div>

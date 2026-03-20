@@ -25,11 +25,11 @@ export default async function NewsDetails({
     
     if (!post) {
       return (
-        <main className="min-h-screen bg-white">
+        <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
           <Header />
           <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl font-black text-gray-900 mb-4">Story Not Found</h1>
-            <p className="text-gray-500 mb-8">({slug})</p>
+            <h1 className="text-3xl font-black text-foreground mb-4">Story Not Found</h1>
+            <p className="text-foreground/60 mb-8">({slug})</p>
             <Link href="/" className="premium-gradient px-8 py-3 rounded-full text-white font-bold inline-block">
               Back Home
             </Link>
@@ -79,12 +79,12 @@ export default async function NewsDetails({
 
             <div className="flex items-center justify-between py-8 border-y border-border mb-8">
               <div className="flex items-center gap-6">
-                <div className="w-16 h-16 rounded-full bg-gray-900 flex items-center justify-center text-white font-black text-xl shadow-2xl shadow-gray-200 ring-4 ring-white">
+                <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white font-black text-xl shadow-2xl shadow-primary/20 ring-4 ring-background">
                   NTT
                 </div>
                 <div>
                   <p className="text-base font-black text-foreground">By NTT Desk</p>
-                  <p className="text-[11px] text-gray-700 uppercase tracking-[0.2em] font-extrabold flex items-center gap-2">
+                  <p className="text-[11px] text-foreground/60 uppercase tracking-[0.2em] font-extrabold flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                     {postDateFormatted} • {readingTime} min read
                   </p>
@@ -108,7 +108,7 @@ export default async function NewsDetails({
             <AISummary content={articleContent} />
             
             <div 
-              className="prose prose-2xl prose-gray max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2"
+              className="prose prose-2xl prose-invert max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2"
               dangerouslySetInnerHTML={{ __html: articleContent }}
             />
 
@@ -120,7 +120,7 @@ export default async function NewsDetails({
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-16">
               <h2 className="text-4xl font-black text-foreground tracking-tight">Recommended for you</h2>
-              <div className="h-1 flex-grow mx-8 bg-gray-200/50 rounded-full" />
+              <div className="h-1 flex-grow mx-8 bg-border rounded-full" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
               {Array.isArray(latestPosts) && latestPosts.map((p) => (
@@ -135,7 +135,7 @@ export default async function NewsDetails({
     )
   } catch (err: any) {
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
         <Header />
         <div className="pt-32 text-center text-red-500">
           <h1>Rendering Error</h1>
