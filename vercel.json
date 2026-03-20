@@ -5,6 +5,10 @@
     {
       "source": "/vps-api/:path*",
       "destination": "http://117.252.16.132/api/:path*"
+    },
+    {
+      "source": "/storage/:path*",
+      "destination": "http://117.252.16.132/storage/:path*"
     }
   ]
 }

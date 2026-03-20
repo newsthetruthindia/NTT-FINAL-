@@ -140,38 +140,21 @@ export const fetchVideos = async (): Promise<Video[]> => {
   }
 };
 
-export const getImageUrl = (url: string | undefined) => {
-  if (!url) return '/placeholder-news.jpg';
+export const getImageUrl = (path?: string) => {
+  if (!path) return '/placeholder-news.jpg';
+  if (path.startsWith('http')) {
+    // If it's an insecure HTTP URL from the backend, we proxy it via relative /storage/ 
+    // or just return it if it's external.
+    // However, for our own VPS, we prefer the /storage/ proxy we just set up.
+    if (path.includes('117.252.16.132/storage/')) {
+       const cleanPath = path.split('/storage/')[1];
+       return `/storage/${cleanPath}`;
+    }
+    return path;
+  }
   
-  let finalUrl = url;
-  // Handle local development URLs that might be in the database
-  if (url.includes('localhost:8000')) {
-    finalUrl = url.replace(/https?:\/\/localhost:8000/, SITE_URL);
-  }
-
-  // If the URL contains /public/, we strip it because the production server 
-  // root is the public directory itself.
-  if (finalUrl.includes('/public/')) {
-    finalUrl = finalUrl.replace('/public/', '/');
-  } else if (finalUrl.startsWith('public/')) {
-    finalUrl = finalUrl.replace('public/', '/');
-  } else if (finalUrl.includes('/public')) {
-    finalUrl = finalUrl.replace('/public', '');
-  }
-
-  // If it's a remote HTTP URL or a constructed insecure URL, we proxy it to avoid Mixed Content errors
-  let absoluteUrl = finalUrl;
-  if (!absoluteUrl.startsWith('http')) {
-    absoluteUrl = `${SITE_URL}${absoluteUrl.startsWith('/') ? '' : '/'}${absoluteUrl}`;
-  }
-
-  // Proxy only if the URL is from the backend and it's HTTP (to avoid Mixed Content on Vercel)
-  // Or if it's an absolute URL that isn't the current site
-  if (absoluteUrl.startsWith('http:')) {
-    return `/api/image-fetcher?url=${encodeURIComponent(absoluteUrl)}`;
-  }
-
-  return absoluteUrl;
+  const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+  return `/storage/${cleanPath}`;
 };
 
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
