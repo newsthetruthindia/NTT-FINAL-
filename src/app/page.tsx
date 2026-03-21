@@ -5,6 +5,7 @@ import Newsletter from '@/components/Newsletter'
 import LiveTicker from '@/components/LiveTicker'
 import VideoGallery from '@/components/VideoGallery'
 import ReelGallery from '@/components/ReelGallery'
+import AdBanner from '@/components/AdBanner'
 import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos } from '@/lib/api'
 
 export default async function Home() {
@@ -144,6 +145,11 @@ export default async function Home() {
               </div>
             </section>
           )}
+
+          {/* Native Feed Ad */}
+          <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
+             <AdBanner />
+          </section>
 
           {/* Featured: The Exclusive Truth */}
           {exclusivePosts.length > 0 && (

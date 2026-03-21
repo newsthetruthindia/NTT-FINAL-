@@ -8,6 +8,7 @@ import AISummary from '@/components/AISummary'
 import AudioPlayer from '@/components/AudioPlayer'
 import ShareCard from '@/components/ShareCard'
 import ReadingProgress from '@/components/ReadingProgress'
+import AdBanner from '@/components/AdBanner'
 
 // Final build trigger
 export const dynamic = 'force-dynamic'
@@ -107,6 +108,10 @@ export default async function NewsDetails({
             <AudioPlayer text={articleContent} />
             <AISummary content={articleContent} />
             
+            <div className="py-8">
+               <AdBanner />
+            </div>
+
             <div 
               className="prose prose-2xl prose-invert max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2"
               dangerouslySetInnerHTML={{ __html: articleContent }}

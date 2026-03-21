@@ -33,6 +33,7 @@ export const metadata: Metadata = {
 };
 
 import { ThemeProvider } from "@/components/ThemeProvider";
+import SplashAd from "@/components/SplashAd";
 
 export default function RootLayout({
   children,
@@ -46,6 +47,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <AuthProvider>
+            <SplashAd />
             <div className="main-content">
               {children}
             </div>
