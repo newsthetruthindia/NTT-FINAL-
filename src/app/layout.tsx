@@ -47,7 +47,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <AuthProvider>
-            <SplashAd />
+            {/* <SplashAd /> */}
             <div className="main-content">
               {children}
             </div>
