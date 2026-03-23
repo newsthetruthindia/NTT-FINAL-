@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, League_Spartan, Lora } from "next/font/google";
 import "./globals.css";
-import LiveTicker from "@/components/LiveTicker";
 import { AuthProvider } from "@/components/AuthProvider";
 
 const poppins = Poppins({
@@ -33,7 +32,6 @@ export const metadata: Metadata = {
 };
 
 import { ThemeProvider } from "@/components/ThemeProvider";
-import SplashAd from "@/components/SplashAd";
 
 export default function RootLayout({
   children,
@@ -47,7 +45,6 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <AuthProvider>
-            {/* <SplashAd /> */}
             <div className="main-content">
               {children}
             </div>
