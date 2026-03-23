@@ -83,6 +83,4 @@ export default function SplashAd() {
       </div>
     </div>
   );
-};
-
-export default SplashAd;
+}
