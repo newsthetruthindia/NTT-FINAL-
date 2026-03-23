@@ -48,11 +48,11 @@ export default function CalendarArchive() {
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
-    <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
-      <div className="flex items-center justify-between mb-8">
+    <div className="bg-card border border-border rounded-[32px] p-6 shadow-sm">
+      <div className="flex items-center justify-between mb-6">
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Browse History</span>
-          <h3 className="text-3xl font-black text-foreground tracking-tighter uppercase">
+          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary">Browse History</span>
+          <h3 className="text-2xl font-black text-foreground tracking-tighter uppercase">
             {monthName} <span className="text-primary italic lowercase font-serif font-normal">{year}</span>
           </h3>
         </div>

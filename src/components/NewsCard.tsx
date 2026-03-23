@@ -24,6 +24,9 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <img 
             src={displayImage} 
             alt={title}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/placeholder-news.jpg';
+            }}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
         </div>
@@ -46,6 +49,9 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <img 
             src={displayImage} 
             alt={title}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/placeholder-news.jpg';
+            }}
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div className="absolute top-4 left-4">
@@ -81,6 +87,9 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
         <img 
           src={displayImage} 
           alt={title}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/placeholder-news.jpg';
+          }}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 lg:p-12 flex flex-col justify-end">
@@ -108,6 +117,9 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
         <img 
           src={displayImage} 
           alt={title}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/placeholder-news.jpg';
+          }}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute top-5 left-5">
