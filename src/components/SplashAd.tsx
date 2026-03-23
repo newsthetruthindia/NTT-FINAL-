@@ -34,12 +34,12 @@ const SplashAd: React.FC = () => {
       <div className="relative w-full max-w-4xl aspect-[4/5] md:aspect-video rounded-[40px] overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(var(--primary-rgb),0.15)] bg-card animate-in zoom-in slide-in-from-bottom-10 duration-700">
         <button 
           onClick={handleClose}
-          className="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-primary transition-colors duration-300"
+          className="absolute top-6 right-6 z-50 w-12 h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-primary transition-colors duration-300"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <div className="absolute top-6 left-6 z-20">
+        <div className="absolute top-6 left-6 z-50">
           <span className="premium-gradient px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-white shadow-xl">
             Sponsor Spotlight
           </span>
