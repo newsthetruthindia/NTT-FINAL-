@@ -60,7 +60,10 @@ const handleResponse = (json: any) => {
 
 export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
   try {
-    const res = await fetch(`${API_URL}posts/latest?limit=${limit}`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}posts/latest?limit=${limit}`, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
     if (!res.ok) return [];
     const json = await res.json();
     return handleResponse(json);
@@ -72,7 +75,10 @@ export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
 
 export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
   try {
-    const res = await fetch(`${API_URL}posts/top?limit=${limit}`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}posts/top?limit=${limit}`, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
     if (!res.ok) return [];
     const json = await res.json();
     return handleResponse(json);
@@ -82,7 +88,10 @@ export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
 };
 
 export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
-  const res = await fetch(`${API_URL}post/${slug}`, { cache: 'no-store' });
+  const res = await fetch(`${API_URL}post/${slug}`, { 
+    cache: 'no-store',
+    headers: { 'Accept': 'application/json' }
+  });
   if (!res.ok) return null;
   const json = await res.json();
   return json.data;
@@ -90,7 +99,10 @@ export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
 
 export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any> => {
   try {
-    const res = await fetch(`${API_URL}posts/category/${slug}?limit=${limit}`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}posts/category/${slug}?limit=${limit}`, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
     if (!res.ok) return [];
     const json = await res.json();
     return handleResponse(json);
@@ -101,7 +113,10 @@ export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any>
 
 export const fetchCategories = async (): Promise<any[]> => {
   try {
-    const res = await fetch(`${API_URL}categories`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}categories`, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
     if (!res.ok) return [];
     const json = await res.json();
     return json.data ?? [];
@@ -112,7 +127,10 @@ export const fetchCategories = async (): Promise<any[]> => {
 
 export const fetchTags = async (): Promise<any[]> => {
   try {
-    const res = await fetch(`${API_URL}tags`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}tags`, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
     if (!res.ok) return [];
     const json = await res.json();
     return json.data ?? [];
@@ -132,7 +150,10 @@ export interface Video {
 
 export const fetchVideos = async (): Promise<Video[]> => {
   try {
-    const res = await fetch(`${API_URL}videos`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}videos`, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
     if (!res.ok) return [];
     const json = await res.json();
     return json.data ?? [];
@@ -160,7 +181,10 @@ export const getImageUrl = (path?: string) => {
 
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
   try {
-    const res = await fetch(`${API_URL}posts/search?q=${encodeURIComponent(query)}&limit=${limit}`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}posts/search?q=${encodeURIComponent(query)}&limit=${limit}`, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
     if (!res.ok) return [];
     const json = await res.json();
     if (json.data && json.data.data) return json.data.data;
@@ -172,7 +196,10 @@ export const searchPosts = async (query: string, limit = 20): Promise<Post[]> =>
 
 export const fetchArchivePosts = async (date: string, limit = 20): Promise<Post[]> => {
   try {
-    const res = await fetch(`${API_URL}posts/archive?date=${date}&limit=${limit}`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}posts/archive?date=${date}&limit=${limit}`, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
     if (!res.ok) return [];
     const json = await res.json();
     if (json.data && json.data.data) return json.data.data;
