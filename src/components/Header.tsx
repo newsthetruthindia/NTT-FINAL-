@@ -67,8 +67,11 @@ export default function Header() {
             {/* Global Actions Group */}
             <div className="flex items-center gap-4 xl:gap-6">
               <button
-                onClick={() => setIsSearchOpen(true)}
-                className="flex items-center gap-2.5 group/search"
+                onClick={() => {
+                  alert('Search Clicked');
+                  setIsSearchOpen(true);
+                }}
+                className="flex items-center gap-2.5 group/search active:scale-95 transition-transform"
                 aria-label="Search"
               >
                 <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center group-hover/search:bg-primary/10 transition-colors">
@@ -149,9 +152,8 @@ export default function Header() {
             </div>
           </div>
         </div>
+        <Search isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
       </header>
-
-      <Search isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 }
