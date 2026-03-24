@@ -32,13 +32,8 @@ export default function Header() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    (window as any).toggleSearch = () => {
-      console.log('TOGGLING SEARCH VIA WINDOW HOOK');
-      setIsSearchOpen(prev => !prev);
-    };
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      delete (window as any).toggleSearch;
     };
   }, []);
 
@@ -62,7 +57,6 @@ export default function Header() {
               <Link
                 key={item}
                 href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`}
-                onClick={() => { console.log('NAV CLICKED:', item); }}
                 className="text-[10px] xl:text-[11px] font-black tracking-[0.3em] text-foreground/60 hover:text-primary transition-all duration-300 hover:scale-105 pointer-events-auto"
               >
                 {item}
@@ -75,7 +69,7 @@ export default function Header() {
             {/* Global Actions Group */}
             <div className="flex items-center gap-4 xl:gap-8">
               <button
-                onClick={() => { console.log('SEARCH TRIGGER CLICKED'); setIsSearchOpen(true); }}
+                onClick={() => setIsSearchOpen(true)}
                 className="flex items-center gap-2.5 group/search relative z-50 pointer-events-auto"
                 id="search-trigger-main"
                 aria-label="Search"
