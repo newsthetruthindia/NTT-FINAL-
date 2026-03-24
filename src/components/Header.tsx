@@ -39,7 +39,7 @@ export default function Header() {
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border transition-transform duration-500 ease-in-out shadow-sm ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <LiveTicker />
-        <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl">
+        <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl relative z-[70]">
           {/* Left: Logo */}
           <div className="shrink-0">
             <Link href="/" className="flex items-center group">
@@ -55,7 +55,8 @@ export default function Header() {
               <Link
                 key={item}
                 href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`}
-                className="text-[10px] xl:text-[11px] font-black uppercase tracking-[0.3em] text-foreground/60 hover:text-primary transition-all duration-300 hover:scale-105"
+                onClick={() => console.log('NAV CLICKED:', item)}
+                className="text-[10px] xl:text-[11px] font-black uppercase tracking-[0.3em] text-foreground/60 hover:text-primary transition-all duration-300 hover:scale-105 pointer-events-auto"
               >
                 {item}
               </Link>
