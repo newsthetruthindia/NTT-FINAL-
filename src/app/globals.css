@@ -26,32 +26,7 @@
   --ntt-glass-border: rgba(255, 255, 255, 0.4);
 }
 
-/* Manual Dark Mode Class */
-.dark {
-  --background: #000000;
-  --foreground: #f3f4f6;
-  --primary: #8c0000;
-  --primary-dark: #a00000;
-  --secondary: #9ca3af;
-  --accent: #111827;
-  --card: #050505;
-  --border: #1f2937;
-  --ntt-glass-bg: rgba(0, 0, 0, 0.8);
-  --ntt-glass-border: rgba(255, 255, 255, 0.1);
-}
-
-/* System Preference Fallback */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --background: #000000;
-    --foreground: #f3f4f6;
-    --card: #050505;
-    --border: #1f2937;
-    --secondary: #9ca3af;
-    --ntt-glass-bg: rgba(0, 0, 0, 0.8);
-    --ntt-glass-border: rgba(255, 255, 255, 0.1);
-  }
-}
+/* Dark mode disabled — site locked to Light mode */
 
 * {
   box-sizing: border-box;
@@ -84,10 +59,7 @@ body::after {
   background: none !important;
 }
 
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
+/* duplicate box-sizing removed */
 
 body {
   color: var(--foreground);
@@ -145,7 +117,7 @@ h6 {
 }
 
 .editorial-heading {
-  font-family: var(--font-lora), serif !important;
+  font-family: var(--font-playfair), serif !important;
   letter-spacing: -0.01em;
 }
 

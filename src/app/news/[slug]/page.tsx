@@ -113,7 +113,7 @@ export default async function NewsDetails({
             </div>
 
             <div 
-              className="prose prose-2xl prose-invert max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2"
+              className="prose prose-2xl max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2"
               dangerouslySetInnerHTML={{ __html: articleContent }}
             />
 

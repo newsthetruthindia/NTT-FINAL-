@@ -53,8 +53,8 @@ export default function LoginPage() {
       <Header />
       
       <div className="flex-grow flex items-center justify-center px-4 py-24 relative z-10">
-        <div className="w-full max-w-md p-1 bg-white/40 dark:bg-black/40 rounded-[40px] backdrop-blur-3xl border border-white/20 shadow-2xl animate-fade-in-up">
-          <div className="bg-white/80 dark:bg-black/60 rounded-[39px] p-10 border border-white/10 shadow-inner">
+        <div className="w-full max-w-md p-1 bg-white/40 rounded-[40px] backdrop-blur-3xl border border-white/20 shadow-2xl animate-fade-in-up">
+          <div className="bg-white/80 rounded-[39px] p-10 border border-white/10 shadow-inner">
             <div className="text-center mb-10">
                <h1 className="text-4xl font-black text-foreground font-heading tracking-tighter leading-none mb-2">
                  WELCOME<br/>BACK<span className="text-primary text-5xl">.</span>
