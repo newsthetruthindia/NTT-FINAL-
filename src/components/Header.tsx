@@ -37,12 +37,9 @@ export default function Header() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-[100] transition-transform duration-500 ease-in-out pointer-events-none ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="pointer-events-auto">
-          <LiveTicker />
-        </div>
-        <div className="bg-background/80 backdrop-blur-xl border-b border-border shadow-sm pointer-events-auto relative z-[999]">
-          <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl">
+      <header className={`fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border transition-transform duration-500 ease-in-out shadow-sm ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <LiveTicker />
+        <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl relative z-10">
           {/* Left: Logo */}
           <div className="shrink-0">
             <Link href="/" className="flex items-center group">
@@ -153,8 +150,7 @@ export default function Header() {
             </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
       <Search isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
