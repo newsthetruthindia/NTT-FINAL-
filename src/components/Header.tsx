@@ -65,22 +65,18 @@ export default function Header() {
           {/* Right: Controls & Auth */}
           <div className="flex items-center gap-4 xl:gap-8">
             {/* Global Actions Group */}
-            <div className="flex items-center gap-4 xl:gap-8 relative z-20 bg-blue-500/10">
+            <div className="flex items-center gap-4 xl:gap-8">
               <button
-                id="header-search-btn"
-                onClick={() => {
-                  console.log('SEARCH CLICKED');
-                  setIsSearchOpen(true);
-                }}
-                className="flex items-center gap-2.5 group/search p-2 bg-red-500/20 rounded-lg cursor-pointer pointer-events-auto"
+                onClick={() => setIsSearchOpen(true)}
+                className="flex items-center gap-2.5 group/search"
                 aria-label="Search"
               >
-                <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center group-hover/search:bg-primary/10 transition-colors pointer-events-none">
+                <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center group-hover/search:bg-primary/10 transition-colors">
                   <svg className="w-4 h-4 text-foreground/60 group-hover/search:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-foreground/60 group-hover/search:text-primary">Search</span>
+                <span className="hidden xl:block text-[10px] font-black uppercase tracking-widest text-foreground/60 group-hover/search:text-primary">Search</span>
               </button>
 
               <Link
@@ -153,8 +149,8 @@ export default function Header() {
             </div>
           </div>
         </div>
-        <Search isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
       </header>
+      <Search isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 }
