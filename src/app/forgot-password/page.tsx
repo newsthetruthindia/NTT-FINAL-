@@ -4,40 +4,38 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useAuth } from '@/components/AuthProvider';
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setMessage('');
     setIsLoading(true);
 
     try {
-      const res = await fetch(`/api/proxy/auth/login`, {
+      const res = await fetch(`/api/proxy/auth/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || 'Login failed');
+        throw new Error(data.message || 'Something went wrong');
       }
 
-      login(data.access_token, data.user);
-      window.location.href = '/'; 
+      setMessage(data.message || 'If an account exists with this email, you will receive a reset link.');
     } catch (err: any) {
-      setError(err.message || 'An error occurred during login');
+      setError(err.message || 'An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -57,10 +55,10 @@ export default function LoginPage() {
           <div className="bg-white/80 dark:bg-black/60 rounded-[39px] p-10 border border-white/10 shadow-inner">
             <div className="text-center mb-10">
                <h1 className="text-4xl font-black text-foreground font-heading tracking-tighter leading-none mb-2">
-                 WELCOME<br/>BACK<span className="text-primary text-5xl">.</span>
+                 RECOVER<br/>ACCESS<span className="text-primary text-5xl">.</span>
                </h1>
-               <p className="text-foreground/40 text-[10px] font-black uppercase tracking-[0.4em] mb-8">Access the Truth Gateway</p>
-               <p className="text-foreground/60 text-sm font-sans leading-relaxed">Sign in with your verified NTT credentials.</p>
+               <p className="text-foreground/40 text-[10px] font-black uppercase tracking-[0.4em] mb-8">Verification Required</p>
+               <p className="text-foreground/60 text-sm font-sans leading-relaxed">Enter your email and we'll send a secure password recovery link.</p>
             </div>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
@@ -69,9 +67,13 @@ export default function LoginPage() {
                   {error}
                 </div>
               )}
-              
+              {message && (
+                <div className="bg-emerald-500/10 text-emerald-500 text-[11px] font-bold px-5 py-4 rounded-2xl border border-emerald-500/20">
+                  {message}
+                </div>
+              )}
               <div className="space-y-2">
-                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Account Identity (Email)</label>
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Verified Email Address</label>
                 <input 
                   type="email" 
                   value={email}
@@ -79,21 +81,6 @@ export default function LoginPage() {
                   required
                   className="w-full px-6 py-5 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
                   placeholder="name@example.com"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between items-center ml-1">
-                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">Secure Key (Password)</label>
-                  <Link href="/forgot-password" title="Forgot Password" className="text-[9px] font-black uppercase tracking-widest text-primary hover:scale-105 transition-transform">Recover Access</Link>
-                </div>
-                <input 
-                  type="password" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full px-6 py-5 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
-                  placeholder="••••••••"
                 />
               </div>
               
@@ -107,13 +94,15 @@ export default function LoginPage() {
                     <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.15s]" />
                     <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" />
                   </span>
-                ) : 'Authenticate Now'}
+                ) : 'Send Secure Link'}
               </button>
             </form>
 
-            <p className="text-center text-foreground/40 mt-12 text-[10px] font-black uppercase tracking-[0.2em]">
-              New to News The Truth? <Link href="/register" className="text-primary hover:underline ml-2">Secure Registration</Link>
-            </p>
+            <div className="text-center mt-12">
+              <Link href="/login" className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground/30 hover:text-primary transition-all duration-300">
+                Back to Authentication
+              </Link>
+            </div>
           </div>
         </div>
       </div>

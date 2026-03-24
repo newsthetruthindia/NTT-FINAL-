@@ -57,7 +57,7 @@ export default async function NewsDetails({
     const readingTime = Math.ceil(wordCount / 200);
 
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-background">
         <Header />
         <ReadingProgress />
         
@@ -105,7 +105,7 @@ export default async function NewsDetails({
           </div>
 
           <div className="max-w-3xl mx-auto px-4 space-y-6">
-            <AudioPlayer text={articleContent} />
+            <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
             <AISummary content={articleContent} />
             
             <div className="py-8">

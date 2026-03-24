@@ -18,12 +18,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const savedTheme = localStorage.getItem('themePreference') as Theme;
     if (savedTheme) {
       setTheme(savedTheme);
-      if (savedTheme === 'dark') {
-          document.documentElement.classList.add('dark');
-      }
+      document.documentElement.classList.add(savedTheme);
+      document.documentElement.classList.remove(savedTheme === 'dark' ? 'light' : 'dark');
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setTheme('dark');
       document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 
@@ -34,7 +37,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
     if (newTheme === 'dark') {
       document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
     } else {
+      document.documentElement.classList.add('light');
       document.documentElement.classList.remove('dark');
     }
   };

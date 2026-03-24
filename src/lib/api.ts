@@ -33,7 +33,8 @@ export interface Post {
   user?: {
       firstname: string;
       lastname: string;
-  }
+  };
+  audio_clip_url?: string;
 }
 
 const handleResponse = (json: any) => {

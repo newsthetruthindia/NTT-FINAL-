@@ -89,12 +89,22 @@ export default function Header() {
             {!isLoading && (
               user ? (
                 <>
-                  <div className="hidden sm:block text-[12px] font-extrabold uppercase tracking-widest text-gray-700">
+                  <div className="hidden sm:block text-[12px] font-extrabold uppercase tracking-widest text-foreground/40">
                     {user.firstname}
                   </div>
+                  {user.type === 'admin' && (
+                    <a
+                      href="http://117.252.16.132/admin"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] font-black uppercase tracking-widest text-primary border-b-2 border-primary/20 hover:border-primary transition-all pb-0.5"
+                    >
+                      Admin
+                    </a>
+                  )}
                   <button
                     onClick={logout}
-                    className="px-8 py-3 bg-gray-900 hover:bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg transition-all duration-300 hover:-translate-y-1 active:scale-95"
+                    className="px-8 py-3 bg-foreground/5 hover:bg-foreground/10 text-foreground text-[11px] font-black uppercase tracking-widest rounded-full transition-all duration-300 hover:-translate-y-1 active:scale-95"
                   >
                     Logout
                   </button>

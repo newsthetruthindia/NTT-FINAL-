@@ -119,17 +119,17 @@ h6 {
   font-size: 1.125rem;
   /* Clean text sizing */
   line-height: 1.8;
-  color: #1f2937;
-  /* Softer dark gray contrast */
+  color: var(--foreground);
+  /* Use theme-aware foreground color */
   font-weight: 400;
   text-rendering: optimizeLegibility;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--ntt-glass-bg);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--ntt-glass-border);
 }
 
 .premium-gradient {
@@ -137,11 +137,11 @@ h6 {
 }
 
 .hover-lift {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hover-lift:hover {
-  @apply -translate-y-2 shadow-2xl;
+  @apply -translate-y-2 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)];
 }
 
 .editorial-heading {
@@ -150,7 +150,8 @@ h6 {
 }
 
 .section-header {
-  @apply mb-10 pb-4 border-b border-gray-100 flex items-end justify-between transition-all duration-300;
+  @apply mb-10 pb-4 border-b flex items-end justify-between transition-all duration-300;
+  border-color: var(--border);
 }
 
 .section-header .title-group {
@@ -158,16 +159,17 @@ h6 {
 }
 
 .section-header .subtitle {
-  @apply text-gray-500 font-black uppercase tracking-[0.3em] text-[10px] md:text-[11px] block;
+  @apply font-black uppercase tracking-[0.3em] text-[10px] md:text-[11px] block;
+  color: var(--secondary);
 }
 
 .section-header .title {
-  @apply text-3xl md:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none flex items-center gap-4;
+  @apply text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none flex items-center gap-4;
+  color: var(--foreground);
 }
 
 .section-header .title span {
-  color: #111827;
-  /* gray-900 */
+  color: var(--primary);
   font-family: var(--font-lora), serif !important;
   letter-spacing: -0.01em;
   @apply italic lowercase;
