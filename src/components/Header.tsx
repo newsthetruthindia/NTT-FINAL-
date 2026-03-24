@@ -32,7 +32,14 @@ export default function Header() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    (window as any).toggleSearch = () => {
+      console.log('TOGGLING SEARCH VIA WINDOW HOOK');
+      setIsSearchOpen(prev => !prev);
+    };
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      delete (window as any).toggleSearch;
+    };
   }, []);
 
   return (
@@ -55,8 +62,8 @@ export default function Header() {
               <Link
                 key={item}
                 href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`}
-                onClick={() => console.log('NAV CLICKED:', item)}
-                className="text-[10px] xl:text-[11px] font-black uppercase tracking-[0.3em] text-foreground/60 hover:text-primary transition-all duration-300 hover:scale-105 pointer-events-auto"
+                onClick={() => { console.log('NAV CLICKED:', item); }}
+                className="text-[10px] xl:text-[11px] font-black tracking-[0.3em] text-foreground/60 hover:text-primary transition-all duration-300 hover:scale-105 pointer-events-auto"
               >
                 {item}
               </Link>
@@ -68,8 +75,9 @@ export default function Header() {
             {/* Global Actions Group */}
             <div className="flex items-center gap-4 xl:gap-8">
               <button
-                onClick={() => setIsSearchOpen(true)}
-                className="flex items-center gap-2.5 group/search"
+                onClick={() => { console.log('SEARCH TRIGGER CLICKED'); setIsSearchOpen(true); }}
+                className="flex items-center gap-2.5 group/search relative z-50 pointer-events-auto"
+                id="search-trigger-main"
                 aria-label="Search"
               >
                 <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center group-hover/search:bg-primary/10 transition-colors">
@@ -82,7 +90,7 @@ export default function Header() {
 
               <Link
                 href="/report"
-                className="hidden md:flex items-center gap-2 group/report"
+                className="hidden md:flex items-center gap-2 group/report pointer-events-auto"
               >
                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                 <span className="text-[10px] font-black uppercase tracking-widest text-foreground/60 group-hover/report:text-primary transition-colors">
