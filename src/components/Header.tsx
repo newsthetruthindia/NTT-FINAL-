@@ -57,7 +57,7 @@ export default function Header() {
               <Link
                 key={item}
                 href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`}
-                className="text-[10px] xl:text-[11px] font-black tracking-[0.3em] text-foreground/60 hover:text-primary transition-all duration-300 hover:scale-105 pointer-events-auto"
+                className="text-[10px] xl:text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/70 hover:text-primary transition-all duration-300 hover:scale-105 pointer-events-auto"
               >
                 {item}
               </Link>
