@@ -44,7 +44,7 @@ export default function Header() {
           <div className="shrink-0">
             <Link href="/" className="flex items-center group">
               <span className="text-3xl lg:text-4xl font-black tracking-tighter text-foreground group-hover:text-primary transition-all duration-500">
-                NTT<span className="text-primary">.</span><span className="text-[10px] tracking-[0.3em] ml-1 opacity-50 group-hover:opacity-100 transition-opacity">INDIA</span>
+                NTT<span className="text-primary text-4xl">.</span>
               </span>
             </Link>
           </div>
