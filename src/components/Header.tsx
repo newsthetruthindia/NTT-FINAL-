@@ -95,7 +95,7 @@ export default function Header() {
 
             {/* System Controls & User */}
             <div className="flex items-center gap-4 xl:gap-6">
-              <div className="hidden xs:flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <LanguageToggle />
                 <ThemeToggle />
               </div>
