@@ -1,7 +1,7 @@
 // Version: 1.1.6 - Catch-all Proxy Migration
 // We use a Next.js catch-all route as a proxy to handle complex paths and query params
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
-const API_BASE = '/api/proxy/vps/';
+const API_BASE = '/api/proxy/';
 const INTERNAL_API_URL = 'http://117.252.16.132/api/';
 
 // Use absolute working IP on server, relative proxy on client

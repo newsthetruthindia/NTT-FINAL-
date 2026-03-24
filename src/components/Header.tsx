@@ -67,10 +67,7 @@ export default function Header() {
             {/* Global Actions Group */}
             <div className="flex items-center gap-4 xl:gap-6">
               <button
-                onClick={() => {
-                  console.log('Search button clicked, setting isSearchOpen to true');
-                  setIsSearchOpen(true);
-                }}
+                onClick={() => setIsSearchOpen(true)}
                 className="flex items-center gap-2.5 group/search"
                 aria-label="Search"
               >
