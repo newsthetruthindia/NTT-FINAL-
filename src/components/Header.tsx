@@ -68,7 +68,8 @@ export default function Header() {
           <div className="flex items-center gap-4 xl:gap-8">
             {/* Global Actions Group */}
             <div className="flex items-center gap-4 xl:gap-8">
-              <button
+              {/* Search Hidden as per user request */}
+              {/* <button
                 onClick={() => setIsSearchOpen(true)}
                 className="flex items-center gap-2.5 group/search relative z-50 pointer-events-auto"
                 id="search-trigger-main"
@@ -80,7 +81,7 @@ export default function Header() {
                   </svg>
                 </div>
                 <span className="hidden xl:block text-[10px] font-black uppercase tracking-widest text-foreground/60 group-hover/search:text-primary">Search</span>
-              </button>
+              </button> */}
 
               <Link
                 href="/report"
@@ -99,7 +100,8 @@ export default function Header() {
             {/* System Controls & User */}
             <div className="flex items-center gap-4 xl:gap-6">
               <div className="flex items-center gap-4">
-                <ThemeToggle />
+                {/* ThemeToggle Hidden as per user request */}
+                {/* <ThemeToggle /> */}
               </div>
 
               {!isLoading && (

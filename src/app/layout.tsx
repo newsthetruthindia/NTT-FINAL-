@@ -1,21 +1,15 @@
 import type { Metadata } from "next";
-import { Poppins, League_Spartan, Lora } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
-
-const leagueSpartan = League_Spartan({
-  variable: "--font-league-spartan",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const lora = Lora({
-  variable: "--font-lora",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
 });
 
@@ -41,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${poppins.variable} ${leagueSpartan.variable} ${lora.variable} antialiased`}
+        className={`${inter.variable} ${playfair.variable} antialiased`}
       >
         <ThemeProvider>
           <AuthProvider>
