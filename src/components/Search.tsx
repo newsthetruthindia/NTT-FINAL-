@@ -56,7 +56,7 @@ export default function Search({ isOpen, onClose }: SearchProps) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Type to search stories..."
-              className="w-full bg-transparent border-none text-4xl md:text-8xl font-black text-gray-900 placeholder-gray-100 focus:ring-0 tracking-tighter pr-20"
+              className="w-full bg-transparent border-none text-4xl md:text-8xl font-black text-foreground placeholder-foreground/10 focus:ring-0 tracking-tighter pr-20"
             />
             <button 
               type="submit"

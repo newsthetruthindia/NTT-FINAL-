@@ -55,7 +55,7 @@ export default function Header() {
               <Link
                 key={item}
                 href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`}
-                className={`text-[10px] xl:text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-300 hover:scale-105 ${item === 'Archive' ? 'text-primary' : 'text-foreground/60 hover:text-primary'}`}
+                className="text-[10px] xl:text-[11px] font-black uppercase tracking-[0.3em] text-foreground/60 hover:text-primary transition-all duration-300 hover:scale-105"
               >
                 {item}
               </Link>
@@ -96,7 +96,6 @@ export default function Header() {
             {/* System Controls & User */}
             <div className="flex items-center gap-4 xl:gap-6">
               <div className="flex items-center gap-4">
-                <LanguageToggle />
                 <ThemeToggle />
               </div>
 
