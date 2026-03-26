@@ -11,6 +11,7 @@ import { useAuth } from './AuthProvider';
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
   const { user, logout, isLoading } = useAuth();
 
@@ -52,7 +53,7 @@ export default function Header() {
           </div>
 
           {/* Center: Navigation */}
-          <nav className="hidden lg:flex items-center gap-8 xl:gap-10">
+          <nav className="hidden lg:flex items-center gap-8 xl:gap-10" role="navigation" aria-label="Main navigation">
             {['India', 'World', 'Bengal', 'Politics', 'Archive'].map((item) => (
               <Link
                 key={item}
@@ -96,6 +97,24 @@ export default function Header() {
 
             {/* Divider */}
             <div className="hidden sm:block h-8 w-[1px] bg-foreground/10 mx-2" />
+
+            {/* Mobile Menu Button */}
+            <button
+              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-foreground/5 hover:bg-primary/10 transition-all"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? (
+                <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
 
             {/* System Controls & User */}
             <div className="flex items-center gap-4 xl:gap-6">
@@ -155,6 +174,96 @@ export default function Header() {
           </div>
         </div>
       </header>
+
+      {/* Mobile Menu Drawer */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          {/* Drawer */}
+          <nav 
+            className="absolute top-0 right-0 w-[300px] h-full bg-background border-l border-border shadow-2xl animate-in slide-in-from-right duration-500 flex flex-col"
+            role="navigation"
+            aria-label="Mobile navigation"
+          >
+            <div className="p-6 border-b border-border flex items-center justify-between">
+              <span className="text-lg font-black tracking-tighter text-foreground">NTT<span className="text-primary">.</span></span>
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center"
+                aria-label="Close menu"
+              >
+                <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-grow overflow-y-auto p-6">
+              <div className="space-y-1">
+                {['India', 'World', 'Bengal', 'Politics', 'Archive'].map((item) => (
+                  <Link
+                    key={item}
+                    href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block py-4 px-4 text-sm font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                  >
+                    {item}
+                  </Link>
+                ))}
+              </div>
+              <div className="h-px bg-border my-6" />
+              <div className="space-y-1">
+                <Link
+                  href="/report"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 py-4 px-4 text-sm font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                >
+                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  Report News
+                </Link>
+                <Link
+                  href="/about"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block py-4 px-4 text-sm font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                >
+                  About
+                </Link>
+                <Link
+                  href="/contact"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block py-4 px-4 text-sm font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                >
+                  Contact
+                </Link>
+              </div>
+            </div>
+            <div className="p-6 border-t border-border">
+              {!isLoading && !user && (
+                <div className="flex gap-3">
+                  <Link
+                    href="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex-1 py-3 text-center text-[11px] font-black uppercase tracking-widest text-foreground/60 bg-foreground/5 rounded-full hover:bg-foreground/10 transition-all"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex-1 py-3 text-center text-[11px] font-black uppercase tracking-widest text-white premium-gradient rounded-full shadow-lg shadow-primary/20"
+                  >
+                    Join
+                  </Link>
+                </div>
+              )}
+            </div>
+          </nav>
+        </div>
+      )}
+
       <Search isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );

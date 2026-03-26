@@ -37,9 +37,15 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} antialiased`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-primary focus:text-white focus:rounded-full focus:text-sm focus:font-bold focus:shadow-lg"
+        >
+          Skip to main content
+        </a>
         <ThemeProvider>
           <AuthProvider>
-            <div className="main-content">
+            <div className="main-content" id="main-content">
               {children}
             </div>
           </AuthProvider>

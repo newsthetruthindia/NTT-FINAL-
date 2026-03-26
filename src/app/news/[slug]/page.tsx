@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
@@ -9,6 +10,42 @@ import AudioPlayer from '@/components/AudioPlayer'
 import ShareCard from '@/components/ShareCard'
 import ReadingProgress from '@/components/ReadingProgress'
 import AdBanner from '@/components/AdBanner'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ntt-final.vercel.app'
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const post = await fetchPostBySlug(resolvedParams.slug);
+  if (!post) return { title: 'Story Not Found | NTT' };
+
+  const description = (post.excerpt || post.content?.replace(/<[^>]*>/g, '') || '').slice(0, 160);
+  const imageUrl = getImageUrl(post.thumbnails?.url);
+  const fullImageUrl = imageUrl.startsWith('http') ? imageUrl : `${SITE_URL}${imageUrl}`;
+
+  return {
+    title: `${post.title} | News The Truth`,
+    description,
+    openGraph: {
+      title: post.title,
+      description,
+      url: `${SITE_URL}/news/${resolvedParams.slug}`,
+      siteName: 'News The Truth',
+      images: [{ url: fullImageUrl, width: 1200, height: 630, alt: post.title }],
+      type: 'article',
+      publishedTime: post.created_at,
+      modifiedTime: post.updated_at,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description,
+      images: [fullImageUrl],
+    },
+    alternates: {
+      canonical: `${SITE_URL}/news/${resolvedParams.slug}`,
+    },
+  };
+}
 
 // Final build trigger
 export const dynamic = 'force-dynamic'

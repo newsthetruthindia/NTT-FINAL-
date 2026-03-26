@@ -1,8 +1,28 @@
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import NewsCard from '@/components/NewsCard'
 import { fetchCategoryPosts } from '@/lib/api'
 import { notFound } from 'next/navigation'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ntt-final.vercel.app'
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
+  const displayName = slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  return {
+    title: `${displayName} News | News The Truth`,
+    description: `Latest ${displayName} news, reports, and analysis from News The Truth.`,
+    openGraph: {
+      title: `${displayName} | News The Truth`,
+      description: `Browse the latest ${displayName} stories.`,
+      url: `${SITE_URL}/category/${slug}`,
+      siteName: 'News The Truth',
+    },
+    alternates: { canonical: `${SITE_URL}/category/${slug}` },
+  };
+}
 
 export const dynamic = 'force-dynamic'
 
