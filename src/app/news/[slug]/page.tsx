@@ -61,7 +61,7 @@ export default async function NewsDetails({
         <Header />
         <ReadingProgress />
         
-        <article className="pt-44 pb-16 max-w-7xl mx-auto">
+        <article className="pt-60 lg:pt-48 pb-16 max-w-7xl mx-auto">
           <div className="max-w-4xl mx-auto px-4 mb-8">
             <Breadcrumbs items={[
               { label: categoryTitle, href: `/category/${categorySlug}` },
