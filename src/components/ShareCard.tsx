@@ -5,9 +5,10 @@ import { useState } from 'react';
 interface ShareCardProps {
   title: string;
   quote?: string;
+  reporterName?: string;
 }
 
-export default function ShareCard({ title, quote }: ShareCardProps) {
+export default function ShareCard({ title, quote, reporterName = 'NTT Desk' }: ShareCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -41,7 +42,7 @@ export default function ShareCard({ title, quote }: ShareCardProps) {
           <p className="text-white text-2xl md:text-3xl font-black leading-tight tracking-tight mb-4 italic">
             "{quote || title}"
           </p>
-          <p className="text-gray-500 text-sm font-bold uppercase tracking-widest">— Reported by NTT Desk</p>
+          <p className="text-gray-500 text-sm font-bold uppercase tracking-widest">— Reported by {reporterName}</p>
         </div>
 
         <div className="flex flex-wrap gap-4">

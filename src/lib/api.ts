@@ -31,8 +31,20 @@ export interface Post {
   created_at: string;
   updated_at: string;
   user?: {
+      id: number;
       firstname: string;
       lastname: string;
+      thumbnails?: {
+        url: string;
+      };
+      details?: {
+          bio?: string;
+          designation?: string;
+          twitter?: string;
+          linkedin?: string;
+          facebook?: string;
+          instagram?: string;
+      };
   };
   audio_clip_url?: string;
 }

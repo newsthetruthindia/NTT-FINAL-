@@ -72,11 +72,21 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
             </p>
           )}
           <div className="flex items-center gap-4 text-foreground/50 text-[9px] font-black uppercase tracking-widest">
-            <span className="flex items-center gap-1.5 italic">
-                <span className="w-1.5 h-1.5 bg-primary/40 rounded-full" />
-                {formattedDate}
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 rounded-full overflow-hidden bg-primary/10 border border-border flex-shrink-0">
+                {post.user?.thumbnails?.url ? (
+                  <img src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-[7px] text-primary font-black">NTT</div>
+                )}
+              </div>
+              <span className="flex items-center gap-1.5 italic">
+                  {formattedDate}
+              </span>
+            </div>
+            <span className="text-foreground/80 font-black">
+              BY {post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK'}
             </span>
-            <span className="text-foreground/80 font-black">BY NTT DESK</span>
           </div>
         </div>
       </div>
