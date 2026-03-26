@@ -61,20 +61,20 @@ export default async function NewsDetails({
         <Header />
         <ReadingProgress />
         
-        <article className="pt-28 pb-16 max-w-7xl mx-auto">
+        <article className="pt-44 pb-16 max-w-7xl mx-auto">
           <div className="max-w-4xl mx-auto px-4 mb-8">
             <Breadcrumbs items={[
               { label: categoryTitle, href: `/category/${categorySlug}` },
               { label: post.title }
             ]} />
 
-            <div className="mb-6">
+            <div className="mb-10">
               <span className="premium-gradient px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.25em] text-white shadow-lg shadow-primary/20">
                 {categoryTitle}
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-[80px] font-black text-foreground mb-8 leading-[1.05] tracking-tight antialiased">
+            <h1 className="text-4xl md:text-[80px] font-black text-foreground mb-12 leading-[1.05] tracking-tight antialiased">
               {post.title}
             </h1>
 
