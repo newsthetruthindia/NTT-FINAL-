@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
@@ -9,6 +11,7 @@ export async function GET(
   const path = pathArray.join('/');
   const searchParams = request.nextUrl.searchParams.toString();
   
+  // Directly targeting the VPS API
   const apiUrl = `http://117.252.16.132/api/${path}${searchParams ? `?${searchParams}` : ''}`;
   
   try {
@@ -18,16 +21,19 @@ export async function GET(
     });
     
     const contentType = res.headers.get('content-type');
-    // Guard: If response is not JSON or is an error, return empty success object
+    
+    // NUCLEAR: If the backend returns HTML (404/500/Redirect), return a safe JSON empty state
+    // This prevents "Unexpected token <" console errors.
     if (!res.ok || (contentType && !contentType.includes('application/json'))) {
-      return NextResponse.json({ success: true, data: [] });
+      console.warn(`Proxy warning: ${path} returned status ${res.status} or non-JSON content-type.`);
+      return NextResponse.json({ success: true, data: [], items: [] });
     }
 
     const data = await res.json();
     return NextResponse.json(data);
   } catch (err: any) {
-    console.error('Proxy Fetch Error:', err.message);
-    return NextResponse.json({ success: true, data: [] });
+    console.error(`Proxy Error for ${path}:`, err.message);
+    return NextResponse.json({ success: true, data: [], items: [] });
   }
 }
 
@@ -46,9 +52,15 @@ export async function POST(
   try {
     const res = await fetch(apiUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(body),
     });
+    
+    const contentType = res.headers.get('content-type');
+    if (!res.ok || (contentType && !contentType.includes('application/json'))) {
+        return NextResponse.json({ error: 'Backend error' }, { status: res.status });
+    }
+
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
   } catch (err: any) {

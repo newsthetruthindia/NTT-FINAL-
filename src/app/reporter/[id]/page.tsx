@@ -3,7 +3,6 @@ import Footer from '@/components/Footer'
 import NewsCard from '@/components/NewsCard'
 import { fetchUserById, fetchPostsByUserId, getImageUrl } from '@/lib/api'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 
 export const dynamic = 'force-dynamic'
 
@@ -39,11 +38,10 @@ export default async function ReporterProfilePage({ params }: { params: Promise<
           <div className="flex flex-col md:flex-row items-center md:items-start gap-12 mb-16">
             {/* Avatar */}
             <div className="w-48 h-48 md:w-64 md:h-64 rounded-[40px] overflow-hidden border-4 border-border shadow-2xl flex-shrink-0 relative group">
-              <Image 
+              <img 
                 src={avatarUrl} 
                 alt={fullName}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
             </div>
             
