@@ -26,6 +26,12 @@ export async function GET(
     // This prevents "Unexpected token <" console errors.
     if (!res.ok || (contentType && !contentType.includes('application/json'))) {
       console.warn(`Proxy warning: ${path} returned status ${res.status} or non-JSON content-type.`);
+      
+      // If fetching a single resource (user/post), return null
+      if (path.includes('user/') || path.includes('post/')) {
+        return NextResponse.json({ success: false, data: null });
+      }
+      
       return NextResponse.json({ success: true, data: [], items: [] });
     }
 
@@ -33,6 +39,12 @@ export async function GET(
     return NextResponse.json(data);
   } catch (err: any) {
     console.error(`Proxy Error for ${path}:`, err.message);
+    
+    // If fetching a single resource (user/post), return null
+    if (path.includes('user/') || path.includes('post/')) {
+      return NextResponse.json({ success: false, data: null });
+    }
+    
     return NextResponse.json({ success: true, data: [], items: [] });
   }
 }
