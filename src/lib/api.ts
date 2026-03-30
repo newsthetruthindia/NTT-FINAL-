@@ -179,18 +179,18 @@ export const getImageUrl = (path?: string) => {
   
   // If it's already a full URL pointing to the VPS or older domain
   if (path.startsWith('http')) {
-    // Standardize VPS IPs or known domains to use our internal proxy /storage/
+    // Standardize VPS IPs or known domains to use our internal proxy /api/storage/
     if (path.includes('117.252.16.132/storage/') || path.includes('newsthetruth.com/storage/')) {
        const parts = path.split('/storage/');
        const cleanPath = parts[parts.length - 1];
-       return `/storage/${cleanPath.replace(/^\/+/, '')}`;
+       return `/api/storage/${cleanPath.replace(/^\/+/, '')}`;
     }
     return path;
   }
   
   // Handle relative paths from the backend (ensure no double slashes)
   const cleanPath = path.replace(/^\/+/, '');
-  return `/storage/${cleanPath}`;
+  return `/api/storage/${cleanPath}`;
 };
 
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
