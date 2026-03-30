@@ -14,7 +14,7 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
   useEffect(() => {
     const fetchAd = async () => {
       try {
-        const res = await fetch(`/api/proxy/vps/sponsor/${type}`);
+        const res = await fetch(`/api/proxy/sponsor/${type}`);
         const data = await res.json();
         if (data.success && data.data) {
           setAd(data.data);

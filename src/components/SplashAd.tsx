@@ -10,7 +10,7 @@ export default function SplashAd() {
     // Fetch active splash ad from the API
     const fetchAd = async () => {
       try {
-        const res = await fetch('/api/proxy/vps/sponsor/splash');
+        const res = await fetch('/api/proxy/sponsor/splash');
         const data = await res.json();
         
         if (data.success && data.data) {
