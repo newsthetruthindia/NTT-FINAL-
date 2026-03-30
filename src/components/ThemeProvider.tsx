@@ -12,16 +12,15 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark'); // Default to dark for 'Midnight OLED'
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('themePreference') as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.classList.add(savedTheme);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-      document.documentElement.classList.add('dark');
+    const finalTheme = savedTheme || 'dark';
+    setTheme(finalTheme);
+    document.documentElement.classList.add(finalTheme);
+    if (finalTheme === 'dark') {
+       document.documentElement.style.backgroundColor = '#000000';
     }
   }, []);
 
