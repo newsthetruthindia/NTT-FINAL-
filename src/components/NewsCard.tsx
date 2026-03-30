@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Post, getImageUrl } from '@/lib/api';
 
 interface NewsCardProps {
@@ -24,12 +23,10 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
     return (
       <div className="group flex items-center gap-4 p-3 bg-card/50 hover:bg-card rounded-2xl transition-all duration-300 border border-transparent hover:border-border hover:shadow-lg">
         <div className="w-20 h-20 flex-shrink-0 relative overflow-hidden rounded-xl shadow-sm">
-          <Image 
+          <img 
             src={displayImage} 
             alt={title}
-            fill
-            sizes="80px"
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
         </div>
         <div className="flex-grow min-w-0">
@@ -48,12 +45,10 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
     return (
       <div className="group flex flex-col sm:flex-row h-full w-full overflow-hidden rounded-[24px] md:rounded-[32px] bg-card border border-border hover-lift">
         <div className="sm:w-[40%] relative overflow-hidden h-[180px] sm:h-auto">
-          <Image 
+          <img 
             src={displayImage} 
             alt={title}
-            fill
-            sizes="(max-width: 640px) 100vw, 40vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div className="absolute top-4 left-4">
             <span className="bg-primary/90 backdrop-blur-sm px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest text-white shadow-lg">
@@ -97,13 +92,10 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   if (variant === 'hero') {
     return (
       <div className="group relative h-full min-h-[500px] w-full overflow-hidden rounded-3xl hover-lift">
-          <Image 
+          <img 
             src={displayImage} 
             alt={title}
-            fill
-            sizes="(max-width: 768px) 100vw, 66vw"
-            priority
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 lg:p-12 flex flex-col justify-end">
           <div className="mb-6">
@@ -129,12 +121,10 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   return (
     <div className="group flex flex-col hover-lift bg-card rounded-[32px] overflow-hidden border border-border h-full transition-all duration-500">
       <div className="relative aspect-[16/10] overflow-hidden">
-        <Image 
+        <img 
             src={displayImage} 
             alt={title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         <div className="absolute top-5 left-5">
           <span className="bg-card/95 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-primary shadow-sm border border-border">

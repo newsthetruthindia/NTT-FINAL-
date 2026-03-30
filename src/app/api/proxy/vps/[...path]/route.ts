@@ -16,17 +16,18 @@ export async function GET(
       cache: 'no-store',
       headers: { 'Accept': 'application/json' }
     });
-    // Double check that we actually got JSON
+    
     const contentType = res.headers.get('content-type');
-    if (contentType && !contentType.includes('application/json')) {
-      const text = await res.text();
-      console.error('Proxy Error: Expected JSON but got HTML/Text', text.substring(0, 100));
-      return NextResponse.json({ error: 'Backend returned non-JSON response', detail: text.substring(0, 100) }, { status: 502 });
+    // Guard: If response is not JSON or is an error, return empty success object
+    if (!res.ok || (contentType && !contentType.includes('application/json'))) {
+      return NextResponse.json({ success: true, data: [] });
     }
+
     const data = await res.json();
     return NextResponse.json(data);
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Proxy Fetch Error:', err.message);
+    return NextResponse.json({ success: true, data: [] });
   }
 }
 

@@ -14,19 +14,6 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --primary: #8c0000;
-  --primary-dark: #700000;
-  --secondary: #374151;
-  --accent: #f9fafb;
-  --card: #ffffff;
-  --border: #f3f4f6;
-  --ntt-glass-bg: rgba(255, 255, 255, 0.85);
-  --ntt-glass-border: rgba(255, 255, 255, 0.4);
-}
-
-.dark {
   --background: #000000;
   --foreground: #f9fafb;
   --primary: #ff0000;
@@ -37,6 +24,9 @@
   --border: #1a1a1a;
   --ntt-glass-bg: rgba(0, 0, 0, 0.85);
   --ntt-glass-border: rgba(255, 255, 255, 0.05);
+  
+  /* Fallback legacy vars */
+  --font-sans: var(--font-poppins);
 }
 
 /* Midnight OLED Mode Support */
