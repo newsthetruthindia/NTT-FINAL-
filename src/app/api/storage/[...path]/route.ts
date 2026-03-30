@@ -10,11 +10,19 @@ export async function GET(
   const pathArray = resolvedParams.path;
   const filePath = pathArray.join('/');
   
-  // Primary: Proxy to the internal VPS storage endpoint
-  const primaryStorageUrl = `http://117.252.16.132/storage/${filePath}`;
+  // Determine the correct path segment based on where Filament saves it
+  // New Filament 'webapp_public' disk saves directly to /uploads/... instead of /storage/...
+  const isDirectUpload = filePath.startsWith('uploads/');
+  
+  // Primary: Proxy to the internal VPS endpoint
+  const primaryStorageUrl = isDirectUpload 
+      ? `http://117.252.16.132/${filePath}` 
+      : `http://117.252.16.132/storage/${filePath}`;
   
   // Fallback: If migration was incomplete, use the live site
-  const fallbackStorageUrl = `https://newsthetruth.com/storage/${filePath}`;
+  const fallbackStorageUrl = isDirectUpload
+      ? `https://newsthetruth.com/${filePath}`
+      : `https://newsthetruth.com/storage/${filePath}`;
   
   try {
     let res = await fetch(primaryStorageUrl, { 
