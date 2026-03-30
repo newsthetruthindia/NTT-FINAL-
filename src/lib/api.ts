@@ -177,13 +177,13 @@ export const fetchVideos = async (): Promise<Video[]> => {
 export const getImageUrl = (path?: string) => {
   if (!path) return '/placeholder-news.jpg';
   
-  // If it's already a full URL
+  // If it's already a full URL pointing to the VPS or older domain
   if (path.startsWith('http')) {
-    // Standardize VPS URLs to use our internal proxy /storage/
-    if (path.includes('117.252.16.132/storage/')) {
+    // Standardize VPS IPs or known domains to use our internal proxy /storage/
+    if (path.includes('117.252.16.132/storage/') || path.includes('newsthetruth.com/storage/')) {
        const parts = path.split('/storage/');
        const cleanPath = parts[parts.length - 1];
-       return `/storage/${cleanPath}`;
+       return `/storage/${cleanPath.replace(/^\/+/, '')}`;
     }
     return path;
   }
