@@ -32,6 +32,9 @@ export default function SplashAd() {
     fetchAd();
   }, []);
 
+  // Developer Note: Ad image size is mandatory for optimal "Premium Spotlight" rendering.
+  // Recommended size: 1080x1080 for square or 1920x1080 for wide ads.
+
   if (!isOpen || !adContent) return null;
 
   return (
@@ -47,20 +50,17 @@ export default function SplashAd() {
         </button>
         
         <div className="flex flex-col md:flex-row h-full">
-          <div className="md:w-1/2 relative aspect-square md:aspect-auto">
-            <img 
-              src={`/storage/${adContent.media?.path}`} 
-              alt={adContent.title}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+          <div className="md:w-1/2 relative aspect-square md:aspect-auto bg-black/20">
+            {adContent.media?.path && (
+              <img 
+                src={`/storage/${adContent.media.path.replace(/^\/+/, '')}`} 
+                alt={adContent.title}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            )}
           </div>
           
-          <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-gradient-to-br from-card to-background">
-            <div className="mb-4">
-              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20">
-                Premium Spotlight
-              </span>
-            </div>
+          <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
             
             <h2 className="text-3xl md:text-5xl font-black text-foreground mb-6 leading-tight tracking-tighter uppercase italic">
               {adContent.title}

@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-playfair);
-  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-poppins);
+  --font-heading: var(--font-league-spartan);
+  --font-serif: var(--font-league-spartan);
   --color-primary: #8c0000;
   --color-primary-dark: #700000;
   --color-background: var(--background);
@@ -26,7 +26,20 @@
   --ntt-glass-border: rgba(255, 255, 255, 0.4);
 }
 
-/* Dark mode disabled — site locked to Light mode */
+.dark {
+  --background: #000000;
+  --foreground: #f9fafb;
+  --primary: #ff0000;
+  --primary-dark: #cc0000;
+  --secondary: #9ca3af;
+  --accent: #111827;
+  --card: #0a0a0a;
+  --border: #1a1a1a;
+  --ntt-glass-bg: rgba(0, 0, 0, 0.85);
+  --ntt-glass-border: rgba(255, 255, 255, 0.05);
+}
+
+/* Midnight OLED Mode Support */
 
 * {
   box-sizing: border-box;
@@ -63,7 +76,7 @@ body::after {
 
 body {
   color: var(--foreground);
-  font-family: var(--font-inter), sans-serif !important;
+  font-family: var(--font-poppins), sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -87,7 +100,7 @@ h6 {
 }
 
 .article-content {
-  font-family: var(--font-inter), system-ui, sans-serif !important;
+  font-family: var(--font-poppins), system-ui, sans-serif !important;
   font-size: 1.125rem;
   /* Clean text sizing */
   line-height: 1.8;
@@ -117,7 +130,7 @@ h6 {
 }
 
 .editorial-heading {
-  font-family: var(--font-playfair), serif !important;
+  font-family: var(--font-league-spartan), serif !important;
   letter-spacing: -0.01em;
 }
 
@@ -142,7 +155,7 @@ h6 {
 
 .section-header .title span {
   color: var(--primary);
-  font-family: var(--font-playfair), serif !important;
+  font-family: var(--font-league-spartan), serif !important;
   letter-spacing: -0.01em;
   @apply italic capitalize;
 }

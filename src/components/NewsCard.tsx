@@ -83,8 +83,10 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
                   {formattedDate}
               </span>
             </div>
-            <span className="text-foreground/80 font-black">
-              BY {post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK'}
+            <span className="text-foreground/80 font-black hover:text-primary transition-colors">
+              <Link href={`/reporter/${post.user?.id || 1}`}>
+                BY {post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK'}
+              </Link>
             </span>
           </div>
         </div>
@@ -115,7 +117,9 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <div className="flex items-center gap-4 text-white/70 text-xs font-heading font-bold uppercase tracking-widest">
             <span>{formattedDate}</span>
             <span className="w-1 h-1 bg-white/20 rounded-full"></span>
-            <span>By {post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT Desk'}</span>
+            <Link href={`/reporter/${post.user?.id || 1}`} className="hover:text-primary transition-colors">
+              <span>By {post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT Desk'}</span>
+            </Link>
           </div>
         </div>
       </div>

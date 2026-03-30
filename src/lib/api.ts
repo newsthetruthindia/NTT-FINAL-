@@ -176,18 +176,20 @@ export const fetchVideos = async (): Promise<Video[]> => {
 
 export const getImageUrl = (path?: string) => {
   if (!path) return '/placeholder-news.jpg';
+  
+  // If it's already a full URL
   if (path.startsWith('http')) {
-    // If it's an insecure HTTP URL from the backend, we proxy it via relative /storage/ 
-    // or just return it if it's external.
-    // However, for our own VPS, we prefer the /storage/ proxy we just set up.
+    // Standardize VPS URLs to use our internal proxy /storage/
     if (path.includes('117.252.16.132/storage/')) {
-       const cleanPath = path.split('/storage/')[1];
+       const parts = path.split('/storage/');
+       const cleanPath = parts[parts.length - 1];
        return `/storage/${cleanPath}`;
     }
     return path;
   }
   
-  const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+  // Handle relative paths from the backend (ensure no double slashes)
+  const cleanPath = path.replace(/^\/+/, '');
   return `/storage/${cleanPath}`;
 };
 
@@ -216,6 +218,34 @@ export const fetchArchivePosts = async (date: string, limit = 20): Promise<Post[
     const json = await res.json();
     if (json.data && json.data.data) return json.data.data;
     return json.data ?? [];
+  } catch {
+    return [];
+  }
+};
+
+export const fetchUserById = async (userId: number): Promise<any> => {
+  try {
+    const res = await fetch(`${API_URL}user/${userId}`, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data;
+  } catch {
+    return null;
+  }
+};
+
+export const fetchPostsByUserId = async (userId: number, limit = 100): Promise<Post[]> => {
+  try {
+    const res = await fetch(`${API_URL}posts/user/${userId}?limit=${limit}`, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return handleResponse(json);
   } catch {
     return [];
   }

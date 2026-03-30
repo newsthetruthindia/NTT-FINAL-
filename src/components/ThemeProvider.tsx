@@ -15,18 +15,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
-    // Force Light Mode
-    setTheme('light');
-    document.documentElement.classList.add('light');
-    document.documentElement.classList.remove('dark');
-    localStorage.setItem('themePreference', 'light');
+    const savedTheme = localStorage.getItem('themePreference') as Theme | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.classList.add(savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+      document.documentElement.classList.add('dark');
+    }
   }, []);
 
   const toggleTheme = () => {
-    // Toggle disabled, keep light
-    setTheme('light');
-    document.documentElement.classList.add('light');
-    document.documentElement.classList.remove('dark');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(newTheme);
+    localStorage.setItem('themePreference', newTheme);
   };
 
   return (

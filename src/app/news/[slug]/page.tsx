@@ -125,7 +125,9 @@ export default async function NewsDetails({
                   )}
                 </div>
                 <div>
-                  <p className="text-base font-black text-foreground">By {post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT Desk'}</p>
+                  <Link href={`/reporter/${post.user?.id || 1}`} className="hover:text-primary transition-colors">
+                    <p className="text-base font-black text-foreground">By {post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT Desk'}</p>
+                  </Link>
                   <p className="text-[11px] text-foreground/60 uppercase tracking-[0.2em] font-extrabold flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                     {postDateFormatted} • {readingTime} min read
@@ -173,9 +175,9 @@ export default async function NewsDetails({
                   </div>
                   <div className="flex-grow">
                     <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-3 block">Meet the Reporter</span>
-                    <h3 className="text-3xl font-black text-foreground mb-4">
-                      {post.user.firstname} {post.user.lastname}
-                    </h3>
+                      <Link href={`/reporter/${post.user.id}`} className="hover:text-primary transition-colors">
+                        {post.user.firstname} {post.user.lastname}
+                      </Link>
                     {post.user.details?.designation && (
                       <p className="text-primary font-bold text-sm mb-4 uppercase tracking-widest">{post.user.details.designation}</p>
                     )}

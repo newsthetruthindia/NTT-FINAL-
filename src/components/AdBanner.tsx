@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface AdBannerProps {
   type?: 'banner' | 'sidebar';
@@ -8,29 +8,53 @@ interface AdBannerProps {
 }
 
 const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) => {
-  // In a real scenario, this would fetch from the /api/sponsor/{type} endpoint
-  // For now, we'll use a placeholder that matches the premium aesthetic
-  
+  const [ad, setAd] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAd = async () => {
+      try {
+        const res = await fetch(`/api/proxy/vps/sponsor/${type}`);
+        const data = await res.json();
+        if (data.success && data.data) {
+          setAd(data.data);
+        }
+      } catch (error) {
+        console.error(`Failed to fetch ${type} ad:`, error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAd();
+  }, [type]);
+
+  if (loading) return null;
+  if (!ad) return null;
+
   return (
-    <div className={`relative group overflow-hidden rounded-3xl border border-border bg-card/50 backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 ${className}`}>
-      <div className="absolute top-2 right-4 z-10">
-        <span className="text-[9px] font-black uppercase tracking-widest text-foreground/40 bg-background/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-border">
-          Sponsored
-        </span>
-      </div>
+    <div className={`relative group overflow-hidden rounded-3xl border border-border bg-card/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 ${className}`}>
       
-      <div className={`flex items-center justify-center bg-gradient-to-br from-card to-background ${type === 'banner' ? 'h-32 md:h-48' : 'h-64'}`}>
-         {/* Placeholder for Ad Content */}
-         <div className="text-center p-6">
-            <h4 className="text-lg font-black tracking-tighter text-foreground/80 mb-2 uppercase">Your Brand Here</h4>
-            <p className="text-xs text-foreground/50 font-medium max-w-[200px] mx-auto italic">
-              Premium placement for industry leaders and visionary storytellers.
-            </p>
-            <button className="mt-4 px-6 py-2 rounded-full bg-primary text-white text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-transform shadow-lg shadow-primary/20">
-              Partner with NTT
-            </button>
-         </div>
-      </div>
+      <a 
+        href={ad.link_url} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className={`flex items-center justify-center bg-background/50 ${type === 'banner' ? 'h-32 md:h-48' : 'h-64'}`}
+      >
+         {ad.media?.path ? (
+           <img 
+            src={`/storage/${ad.media.path.replace(/^\/+/, '')}`} 
+            alt={ad.name} 
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+           />
+         ) : (
+           <div className="text-center p-6">
+              <h4 className="text-lg font-black tracking-tighter text-foreground/80 mb-2 uppercase italic">{ad.name}</h4>
+              <p className="text-[10px] text-foreground/40 font-black uppercase tracking-widest italic">
+                View Website
+              </p>
+           </div>
+         )}
+      </a>
     </div>
   );
 };
