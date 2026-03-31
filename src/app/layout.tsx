@@ -2,31 +2,62 @@ import type { Metadata } from "next";
 import { Poppins, League_Spartan } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import StructuredData from "@/components/StructuredData";
 
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: 'swap',
 });
 
 const leagueSpartan = League_Spartan({
   variable: "--font-league-spartan",
   subsets: ["latin"],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "News The Truth | Premium News Portal",
-  description: "Questions will be asked.",
+  title: {
+    default: "NTT | News The Truth",
+    template: "%s | NTT"
+  },
+  description: "NTT: Authentic storytelling and citizen journalism. Questions will be asked.",
+  metadataBase: new URL('https://ntt-final.vercel.app'),
   manifest: "/manifest.json",
   themeColor: "#ff0000",
+  keywords: ["news", "truth", "ntt", "citizen journalism", "india news", "exclusive reports"],
+  authors: [{ name: "NTT Editorial Desk" }],
+  openGraph: {
+    title: "NTT | News The Truth",
+    description: "NTT: Authentic storytelling and citizen journalism. Questions will be asked.",
+    url: "https://ntt-final.vercel.app",
+    siteName: "NTT",
+    images: [
+      {
+        url: "/icon-512.png",
+        width: 512,
+        height: 512,
+        alt: "NTT News Logo",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NTT | News The Truth",
+    description: "NTT: Authentic storytelling and citizen journalism. Questions will be asked.",
+    images: ["/icon-512.png"],
+    creator: "@newsthetruth",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "NTT News",
+    title: "NTT",
   },
 };
-
-import { ThemeProvider } from "@/components/ThemeProvider";
 
 export default function RootLayout({
   children,
@@ -35,6 +66,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <StructuredData />
+      </head>
       <body
         className={`${poppins.variable} ${leagueSpartan.variable} antialiased`}
       >

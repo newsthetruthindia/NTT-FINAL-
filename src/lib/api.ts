@@ -73,7 +73,7 @@ const handleResponse = (json: any) => {
 export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/latest?limit=${limit}`, { 
-      cache: 'no-store',
+      next: { revalidate: 60 },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -88,7 +88,7 @@ export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
 export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/top?limit=${limit}`, { 
-      cache: 'no-store',
+      next: { revalidate: 60 },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -101,7 +101,7 @@ export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
 
 export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
   const res = await fetch(`${API_URL}post/${slug}`, { 
-    cache: 'no-store',
+    next: { revalidate: 60 },
     headers: { 'Accept': 'application/json' }
   });
   if (!res.ok) return null;
@@ -112,7 +112,7 @@ export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
 export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any> => {
   try {
     const res = await fetch(`${API_URL}posts/category/${slug}?limit=${limit}`, { 
-      cache: 'no-store',
+      next: { revalidate: 60 },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -126,7 +126,7 @@ export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any>
 export const fetchCategories = async (): Promise<any[]> => {
   try {
     const res = await fetch(`${API_URL}categories`, { 
-      cache: 'no-store',
+      next: { revalidate: 3600 },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -140,7 +140,7 @@ export const fetchCategories = async (): Promise<any[]> => {
 export const fetchTags = async (): Promise<any[]> => {
   try {
     const res = await fetch(`${API_URL}tags`, { 
-      cache: 'no-store',
+      next: { revalidate: 3600 },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -163,7 +163,7 @@ export interface Video {
 export const fetchVideos = async (): Promise<Video[]> => {
   try {
     const res = await fetch(`${API_URL}videos`, { 
-      cache: 'no-store',
+      next: { revalidate: 60 },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -196,7 +196,7 @@ export const getImageUrl = (path?: string) => {
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/search?q=${encodeURIComponent(query)}&limit=${limit}`, { 
-      cache: 'no-store',
+      next: { revalidate: 60 },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -211,7 +211,7 @@ export const searchPosts = async (query: string, limit = 20): Promise<Post[]> =>
 export const fetchArchivePosts = async (date: string, limit = 20): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/archive?date=${date}&limit=${limit}`, { 
-      cache: 'no-store',
+      next: { revalidate: 60 },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -226,7 +226,7 @@ export const fetchArchivePosts = async (date: string, limit = 20): Promise<Post[
 export const fetchUserById = async (userId: number): Promise<any> => {
   try {
     const res = await fetch(`${API_URL}user/${userId}`, { 
-      cache: 'no-store',
+      next: { revalidate: 60 },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return null;
@@ -240,7 +240,7 @@ export const fetchUserById = async (userId: number): Promise<any> => {
 export const fetchPostsByUserId = async (userId: number, limit = 100): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/user/${userId}?limit=${limit}`, { 
-      cache: 'no-store',
+      next: { revalidate: 60 },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];

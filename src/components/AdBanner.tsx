@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 interface AdBannerProps {
   type?: 'banner' | 'sidebar';
@@ -31,6 +32,8 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
   if (loading) return null;
   if (!ad) return null;
 
+  const imageSrc = ad.media?.path ? `/api/storage/${ad.media.path.replace(/^\/+/, '')}` : null;
+
   return (
     <div className={`relative group overflow-hidden rounded-3xl border border-border bg-card/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 ${className}`}>
       
@@ -38,13 +41,15 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
         href={ad.link_url} 
         target="_blank" 
         rel="noopener noreferrer"
-        className={`flex items-center justify-center bg-background/50 ${type === 'banner' ? 'h-32 md:h-48' : 'h-64'}`}
+        className={`flex items-center justify-center bg-background/50 relative ${type === 'banner' ? 'h-32 md:h-48' : 'h-64'}`}
       >
-         {ad.media?.path ? (
-           <img 
-            src={`/storage/${ad.media.path.replace(/^\/+/, '')}`} 
+         {imageSrc ? (
+           <Image 
+            src={imageSrc} 
             alt={ad.name} 
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, 80vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
            />
          ) : (
            <div className="text-center p-6">

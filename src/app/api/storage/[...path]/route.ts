@@ -12,7 +12,8 @@ export async function GET(
   
   // Determine the correct path segment based on where Filament saves it
   // New Filament 'webapp_public' disk saves directly to /uploads/... instead of /storage/...
-  const isDirectUpload = filePath.startsWith('uploads/');
+  // Also, user profile pics are saved directly in /medias/...
+  const isDirectUpload = filePath.startsWith('uploads/') || filePath.startsWith('medias/');
   
   // Primary: Proxy to the internal VPS endpoint
   const primaryStorageUrl = isDirectUpload 
@@ -30,10 +31,22 @@ export async function GET(
       next: { revalidate: 3600 } 
     });
     
-    // If VPS returns 404 or HTML error page instead of image, try the fallback
+    // If Primary fails and it was a direct upload (like /uploads/ or /medias/), 
+    // try the same path under /storage/ as a fallback
     const contentType = res.headers.get('content-type');
-    if (!res.ok || (contentType && contentType.includes('text/html'))) {
-      console.warn(`[Storage Proxy] Primary VPS failed for ${filePath}. Trying fallback...`);
+    if ((!res.ok || (contentType && contentType.includes('text/html'))) && isDirectUpload) {
+        const secondaryStorageUrl = `http://117.252.16.132/storage/${filePath}`;
+        console.warn(`[Storage Proxy] Direct path failed for ${filePath}. Trying /storage/ fallback...`);
+        res = await fetch(secondaryStorageUrl, { 
+          cache: 'force-cache',
+          next: { revalidate: 3600 } 
+        });
+    }
+
+    // Still failing? Try the live site fallback
+    const finalCheckContentType = res.headers.get('content-type');
+    if (!res.ok || (finalCheckContentType && finalCheckContentType.includes('text/html'))) {
+      console.warn(`[Storage Proxy] VPS failed for ${filePath}. Trying Live Site fallback...`);
       res = await fetch(fallbackStorageUrl, { 
         cache: 'force-cache',
         next: { revalidate: 3600 } 

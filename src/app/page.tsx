@@ -32,6 +32,8 @@ export default async function Home() {
       fetchCategoryPosts('the-exclusive-truth', 1).catch(() => []),
       fetchCategoryPosts('the-untold-truth', 1).catch(() => []),
       fetchCategoryPosts('your-truth', 4).catch(() => []),
+      fetchCategoryPosts('politics', 4).catch(() => []),
+      fetchCategoryPosts('bengal', 4).catch(() => []),
     ]);
 
     topPosts = results[0] || [];
@@ -43,10 +45,10 @@ export default async function Home() {
     exclusivePosts = results[6] || [];
     untoldPosts = results[7] || [];
     yourTruthPosts = results[8] || [];
+    politicsPosts = results[9] || [];
+    statePosts = results[10] || [];
 
-    // More fetches
-    politicsPosts = await fetchCategoryPosts('politics', 4).catch(() => []);
-    statePosts = await fetchCategoryPosts('bengal', 4).catch(() => []);
+    // All fetches now parallelized
   } catch (err) {
     console.error("Home Page Data Fetch Error:", err);
   }

@@ -1,7 +1,7 @@
 {
-  "name": "News The Truth (NTT)",
+  "name": "NTT",
   "short_name": "NTT",
-  "description": "Premium news portal for authentic storytelling and citizen journalism.",
+  "description": "NTT: Authentic storytelling and citizen journalism.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
