@@ -46,6 +46,7 @@ export interface Post {
           instagram?: string;
       };
   };
+  reporter_name?: string;
   audio_clip_url?: string;
 }
 

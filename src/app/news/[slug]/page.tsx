@@ -176,7 +176,7 @@ export default async function NewsDetails({
                   <div className="flex-grow">
                     <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-3 block">Meet the Reporter</span>
                       <Link href={`/reporter/${post.user.id}`} className="hover:text-primary transition-colors">
-                        {post.user.firstname} {post.user.lastname}
+                        {post.reporter_name || `${post.user.firstname} ${post.user.lastname}`}
                       </Link>
                     {post.user.details?.designation && (
                       <p className="text-primary font-bold text-sm mb-4 uppercase tracking-widest">{post.user.details.designation}</p>
@@ -214,7 +214,7 @@ export default async function NewsDetails({
 
             <ShareCard 
               title={post.title} 
-              reporterName={post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT Desk'} 
+              reporterName={post.reporter_name || 'NTT Desk'} 
             />
           </div>
         </article>

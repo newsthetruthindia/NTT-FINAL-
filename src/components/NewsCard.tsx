@@ -96,11 +96,11 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
                   {formattedDate}
               </span>
             </div>
-            <span className="text-foreground/80 font-black hover:text-primary transition-colors">
-              <Link href={`/reporter/${post.user?.id || 1}`}>
-                BY {post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK'}
-              </Link>
-            </span>
+              <span className="text-foreground/60 font-black hover:text-primary transition-colors uppercase">
+                <Link href={`/reporter/${post.user?.id || 1}`}>
+                  BY {post.reporter_name || (post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK')}
+                </Link>
+              </span>
           </div>
         </div>
       </div>
