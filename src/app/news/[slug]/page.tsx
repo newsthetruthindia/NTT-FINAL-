@@ -194,10 +194,18 @@ export default async function NewsDetails({
                 />
             </div>
 
+            <div className="pb-10">
+               <AdBanner />
+            </div>
+
             <div 
               className="prose prose-2xl max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2 premium-media"
               dangerouslySetInnerHTML={{ __html: articleContent }}
             />
+
+            <div className="py-12">
+               <AdBanner />
+            </div>
 
             <div className="mt-20 pt-10 border-t border-border/50 text-center">
                 <Link href="/" className="premium-gradient px-8 py-3 rounded-full text-white font-black uppercase text-[10px] tracking-widest inline-block shadow-xl">
