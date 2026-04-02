@@ -19,26 +19,30 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = await fetchPostBySlug(resolvedParams.slug);
   if (!post) return { title: 'Story Not Found | NTT' };
 
-  const description = (post.excerpt || post.content?.replace(/<[^>]*>/g, '') || '').slice(0, 160);
+  const postTitle = String(post.title || 'Story Not Found');
+  const rawContent = String(post.content || '');
+  const rawExcerpt = String(post.excerpt || '');
+  
+  const description = (rawExcerpt || rawContent.replace(/<[^>]*>/g, '') || '').slice(0, 160);
   const imageUrl = getImageUrl(post.thumbnails?.url);
   const fullImageUrl = imageUrl.startsWith('http') ? imageUrl : `${SITE_URL}${imageUrl}`;
 
   return {
-    title: `${post.title} | News The Truth`,
+    title: `${postTitle} | News The Truth`,
     description,
     openGraph: {
-      title: post.title,
+      title: postTitle,
       description,
       url: `${SITE_URL}/news/${resolvedParams.slug}`,
       siteName: 'News The Truth',
-      images: [{ url: fullImageUrl, width: 1200, height: 630, alt: post.title }],
+      images: [{ url: fullImageUrl, width: 1200, height: 630, alt: postTitle }],
       type: 'article',
       publishedTime: post.created_at,
       modifiedTime: post.updated_at,
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
+      title: postTitle,
       description,
       images: [fullImageUrl],
     },
@@ -99,12 +103,17 @@ export default async function NewsDetails({
       ? new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
       : 'Recent News';
 
-    const stripTags = (html: string) => html.replace(/<[^>]*>/g, '').trim();
-    let articleContent = (post.content && stripTags(post.content)) ? post.content : 
-                          (post.description && stripTags(post.description)) ? post.description : 
-                          post.excerpt || '<p>No content available for this story.</p>';
+    const stripTags = (html: any) => String(html || '').replace(/<[^>]*>/g, '').trim();
     
-    const wordCount = articleContent.replace(/<[^>]*>/g, '').split(/\s+/).length;
+    const rawContent = String(post.content || '');
+    const rawDescription = String(post.description || '');
+    const rawExcerpt = String(post.excerpt || '');
+
+    let articleContent = stripTags(rawContent) ? rawContent : 
+                          stripTags(rawDescription) ? rawDescription : 
+                          rawExcerpt || '<p>No content available for this story.</p>';
+    
+    const wordCount = stripTags(articleContent).split(/\s+/).length;
     const readingTime = Math.ceil(wordCount / 200);
 
     // Step 2: Smart "Also Read" Logic

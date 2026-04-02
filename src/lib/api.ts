@@ -178,8 +178,8 @@ export const fetchVideos = async (): Promise<Video[]> => {
   }
 };
 
-export const getImageUrl = (path?: string) => {
-  if (!path) return '/placeholder-news.jpg';
+export const getImageUrl = (path?: any) => {
+  if (!path || typeof path !== 'string') return '/placeholder-news.jpg';
   
   // If it's already a full URL pointing to the VPS or older domain
   if (path.startsWith('http')) {
