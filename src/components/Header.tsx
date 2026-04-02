@@ -58,7 +58,7 @@ export default function Header() {
               <Link
                 key={item}
                 href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`}
-                className="text-[10px] xl:text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/70 hover:text-primary transition-all duration-300 hover:scale-105 pointer-events-auto"
+                className="text-[10px] xl:text-[11px] font-bold uppercase tracking-[0.25em] text-foreground hover:text-primary transition-all duration-300 hover:scale-105 pointer-events-auto"
               >
                 {item}
               </Link>
@@ -89,7 +89,7 @@ export default function Header() {
                 className="hidden md:flex items-center gap-2 group/report pointer-events-auto"
               >
                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-foreground/60 group-hover/report:text-primary transition-colors">
+                <span className="text-[10px] font-black uppercase tracking-widest text-foreground hover:text-primary transition-colors">
                   Report
                 </span>
               </Link>
@@ -155,7 +155,7 @@ export default function Header() {
                     <div className="flex items-center gap-4">
                       <Link
                         href="/login"
-                        className="hidden sm:block text-[10px] font-black uppercase tracking-widest text-foreground/60 hover:text-primary transition-colors"
+                        className="hidden sm:block text-[10px] font-black uppercase tracking-widest text-foreground hover:text-primary transition-colors pr-2"
                       >
                         Login
                       </Link>

@@ -19,12 +19,12 @@
   --foreground: #000000;
   --primary: #8c0000;
   --primary-dark: #6b0000;
-  --secondary: #4b5563;
+  --secondary: #374151; /* Hardened Gray (700) */
   --accent: #f8fafc;
   --card: #ffffff;
   --border: #dfdfdf;
-  --ntt-glass-bg: rgba(255, 255, 255, 0.9);
-  --ntt-glass-border: rgba(0, 0, 0, 0.1);
+  --ntt-glass-bg: rgba(255, 255, 255, 0.95);
+  --ntt-glass-border: rgba(0, 0, 0, 0.15);
   
   --font-sans: var(--font-poppins);
 }
@@ -35,12 +35,12 @@
   --foreground: #ffffff;
   --primary: #ff0000;
   --primary-dark: #cc0000;
-  --secondary: #94a3b8;
+  --secondary: #cbd5e1; /* Hardened Slate (300) */
   --accent: #0f172a;
   --card: #050505;
-  --border: #141414;
-  --ntt-glass-bg: rgba(0, 0, 0, 0.9);
-  --ntt-glass-border: rgba(255, 255, 255, 0.05);
+  --border: #1a1a1a;
+  --ntt-glass-bg: rgba(0, 0, 0, 0.95);
+  --ntt-glass-border: rgba(255, 255, 255, 0.1);
 }
 
 /* Midnight OLED Mode Support */

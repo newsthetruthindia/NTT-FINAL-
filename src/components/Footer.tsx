@@ -9,7 +9,7 @@ export default function Footer() {
             <span className="text-2xl font-heading font-black tracking-tighter mb-6 block text-white">
               NTT<span className="text-primary">.</span>
             </span>
-            <p className="text-gray-500 max-w-sm mb-8 text-sm leading-relaxed">
+            <p className="text-gray-400 max-w-sm mb-8 text-sm leading-relaxed">
               Questions will be asked. 
               Join us in bringing the truth to light.
             </p>
@@ -62,7 +62,7 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-white/5 mt-16 pt-8 text-center text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em]">
+        <div className="border-t border-white/5 mt-16 pt-8 text-center text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">
           © <span suppressHydrationWarning>{new Date().getFullYear()}</span> News The Truth. All rights reserved.
         </div>
       </div>

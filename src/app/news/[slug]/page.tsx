@@ -186,6 +186,21 @@ export default async function NewsDetails({
                 {postTitleText}
             </h1>
 
+            <div className="flex flex-wrap items-center gap-6 mb-8 pb-6 border-b border-border/50 text-[11px] font-bold uppercase tracking-widest text-secondary">
+                <div className="flex items-center gap-2">
+                    <span className="text-primary">👨‍💼</span>
+                    {renderAttributionLink(reporterName)}
+                </div>
+                <div className="flex items-center gap-2 opacity-80">
+                    <span className="text-primary">📅</span>
+                    {postDateFormatted}
+                </div>
+                <div className="flex items-center gap-2 opacity-80">
+                    <span className="text-primary">⏱️</span>
+                    {readingTime} MIN READ
+                </div>
+            </div>
+
             <div className="aspect-video rounded-[24px] md:rounded-[32px] overflow-hidden mb-10 shadow-xl border border-border group relative">
                 <img 
                     src={displayImageUrl} 
@@ -212,9 +227,43 @@ export default async function NewsDetails({
                <AdBanner />
             </div>
 
-            <div className="mt-20 pt-10 border-t border-border/50 text-center">
-                <Link href="/" className="premium-gradient px-8 py-3 rounded-full text-white font-black uppercase text-[10px] tracking-widest inline-block shadow-xl">
-                   Return to News Hub
+            {/* Related Stories Grid */}
+            <div className="mt-20 pt-10 border-t border-border/50">
+                <h3 className="text-xl font-black uppercase tracking-widest text-foreground mb-10 flex items-center gap-3">
+                    <span className="w-8 h-[2px] bg-primary"></span>
+                    More from NTT
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {latestPosts.filter(p => p.slug !== slug).slice(0, 4).map((post) => (
+                        <Link 
+                            key={post.id} 
+                            href={`/news/${post.slug}`}
+                            className="group flex gap-4 items-start"
+                        >
+                            <div className="w-24 h-24 shrink-0 rounded-2xl overflow-hidden border border-border/50 bg-accent transition-all group-hover:border-primary/30">
+                                <img 
+                                    src={getImageUrl(post.thumbnails?.url)} 
+                                    alt={post.title} 
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <span className="text-[9px] font-black uppercase tracking-widest text-primary">
+                                    {post.categories?.[0]?.cat_data?.title || 'Trending'}
+                                </span>
+                                <h4 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors leading-snug line-clamp-2">
+                                    {post.title}
+                                </h4>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+
+            <div className="mt-20 py-10 border-t border-border/50 text-center">
+                <Link href="/" className="premium-gradient px-8 py-3 rounded-full text-white font-black uppercase text-[10px] tracking-widest inline-block shadow-xl hover:-translate-y-1 transition-all">
+                   Back to All Stories
                 </Link>
             </div>
         </article>

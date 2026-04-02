@@ -99,11 +99,11 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           {excerpt && (
-            <p className="text-foreground/60 text-[11px] lg:text-xs mb-4 line-clamp-2 leading-relaxed font-medium">
+            <p className="text-secondary text-[11px] lg:text-xs mb-4 line-clamp-2 leading-relaxed font-medium">
               {excerpt}
             </p>
           )}
-          <div className="flex items-center gap-4 text-foreground/50 text-[9px] font-black uppercase tracking-widest">
+          <div className="flex items-center gap-4 text-secondary text-[10px] font-black uppercase tracking-widest">
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 rounded-full overflow-hidden bg-primary/10 border border-border flex-shrink-0 relative">
                 {post.user?.thumbnails?.url ? (
@@ -184,13 +184,13 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <Link href={`/news/${slug}`}>{title}</Link>
         </h3>
         {excerpt && (
-          <p className="text-foreground/60 text-sm mb-6 line-clamp-3 leading-relaxed">
+          <p className="text-secondary text-sm mb-6 line-clamp-3 leading-relaxed">
             {excerpt}
           </p>
         )}
         <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
-          <span className="text-[11px] font-extrabold text-foreground/50 uppercase tracking-widest flex items-center gap-2 italic">
-            <span className="w-1 h-1 rounded-full bg-primary" />
+          <span className="text-[11px] font-black text-secondary uppercase tracking-widest flex items-center gap-2 italic">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
             {formattedDate}
           </span>
           <Link 
