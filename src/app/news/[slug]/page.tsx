@@ -198,6 +198,11 @@ export default async function NewsDetails({
                <AdBanner />
             </div>
 
+            <div className="space-y-10 mb-12">
+               <AISummary content={articleContent} />
+               <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
+            </div>
+
             <div 
               className="prose prose-2xl max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2 premium-media"
               dangerouslySetInnerHTML={{ __html: articleContent }}
