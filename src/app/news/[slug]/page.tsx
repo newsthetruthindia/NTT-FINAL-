@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-import { fetchPostBySlug, fetchLatestPosts, getImageUrl } from '@/lib/api'
+import { fetchPostBySlug, fetchLatestPosts, fetchPostsByUserId, getImageUrl, Post } from '@/lib/api'
 import NewsCard from '@/components/NewsCard'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import AISummary from '@/components/AISummary'
@@ -10,6 +10,7 @@ import AudioPlayer from '@/components/AudioPlayer'
 import ShareCard from '@/components/ShareCard'
 import ReadingProgress from '@/components/ReadingProgress'
 import AdBanner from '@/components/AdBanner'
+import SocialSidebar from '@/components/SocialSidebar'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ntt-final.vercel.app'
 
@@ -47,7 +48,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-// Final build trigger
 export const dynamic = 'force-dynamic'
 
 export default async function NewsDetails({ 
@@ -77,7 +77,15 @@ export default async function NewsDetails({
       );
     }
 
-    const latestPosts = await fetchLatestPosts(4);
+    const latestPosts = await fetchLatestPosts(8);
+    
+    // Step 1: Fetch Author's Archive
+    let authorPosts: Post[] = [];
+    if (post.user?.id) {
+       const userPostsResponse = await fetchPostsByUserId(post.user.id, 6);
+       authorPosts = userPostsResponse.filter((p: any) => p.id !== post.id).slice(0, 4);
+    }
+
     const displayImage = getImageUrl(post.thumbnails?.url);
     const categoryTitle = post.categories?.[0]?.cat_data?.title || 'News';
     const categorySlug = post.categories?.[0]?.cat_data?.slug || 'news';
@@ -86,14 +94,37 @@ export default async function NewsDetails({
       : 'Recent News';
 
     const stripTags = (html: string) => html.replace(/<[^>]*>/g, '').trim();
-    const articleContent = (post.content && stripTags(post.content)) ? post.content : 
+    let articleContent = (post.content && stripTags(post.content)) ? post.content : 
                           (post.description && stripTags(post.description)) ? post.description : 
                           post.excerpt || '<p>No content available for this story.</p>';
     
     const wordCount = articleContent.replace(/<[^>]*>/g, '').split(/\s+/).length;
     const readingTime = Math.ceil(wordCount / 200);
 
-    // Attribution Logic Helpers
+    // Step 2: Smart "Also Read" Logic
+    const injectAlsoRead = (content: string, posts: Post[]) => {
+        if (posts.length < 2) return content;
+        const paragraphs = content.split('</p>');
+        if (paragraphs.length < 4) return content;
+        
+        const midPoint = Math.floor(paragraphs.length / 2);
+        const relatedPost = posts[Math.floor(Math.random() * Math.min(3, posts.length))];
+        
+        const alsoReadHtml = `
+            <div class="my-10 p-6 rounded-3xl bg-primary/5 border border-primary/10 group cursor-pointer NOT_PROSE">
+                <span class="text-[10px] font-black text-primary uppercase tracking-[.3em] mb-2 block">Recommended for you</span>
+                <a href="/news/${relatedPost.slug}" class="text-xl md:text-2xl font-black text-foreground hover:text-primary transition-colors leading-tight block">
+                    ${relatedPost.title} &rarr;
+                </a>
+            </div>
+        `;
+        
+        paragraphs.splice(midPoint, 0, alsoReadHtml);
+        return paragraphs.join('</p>');
+    };
+
+    articleContent = injectAlsoRead(articleContent, latestPosts);
+
     const reporterName = post.reporter_name || (post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK');
     const isCitizen = post.reporter_name === "Citizen Journalist";
     const isStaff = post.reporter_name === "Staff Reporter";
@@ -121,9 +152,9 @@ export default async function NewsDetails({
       <main className="min-h-screen bg-background">
         <Header />
         <ReadingProgress />
+        <SocialSidebar title={post.title} url={`${SITE_URL}/news/${slug}`} />
         
         <article className="pt-32 pb-24 relative overflow-hidden transition-colors duration-500">
-           {/* Abstract background highlight */}
            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/2 blur-[100px] rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
@@ -206,14 +237,13 @@ export default async function NewsDetails({
             </div>
 
             <div 
-              className="prose prose-2xl max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2"
+              className="prose prose-2xl max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2 premium-media"
               dangerouslySetInnerHTML={{ __html: articleContent }}
             />
 
-            {/* Meet the Reporter Section */}
             {post.user && (
               <div className="mt-20 p-8 md:p-12 rounded-[40px] bg-card border border-border shadow-sm">
-                <div className="flex flex-col md:flex-row gap-8 items-start">
+                <div className="flex flex-col md:flex-row gap-8 items-start mb-12">
                   <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-primary/10 border-4 border-background shadow-xl flex-shrink-0">
                     {post.user.thumbnails?.url ? (
                       <img src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} className="w-full h-full object-cover" />
@@ -267,6 +297,22 @@ export default async function NewsDetails({
                     )}
                   </div>
                 </div>
+
+                {/* Author Archive Carousel Slider */}
+                {authorPosts.length > 0 && (
+                  <div className="mt-10 pt-10 border-t border-border/50">
+                    <div className="flex items-center justify-between mb-8">
+                       <h4 className="text-xl font-black text-foreground tracking-tight italic">Recent Highlights by {post.user.firstname}</h4>
+                    </div>
+                    <div className="flex gap-6 overflow-x-auto pb-6 no-scrollbar -mx-4 px-4">
+                       {authorPosts.map((p) => (
+                         <div key={p.id} className="min-w-[280px] w-[280px] hover:scale-[1.02] transition-transform duration-300">
+                            <NewsCard post={p} variant="compact" />
+                         </div>
+                       ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
