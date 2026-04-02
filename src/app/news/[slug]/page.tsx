@@ -187,8 +187,18 @@ export default async function NewsDetails({
             </h1>
 
             <div className="flex flex-wrap items-center gap-6 mb-8 pb-6 border-b border-border/50 text-[11px] font-bold uppercase tracking-widest text-secondary">
-                <div className="flex items-center gap-2">
-                    <span className="text-primary">👨‍💼</span>
+                <div className="flex items-center gap-3 pr-6 border-r border-border/50">
+                    <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-border bg-accent relative shrink-0 shadow-sm">
+                        {post.user?.thumbnails?.url ? (
+                            <img 
+                                src={getImageUrl(post.user.thumbnails.url)} 
+                                alt={reporterName} 
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center text-[10px] font-black text-primary bg-primary/5">NTT</div>
+                        )}
+                    </div>
                     {renderAttributionLink(reporterName)}
                 </div>
                 <div className="flex items-center gap-2 opacity-80">
