@@ -263,7 +263,7 @@ export default async function NewsDetails({
                       <img src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-4xl font-black text-primary">
-                        {post.user.firstname.charAt(0)}
+                        {(post.user.firstname?.charAt(0)) || 'N'}
                       </div>
                     )}
                   </div>
