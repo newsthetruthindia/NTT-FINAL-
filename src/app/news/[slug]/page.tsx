@@ -155,7 +155,7 @@ export default async function NewsDetails({
     const renderAttributionLink = (name: string) => {
         if (isCitizen) {
             return (
-                <Link href="/category/citizen-journalism" className="hover:text-primary transition-colors underline decoration-primary/30 decoration-2 underline-offset-4">
+                <Link href="/category/citizen-journalism" className="hover:text-primary transition-colors">
                     BY {name}
                 </Link>
             );
@@ -164,7 +164,7 @@ export default async function NewsDetails({
             return <span className="uppercase">BY {name}</span>;
         }
         return (
-            <Link href={`/reporter/${post.user?.id || 1}`} className="hover:text-primary transition-colors underline decoration-primary/30 decoration-2 underline-offset-4">
+            <Link href={`/reporter/${post.user?.id || 1}`} className="hover:text-primary transition-colors tracking-[0.05em]">
                 BY {name}
             </Link>
         );
@@ -201,12 +201,16 @@ export default async function NewsDetails({
                     </div>
                     {renderAttributionLink(reporterName)}
                 </div>
-                <div className="flex items-center gap-2 opacity-80">
-                    <span className="text-primary">📅</span>
+                <div className="flex items-center gap-2 text-foreground/70 tracking-tight">
+                    <svg className="w-3.5 h-3.5 text-primary opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
                     {postDateFormatted}
                 </div>
-                <div className="flex items-center gap-2 opacity-80">
-                    <span className="text-primary">⏱️</span>
+                <div className="flex items-center gap-2 text-foreground/70 tracking-tight ml-auto md:ml-0">
+                    <svg className="w-3.5 h-3.5 text-primary opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                     {readingTime} MIN READ
                 </div>
             </div>
