@@ -132,6 +132,12 @@ export default async function NewsDetails({
     };
 
     articleContent = injectAlsoRead(articleContent, latestPosts);
+    
+    // Construct Breadcrumb Items
+    const breadcrumbItems = [
+      { label: categoryTitle, href: `/category/${categorySlug}` },
+      { label: post.title }
+    ];
 
     const reporterName = post.reporter_name || (post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK');
     const isCitizen = post.reporter_name === "Citizen Journalist";
@@ -141,7 +147,7 @@ export default async function NewsDetails({
     const renderAttributionLink = (name: string) => {
         if (isCitizen) {
             return (
-                <Link href="/news/category/citizen-journalism" className="hover:text-primary transition-colors underline decoration-primary/30 decoration-2 underline-offset-4">
+                <Link href="/category/citizen-journalism" className="hover:text-primary transition-colors underline decoration-primary/30 decoration-2 underline-offset-4">
                     BY {name}
                 </Link>
             );
@@ -168,7 +174,7 @@ export default async function NewsDetails({
 
           <div className="max-w-4xl mx-auto px-4 lg:px-0 relative z-10">
             <div className="mb-10">
-              <Breadcrumbs category={categoryTitle} categorySlug={categorySlug} title={post.title} />
+              <Breadcrumbs items={breadcrumbItems} />
             </div>
 
             <div className="mb-10">

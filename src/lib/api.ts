@@ -49,6 +49,8 @@ export interface Post {
   };
   reporter_name?: string;
   audio_clip_url?: string;
+  subtitle?: string;
+  image_credit?: string;
 }
 
 const handleResponse = (json: any) => {
