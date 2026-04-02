@@ -10,9 +10,45 @@ interface AudioPlayerProps {
 export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [preferredGender, setPreferredGender] = useState<'male' | 'female'>('female');
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  
   const synth = useRef<SpeechSynthesis | null>(null);
   const utterance = useRef<SpeechSynthesisUtterance | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Initialize voices and load preference
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedGender = localStorage.getItem('ntt_preferred_voice_gender') as 'male' | 'female';
+      if (savedGender) setPreferredGender(savedGender);
+      
+      const loadVoices = () => {
+        const availableVoices = window.speechSynthesis.getVoices();
+        setVoices(availableVoices);
+      };
+      
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+      loadVoices();
+    }
+  }, []);
+
+  const getBestVoice = () => {
+    if (voices.length === 0) return null;
+    
+    // Filter for Indian English voices
+    const inVoices = voices.filter(v => v.lang.includes('IN') || v.name.toLowerCase().includes('india'));
+    
+    if (preferredGender === 'male') {
+      // Look for Ravi or other male-coded names
+      return inVoices.find(v => v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || 
+             inVoices[0] || null;
+    } else {
+      // Look for Heera or other female-coded names
+      return inVoices.find(v => v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('female')) || 
+             inVoices[0] || null;
+    }
+  };
 
   useEffect(() => {
     if (audioUrl) {
@@ -64,8 +100,13 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
       } else {
         const cleanText = text.replace(/<[^>]*>/g, '');
         utterance.current = new SpeechSynthesisUtterance(cleanText);
-        utterance.current.rate = 1.0;
+        utterance.current.rate = 0.95; // Slightly slower for better clarity
         utterance.current.pitch = 1.0;
+        
+        const selectedVoice = getBestVoice();
+        if (selectedVoice) {
+          utterance.current.voice = selectedVoice;
+        }
         
         utterance.current.onend = () => {
           setIsPlaying(false);
@@ -141,6 +182,36 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
                     {isPlaying ? 'Now Narrating' : 'Listen to Story'}
                   </span>
                 </div>
+
+                {/* Voice Selector Toggle */}
+                {!audioUrl && (
+                  <div className="flex items-center gap-1 bg-background/50 dark:bg-white/5 rounded-full p-1 border border-border/50 scale-90 md:scale-100">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setPreferredGender('female');
+                        localStorage.setItem('ntt_preferred_voice_gender', 'female');
+                        if (isPlaying) stopPlay();
+                      }}
+                      className={`w-7 h-7 flex items-center justify-center rounded-full transition-all ${preferredGender === 'female' ? 'bg-primary text-white shadow-lg' : 'hover:bg-foreground/5 text-foreground/40'}`}
+                      title="Female Narrator (Heera)"
+                    >
+                      <span className="text-[14px]">👩</span>
+                    </button>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setPreferredGender('male');
+                        localStorage.setItem('ntt_preferred_voice_gender', 'male');
+                        if (isPlaying) stopPlay();
+                      }}
+                      className={`w-7 h-7 flex items-center justify-center rounded-full transition-all ${preferredGender === 'male' ? 'bg-primary text-white shadow-lg' : 'hover:bg-foreground/5 text-foreground/40'}`}
+                      title="Male Narrator (Ravi)"
+                    >
+                      <span className="text-[14px]">👨</span>
+                    </button>
+                  </div>
+                )}
                 
                 {audioUrl && (
                   <div className="flex items-center gap-2 text-primary">
