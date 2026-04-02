@@ -14,19 +14,33 @@
 }
 
 :root {
+  /* Day Mode (Light) - Clean Editorial Style */
+  --background: #ffffff;
+  --foreground: #000000;
+  --primary: #8c0000;
+  --primary-dark: #6b0000;
+  --secondary: #4b5563;
+  --accent: #f8fafc;
+  --card: #ffffff;
+  --border: #dfdfdf;
+  --ntt-glass-bg: rgba(255, 255, 255, 0.9);
+  --ntt-glass-border: rgba(0, 0, 0, 0.1);
+  
+  --font-sans: var(--font-poppins);
+}
+
+.dark {
+  /* Midnight Mode (Dark) - Signature OLED Style */
   --background: #000000;
-  --foreground: #f9fafb;
+  --foreground: #ffffff;
   --primary: #ff0000;
   --primary-dark: #cc0000;
-  --secondary: #9ca3af;
-  --accent: #111827;
-  --card: #0a0a0a;
-  --border: #1a1a1a;
-  --ntt-glass-bg: rgba(0, 0, 0, 0.85);
+  --secondary: #94a3b8;
+  --accent: #0f172a;
+  --card: #050505;
+  --border: #141414;
+  --ntt-glass-bg: rgba(0, 0, 0, 0.9);
   --ntt-glass-border: rgba(255, 255, 255, 0.05);
-  
-  /* Fallback legacy vars */
-  --font-sans: var(--font-poppins);
 }
 
 /* Midnight OLED Mode Support */
@@ -92,10 +106,8 @@ h6 {
 .article-content {
   font-family: var(--font-poppins), system-ui, sans-serif !important;
   font-size: 1.125rem;
-  /* Clean text sizing */
-  line-height: 1.8;
+  line-height: 1.7;
   color: var(--foreground);
-  /* Use theme-aware foreground color */
   font-weight: 400;
   text-rendering: optimizeLegibility;
 }

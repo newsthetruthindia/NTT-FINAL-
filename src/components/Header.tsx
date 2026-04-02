@@ -119,8 +119,7 @@ export default function Header() {
             {/* System Controls & User */}
             <div className="flex items-center gap-4 xl:gap-6">
               <div className="flex items-center gap-4">
-                {/* ThemeToggle Hidden as per user request */}
-                {/* <ThemeToggle /> */}
+                <ThemeToggle />
               </div>
 
               {!isLoading && (

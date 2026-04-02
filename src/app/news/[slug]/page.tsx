@@ -177,16 +177,16 @@ export default async function NewsDetails({
       <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
         <Header />
         
-        <article className="pt-32 pb-24 max-w-4xl mx-auto px-4 relative z-10 font-[family-name:var(--font-inter)]">
+        <article className="pt-20 pb-16 max-w-4xl mx-auto px-4 relative z-10 font-[family-name:var(--font-inter)]">
             <div className="mb-10 text-[10px] font-black text-primary uppercase tracking-[0.3em]">
                 {post.categories?.[0]?.cat_data?.title || 'News'}
             </div>
 
-            <h1 className="text-4xl md:text-7xl font-black text-foreground mb-8 leading-[1.05] tracking-tighter uppercase italic editorial-heading animate-fade-in-up">
+            <h1 className="text-3xl md:text-6xl font-black text-foreground mb-6 leading-[1.05] tracking-tighter uppercase italic editorial-heading animate-fade-in-up">
                 {postTitleText}
             </h1>
 
-            <div className="aspect-video rounded-[32px] md:rounded-[48px] overflow-hidden mb-12 shadow-2xl border border-border group relative">
+            <div className="aspect-video rounded-[24px] md:rounded-[32px] overflow-hidden mb-10 shadow-xl border border-border group relative">
                 <img 
                     src={displayImageUrl} 
                     alt={postTitleText} 
@@ -198,7 +198,7 @@ export default async function NewsDetails({
                <AdBanner />
             </div>
 
-            <div className="space-y-10 mb-12">
+            <div className="space-y-6 mb-10">
                <AISummary content={articleContent} />
                <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
             </div>

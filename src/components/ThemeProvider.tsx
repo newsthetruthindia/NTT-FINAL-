@@ -18,10 +18,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const savedTheme = localStorage.getItem('themePreference') as Theme | null;
     const finalTheme = savedTheme || 'dark';
     setTheme(finalTheme);
+    document.documentElement.classList.remove('dark', 'light');
     document.documentElement.classList.add(finalTheme);
-    if (finalTheme === 'dark') {
-       document.documentElement.style.backgroundColor = '#000000';
-    }
   }, []);
 
   const toggleTheme = () => {
