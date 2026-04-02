@@ -140,14 +140,14 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
       {/* Outer Glow Effect */}
       <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/5 to-primary/20 rounded-[40px] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
       
-      <div className="relative overflow-hidden rounded-[24px] border border-white/20 dark:border-white/10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-3xl shadow-lg p-1">
-        <div className="relative rounded-[22px] bg-white/60 dark:bg-zinc-900/60 p-4 md:p-5 flex flex-col md:flex-row items-center gap-6">
+      <div className="relative overflow-hidden rounded-[18px] border border-white/20 bg-[#050505] shadow-xl p-0.5">
+        <div className="relative rounded-[16px] bg-zinc-900/60 p-3 md:p-3.5 flex flex-col md:flex-row items-center gap-5">
           
           {/* Play/Pause Button Section */}
           <div className="relative shrink-0">
             <button 
               onClick={togglePlay}
-              className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center text-white shadow-xl transition-all duration-500 hover:scale-105 active:scale-95 group/btn"
+              className="relative z-10 w-11 h-11 rounded-full flex items-center justify-center text-white shadow-xl transition-all duration-500 hover:scale-105 active:scale-95 group/btn"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {/* Button Layered Gradients */}
@@ -155,13 +155,13 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
               <div className="absolute inset-0 rounded-full bg-black/10 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
               
               {isPlaying ? (
-                <div className="relative flex gap-1.5 h-6 items-center">
-                  <span className="w-1.5 h-full bg-white rounded-full animate-[bounce_1s_infinite_-0.3s]" />
-                  <span className="w-1.5 h-full bg-white rounded-full animate-[bounce_1s_infinite_-0.15s]" />
-                  <span className="w-1.5 h-full bg-white rounded-full animate-[bounce_1s_infinite]" />
+                <div className="relative flex gap-1 h-5 items-center">
+                  <span className="w-1 h-full bg-white rounded-full animate-[bounce_1s_infinite_-0.3s]" />
+                  <span className="w-1 h-full bg-white rounded-full animate-[bounce_1s_infinite_-0.15s]" />
+                  <span className="w-1 h-full bg-white rounded-full animate-[bounce_1s_infinite]" />
                 </div>
               ) : (
-                <svg className="relative w-10 h-10 translate-x-1" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="relative w-8 h-8 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               )}
@@ -176,16 +176,16 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
           <div className="flex-grow w-full space-y-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 transition-all duration-300 ${isPlaying ? 'scale-105 shadow-lg shadow-primary/10' : ''}`}>
-                  <span className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-primary animate-pulse' : 'bg-foreground/20'}`} />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground font-sans bg-background/50 px-2 py-0.5 rounded">
+                <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-primary/20 bg-primary/5 transition-all duration-300 ${isPlaying ? 'scale-105 shadow-lg shadow-primary/10' : ''}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${isPlaying ? 'bg-primary animate-pulse' : 'bg-white/20'}`} />
+                  <span className="text-[9px] font-black uppercase tracking-[0.15em] text-white font-sans bg-black/20 px-1.5 py-0.5 rounded">
                     {isPlaying ? 'Now Narrating' : 'Listen to Story'}
                   </span>
                 </div>
 
                 {/* Voice Selector Toggle */}
                 {!audioUrl && (
-                  <div className="flex items-center gap-1 bg-background/50 dark:bg-white/5 rounded-full p-1 border border-border/50 scale-90 md:scale-100">
+                  <div className="flex items-center gap-1 bg-white/5 rounded-full p-0.5 border border-white/10 scale-90 md:scale-100">
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
@@ -193,10 +193,10 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
                         localStorage.setItem('ntt_preferred_voice_gender', 'female');
                         if (isPlaying) stopPlay();
                       }}
-                      className={`w-7 h-7 flex items-center justify-center rounded-full transition-all ${preferredGender === 'female' ? 'bg-primary text-white shadow-lg' : 'hover:bg-foreground/5 text-foreground/40'}`}
-                      title="Female Narrator (Heera)"
+                      className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${preferredGender === 'female' ? 'bg-primary text-white shadow-lg' : 'hover:bg-white/5 text-white/40'}`}
+                      title="Female Narrator"
                     >
-                      <span className="text-[14px]">👩</span>
+                      <span className="text-[12px]">👩</span>
                     </button>
                     <button 
                       onClick={(e) => {
@@ -205,10 +205,10 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
                         localStorage.setItem('ntt_preferred_voice_gender', 'male');
                         if (isPlaying) stopPlay();
                       }}
-                      className={`w-7 h-7 flex items-center justify-center rounded-full transition-all ${preferredGender === 'male' ? 'bg-primary text-white shadow-lg' : 'hover:bg-foreground/5 text-foreground/40'}`}
-                      title="Male Narrator (Ravi)"
+                      className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${preferredGender === 'male' ? 'bg-primary text-white shadow-lg' : 'hover:bg-white/5 text-white/40'}`}
+                      title="Male Narrator"
                     >
-                      <span className="text-[14px]">👨</span>
+                      <span className="text-[12px]">👨</span>
                     </button>
                   </div>
                 )}
@@ -239,10 +239,10 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
             </div>
 
             {/* Premium Progress Bar */}
-            <div className="relative py-2 group/progress cursor-pointer">
-              <div className="h-2 bg-foreground/5 dark:bg-white/10 rounded-full overflow-hidden relative">
+            <div className="relative py-1 group/progress cursor-pointer">
+              <div className="h-1.5 bg-white/10 rounded-full overflow-hidden relative">
                 <div 
-                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-orange-500 shadow-[0_0_20px_rgba(255,0,0,0.4)] transition-all duration-300 ease-out"
+                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-rose-500 shadow-[0_0_20px_rgba(255,0,0,0.4)] transition-all duration-300 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>

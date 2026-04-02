@@ -21,49 +21,49 @@ export default function AISummary({ content }: AISummaryProps) {
       {/* Animated Subtle Border Glow */}
       <div className="absolute -inset-[1px] bg-gradient-to-r from-primary/30 via-primary/5 to-primary/30 rounded-[32px] blur-[2px] opacity-100 transition-opacity duration-1000 group-hover/ai:opacity-100" />
       
-      <div className="relative rounded-[24px] overflow-hidden border border-white/20 dark:border-white/10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-3xl shadow-lg transition-all duration-500">
+      <div className="relative rounded-[20px] overflow-hidden border border-white/20 bg-[#050505] shadow-xl transition-all duration-500">
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-6 py-4 flex items-center justify-between group text-left relative z-10"
+          className="w-full px-5 py-2.5 flex items-center justify-between group text-left relative z-10"
         >
-          <div className="flex items-center gap-6">
-            <div className="relative w-10 h-10 shrink-0">
-              <div className="absolute inset-0 bg-primary/10 rounded-xl animate-pulse" />
+          <div className="flex items-center gap-4">
+            <div className="relative w-8 h-8 shrink-0">
+              <div className="absolute inset-0 bg-primary/20 rounded-lg animate-pulse" />
               <div className="absolute inset-0 flex items-center justify-center text-primary">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M19,9L17.75,12.75L14,14L17.75,15.25L19,19L20.25,15.25L24,14L20.25,12.75L19,9M9,2L7.17,7.17L2,9L7.17,10.83L9,16L10.83,10.83L16,9L10.83,7.17L9,2M19,2L18.39,3.61L16.78,4.22L18.39,4.83L19,6.44L19.61,4.83L21.22,4.22L19.61,3.61L19,2Z" />
                 </svg>
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex items-center gap-2 mb-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-                <h3 className="text-[12px] font-black uppercase tracking-[0.3em] text-foreground">AI Intelligence</h3>
+                <h3 className="text-[11px] font-black uppercase tracking-[0.25em] text-white">AI Intelligence</h3>
               </div>
-              <p className="text-[10px] text-secondary font-black uppercase tracking-widest leading-none">Instant Story Synthesis</p>
+              <p className="text-[9px] text-white/50 font-black uppercase tracking-widest leading-none">Instant Story Synthesis</p>
             </div>
           </div>
-          <div className={`w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center transform transition-all duration-500 group-hover:bg-primary/10 ${isOpen ? 'rotate-180 bg-primary/10 text-primary' : 'text-foreground/60'}`}>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center transform transition-all duration-500 group-hover:bg-primary/20 ${isOpen ? 'rotate-180 bg-primary/20 text-primary' : 'text-white/40'}`}>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
             </svg>
           </div>
         </button>
 
         {isOpen && (
-          <div className="px-8 pb-10 animate-in fade-in slide-in-from-top-4 duration-700">
-            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-10" />
+          <div className="px-8 pb-8 animate-in fade-in slide-in-from-top-4 duration-700">
+            <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8" />
             
-            <div className="space-y-8 relative">
+            <div className="space-y-6 relative">
               {/* Vertical line connecting points */}
               <div className="absolute left-[7px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-primary/40 via-primary/10 to-transparent" />
               
-              <ul className="space-y-6">
+              <ul className="space-y-4">
                 {summaryPoints.map((point, i) => (
                   <li key={i} className="flex gap-4 group/item relative">
-                    <div className="w-[12px] h-[12px] rounded-full bg-background border-2 border-primary shadow-[0_0_8px_rgba(255,0,0,0.3)] shrink-0 mt-1.5 relative z-10 transition-transform group-hover/item:scale-125" />
+                    <div className="w-[10px] h-[10px] rounded-full bg-black border-2 border-primary shadow-[0_0_8px_rgba(255,0,0,0.3)] shrink-0 mt-1.5 relative z-10 transition-transform group-hover/item:scale-125" />
                     <div className="space-y-1">
-                      <p className="text-lg md:text-xl text-foreground font-semibold leading-relaxed tracking-tight">
+                      <p className="text-base md:text-lg text-white font-semibold leading-relaxed tracking-tight">
                         {point}
                       </p>
                     </div>
