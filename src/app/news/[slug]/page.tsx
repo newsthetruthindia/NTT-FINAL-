@@ -174,8 +174,8 @@ export default async function NewsDetails({
     return (
       <main className="min-h-screen bg-background">
         <Header />
-        <ReadingProgress />
-        <SocialSidebar title={post.title} url={`${SITE_URL}/news/${slug}`} />
+        {/* <ReadingProgress /> */}
+        {/* <SocialSidebar title={post.title} url={`${SITE_URL}/news/${slug}`} /> */}
         
         <article className="pt-32 pb-24 relative overflow-hidden transition-colors duration-500">
            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
@@ -252,8 +252,8 @@ export default async function NewsDetails({
           </div>
 
           <div className="max-w-3xl mx-auto px-4 space-y-6">
-            <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
-            <AISummary content={articleContent} />
+            {/* <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} /> */}
+            {/* <AISummary content={articleContent} /> */}
             
             <div className="py-8">
                <AdBanner />
@@ -311,21 +311,12 @@ export default async function NewsDetails({
                   </div>
                 </div>
 
-                {/* Author Archive Carousel Slider */}
+                {/* Author Archive Carousel Slider Hidden for Debug */}
+                {/* 
                 {Array.isArray(authorPosts) && authorPosts.length > 0 && post.user && (
-                  <div className="mt-10 pt-10 border-t border-border/50">
-                    <div className="flex items-center justify-between mb-8">
-                       <h4 className="text-xl font-black text-foreground tracking-tight italic">Recent Highlights by {post.user.firstname || 'Reporter'}</h4>
-                    </div>
-                    <div className="flex gap-6 overflow-x-auto pb-6 no-scrollbar -mx-4 px-4">
-                       {authorPosts.map((p) => p && p.id && (
-                         <div key={p.id} className="min-w-[280px] w-[280px] hover:scale-[1.02] transition-transform duration-300">
-                            <NewsCard post={p} variant="compact" />
-                         </div>
-                       ))}
-                    </div>
-                  </div>
+                   ...
                 )}
+                */}
               </div>
             )}
 
