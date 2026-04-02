@@ -82,8 +82,14 @@ export default async function NewsDetails({
     // Step 1: Fetch Author's Archive
     let authorPosts: Post[] = [];
     if (post.user?.id) {
-       const userPostsResponse = await fetchPostsByUserId(post.user.id, 6);
-       authorPosts = userPostsResponse.filter((p: any) => p.id !== post.id).slice(0, 4);
+       try {
+         const userPostsResponse = await fetchPostsByUserId(post.user.id, 6);
+         if (Array.isArray(userPostsResponse)) {
+            authorPosts = userPostsResponse.filter((p: any) => p && p.id !== post.id).slice(0, 4);
+         }
+       } catch (e) {
+         console.error("Author fetch failed", e);
+       }
     }
 
     const displayImage = getImageUrl(post.thumbnails?.url);
@@ -103,18 +109,20 @@ export default async function NewsDetails({
 
     // Step 2: Smart "Also Read" Logic
     const injectAlsoRead = (content: string, posts: Post[]) => {
-        if (posts.length < 2) return content;
+        if (!Array.isArray(posts) || posts.length < 2) return content;
         const paragraphs = content.split('</p>');
         if (paragraphs.length < 4) return content;
         
         const midPoint = Math.floor(paragraphs.length / 2);
         const relatedPost = posts[Math.floor(Math.random() * Math.min(3, posts.length))];
         
+        if (!relatedPost || !relatedPost.slug) return content;
+
         const alsoReadHtml = `
             <div class="my-10 p-6 rounded-3xl bg-primary/5 border border-primary/10 group cursor-pointer NOT_PROSE">
                 <span class="text-[10px] font-black text-primary uppercase tracking-[.3em] mb-2 block">Recommended for you</span>
                 <a href="/news/${relatedPost.slug}" class="text-xl md:text-2xl font-black text-foreground hover:text-primary transition-colors leading-tight block">
-                    ${relatedPost.title} &rarr;
+                    ${relatedPost.title || 'Read More Stories'} &rarr;
                 </a>
             </div>
         `;
