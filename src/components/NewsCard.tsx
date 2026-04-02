@@ -8,7 +8,7 @@ interface NewsCardProps {
 }
 
 export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) {
-  const { title, slug, categories, created_at, thumbnails, excerpt } = post;
+  const { title, slug, categories, created_at, thumbnails, excerpt, reporter_name, user } = post;
   
   const categoryName = categories?.[0]?.cat_data?.title || 'News';
     
@@ -17,6 +17,32 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   const formattedDate = created_at 
     ? new Date(created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
     : 'Recent';
+
+  // Attribution Link Logic
+  const renderAttribution = () => {
+    const name = reporter_name || (user ? `${user.firstname} ${user.lastname || ''}`.trim() : 'NTT DESK');
+    const isCitizen = reporter_name === "Citizen Journalist";
+    const isStaff = reporter_name === "Staff Reporter";
+    const isVerifiedReporter = user?.is_reporter === true;
+
+    if (isCitizen) {
+        return (
+            <Link href="/news/category/citizen-journalism" className="hover:text-primary transition-colors">
+                BY {name}
+            </Link>
+        );
+    }
+
+    if (isStaff || !isVerifiedReporter) {
+        return <span className="uppercase">BY {name}</span>;
+    }
+
+    return (
+        <Link href={`/reporter/${user?.id || 1}`} className="hover:text-primary transition-colors">
+            BY {name}
+        </Link>
+    );
+  };
 
   // Responsive sizes string for next/image
   const sizes = variant === 'hero' 
@@ -96,10 +122,8 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
                   {formattedDate}
               </span>
             </div>
-              <span className="text-foreground/60 font-black hover:text-primary transition-colors uppercase">
-                <Link href={`/reporter/${post.user?.id || 1}`}>
-                  BY {post.reporter_name || (post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK')}
-                </Link>
+              <span className="text-foreground/60 font-black uppercase tracking-widest">
+                {renderAttribution()}
               </span>
           </div>
         </div>
@@ -130,9 +154,9 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <div className="flex items-center gap-4 text-white/70 text-xs font-heading font-bold uppercase tracking-widest z-10">
             <span>{formattedDate}</span>
             <span className="w-1 h-1 bg-white/20 rounded-full"></span>
-            <Link href={`/reporter/${post.user?.id || 1}`} className="hover:text-primary transition-colors">
-              <span>By {post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT Desk'}</span>
-            </Link>
+            <div className="z-10">
+              {renderAttribution()}
+            </div>
           </div>
         </div>
       </div>

@@ -45,6 +45,7 @@ export interface Post {
           facebook?: string;
           instagram?: string;
       };
+      is_reporter?: boolean;
   };
   reporter_name?: string;
   audio_clip_url?: string;
