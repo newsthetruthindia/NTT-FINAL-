@@ -21,16 +21,16 @@ export default function AISummary({ content }: AISummaryProps) {
       {/* Animated Subtle Border Glow */}
       <div className="absolute -inset-[1px] bg-gradient-to-r from-primary/30 via-primary/5 to-primary/30 rounded-[32px] blur-[2px] opacity-100 transition-opacity duration-1000 group-hover/ai:opacity-100" />
       
-      <div className="relative rounded-[32px] overflow-hidden border border-white/20 dark:border-white/10 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-3xl shadow-xl transition-all duration-500">
+      <div className="relative rounded-[24px] overflow-hidden border border-white/20 dark:border-white/10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-3xl shadow-lg transition-all duration-500">
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-8 py-7 flex items-center justify-between group text-left relative z-10"
+          className="w-full px-6 py-4 flex items-center justify-between group text-left relative z-10"
         >
           <div className="flex items-center gap-6">
-            <div className="relative w-12 h-12 shrink-0">
-              <div className="absolute inset-0 bg-primary/10 rounded-2xl animate-pulse" />
+            <div className="relative w-10 h-10 shrink-0">
+              <div className="absolute inset-0 bg-primary/10 rounded-xl animate-pulse" />
               <div className="absolute inset-0 flex items-center justify-center text-primary">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M19,9L17.75,12.75L14,14L17.75,15.25L19,19L20.25,15.25L24,14L20.25,12.75L19,9M9,2L7.17,7.17L2,9L7.17,10.83L9,16L10.83,10.83L16,9L10.83,7.17L9,2M19,2L18.39,3.61L16.78,4.22L18.39,4.83L19,6.44L19.61,4.83L21.22,4.22L19.61,3.61L19,2Z" />
                 </svg>
               </div>
@@ -58,12 +58,12 @@ export default function AISummary({ content }: AISummaryProps) {
               {/* Vertical line connecting points */}
               <div className="absolute left-[7px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-primary/40 via-primary/10 to-transparent" />
               
-              <ul className="space-y-8">
+              <ul className="space-y-6">
                 {summaryPoints.map((point, i) => (
-                  <li key={i} className="flex gap-6 group/item relative">
-                    <div className="w-[16px] h-[16px] rounded-full bg-background border-4 border-primary shadow-[0_0_10px_rgba(255,0,0,0.3)] shrink-0 mt-1.5 relative z-10 transition-transform group-hover/item:scale-125" />
+                  <li key={i} className="flex gap-4 group/item relative">
+                    <div className="w-[12px] h-[12px] rounded-full bg-background border-2 border-primary shadow-[0_0_8px_rgba(255,0,0,0.3)] shrink-0 mt-1.5 relative z-10 transition-transform group-hover/item:scale-125" />
                     <div className="space-y-1">
-                      <p className="text-xl md:text-2xl text-foreground/80 leading-relaxed font-medium tracking-tight">
+                      <p className="text-lg md:text-xl text-foreground font-semibold leading-relaxed tracking-tight">
                         {point}
                       </p>
                     </div>

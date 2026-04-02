@@ -140,14 +140,14 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
       {/* Outer Glow Effect */}
       <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/5 to-primary/20 rounded-[40px] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
       
-      <div className="relative overflow-hidden rounded-[40px] border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/40 backdrop-blur-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] p-1">
-        <div className="relative rounded-[38px] bg-white/60 dark:bg-zinc-900/60 p-6 md:p-8 flex flex-col md:flex-row items-center gap-8">
+      <div className="relative overflow-hidden rounded-[24px] border border-white/20 dark:border-white/10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-3xl shadow-lg p-1">
+        <div className="relative rounded-[22px] bg-white/60 dark:bg-zinc-900/60 p-4 md:p-5 flex flex-col md:flex-row items-center gap-6">
           
           {/* Play/Pause Button Section */}
           <div className="relative shrink-0">
             <button 
               onClick={togglePlay}
-              className="relative z-10 w-20 h-20 rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 group/btn"
+              className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center text-white shadow-xl transition-all duration-500 hover:scale-105 active:scale-95 group/btn"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {/* Button Layered Gradients */}
@@ -178,7 +178,7 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
               <div className="flex items-center gap-4">
                 <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 transition-all duration-300 ${isPlaying ? 'scale-105 shadow-lg shadow-primary/10' : ''}`}>
                   <span className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-primary animate-pulse' : 'bg-foreground/20'}`} />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground font-sans">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground font-sans bg-background/50 px-2 py-0.5 rounded">
                     {isPlaying ? 'Now Narrating' : 'Listen to Story'}
                   </span>
                 </div>
