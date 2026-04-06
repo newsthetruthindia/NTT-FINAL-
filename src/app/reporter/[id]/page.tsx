@@ -3,6 +3,7 @@ import Footer from '@/components/Footer'
 import NewsCard from '@/components/NewsCard'
 import { fetchUserById, fetchPostsByUserId, getImageUrl } from '@/lib/api'
 import { notFound } from 'next/navigation'
+import ReporterAvatar from './ReporterAvatar'
 
 export const dynamic = 'force-dynamic'
 
@@ -37,12 +38,8 @@ export default async function ReporterProfilePage({ params }: { params: Promise<
         <div className="max-w-7xl mx-auto px-4 lg:px-12 relative z-10">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-12 mb-16">
             {/* Avatar */}
-            <div className="w-48 h-48 md:w-64 md:h-64 rounded-[40px] overflow-hidden border-4 border-border shadow-2xl flex-shrink-0 relative group">
-              <img 
-                src={avatarUrl} 
-                alt={fullName}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
+            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-8 border-background shadow-2xl flex-shrink-0 relative group bg-card outline outline-1 outline-border/50">
+              <ReporterAvatar src={avatarUrl} name={fullName} />
             </div>
             
             {/* Details */}
@@ -51,16 +48,17 @@ export default async function ReporterProfilePage({ params }: { params: Promise<
                 Verified News Desk
               </span>
               
-              <h1 className="text-5xl md:text-8xl font-black text-foreground tracking-tighter mb-4 uppercase italic leading-none">
+              <h1 className="text-5xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-br from-primary via-foreground to-primary/80 tracking-tighter mb-4 uppercase italic leading-none drop-shadow-sm relative z-10">
                 {fullName}
               </h1>
               
-              <p className="text-xl md:text-2xl font-bold text-primary mb-8 tracking-tight font-heading">
-                {designation}
+              <p className="text-xl md:text-2xl font-bold bg-primary text-primary-foreground inline-block px-4 py-1 mb-8 tracking-tight font-heading shadow-md transform -skew-x-12">
+                <span className="block transform skew-x-12">{designation}</span>
               </p>
               
-              <div className="max-w-2xl bg-card/40 backdrop-blur-md p-8 rounded-[32px] border border-border shadow-sm">
-                <p className="text-foreground/70 leading-relaxed font-medium italic">
+              <div className="max-w-2xl bg-card/40 backdrop-blur-md p-8 rounded-[32px] border border-border shadow-lg relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                <p className="text-foreground/80 leading-relaxed text-lg font-medium italic relative z-10">
                   "{bio}"
                 </p>
                 

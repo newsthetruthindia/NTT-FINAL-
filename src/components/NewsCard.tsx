@@ -20,7 +20,8 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
 
   // Attribution Link Logic
   const renderAttribution = () => {
-    const name = reporter_name || (user ? `${user.firstname} ${user.lastname || ''}`.trim() : 'NTT DESK');
+    const isPublisher = user?.firstname?.toLowerCase().includes("rony") && (user?.lastname?.toLowerCase().includes("santra") || !user?.lastname);
+    const name = reporter_name || (user && !isPublisher ? `${user.firstname} ${user.lastname || ''}`.trim() : 'NTT Desk');
     const isCitizen = reporter_name === "Citizen Journalist";
     const isStaff = reporter_name === "Staff Reporter";
     const isVerifiedReporter = user?.is_reporter === true;
