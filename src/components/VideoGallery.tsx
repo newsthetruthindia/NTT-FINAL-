@@ -35,7 +35,7 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-none">YouTube <span className="text-white italic">Spotlight</span></h2>
           </div>
           <a 
-            href="https://youtube.com/@NTTBENGAL" 
+            href="https://youtube.com/@NTT-BY-TAMALSAHA" 
             target="_blank" 
             rel="noopener noreferrer"
             className="group bg-card hover:bg-primary text-foreground hover:text-white px-8 py-4 rounded-full font-black uppercase tracking-widest text-xs transition-all flex items-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-primary/40 active:scale-95 border border-border"
@@ -70,7 +70,7 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
                     <h3 className="text-2xl md:text-3xl font-black text-white group-hover:text-primary transition-colors leading-[1.2]">{activeVideo?.title}</h3>
                 </div>
                 <a 
-                    href="https://youtube.com/@NTTBENGAL" 
+                    href="https://youtube.com/@NTT-BY-TAMALSAHA" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="shrink-0 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-primary transition-colors mb-2"
