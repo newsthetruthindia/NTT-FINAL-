@@ -10,20 +10,11 @@ export async function GET(
   const pathArray = resolvedParams.path;
   const filePath = pathArray.join('/');
   
-  // Determine the correct path segment based on where Filament saves it
-  // New Filament 'webapp_public' disk saves directly to /uploads/... instead of /storage/...
-  // Also, user profile pics are saved directly in /medias/...
-  const isDirectUpload = filePath.startsWith('uploads/') || filePath.startsWith('medias/');
-  
-  // Primary: Proxy to the internal VPS endpoint
-  const primaryStorageUrl = isDirectUpload 
-      ? `http://117.252.16.132/${filePath}` 
-      : `http://117.252.16.132/storage/${filePath}`;
+  // Primary: Proxy to the internal VPS endpoint (Always use /storage/ prefix for Nginx compatibility)
+  const primaryStorageUrl = `http://117.252.16.132/storage/${filePath}`;
   
   // Fallback: If migration was incomplete, use the live site
-  const fallbackStorageUrl = isDirectUpload
-      ? `https://newsthetruth.com/${filePath}`
-      : `https://newsthetruth.com/storage/${filePath}`;
+  const fallbackStorageUrl = `https://newsthetruth.com/storage/${filePath}`;
   
   try {
     let res = await fetch(primaryStorageUrl, { 
@@ -31,10 +22,9 @@ export async function GET(
       next: { revalidate: 3600 } 
     });
     
-    // If Primary fails and it was a direct upload (like /uploads/ or /medias/), 
-    // try the same path under /storage/ as a fallback
+    // If Primary fails, try the same path under /storage/ as a fallback (some legacy paths might not have it)
     const contentType = res.headers.get('content-type');
-    if ((!res.ok || (contentType && contentType.includes('text/html'))) && isDirectUpload) {
+    if (!res.ok || (contentType && contentType.includes('text/html'))) {
         const secondaryStorageUrl = `http://117.252.16.132/storage/${filePath}`;
         console.warn(`[Storage Proxy] Direct path failed for ${filePath}. Trying /storage/ fallback...`);
         res = await fetch(secondaryStorageUrl, { 
