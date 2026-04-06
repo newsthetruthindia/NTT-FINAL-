@@ -38,7 +38,7 @@ export default async function ReporterProfilePage({ params }: { params: Promise<
         <div className="max-w-7xl mx-auto px-4 lg:px-12 relative z-10">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-12 mb-16">
             {/* Avatar */}
-            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-8 border-background shadow-2xl flex-shrink-0 relative group bg-card outline outline-1 outline-border/50">
+            <div className="w-48 h-48 md:w-64 md:h-64 rounded-[40px] overflow-hidden border-4 border-border shadow-2xl flex-shrink-0 relative group">
               <ReporterAvatar src={avatarUrl} name={fullName} />
             </div>
             
