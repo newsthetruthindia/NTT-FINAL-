@@ -5,6 +5,14 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/admin/:path*",
+      "destination": "http://117.252.16.132/admin/:path*"
+    },
+    {
+      "source": "/admin",
+      "destination": "http://117.252.16.132/admin"
+    },
+    {
       "source": "/api/storage/:path*",
       "destination": "/api/storage/:path*"
     },
