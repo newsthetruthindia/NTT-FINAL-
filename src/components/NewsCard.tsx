@@ -20,29 +20,11 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
 
   // Attribution Link Logic
   const renderAttribution = () => {
-    const isPublisher = user?.firstname?.toLowerCase().includes("rony") && (user?.lastname?.toLowerCase().includes("santra") || !user?.lastname);
-    const name = reporter_name || (user && !isPublisher ? `${user.firstname} ${user.lastname || ''}`.trim() : 'NTT Desk');
-    const isCitizen = reporter_name === "Citizen Journalist";
-    const isStaff = reporter_name === "Staff Reporter";
-    const isVerifiedReporter = user?.is_reporter === true;
-
-    if (isCitizen) {
-        return (
-            <Link href="/news/category/citizen-journalism" className="hover:text-primary transition-colors">
-                BY {name}
-            </Link>
-        );
-    }
-
-    if (isStaff || !isVerifiedReporter) {
-        return <span className="uppercase">BY {name}</span>;
-    }
-
-    return (
-        <Link href={`/reporter/${user?.id || 1}`} className="hover:text-primary transition-colors">
-            BY {name}
-        </Link>
-    );
+    const name = reporter_name || (user ? `${user.firstname} ${user.lastname || ''}`.trim() : 'NTT DESK');
+    
+    // As per user request: "only need reporter name in frontend"
+    // No links to backend user profiles allowed.
+    return <span className="uppercase">BY {name}</span>;
   };
 
   // Responsive sizes string for next/image

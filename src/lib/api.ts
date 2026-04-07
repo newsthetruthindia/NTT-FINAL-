@@ -192,8 +192,14 @@ export const getImageUrl = (path?: any) => {
     return path;
   }
   
-  // Handle relative paths from the backend (ensure no double slashes)
-  const cleanPath = path.replace(/^\/+/, '');
+  // Handle relative paths from the backend (ensure no double slashes or redundant storage/ prefixes)
+  let cleanPath = path.replace(/^\/+/, '');
+  
+  // If the path already has storage/ prefix from the backend, remove it before prepending /api/storage/
+  if (cleanPath.startsWith('storage/')) {
+      cleanPath = cleanPath.substring(8);
+  }
+  
   return `/api/storage/${cleanPath}`;
 };
 

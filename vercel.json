@@ -5,6 +5,10 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/api/storage/:path*",
+      "destination": "/api/storage/:path*"
+    },
+    {
       "source": "/api/:path*",
       "destination": "http://117.252.16.132/api/:path*"
     }
