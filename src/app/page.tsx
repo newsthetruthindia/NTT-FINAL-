@@ -6,7 +6,7 @@ import VideoGallery from '@/components/VideoGallery'
 import AdBanner from '@/components/AdBanner'
 import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos } from '@/lib/api'
 
-export const revalidate = 60
+export const revalidate = 30
 
 export default async function Home() {
   let topPosts: any[] = [];
@@ -55,8 +55,28 @@ export default async function Home() {
 
   const videos = Array.isArray(allVideos) ? allVideos.filter(v => v?.type === 'video') : [];
   
-  const heroPost = topPosts && topPosts.length > 0 ? topPosts[0] : null;
-  const trendingPosts = topPosts && topPosts.length > 1 ? topPosts.slice(1, 5) : [];
+  // HERO LOGIC: Show the most recent article as hero.
+  // If a top_post exists AND is from today, use it. Otherwise, use the absolute latest post.
+  // This ensures newly published stories always appear in the hero immediately.
+  const latestPost = latestPosts?.[0] || null;
+  const topPost = topPosts?.[0] || null;
+  
+  let heroPost: any = null;
+  if (topPost && latestPost) {
+    const topDate = new Date(topPost.created_at || 0).getTime();
+    const latestDate = new Date(latestPost.created_at || 0).getTime();
+    // Use the latest post if it's newer than the top post (by more than 2 hours)
+    heroPost = (latestDate > topDate + 2 * 60 * 60 * 1000) ? latestPost : topPost;
+  } else {
+    heroPost = topPost || latestPost;
+  }
+  
+  // Trending sidebar: combine top posts and latest, deduplicated, excluding hero
+  const heroId = heroPost?.id;
+  const allTrending = [...(topPosts || []), ...(latestPosts || [])]
+    .filter((p, i, arr) => p?.id && p.id !== heroId && arr.findIndex(x => x?.id === p.id) === i)
+    .slice(0, 5);
+  const trendingPosts = allTrending;
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
@@ -121,6 +141,23 @@ export default async function Home() {
         )}
 
         <div className="flex flex-col gap-12 py-8">
+          {/* Section: The Latest Reports — placed prominently */}
+          {Array.isArray(latestPosts) && latestPosts.length > 0 && (
+            <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
+              <div className="section-header">
+                <div className="title-group">
+                  <span className="subtitle">Just In</span>
+                  <h2 className="title">The <span>Latest</span> Reports</h2>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
+                {latestPosts.filter(p => p?.id && p.id !== heroId).slice(0, 8).map((post) => post && post.id && (
+                  <NewsCard key={post.id} post={post} />
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* Section: The Bengal */}
           {Array.isArray(statePosts) && statePosts.length > 0 && (
             <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
@@ -175,23 +212,6 @@ export default async function Home() {
 
           {/* Section: YouTube Showcase */}
           {Array.isArray(videos) && videos.length > 0 && <VideoGallery videos={videos} />}
-
-          {/* Section: The Latest Reports */}
-          {Array.isArray(latestPosts) && latestPosts.length > 0 && (
-            <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
-              <div className="section-header">
-                <div className="title-group">
-                  <span className="subtitle">World Pulse</span>
-                  <h2 className="title">The <span>Latest</span> Reports</h2>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
-                {latestPosts.map((post) => post && post.id && (
-                  <NewsCard key={post.id} post={post} />
-                ))}
-              </div>
-            </section>
-          )}
 
           {/* Featured: The Untold Truth */}
           {Array.isArray(untoldPosts) && untoldPosts.length > 0 && untoldPosts[0] && (
