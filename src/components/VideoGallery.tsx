@@ -30,7 +30,7 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
           <div>
             <div className="flex items-center gap-3 mb-3">
                <span className="w-8 h-[2px] bg-white/20"></span>
-               <span className="text-white/40 font-black uppercase tracking-[0.4em] text-[10px] md:text-xs">NTT Visuals</span>
+               <span className="text-white/40 font-black uppercase tracking-[0.4em] text-[10px] md:text-xs">NTT Stories</span>
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-none">YouTube <span className="text-white italic">Spotlight</span></h2>
           </div>
@@ -84,7 +84,7 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
           {/* Playlist - Strictly Fixed Height to match video */}
           <div className="lg:col-span-4 flex flex-col max-h-[600px]">
             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 border-b border-white/10 pb-4 mb-6 flex items-center justify-between">
-              Latest Broadcasts
+              Latest Stories
               <span className="text-[9px] bg-white/5 px-2 py-0.5 rounded-full">{videos.length} Videos</span>
             </h4>
             
