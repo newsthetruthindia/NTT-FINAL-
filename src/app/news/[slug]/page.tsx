@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
@@ -92,6 +93,12 @@ export default async function NewsDetails({
     
     const wordCount = articleContent.replace(/<[^>]*>/g, '').split(/\s+/).length;
     const readingTime = Math.ceil(wordCount / 200);
+
+    // X/Twitter automatic embed logic
+    const processedContent = articleContent.replace(
+        /https?:\/\/(?:twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+(?:\?[^\s<>"]*)?/g,
+        (match) => `<blockquote class="twitter-tweet" data-theme="dark"><a href="${match}"></a></blockquote>`
+    );
 
     // Attribution Logic Helpers
     const reporterName = post.reporter_name || (post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK');
@@ -200,8 +207,9 @@ export default async function NewsDetails({
 
             <div 
               className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/10 antialiased pt-2"
-              dangerouslySetInnerHTML={{ __html: articleContent }}
+              dangerouslySetInnerHTML={{ __html: processedContent }}
             />
+            <Script src="https://platform.twitter.com/widgets.js" strategy="afterInteractive" />
 
             {/* Meet the Reporter Section */}
             {post.user && (
