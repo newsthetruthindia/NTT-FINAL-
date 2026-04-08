@@ -41,7 +41,8 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
   if (loading) return null;
   if (!ad) return null;
 
-  const imageSrc = ad.media?.path ? `/api/storage/${ad.media.path.replace(/^\/+/, '')}` : null;
+  const rawPath = ad.media?.path || ad.image_url;
+  const imageSrc = rawPath ? `/api/storage/${rawPath.replace(/^\/+/, '')}` : null;
 
   return (
     <div className={`relative group overflow-hidden rounded-3xl border border-border bg-card/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 ${className}`}>
