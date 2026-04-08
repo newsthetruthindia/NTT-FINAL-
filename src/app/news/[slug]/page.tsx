@@ -94,11 +94,16 @@ export default async function NewsDetails({
     const wordCount = articleContent.replace(/<[^>]*>/g, '').split(/\s+/).length;
     const readingTime = Math.ceil(wordCount / 200);
 
-    // X/Twitter automatic embed logic
-    const processedContent = articleContent.replace(
-        /https?:\/\/(?:twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+(?:\?[^\s<>"]*)?/g,
-        (match) => `<blockquote class="twitter-tweet" data-theme="dark"><a href="${match}"></a></blockquote>`
-    );
+    // Sanitize malformed HTML (orphaned ">" from deleted images) and handle Twitter embeds
+    const processedContent = articleContent
+        .replace(/(?:\s|&nbsp;)*">/g, '') // Remove loose ">" fragments
+        .replace(
+            /(?:<a [^>]*href=["'](https?:\/\/(?:twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+[^\s"'>]*)["'][^>]*>.*?<\/a>)|(https?:\/\/(?:twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+[^\s"'>]*)/g,
+            (match, p1, p2) => {
+                const url = p1 || p2;
+                return `<blockquote class="twitter-tweet" data-theme="dark"><a href="${url}"></a></blockquote>`;
+            }
+        );
 
     // Attribution Logic Helpers
     const reporterName = post.reporter_name || (post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK');
