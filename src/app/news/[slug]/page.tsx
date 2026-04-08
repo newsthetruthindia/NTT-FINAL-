@@ -102,7 +102,7 @@ export default async function NewsDetails({
     const renderAttributionLink = (name: string) => {
         if (isCitizen) {
             return (
-                <Link href="/news/category/citizen-journalism" className="hover:text-primary transition-colors underline decoration-primary/30 decoration-2 underline-offset-4">
+                <Link href="/news/category/citizen-journalism" className="hover:text-primary transition-colors">
                     BY {name}
                 </Link>
             );
@@ -111,7 +111,7 @@ export default async function NewsDetails({
             return <span className="uppercase">BY {name}</span>;
         }
         return (
-            <Link href={`/reporter/${post.user?.id || 1}`} className="hover:text-primary transition-colors underline decoration-primary/30 decoration-2 underline-offset-4">
+            <Link href={`/reporter/${post.user?.id || 1}`} className="hover:text-primary transition-colors">
                 BY {name}
             </Link>
         );
@@ -170,16 +170,6 @@ export default async function NewsDetails({
                     <span>{readingTime} min read</span>
                   </div>
                 </div>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                 <Link href="#comments" className="p-3 bg-card border border-border rounded-2xl hover:bg-primary/10 hover:text-primary transition-all duration-300">
-                    <svg className="w-5 h-5 fill-none stroke-current" strokeWidth={2} viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                 </Link>
-                 <button className="flex items-center gap-3 px-6 py-3 bg-foreground text-background rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-primary transition-all duration-300 shadow-xl group">
-                    Bookmark
-                    <svg className="w-4 h-4 transform group-hover:scale-125 transition-transform" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
-                 </button>
               </div>
             </div>
           </div>
