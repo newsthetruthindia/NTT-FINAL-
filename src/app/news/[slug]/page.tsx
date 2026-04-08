@@ -94,20 +94,23 @@ export default async function NewsDetails({
     const wordCount = articleContent.replace(/<[^>]*>/g, '').split(/\s+/).length;
     const readingTime = Math.ceil(wordCount / 200);
 
-    // Sanitize malformed HTML (orphaned ">" from deleted images) and handle Twitter embeds
-    const processedContent = articleContent
-        .replace(/(?:\s|&nbsp;)*">/g, '') // Remove loose ">" fragments
-        .replace(
-            /(?:<a [^>]*href=["'](https?:\/\/(?:twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+[^\s"'>]*)["'][^>]*>.*?<\/a>)|(https?:\/\/(?:twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+[^\s"'>]*)/g,
-            (match, p1, p2) => {
-                const url = p1 || p2;
-                return `<blockquote class="twitter-tweet" data-theme="dark"><a href="${url}"></a></blockquote>`;
-            }
-        );
+    // 1. Aggressive Sanitizer: Removes orphaned fragments like ">" or "/>" left by messy editor deletions
+    const sanitizedHtml = articleContent.replace(/(?:\s|&nbsp;)*\/?\s*">/g, '');
+
+    // 2. HTML-Aware Twitter Detection: Correctly identifies and replaces links even when wrapped in <a> tags
+    const processedContent = sanitizedHtml.replace(
+        /(?:<a [^>]*href=["'](https?:\/\/(?:twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+[^\s"'>]*)["'][^>]*>.*?<\/a>)|(https?:\/\/(?:twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+[^\s"'>]*)/g,
+        (match, p1, p2) => {
+            const url = p1 || p2;
+            return `<blockquote class="twitter-tweet" data-theme="dark"><a href="${url}"></a></blockquote>`;
+        }
+    );
 
     // Attribution Logic Helpers
     const reporterName = post.reporter_name || (post.user ? `${post.user.firstname} ${post.user.lastname || ''}`.trim() : 'NTT DESK');
     const isCitizen = post.reporter_name === "Citizen Journalist";
+    const isDesk = post.reporter_name === "NTT Desk" || post.reporter_name === "NTT DESK";
+
     const isStaff = post.reporter_name === "Staff Reporter";
     const isVerifiedReporter = post.user?.is_reporter === true;
 
