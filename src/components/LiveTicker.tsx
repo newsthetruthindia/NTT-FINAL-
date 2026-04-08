@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { fetchLatestPosts } from '@/lib/api';
 
 export default function LiveTicker() {
   const [headlines, setHeadlines] = useState<string[]>([
@@ -13,12 +12,18 @@ export default function LiveTicker() {
   useEffect(() => {
     const loadHeadlines = async () => {
       try {
-        const posts = await fetchLatestPosts(5);
-        if (posts && posts.length > 0) {
+        const res = await fetch('/api/proxy/posts/latest?limit=5', {
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!res.ok) return;
+        const json = await res.json();
+        // Handle paginated { data: { data: [...] } }, wrapped { data: [...] }, or raw [...]
+        const posts = json?.data?.data || json?.data || (Array.isArray(json) ? json : []);
+        if (Array.isArray(posts) && posts.length > 0) {
           setHeadlines(posts.map((post: any) => post.title));
         }
-      } catch (error) {
-        console.error("Failed to fetch headlines:", error);
+      } catch {
+        // Silent fail — ticker stays on loading message
       }
     };
 

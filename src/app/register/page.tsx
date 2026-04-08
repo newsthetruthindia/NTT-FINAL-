@@ -48,85 +48,100 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FDFDFD] flex flex-col">
+    <main className="min-h-screen relative flex flex-col bg-background overflow-hidden">
+      {/* Premium Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full premium-gradient opacity-10 pointer-events-none" />
+      <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute -bottom-[20%] -right-[10%] w-[60%] h-[60%] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+
       <Header />
       
-      <div className="flex-grow flex items-center justify-center px-4 py-24">
-        <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl shadow-gray-200/50 p-10 border border-gray-100">
-          <div className="text-center mb-10">
-            <h1 className="text-3xl font-black text-gray-900 tracking-tight">JOIN NTT<span className="text-red-600">.</span></h1>
-            <p className="text-gray-500 mt-2">Start your journey with us</p>
-          </div>
+      <div className="flex-grow flex items-center justify-center px-4 py-24 relative z-10">
+        <div className="w-full max-w-md p-1 bg-white/40 rounded-[40px] backdrop-blur-3xl border border-white/20 shadow-2xl animate-fade-in-up">
+          <div className="bg-white/80 rounded-[39px] p-10 border border-white/10 shadow-inner">
+            <div className="text-center mb-10">
+               <h1 className="text-4xl font-black text-foreground font-heading tracking-tighter leading-none mb-2">
+                 JOIN<br/>NTT<span className="text-primary text-5xl">.</span>
+               </h1>
+               <p className="text-foreground/40 text-[10px] font-black uppercase tracking-[0.4em] mb-8">Start Your Journey</p>
+               <p className="text-foreground/60 text-sm font-sans leading-relaxed">Create your verified NTT account to begin.</p>
+            </div>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            {error && (
-              <div className="bg-red-50 text-red-600 text-sm font-bold px-4 py-3 rounded-xl border border-red-100">
-                {error}
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              {error && (
+                <div className="bg-rose-500/10 text-rose-500 text-[11px] font-bold px-5 py-4 rounded-2xl border border-rose-500/20 animate-shake">
+                  {error}
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">First Name</label>
+                  <input 
+                    type="text" 
+                    value={firstname}
+                    onChange={(e) => setFirstname(e.target.value)}
+                    required
+                    className="w-full px-5 py-4 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
+                    placeholder="John"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Last Name</label>
+                  <input 
+                    type="text" 
+                    value={lastname}
+                    onChange={(e) => setLastname(e.target.value)}
+                    required
+                    className="w-full px-5 py-4 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
+                    placeholder="Doe"
+                  />
+                </div>
               </div>
-            )}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">First Name</label>
+
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Account Identity (Email)</label>
                 <input 
-                  type="text" 
-                  value={firstname}
-                  onChange={(e) => setFirstname(e.target.value)}
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-red-600/20 focus:bg-white transition-all outline-none text-gray-900" 
-                  placeholder="John"
+                  className="w-full px-6 py-5 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
+                  placeholder="name@example.com"
                 />
               </div>
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">Last Name</label>
+
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Secure Key (Password)</label>
                 <input 
-                  type="text" 
-                  value={lastname}
-                  onChange={(e) => setLastname(e.target.value)}
+                  type="password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-red-600/20 focus:bg-white transition-all outline-none text-gray-900" 
-                  placeholder="Doe"
+                  minLength={8}
+                  className="w-full px-6 py-5 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
+                  placeholder="••••••••"
                 />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">Email Address</label>
-              <input 
-                type="email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-red-600/20 focus:bg-white transition-all outline-none text-gray-900" 
-                placeholder="name@example.com"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">Password</label>
-              <input 
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={8}
-                className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-red-600/20 focus:bg-white transition-all outline-none text-gray-900" 
-                placeholder="••••••••"
-              />
-            </div>
-
-            <div className="pt-4">
-               <button 
+              <button 
                 disabled={isLoading}
-                className="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-red-600/20 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0"
+                className="w-full py-5 premium-gradient text-white text-[12px] font-black uppercase tracking-[0.2em] rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 disabled:opacity-50 mt-4"
               >
-                {isLoading ? 'Creating Account...' : 'Create Account'}
+                {isLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.3s]" />
+                    <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.15s]" />
+                    <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" />
+                  </span>
+                ) : 'Create Account'}
               </button>
-            </div>
-          </form>
+            </form>
 
-          <p className="text-center text-gray-500 mt-10 text-sm">
-            Already have an account? <Link href="/login" className="text-red-600 font-bold hover:underline">Sign In</Link>
-          </p>
+            <p className="text-center text-foreground/40 mt-12 text-[10px] font-black uppercase tracking-[0.2em]">
+              Already have an account? <Link href="/login" className="text-primary hover:underline ml-2">Sign In</Link>
+            </p>
+          </div>
         </div>
       </div>
 

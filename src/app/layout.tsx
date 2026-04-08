@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | NTT"
   },
   description: "NTT: Authentic storytelling and citizen journalism. Questions will be asked.",
-  metadataBase: new URL('https://ntt-final.vercel.app'),
+  metadataBase: new URL('https://newsthetruth.com'),
   manifest: "/manifest.json",
   themeColor: "#ff0000",
   keywords: ["news", "truth", "ntt", "citizen journalism", "india news", "exclusive reports"],
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "NTT | News The Truth",
     description: "NTT: Authentic storytelling and citizen journalism. Questions will be asked.",
-    url: "https://ntt-final.vercel.app",
+    url: "https://newsthetruth.com",
     siteName: "NTT",
     images: [
       {

@@ -12,7 +12,7 @@ export default function Newsletter() {
     
     setStatus('loading');
     try {
-      const res = await fetch('/api/proxy/vps/newsletter/subscribe', {
+      const res = await fetch('/api/proxy/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({ email: email.trim() }),

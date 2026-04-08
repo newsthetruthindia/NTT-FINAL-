@@ -5,7 +5,7 @@ import NewsCard from '@/components/NewsCard'
 import { fetchCategoryPosts } from '@/lib/api'
 import { notFound } from 'next/navigation'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ntt-final.vercel.app'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const resolvedParams = await params;

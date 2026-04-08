@@ -29,7 +29,7 @@ export default function ReportForm() {
         formDataToSend.append('attachment_file', file);
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/citizen-report`, {
+      const response = await fetch(`/api/proxy/citizen-report`, {
         method: 'POST',
         body: formDataToSend,
       });
