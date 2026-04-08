@@ -141,12 +141,12 @@ export default async function NewsDetails({
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-7xl font-black text-foreground mb-8 leading-[1.05] tracking-tighter uppercase italic editorial-heading animate-fade-in-up">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-[1.1] tracking-tighter uppercase italic editorial-heading animate-fade-in-up">
               {post.title}
             </h1>
 
             {post.subtitle && (
-              <p className="text-xl md:text-2xl font-bold text-foreground/60 mb-10 tracking-tight leading-relaxed font-heading border-l-4 border-primary pl-6 py-2">
+              <p className="text-lg md:text-xl lg:text-2xl font-bold text-foreground/70 mb-10 tracking-tight leading-relaxed font-heading border-l-4 border-primary pl-6 py-2">
                 {post.subtitle}
               </p>
             )}
@@ -209,7 +209,7 @@ export default async function NewsDetails({
             </div>
 
             <div 
-              className="prose prose-2xl max-w-none article-content selection:bg-primary/10 tracking-normal antialiased pt-2"
+              className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/10 antialiased pt-2"
               dangerouslySetInnerHTML={{ __html: articleContent }}
             />
 

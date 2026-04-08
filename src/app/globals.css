@@ -15,31 +15,31 @@
 
 :root {
   /* Day Mode (Light) - Clean Editorial Style */
-  --background: #ffffff;
-  --foreground: #000000;
+  --background: #f8fafc; /* Slate 50 */
+  --foreground: #1e293b; /* Slate 800 - softer than pure black */
   --primary: #8c0000;
   --primary-dark: #6b0000;
-  --secondary: #374151; /* Hardened Gray (700) */
-  --accent: #f8fafc;
+  --secondary: #475569; /* Slate 600 */
+  --accent: #ffffff;
   --card: #ffffff;
-  --border: #dfdfdf;
-  --ntt-glass-bg: rgba(255, 255, 255, 0.95);
-  --ntt-glass-border: rgba(0, 0, 0, 0.15);
+  --border: #e2e8f0; /* Slate 200 */
+  --ntt-glass-bg: rgba(255, 255, 255, 0.90);
+  --ntt-glass-border: rgba(15, 23, 42, 0.08);
   
   --font-sans: var(--font-poppins);
 }
 
 .dark {
-  /* Midnight Mode (Dark) - Signature OLED Style */
-  --background: #000000;
-  --foreground: #ffffff;
-  --primary: #ff0000;
+  /* Midnight Mode (Dark) - Signature OLED-friendly Style */
+  --background: #0b1120; /* Deep Midnight Slate, easier on eyes than #000 */
+  --foreground: #f1f5f9; /* Slate 100 - softens bright white glaring */
+  --primary: #ff1a1a; /* slightly brighter red for better dark background contrast */
   --primary-dark: #cc0000;
-  --secondary: #cbd5e1; /* Hardened Slate (300) */
-  --accent: #0f172a;
-  --card: #050505;
-  --border: #1a1a1a;
-  --ntt-glass-bg: rgba(0, 0, 0, 0.95);
+  --secondary: #94a3b8; /* Slate 400 */
+  --accent: #1e293b;
+  --card: #151e32; /* Slightly elevated from background */
+  --border: #334155; /* Slate 700 */
+  --ntt-glass-bg: rgba(11, 17, 32, 0.90);
   --ntt-glass-border: rgba(255, 255, 255, 0.1);
 }
 
@@ -105,11 +105,39 @@ h6 {
 
 .article-content {
   font-family: var(--font-poppins), system-ui, sans-serif !important;
-  font-size: 1.125rem;
-  line-height: 1.7;
   color: var(--foreground);
   font-weight: 400;
   text-rendering: optimizeLegibility;
+  max-width: 70ch; /* Golden ratio for line length */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.article-content p {
+  line-height: 1.8;
+  margin-bottom: 2.2em; /* Increase breathing room between paragraphs */
+  letter-spacing: 0.01em;
+}
+
+.article-content a {
+  color: var(--foreground);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--primary);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  transition: all 0.3s ease;
+}
+
+.article-content a:hover {
+  color: var(--primary);
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.article-content strong, .article-content b {
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
 }
 
 .glass-card {
