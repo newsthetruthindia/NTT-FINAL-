@@ -11,21 +11,26 @@ export default function SplashAd() {
     const fetchAd = async () => {
       try {
         const res = await fetch('/api/proxy/sponsor/splash');
+        if (!res.ok) return;
         const data = await res.json();
         
-        if (data.success && data.data) {
-          setAdContent(data.data);
-          
+        // Handle both { success: true, data: {...} } and direct { id: ... } responses
+        const ad = (data?.success === true && data?.data?.id) 
+          ? data.data 
+          : (data?.id ? data : null);
+
+        if (ad) {
+          setAdContent(ad);
           // Check if this ad was already shown in this session
           const shownAds = JSON.parse(sessionStorage.getItem('ntt_shown_splash_ads') || '[]');
-          if (!shownAds.includes(data.data.id)) {
+          if (!shownAds.includes(ad.id)) {
             setIsOpen(true);
-            shownAds.push(data.data.id);
+            shownAds.push(ad.id);
             sessionStorage.setItem('ntt_shown_splash_ads', JSON.stringify(shownAds));
           }
         }
       } catch (error) {
-        console.error('Failed to fetch splash ad:', error);
+        // Silently fail — no splash shown
       }
     };
 
@@ -53,8 +58,8 @@ export default function SplashAd() {
           <div className="md:w-1/2 relative aspect-square md:aspect-auto bg-black/20">
             {adContent.media?.path && (
               <img 
-                src={`/storage/${adContent.media.path.replace(/^\/+/, '')}`} 
-                alt={adContent.title}
+                src={`/api/storage/${adContent.media.path.replace(/^\/+/, '')}`} 
+                alt={adContent.title || adContent.name}
                 className="absolute inset-0 w-full h-full object-cover"
               />
             )}

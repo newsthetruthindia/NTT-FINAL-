@@ -1,5 +1,7 @@
 import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos } from '@/lib/api'
 
+const INTERNAL_API_URL = 'http://117.252.16.132/api/';
+
 export default async function DiagnosePage() {
   const diagnosticResults: any[] = [];
   
@@ -24,6 +26,24 @@ export default async function DiagnosePage() {
     }
   };
 
+  const testClientFetch = async (name: string, url: string) => {
+    try {
+      const start = Date.now();
+      const res = await fetch(url, { cache: 'no-store' });
+      const end = Date.now();
+      const data = await res.json();
+      diagnosticResults.push({
+        name,
+        status: res.ok ? 'OK' : 'WARN',
+        count: data?.data?.id ? 1 : (data?.id ? 1 : 0),
+        time: `${end - start}ms`,
+        sample: JSON.stringify(data).substring(0, 100)
+      });
+    } catch (err: any) {
+      diagnosticResults.push({ name, status: 'ERROR', message: err.message });
+    }
+  };
+
   await Promise.all([
     testFetch('Top Posts', () => fetchTopPosts(5)),
     testFetch('Latest Posts', () => fetchLatestPosts(5)),
@@ -33,6 +53,9 @@ export default async function DiagnosePage() {
     testFetch('India Category', () => fetchCategoryPosts('india', 1)),
     testFetch('Bengal Category', () => fetchCategoryPosts('bengal', 1)),
     testFetch('Politics Category', () => fetchCategoryPosts('politics', 1)),
+    testClientFetch('Ad: Banner', `${INTERNAL_API_URL}sponsor/banner`),
+    testClientFetch('Ad: Sidebar', `${INTERNAL_API_URL}sponsor/sidebar`),
+    testClientFetch('Ad: Splash', `${INTERNAL_API_URL}sponsor/splash`),
   ]);
 
   return (

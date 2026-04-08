@@ -51,7 +51,7 @@ export default function Footer() {
             <h4 className="font-heading font-bold uppercase tracking-widest text-xs mb-6 text-white">Staff</h4>
             <ul className="space-y-4 text-sm">
               <li>
-                <a href="http://117.252.16.132/admin" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors flex items-center gap-2 font-black uppercase tracking-widest text-[10px]">
+                <a href="https://newsthetruth.com/admin" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors flex items-center gap-2 font-black uppercase tracking-widest text-[10px]">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                   Backend Access
                 </a>

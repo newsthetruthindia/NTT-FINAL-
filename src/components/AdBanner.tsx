@@ -16,12 +16,21 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
     const fetchAd = async () => {
       try {
         const res = await fetch(`/api/proxy/sponsor/${type}`);
-        const data = await res.json();
-        if (data.success && data.data) {
-          setAd(data.data);
+        if (!res.ok) {
+          setLoading(false);
+          return;
         }
+        const data = await res.json();
+        // Backend may return {} when no ad found, or { success: true, data: {...} }
+        if (data && data.success === true && data.data && data.data.id) {
+          setAd(data.data);
+        } else if (data && data.id) {
+          // Direct object response
+          setAd(data);
+        }
+        // If empty {} or no valid ad, ad stays null → component renders nothing
       } catch (error) {
-        console.error(`Failed to fetch ${type} ad:`, error);
+        // Silently fail — no ad is shown
       } finally {
         setLoading(false);
       }
