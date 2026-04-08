@@ -24,7 +24,7 @@ export default async function Home() {
   try {
     const results = await Promise.all([
       fetchTopPosts(10).catch(() => []),
-      fetchLatestPosts(8).catch(() => []),
+      fetchLatestPosts(12).catch(() => []),
       fetchCategories().catch(() => []),
       fetchTags().catch(() => []),
       fetchVideos().catch(() => []),

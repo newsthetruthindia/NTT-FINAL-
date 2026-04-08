@@ -18,6 +18,9 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
     ? new Date(created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
     : 'Recent';
 
+  // Fallback for excerpt to maintain card height consistency
+  const displayExcerpt = excerpt || (post.description ? post.description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : '');
+
   // Attribution Link Logic
   const renderAttribution = () => {
     const name = reporter_name || (user ? `${user.firstname} ${user.lastname || ''}`.trim() : 'NTT DESK');
@@ -81,9 +84,9 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <h2 className="text-lg lg:text-xl font-black text-foreground mb-3 leading-tight tracking-tight group-hover:text-primary transition-colors line-clamp-2 editorial-heading">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
-          {excerpt && (
+          {displayExcerpt && (
             <p className="text-foreground/60 text-[11px] lg:text-xs mb-4 line-clamp-2 leading-relaxed font-medium">
-              {excerpt}
+              {displayExcerpt}
             </p>
           )}
           <div className="flex items-center gap-4 text-foreground/50 text-[9px] font-black uppercase tracking-widest">
@@ -166,9 +169,9 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
         <h3 className="text-xl md:text-2xl font-black text-foreground leading-tight mb-4 group-hover:text-primary transition-colors line-clamp-2 editorial-heading">
           <Link href={`/news/${slug}`}>{title}</Link>
         </h3>
-        {excerpt && (
+        {displayExcerpt && (
           <p className="text-foreground/60 text-sm mb-6 line-clamp-3 leading-relaxed">
-            {excerpt}
+            {displayExcerpt}
           </p>
         )}
         <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
