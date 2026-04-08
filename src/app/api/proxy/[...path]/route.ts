@@ -2,6 +2,22 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
+// SECURITY: Paths that require authentication to proxy.
+// These contain PII or admin-level data and must not be forwarded
+// unless the request includes a valid Bearer token.
+const AUTH_REQUIRED_PATHS = [
+  /^user\/\d+$/,      // /api/user/{id} — exposes PII, salaries, 2FA secrets
+  /^users/,           // any /api/users/* route
+  /^auth\/logout/,    // logout must be authed
+];
+
+// SECURITY: Paths that are completely blocked (admin/internal endpoints)
+const BLOCKED_PATHS = [
+  /^admin/,
+  /^filament/,
+  /^\.well-known/,
+];
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
@@ -11,21 +27,41 @@ export async function GET(
   const path = pathArray.join('/');
   const searchParams = request.nextUrl.searchParams.toString();
   
+  // SECURITY: Block admin/internal paths entirely
+  if (BLOCKED_PATHS.some(r => r.test(path))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
+  // SECURITY: Require auth header for sensitive user data paths
+  const authHeader = request.headers.get('Authorization');
+  if (AUTH_REQUIRED_PATHS.some(r => r.test(path)) && !authHeader) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // SECURITY: Cap the limit param to prevent DoS via forced memory exhaustion
+  const url = new URL(request.url);
+  const rawLimit = parseInt(url.searchParams.get('limit') || '20');
+  const safeLimit = Math.min(isNaN(rawLimit) ? 20 : rawLimit, 50);
+  const cappedSearchParams = new URLSearchParams(searchParams);
+  cappedSearchParams.set('limit', String(safeLimit));
+  const finalSearchParams = cappedSearchParams.toString();
+  
   // Directly targeting the VPS API
-  const apiUrl = `http://117.252.16.132/api/${path}${searchParams ? `?${searchParams}` : ''}`;
+  const apiUrl = `http://117.252.16.132/api/${path}${finalSearchParams ? `?${finalSearchParams}` : ''}`;
   
   try {
+    const forwardHeaders: Record<string, string> = { 'Accept': 'application/json' };
+    if (authHeader) forwardHeaders['Authorization'] = authHeader;
+
     const res = await fetch(apiUrl, { 
       cache: 'no-store',
-      headers: { 'Accept': 'application/json' }
+      headers: forwardHeaders,
     });
     
     const contentType = res.headers.get('content-type') || '';
     
     // If backend returns a non-JSON response (HTML error page / redirect), return safe fallback
     if (!contentType.includes('application/json')) {
-      console.warn(`Proxy warning: ${path} returned non-JSON content-type: ${contentType} (status ${res.status})`);
-      
       // For sponsor/ad endpoints, return empty success to prevent frontend crashes
       if (path.startsWith('sponsor/')) {
         return NextResponse.json({ success: false, data: null });
@@ -38,13 +74,10 @@ export async function GET(
     }
 
     // Backend returned JSON — pass it through as-is (even if {}, 404, etc.)
-    // The frontend components handle empty/missing data gracefully.
     const data = await res.json();
     return NextResponse.json(data, { status: res.ok ? 200 : res.status });
 
   } catch (err: any) {
-    console.error(`Proxy Error for ${path}:`, err.message);
-    
     if (path.startsWith('sponsor/')) {
       return NextResponse.json({ success: false, data: null });
     }

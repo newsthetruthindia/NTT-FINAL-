@@ -1,5 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// SECURITY: Allowlist of permitted domains for the image proxy
+// This prevents SSRF attacks where an attacker could use this endpoint
+// to probe internal networks, cloud metadata services, or arbitrary URLs.
+const ALLOWED_HOSTS = [
+  '117.252.16.132',
+  'newsthetruth.com',
+  'www.newsthetruth.com',
+  'i.ytimg.com',
+  'img.youtube.com',
+];
+
 export async function GET(request: NextRequest) {
   const url = request.nextUrl.searchParams.get('url');
   
@@ -7,41 +18,51 @@ export async function GET(request: NextRequest) {
     return new NextResponse('Missing URL parameter', { status: 400 });
   }
 
+  // SECURITY: Validate URL and check against allowlist
+  let parsedUrl: URL;
   try {
-    console.log(`Proxying image request for: ${url}`);
-    
+    parsedUrl = new URL(url);
+  } catch {
+    return new NextResponse('Invalid URL', { status: 400 });
+  }
+
+  // Enforce HTTPS or HTTP only (no file://, data://, etc.)
+  if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+    return new NextResponse('Forbidden: Invalid protocol', { status: 403 });
+  }
+
+  // Check hostname against allowlist
+  if (!ALLOWED_HOSTS.includes(parsedUrl.hostname)) {
+    return new NextResponse('Forbidden: Host not allowed', { status: 403 });
+  }
+
+  try {
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'User-Agent': 'NTT-ImageProxy/1.0',
       },
     });
-    
-    console.log(`Response status: ${response.status}`);
-    console.log(`Response headers:`, JSON.stringify(Object.fromEntries(response.headers.entries())));
 
     if (!response.ok) {
-      console.error(`Failed to fetch image from ${url}. Status: ${response.status}`);
       return new NextResponse('Failed to fetch image', { status: response.status });
     }
 
     const contentType = response.headers.get('content-type');
     
-    // If the origin returned HTML instead of an image (e.g. a 404 page with 200 status)
-    if (contentType && contentType.includes('text/html')) {
-      console.warn(`Origin returned HTML for ${url}. This usually means a redirect or 404 page.`);
-      return new NextResponse('Resource not found as image', { status: 404 });
+    // Only allow actual image/video content types
+    if (!contentType || (!contentType.startsWith('image/') && !contentType.startsWith('video/'))) {
+      return new NextResponse('Resource is not an image', { status: 415 });
     }
 
     const arrayBuffer = await response.arrayBuffer();
 
     return new NextResponse(arrayBuffer, {
       headers: {
-        'Content-Type': contentType || 'image/jpeg',
+        'Content-Type': contentType,
         'Cache-Control': 'public, max-age=86400',
       },
     });
   } catch (error) {
-    console.error('Image proxy error:', error);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

@@ -37,8 +37,6 @@ export async function GET(
             headers: {
               'Content-Type': finalContentType,
               'Cache-Control': 'public, max-age=31536000, immutable',
-              'X-Proxy-Source': 'VPS',
-              'X-Proxy-Url': url,
             },
           });
       }
