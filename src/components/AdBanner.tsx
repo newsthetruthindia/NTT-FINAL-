@@ -51,7 +51,7 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
         href={ad.link_url} 
         target="_blank" 
         rel="noopener noreferrer"
-        className={`flex items-center justify-center bg-background/50 relative ${type === 'banner' ? 'h-32 md:h-48' : 'h-64'}`}
+        className={`flex items-center justify-center bg-background/50 relative overflow-hidden ${type === 'banner' ? 'aspect-[4/1] w-full' : 'aspect-square w-full'}`}
       >
          {imageSrc ? (
            <Image 

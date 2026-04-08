@@ -55,7 +55,7 @@ export default function SplashAd() {
         </button>
         
         <div className="flex flex-col md:flex-row h-full">
-          <div className="md:w-1/2 relative aspect-square md:aspect-auto bg-black/20">
+          <div className="md:w-1/2 relative aspect-[2/3] bg-black/20">
             {(adContent.media?.path || adContent.image_url) && (
               <img 
                 src={`/api/storage/${(adContent.media?.path || adContent.image_url).replace(/^\/+/, '')}`} 
