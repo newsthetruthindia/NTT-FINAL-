@@ -184,7 +184,7 @@ export const getImageUrl = (path?: any) => {
   // If it's already a full URL pointing to the VPS or older domain
   if (path.startsWith('http')) {
     // Standardize VPS IPs or known domains to use our internal proxy /api/storage/
-    if (path.includes('117.252.16.132/storage/') || path.includes('newsthetruth.com/storage/')) {
+    if (path.includes('117.252.16.132/storage/') || path.includes('newsthetruth.com/storage/') || path.includes('backend.newsthetruth.com/storage/')) {
        const parts = path.split('/storage/');
        const cleanPath = parts[parts.length - 1];
        return `/api/storage/${cleanPath.replace(/^\/+/, '')}`;

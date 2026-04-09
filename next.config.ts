@@ -12,6 +12,7 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'http', hostname: '117.252.16.132' },
       { protocol: 'https', hostname: '117.252.16.132' },
+      { protocol: 'https', hostname: 'backend.newsthetruth.com' },
       { protocol: 'https', hostname: 'newsthetruth.com' },
       { protocol: 'https', hostname: 'www.newsthetruth.com' },
       { protocol: 'https', hostname: 'newsthetruth.com' },
