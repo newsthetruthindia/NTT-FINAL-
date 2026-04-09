@@ -161,7 +161,7 @@ export default async function NewsDetails({
             </h1>
 
             {post.subtitle && (
-              <p className="text-lg md:text-xl lg:text-2xl font-bold text-foreground/70 mb-10 tracking-tight leading-relaxed font-heading border-l-4 border-primary pl-6 py-2 not-italic">
+              <p className="text-lg md:text-xl lg:text-2xl font-bold text-foreground/70 mb-10 tracking-tight leading-relaxed font-heading border-l-4 border-primary pl-6 py-2 italic">
                 {post.subtitle}
               </p>
             )}
