@@ -93,7 +93,6 @@ body {
 }
 
 h1,
-h2,
 h3,
 h4,
 h5,
@@ -101,6 +100,13 @@ h6 {
   font-family: var(--font-heading);
   letter-spacing: -0.03em;
   font-weight: 800;
+}
+
+h2 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  font-style: italic;
 }
 
 .article-content {
@@ -187,7 +193,7 @@ h6 {
   color: var(--primary);
   font-family: var(--font-league-spartan), serif !important;
   letter-spacing: -0.01em;
-  @apply italic capitalize;
+  @apply capitalize;
 }
 
 .section-header .view-all {

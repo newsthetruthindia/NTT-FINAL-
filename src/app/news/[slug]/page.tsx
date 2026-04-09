@@ -156,7 +156,7 @@ export default async function NewsDetails({
               </span>
             </div>
 
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-[1.1] tracking-tighter uppercase italic editorial-heading animate-fade-in-up">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-[1.1] tracking-tighter uppercase editorial-heading animate-fade-in-up">
               {post.title}
             </h1>
 
@@ -289,7 +289,7 @@ export default async function NewsDetails({
         <section className="bg-card py-24 px-4 transition-colors duration-500 border-t border-border">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-16">
-              <h2 className="text-4xl font-black text-foreground tracking-tight">Recommended for you</h2>
+              <h2 className="text-4xl font-black text-foreground tracking-tight italic">Recommended for you</h2>
               <div className="h-1 flex-grow mx-8 bg-border rounded-full" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
