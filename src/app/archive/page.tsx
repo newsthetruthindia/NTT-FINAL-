@@ -1,14 +1,29 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CalendarArchive from '@/components/CalendarArchive';
+import ArchiveSearchBanner from '@/components/ArchiveSearchBanner';
+import ReporterGrid from '@/components/ReporterGrid';
+import { fetchArchiveSummary, fetchActiveReporters } from '@/lib/api';
 
-export default function ArchiveLandingPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function ArchiveLandingPage() {
+  // Fetch dynamic data for the archive
+  const [summary, reporters] = await Promise.all([
+    fetchArchiveSummary(),
+    fetchActiveReporters()
+  ]);
+
+  const totalCount = summary?.rounded_count || '4,000+';
+  const yearsCount = summary?.years_count || '3+';
+
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
       <Header />
       
       <div className="pt-32 pb-24 max-w-7xl mx-auto px-4 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+        {/* Hero Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start mb-24">
           <div className="lg:col-span-7">
             <p className="text-[11px] font-black uppercase tracking-[0.3em] text-primary mb-4">
                The News Archive
@@ -22,11 +37,11 @@ export default function ArchiveLandingPage() {
             
             <div className="mt-16 grid grid-cols-2 gap-8 border-t border-border pt-12">
                <div>
-                  <h4 className="text-3xl font-black text-foreground tracking-tighter mb-2">3,000+</h4>
+                  <h4 className="text-3xl font-black text-foreground tracking-tighter mb-2">{totalCount}</h4>
                   <p className="text-[10px] font-black uppercase tracking-widest text-foreground/40">Total Stories</p>
                </div>
                <div>
-                  <h4 className="text-3xl font-black text-foreground tracking-tighter mb-2">3+ Years</h4>
+                  <h4 className="text-3xl font-black text-foreground tracking-tighter mb-2">{yearsCount} Years</h4>
                   <p className="text-[10px] font-black uppercase tracking-widest text-foreground/40">Historical Depth</p>
                </div>
             </div>
@@ -35,6 +50,16 @@ export default function ArchiveLandingPage() {
           <div className="lg:col-span-5 sticky top-32">
             <CalendarArchive />
           </div>
+        </div>
+
+        {/* Search Banner Section */}
+        <div className="mb-24">
+          <ArchiveSearchBanner />
+        </div>
+
+        {/* Reporter Grid Section */}
+        <div className="border-t border-border pt-24">
+          <ReporterGrid reporters={reporters} />
         </div>
       </div>
 

@@ -8,7 +8,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: false,
+    unoptimized: true,
     remotePatterns: [
       { protocol: 'http', hostname: '117.252.16.132' },
       { protocol: 'https', hostname: '117.252.16.132' },

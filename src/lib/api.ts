@@ -260,3 +260,31 @@ export const fetchPostsByUserId = async (userId: number, limit = 100): Promise<P
     return [];
   }
 };
+
+export const fetchActiveReporters = async (): Promise<any[]> => {
+  try {
+    const res = await fetch(`${API_URL}reporters`, { 
+      next: { revalidate: 3600 },
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data ?? [];
+  } catch {
+    return [];
+  }
+};
+
+export const fetchArchiveSummary = async (): Promise<any | null> => {
+  try {
+    const res = await fetch(`${API_URL}archive/stats`, { 
+      next: { revalidate: 3600 },
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data ?? null;
+  } catch {
+    return null;
+  }
+};
