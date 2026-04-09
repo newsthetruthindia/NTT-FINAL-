@@ -20,6 +20,15 @@ const nextConfig = {
       { protocol: 'https', hostname: 'ntt-final.vercel.app' },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/admin',
+        destination: 'https://backend.newsthetruth.com/admin',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 export default nextConfig;
