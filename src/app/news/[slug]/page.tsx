@@ -246,7 +246,7 @@ export default async function NewsDetails({
                     {post.user.details?.designation && (
                       <p className="text-primary font-bold text-sm mb-4 uppercase tracking-widest">{post.user.details.designation}</p>
                     )}
-                    <p className="text-foreground/70 text-lg leading-relaxed mb-8 italic">
+                    <p className="text-foreground/70 text-lg leading-relaxed mb-8">
                       {isVerifiedReporter ? (post.user.details?.bio || "A dedicated member of the NTT News Desk, committed to bringing you the unfiltered truth from the front lines.") : "Attributed Staff Member"}
                     </p>
                     

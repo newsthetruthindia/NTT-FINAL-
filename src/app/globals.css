@@ -106,7 +106,6 @@ h2 {
   font-family: var(--font-heading);
   letter-spacing: -0.03em;
   font-weight: 800;
-  font-style: italic;
 }
 
 .article-content {
