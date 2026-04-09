@@ -55,28 +55,12 @@ export default async function Home() {
 
   const videos = Array.isArray(allVideos) ? allVideos.filter(v => v?.type === 'video') : [];
   
-  // HERO LOGIC: Show the most recent article as hero.
-  // If a top_post exists AND is from today, use it. Otherwise, use the absolute latest post.
-  // This ensures newly published stories always appear in the hero immediately.
-  const latestPost = latestPosts?.[0] || null;
-  const topPost = topPosts?.[0] || null;
-  
-  let heroPost: any = null;
-  if (topPost && latestPost) {
-    const topDate = new Date(topPost.created_at || 0).getTime();
-    const latestDate = new Date(latestPost.created_at || 0).getTime();
-    // Use the latest post if it's newer than the top post (by more than 2 hours)
-    heroPost = (latestDate > topDate + 2 * 60 * 60 * 1000) ? latestPost : topPost;
-  } else {
-    heroPost = topPost || latestPost;
-  }
-  
-  // Trending sidebar: combine top posts and latest, deduplicated, excluding hero
+  // SIMPLE HERO LOGIC: The absolute latest story always takes the top spot automatically.
+  const heroPost = latestPosts?.[0] || null;
   const heroId = heroPost?.id;
-  const allTrending = [...(topPosts || []), ...(latestPosts || [])]
-    .filter((p, i, arr) => p?.id && p.id !== heroId && arr.findIndex(x => x?.id === p.id) === i)
-    .slice(0, 5);
-  const trendingPosts = allTrending;
+
+  // Trending sidebar: Shows the next 5 stories in the queue.
+  const trendingPosts = latestPosts.filter(p => p.id !== heroId).slice(0, 5);
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
