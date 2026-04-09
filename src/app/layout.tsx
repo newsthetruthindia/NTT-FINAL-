@@ -96,7 +96,7 @@ export default function RootLayout({
         </a>
         <ThemeProvider>
           <AuthProvider>
-            <div className="main-content" id="main-content">
+            <div id="main-content">
               {children}
             </div>
           </AuthProvider>
