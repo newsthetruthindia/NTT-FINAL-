@@ -25,107 +25,145 @@ export default function TVMonitor() {
         };
 
         fetchData();
-        const interval = setInterval(fetchData, 60000); // Refresh data every minute
+        const interval = setInterval(fetchData, 60000); 
         return () => clearInterval(interval);
     }, [token]);
 
-    if (loading) return <div className="bg-black h-screen w-screen flex items-center justify-center text-white font-mono uppercase tracking-widest animate-pulse">Initializing News Matrix...</div>;
-    if (error) return <div className="bg-black h-screen w-screen flex flex-col items-center justify-center text-white font-mono uppercase tracking-widest">
-        <div className="text-red-600 mb-4 animate-bounce">Access Denied</div>
-        <div className="text-[10px] opacity-40">Invalid or Expired Monitor Token</div>
-    </div>;
+    // Inline Style Constants for Maximum TV Compatibility
+    const styles = {
+        root: {
+            backgroundColor: '#000',
+            color: '#fff',
+            width: '100%',
+            height: '100vh',
+            margin: 0,
+            padding: 0,
+            overflow: 'hidden',
+            fontFamily: 'monospace, sans-serif'
+        },
+        matrix: {
+            display: 'table',
+            width: '100%',
+            height: '80%',
+            borderCollapse: 'collapse' as const,
+            tableLayout: 'fixed' as const
+        },
+        matrixRow: {
+            display: 'table-row',
+            height: '33.33%'
+        },
+        matrixCell: {
+            display: 'table-cell',
+            width: '25%',
+            padding: '2px',
+            border: '1px solid #111',
+            verticalAlign: 'middle',
+            textAlign: 'center' as const,
+            position: 'relative' as const
+        },
+        videoWrapper: {
+            position: 'relative' as const,
+            width: '100%',
+            paddingTop: '56.25%', // 16:9
+            backgroundColor: '#111'
+        },
+        iframe: {
+            position: 'absolute' as const,
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            border: 'none',
+            backgroundColor: '#000'
+        },
+        rssContainer: {
+            height: '20%',
+            backgroundColor: '#000',
+            padding: '2px'
+        },
+        rssRow: {
+            height: '15%',
+            backgroundColor: '#dadada',
+            marginBottom: '1px',
+            display: 'flex',
+            alignItems: 'center',
+            overflow: 'hidden',
+            color: '#000'
+        },
+        rssLabel: {
+            backgroundColor: '#222',
+            color: '#fff',
+            fontSize: '12px',
+            fontWeight: '900',
+            padding: '0 10px',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            minWidth: '90px',
+            borderRight: '2px solid #000'
+        },
+        rssMarquee: {
+            whiteSpace: 'nowrap' as const,
+            display: 'inline-block',
+            fontSize: '16px',
+            fontWeight: 'bold'
+        }
+    };
+
+    if (loading) return <div style={{...styles.root, display:'flex', alignItems:'center', justifyContent:'center'}}>WAITING FOR DATA...</div>;
+    if (error) return <div style={{...styles.root, display:'flex', alignItems:'center', justifyContent:'center', color:'red'}}>ERROR: PLEASE REFRESH</div>;
 
     return (
-        <div className="bg-black text-white overflow-hidden" style={{ height: '100vh', width: '100vw' }}>
-            <style jsx global>{`
-                body { margin: 0; padding: 0; background: black; overflow: hidden; }
-                .video-grid {
-                    display: grid;
-                    grid-template-columns: repeat(4, 1fr);
-                    grid-template-rows: repeat(3, 1fr);
-                    height: 80vh;
-                    gap: 2px;
-                    padding: 2px;
-                }
-                .rss-matrix {
-                    height: 20vh;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1px;
-                }
-                .rss-row {
-                    height: 16%;
-                    background: #dadada;
-                    display: flex;
-                    align-items: center;
-                    overflow: hidden;
-                }
-                .rss-label {
-                    background: #222;
-                    color: white;
-                    padding: 0 15px;
-                    height: 100%;
-                    display: flex;
-                    align-items: center;
-                    font-size: 0.8vw;
-                    font-weight: 900;
-                    min-width: 10vw;
-                }
-                .marquee {
-                    white-space: nowrap;
-                    display: inline-block;
-                    animation: scroll 60s linear infinite;
-                    padding-left: 20px;
-                }
-                @keyframes scroll {
-                    from { transform: translateX(0); }
-                    to { transform: translateX(-50%); }
-                }
-            `}</style>
-
-            {/* Matrix */}
-            <div className="video-grid">
-                {[...Array(12)].map((_, i) => {
-                    const id = data?.youtube_ids?.[i];
-                    return (
-                        <div key={i} className="relative bg-neutral-900 overflow-hidden border border-white/5">
-                             <div style={{ paddingTop: '56.25%', position: 'relative' }}>
-                                {id ? (
-                                    <iframe 
-                                        src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=1`} 
-                                        className="absolute inset-0 w-full h-full" 
-                                        frameBorder="0" 
-                                        allow="autoplay; encrypted-media" 
-                                        allowFullScreen
-                                    />
-                                ) : (
-                                    <div className="absolute inset-0 flex items-center justify-center opacity-20 text-[0.8vw] tracking-[0.5em] uppercase font-mono">
-                                        No Signal
+        <div style={styles.root}>
+            {/* 4x3 Table-Based Matrix (High Compatibility) */}
+            <div style={styles.matrix}>
+                {[0, 1, 2].map(row => (
+                    <div key={row} style={styles.matrixRow}>
+                        {[0, 1, 2, 3].map(col => {
+                            const index = (row * 4) + col;
+                            const id = data?.youtube_ids?.[index];
+                            return (
+                                <div key={col} style={styles.matrixCell}>
+                                    <div style={styles.videoWrapper}>
+                                        {id ? (
+                                            <iframe 
+                                                src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=1&modestbranding=1`} 
+                                                style={styles.iframe}
+                                                allow="autoplay; encrypted-media"
+                                            />
+                                        ) : (
+                                            <div style={{position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center', opacity:0.3, fontSize:'10px'}}>
+                                                NO SIGNAL
+                                            </div>
+                                        )}
                                     </div>
-                                )}
-                             </div>
-                        </div>
-                    );
-                })}
+                                </div>
+                            );
+                        })}
+                    </div>
+                ))}
             </div>
 
-            {/* RSS Strip */}
-            <div className="rss-matrix">
-                {[...Array(6)].map((_, f) => {
+            {/* RSS Matrix (Legacy Flex/Marquee) */}
+            <div style={styles.rssContainer}>
+                {[0, 1, 2, 3, 4, 5].map(f => {
                     const headlines = data?.rss_feeds?.[f] || [];
                     return (
-                        <div key={f} className="rss-row">
-                            <div className="rss-label">F_0{f+1}</div>
-                            <div className="flex-grow overflow-hidden">
-                                <div className="marquee" style={{ animationDuration: `${50 + (f * 10)}s` }}>
+                        <div key={f} style={styles.rssRow}>
+                            <div style={styles.rssLabel}>FEED 0{f+1}</div>
+                            <div style={{flexGrow:1, overflow:'hidden', position:'relative'}}>
+                                <div id={`marquee-${f}`} style={{
+                                    ...styles.rssMarquee,
+                                    animation: `marquee-scroll-${f} ${50 + (f * 10)}s linear infinite`
+                                }}>
                                     {headlines.length > 0 ? (
                                         [...headlines, ...headlines].map((h, hi) => (
-                                            <span key={hi} className="text-black font-bold text-[1.1vw] mx-10">
+                                            <span key={hi} style={{marginRight:'80px'}}>
                                                 ● {h.title}
                                             </span>
                                         ))
                                     ) : (
-                                        <span className="text-neutral-500 italic text-[0.8vw] tracking-widest px-4 uppercase">Initializing data link port 0{f+1}...</span>
+                                        <span style={{fontSize:'12px', opacity:0.5, padding:'0 20px'}}>Synchronizing feed 0{f+1}...</span>
                                     )}
                                 </div>
                             </div>
@@ -133,6 +171,16 @@ export default function TVMonitor() {
                     );
                 })}
             </div>
+
+            {/* Legacy Keyframe Injector */}
+            <style dangerouslySetInnerHTML={{ __html: `
+                @keyframes marquee-scroll-0 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+                @keyframes marquee-scroll-1 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+                @keyframes marquee-scroll-2 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+                @keyframes marquee-scroll-3 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+                @keyframes marquee-scroll-4 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+                @keyframes marquee-scroll-5 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+            `}} />
         </div>
     );
 }
