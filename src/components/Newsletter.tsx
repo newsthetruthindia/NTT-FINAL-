@@ -3,32 +3,35 @@
 import { useState } from 'react';
 
 export default function Newsletter() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    if (!email.trim() || !name.trim()) return;
     
     setStatus('loading');
+    setErrorMessage('');
     try {
-      const res = await fetch('/api/proxy/newsletter/subscribe', {
+      const res = await fetch('/api/proxy/v1/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ email: email.trim() }),
+        body: JSON.stringify({ name: name.trim(), email: email.trim() }),
       });
+      const json = await res.json();
       if (res.ok) {
         setStatus('success');
         setEmail('');
+        setName('');
       } else {
-        // Fallback: treat as success for UX since backend may not have this endpoint yet
-        setStatus('success');
-        setEmail('');
+        setStatus('error');
+        setErrorMessage(json.message || json.errors?.email?.[0] || 'Something went wrong.');
       }
     } catch {
-      // Graceful degradation: show success even if endpoint doesn't exist yet
-      setStatus('success');
-      setEmail('');
+      setStatus('error');
+      setErrorMessage('Communication error with server.');
     }
   };
 
@@ -62,27 +65,40 @@ export default function Newsletter() {
                   </svg>
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Welcome aboard!</h3>
-                <p className="text-gray-400">Check your inbox to confirm your subscription.</p>
+                <p className="text-gray-400">The truth is now in your inbox. No spam, just pure journalism.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div className="relative group">
+                <div className="flex flex-col md:flex-row gap-3">
+                   <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Full Name"
+                    required
+                    className="flex-1 bg-white/5 border-2 border-white/10 rounded-full py-5 px-8 text-white placeholder-gray-500 focus:outline-none focus:border-primary/50 transition-all text-base"
+                  />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email address"
+                    placeholder="Email Address"
                     required
-                    className="w-full bg-white/5 border-2 border-white/10 rounded-full py-6 px-10 text-white placeholder-gray-500 focus:outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all text-lg"
+                    className="flex-1 bg-white/5 border-2 border-white/10 rounded-full py-5 px-8 text-white placeholder-gray-500 focus:outline-none focus:border-primary/50 transition-all text-base"
                   />
-                  <button 
-                    disabled={status === 'loading'}
-                    className="absolute right-2 top-2 bottom-2 px-10 bg-white hover:bg-primary hover:text-white text-gray-950 font-black uppercase tracking-widest text-[11px] rounded-full transition-all duration-300 disabled:opacity-50 shadow-lg"
-                  >
-                    {status === 'loading' ? 'Joining...' : 'Subscribe'}
-                  </button>
                 </div>
-                <p className="px-10 text-[10px] text-gray-400 uppercase tracking-widest font-bold">
+                <button 
+                  disabled={status === 'loading'}
+                  className="w-full py-5 bg-white hover:bg-primary hover:text-white text-gray-950 font-black uppercase tracking-widest text-[13px] rounded-full transition-all duration-300 disabled:opacity-50 shadow-lg"
+                >
+                  {status === 'loading' ? 'Joining...' : 'Subscribe Now'}
+                </button>
+                {status === 'error' && (
+                  <p className="text-primary text-xs font-bold px-8 text-center animate-pulse">
+                    {errorMessage}
+                  </p>
+                )}
+                <p className="px-10 text-[10px] text-gray-400 uppercase tracking-widest font-bold text-center">
                   By subscribing, you agree to our Privacy Policy.
                 </p>
               </form>
