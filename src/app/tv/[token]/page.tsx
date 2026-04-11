@@ -8,6 +8,7 @@ export default function TVMonitor() {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [loadCount, setLoadCount] = useState(0); 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,6 +18,14 @@ export default function TVMonitor() {
                 const json = await res.json();
                 setData(json);
                 setLoading(false);
+
+                // Start Sequential Load Waterfall
+                let current = 0;
+                const waterfall = setInterval(() => {
+                    current++;
+                    setLoadCount(current);
+                    if (current >= 12) clearInterval(waterfall);
+                }, 400); // 400ms delay per screen to protect TV processor
             } catch (err) {
                 console.error(err);
                 setError(true);
@@ -147,15 +156,16 @@ export default function TVMonitor() {
                                             <span style={{width:6, height:6, backgroundColor:'#e63946', borderRadius:'50%'}}></span>
                                             CH_{sprintf('%02d', index + 1)}
                                         </div>
-                                        {id ? (
+                                        {id && index < loadCount ? (
                                             <iframe 
                                                 src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0`} 
                                                 style={styles.iframe}
                                                 allow="autoplay; encrypted-media"
                                             />
                                         ) : (
-                                            <div style={{position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center', opacity:0.1, fontSize:'10px'}}>
-                                                LOSS_SIGNAL
+                                            <div style={{position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', opacity:0.1}}>
+                                                 <div style={{fontSize:'8px', marginBottom: '5px'}}>PREPARING...</div>
+                                                 <div style={{fontSize:'12px', fontWeight:'bold'}}>0{{index + 1}}</div>
                                             </div>
                                         )}
                                     </div>
