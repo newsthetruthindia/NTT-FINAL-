@@ -169,11 +169,24 @@ export default async function NewsDetails({
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-8 border-y border-border mb-12">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/10 border border-border flex-shrink-0 relative">
-                    {post.user?.thumbnails?.url ? (
-                        <img src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} className="w-full h-full object-cover" />
-                    ) : (
-                        <div className="w-full h-full flex items-center justify-center font-black text-primary text-xs italic">NTT</div>
-                    )}
+                    {(() => {
+                      const hasUserPhoto = post.user?.thumbnails?.url;
+                      const displayReporterName = (reporterName || '').toLowerCase();
+                      const actualUserName = (post.user?.firstname || '').toLowerCase();
+                      
+                      // Safety: Only show user photo if it belongs to the displayed reporter
+                      const isConsistent = !displayReporterName || 
+                                         displayReporterName.includes(actualUserName) || 
+                                         actualUserName.includes('desk') ||
+                                         !actualUserName;
+
+                      if (hasUserPhoto && isConsistent) {
+                        return <img src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} className="w-full h-full object-cover" />;
+                      }
+                      
+                      const initials = reporterName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                      return <div className="w-full h-full flex items-center justify-center font-black text-primary text-xs italic">{initials || 'NTT'}</div>;
+                    })()}
                 </div>
                 <div>
                   <div className="text-[11px] font-black text-foreground uppercase tracking-[0.2em] mb-0.5">
@@ -224,13 +237,23 @@ export default async function NewsDetails({
               <div className="mt-20 p-8 md:p-12 rounded-[40px] bg-card border border-border shadow-sm">
                 <div className="flex flex-col md:flex-row gap-8 items-start">
                   <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-primary/10 border-4 border-background shadow-xl flex-shrink-0">
-                    {post.user.thumbnails?.url ? (
-                      <img src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-4xl font-black text-primary">
-                        {post.user.firstname.charAt(0)}
-                      </div>
-                    )}
+                    {(() => {
+                      const hasUserPhoto = post.user?.thumbnails?.url;
+                      const displayReporterName = (reporterName || '').toLowerCase();
+                      const actualUserName = (post.user?.firstname || '').toLowerCase();
+                      const isConsistent = !displayReporterName || displayReporterName.includes(actualUserName);
+
+                      if (hasUserPhoto && isConsistent) {
+                        return <img src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} className="w-full h-full object-cover" />;
+                      }
+                      
+                      const initials = reporterName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                      return (
+                        <div className="w-full h-full flex items-center justify-center text-4xl font-black text-primary bg-primary/5">
+                          {initials || 'NTT'}
+                        </div>
+                      );
+                    })()}
                   </div>
                   <div className="flex-grow">
                     <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-3 block">Meet the Reporter</span>
