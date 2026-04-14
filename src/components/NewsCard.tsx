@@ -92,17 +92,37 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <div className="flex items-center gap-4 text-foreground/50 text-[9px] font-black uppercase tracking-widest">
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 rounded-full overflow-hidden bg-primary/10 border border-border flex-shrink-0 relative">
-                {post.user?.thumbnails?.url ? (
-                  <Image 
-                    src={getImageUrl(post.user.thumbnails.url)} 
-                    alt={post.user.firstname} 
-                    fill
-                    sizes="20px"
-                    className="object-cover" 
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-[7px] text-primary font-black">NTT</div>
-                )}
+                {(() => {
+                  const hasUserImage = post.user?.thumbnails?.url;
+                  const displayReporterName = (reporter_name || '').toLowerCase();
+                  const actualUserName = (post.user?.firstname || '').toLowerCase();
+                  
+                  // Safety Check: Avoid showing wrong photo if data is out of sync
+                  const isConsistent = !displayReporterName || 
+                                     displayReporterName.includes(actualUserName) || 
+                                     actualUserName.includes('desk') ||
+                                     !actualUserName;
+
+                  if (hasUserImage && isConsistent) {
+                    return (
+                      <Image 
+                        src={getImageUrl(post.user.thumbnails.url)} 
+                        alt={post.user.firstname} 
+                        fill
+                        sizes="20px"
+                        className="object-cover" 
+                      />
+                    );
+                  }
+                  
+                  // Initials Fallback
+                  const nameParts = (reporter_name || post.user?.firstname || 'NTT').split(' ');
+                  const initials = nameParts.length > 1 
+                                  ? (nameParts[0][0] + nameParts[nameParts.length-1][0]).toUpperCase()
+                                  : nameParts[0].substring(0, 2).toUpperCase();
+
+                  return <div className="w-full h-full flex items-center justify-center text-[7px] text-primary font-black italic">{initials}</div>;
+                })()}
               </div>
               <span className="flex items-center gap-1.5 italic">
                   {formattedDate}
@@ -175,10 +195,45 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           </p>
         )}
         <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
-          <span className="text-[11px] font-extrabold text-foreground/50 uppercase tracking-widest flex items-center gap-2 italic">
-            <span className="w-1 h-1 rounded-full bg-primary" />
-            {formattedDate}
-          </span>
+          <div className="flex items-center gap-4 text-foreground/40 text-[9px] font-black uppercase tracking-widest">
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 rounded-full overflow-hidden bg-primary/10 border border-border flex-shrink-0 relative">
+                {(() => {
+                  const hasUserImage = post.user?.thumbnails?.url;
+                  const displayReporterName = (reporter_name || '').toLowerCase();
+                  const actualUserName = (post.user?.firstname || '').toLowerCase();
+                  
+                  const isConsistent = !displayReporterName || 
+                                     displayReporterName.includes(actualUserName) || 
+                                     actualUserName.includes('desk') ||
+                                     !actualUserName;
+
+                  if (hasUserImage && isConsistent) {
+                    return (
+                      <Image 
+                        src={getImageUrl(post.user.thumbnails.url)} 
+                        alt={post.user.firstname} 
+                        fill
+                        sizes="20px"
+                        className="object-cover" 
+                      />
+                    );
+                  }
+                  
+                  const nameParts = (reporter_name || post.user?.firstname || 'NTT').split(' ');
+                  const initials = nameParts.length > 1 
+                                  ? (nameParts[0][0] + nameParts[nameParts.length-1][0]).toUpperCase()
+                                  : nameParts[0].substring(0, 2).toUpperCase();
+
+                  return <div className="w-full h-full flex items-center justify-center text-[7px] text-primary font-black italic">{initials}</div>;
+                })()}
+              </div>
+              <span className="italic flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-primary" />
+                {formattedDate}
+              </span>
+            </div>
+          </div>
           <Link 
             href={`/news/${post.slug}`}
             className="text-[11px] font-black text-foreground group-hover:text-primary transition-colors flex items-center gap-2 uppercase tracking-widest"
