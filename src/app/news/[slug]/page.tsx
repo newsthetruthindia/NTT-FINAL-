@@ -230,6 +230,42 @@ export default async function NewsDetails({
               className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/10 antialiased pt-2"
               dangerouslySetInnerHTML={{ __html: processedContent }}
             />
+            {/* Social Embeds Block (After Story Content) */}
+            {(post.video_url || post.x_embed_url) && (
+              <div className="mt-16 space-y-12 animate-fade-in border-t border-border pt-12">
+                {/* YouTube Embed */}
+                {post.video_url && (
+                    <div className="space-y-4">
+                        <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Featured Video</span>
+                        <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-border bg-black group transition-all duration-500 hover:shadow-primary/20">
+                            <iframe 
+                                className="absolute top-0 left-0 w-full h-full"
+                                src={`https://www.youtube.com/embed/${(() => {
+                                    const match = post.video_url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&]{11})/);
+                                    return match ? match[1] : '';
+                                })()}`}
+                                title="YouTube video player" 
+                                frameBorder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    </div>
+                )}
+
+                {/* X (Twitter) Embed */}
+                {post.x_embed_url && (
+                    <div className="space-y-4 flex flex-col items-center">
+                        <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] w-full">Social Highlight</span>
+                        <div className="w-full max-w-[550px] transition-transform duration-500 hover:scale-[1.01]">
+                            <blockquote className="twitter-tweet" data-theme="dark">
+                                <a href={post.x_embed_url}></a>
+                            </blockquote>
+                        </div>
+                    </div>
+                )}
+              </div>
+            )}
             <Script src="https://platform.twitter.com/widgets.js" strategy="afterInteractive" />
 
             {/* Meet the Reporter Section */}

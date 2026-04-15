@@ -51,6 +51,8 @@ export interface Post {
   audio_clip_url?: string;
   subtitle?: string;
   image_credit?: string;
+  video_url?: string;
+  x_embed_url?: string;
 }
 
 const handleResponse = (json: any) => {
