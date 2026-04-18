@@ -4,17 +4,17 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { fetchPostBySlug, fetchLatestPosts, getImageUrl, fetchCategoryPosts, fetchTopPosts } from '@/lib/api'
-import NewsCard from '@/components/NewsCard'
-import Breadcrumbs from '@/components/Breadcrumbs'
-import AISummary from '@/components/AISummary'
-import AudioPlayer from '@/components/AudioPlayer'
-import ShareCard from '@/components/ShareCard'
-import ReadingProgress from '@/components/ReadingProgress'
-import AdBanner from '@/components/AdBanner'
-import GistBox from '@/components/GistBox'
-import FloatingShare from '@/components/FloatingShare'
-import UpNextPeek from '@/components/UpNextPeek'
-import DiscoveryGrid from '@/components/DiscoveryGrid'
+import NewsCard from '../../../components/NewsCard'
+import Breadcrumbs from '../../../components/Breadcrumbs'
+import AISummary from '../../../components/AISummary'
+import AudioPlayer from '../../../components/AudioPlayer'
+import ShareCard from '../../../components/ShareCard'
+import ReadingProgress from '../../../components/ReadingProgress'
+import AdBanner from '../../../components/AdBanner'
+import GistBox from '../../../components/GistBox'
+import FloatingShare from '../../../components/FloatingShare'
+import UpNextPeek from '../../../components/UpNextPeek'
+import DiscoveryGrid from '../../../components/DiscoveryGrid'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 
@@ -65,9 +65,9 @@ export default async function NewsDetails({
       return unique;
     };
 
-    const related = filterUnique(categoryPosts, 6);
-    const trending = filterUnique(topPosts, 6);
-    const highlights = filterUnique(latestPosts, 4);
+    const related = filterUnique(categoryPosts || [], 6);
+    const trending = filterUnique(topPosts || [], 6);
+    const highlights = filterUnique(latestPosts || [], 4);
 
     const displayImage = getImageUrl(post.thumbnails?.url);
     const categoryTitle = post.categories?.[0]?.cat_data?.title || 'News';

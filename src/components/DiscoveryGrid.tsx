@@ -1,7 +1,7 @@
 'use client';
 
 import NewsCard from './NewsCard';
-import { Post } from '@/lib/api';
+import { Post } from '../lib/api';
 
 interface DiscoveryGridProps {
   related: Post[];
