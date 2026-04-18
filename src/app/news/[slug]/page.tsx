@@ -42,13 +42,13 @@ export default async function NewsDetails({
       // ... (keep 404 logic)
     }
 
-    // Parallel Fetching for 16-Story Discovery Grid
+// Parallel Fetching for 16-Story Discovery Grid (Hardened Safe Mode)
     const categorySlug = post.categories?.[0]?.cat_data?.slug || 'news';
     
     const [categoryPosts, topPosts, latestPosts] = await Promise.all([
-      fetchCategoryPosts(categorySlug, 10), // Fetch more to allow for filtering
-      fetchTopPosts(10),
-      fetchLatestPosts(10)
+      fetchCategoryPosts(categorySlug, 10).catch(() => []), 
+      fetchTopPosts(10).catch(() => []),
+      fetchLatestPosts(10).catch(() => [])
     ]);
 
     // De-duplication Logic
@@ -56,7 +56,8 @@ export default async function NewsDetails({
     
     const filterUnique = (posts: any[], limit: number) => {
       const unique: any[] = [];
-      for (const p of (posts || [])) {
+      const safePosts = Array.isArray(posts) ? posts : [];
+      for (const p of safePosts) {
         if (!usedIds.has(p.id) && unique.length < limit) {
           unique.push(p);
           usedIds.add(p.id);
@@ -65,9 +66,9 @@ export default async function NewsDetails({
       return unique;
     };
 
-    const related = filterUnique(categoryPosts || [], 6);
-    const trending = filterUnique(topPosts || [], 6);
-    const highlights = filterUnique(latestPosts || [], 4);
+    const related = filterUnique(categoryPosts, 6);
+    const trending = filterUnique(topPosts, 6);
+    const highlights = filterUnique(latestPosts, 4);
 
     const displayImage = getImageUrl(post.thumbnails?.url);
     const categoryTitle = post.categories?.[0]?.cat_data?.title || 'News';
@@ -77,7 +78,7 @@ export default async function NewsDetails({
 
     // ARTICLE LOGIC & PROCESSING
     const articleContent = post.description || post.content || '';
-    const processedContent = articleContent; // Simplify for now to fix build
+    const processedContent = articleContent; 
     
     const reporterName = post.reporter_name || (post.user ? `${post.user.firstname} ${post.user.lastname}` : 'NTT DESK');
     const isVerifiedReporter = !!post.user?.is_reporter;
@@ -90,7 +91,6 @@ export default async function NewsDetails({
       if (post.excerpt) return post.excerpt;
       const cleanDesc = stripTags(post.description || '');
       if (cleanDesc.trim()) return cleanDesc.substring(0, 250) + '...';
-      // Fallback: Extract from content
       return stripTags(articleContent).split('.').slice(0, 2).join('.') + '.';
     };
 
