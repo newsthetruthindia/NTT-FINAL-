@@ -20,17 +20,17 @@ export default function ReadingProgress() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-1 z-[100] pointer-events-none overflow-hidden">
-      {/* Base track */}
-      <div className="absolute inset-0 bg-foreground/5 backdrop-blur-sm" />
+    <div className="fixed top-0 left-0 w-full h-[3px] z-[1000] pointer-events-none">
+      {/* Invisible track for better performance but no visual weight */}
+      <div className="absolute inset-0 bg-transparent" />
       
       {/* Progress handle */}
       <div 
-        className="relative h-full bg-linear-to-r from-[#8C0000] via-[#FF1A1A] to-[#8C0000] shadow-[0_0_15px_rgba(140,0,0,0.6)] transition-all duration-300 ease-out"
+        className="relative h-full bg-linear-to-r from-primary via-[#FF1A1A] to-primary shadow-[0_0_12px_rgba(255,26,26,0.6)] transition-all duration-300 ease-out"
         style={{ width: `${progress}%` }}
       >
-        {/* Glow effect at the tip */}
-        <div className="absolute right-0 top-0 h-full w-20 bg-linear-to-r from-transparent to-white/40 blur-sm" />
+        {/* Glow effect at the tip - sharper and more defined */}
+        <div className="absolute right-0 top-0 h-full w-12 bg-linear-to-r from-transparent to-white/60 blur-[2px]" />
       </div>
     </div>
   );

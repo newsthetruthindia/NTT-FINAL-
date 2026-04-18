@@ -43,6 +43,13 @@ export default async function NewsDetails({
 
     // ... (keep content processing logic)
 
+    const getSummary = () => {
+      if (post.excerpt) return post.excerpt;
+      if (post.description && stripTags(post.description).trim()) return stripTags(post.description);
+      // Fallback: Extract from content
+      return stripTags(articleContent).split('.').slice(0, 2).join('.') + '.';
+    };
+
     return (
       <main className="min-h-screen bg-background">
         <Header />
@@ -59,7 +66,7 @@ export default async function NewsDetails({
           {/* HERO HEADER SECTION */}
           <div className="relative z-10 pt-16 pb-20">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
-              <div className="flex flex-col items-center text-center max-w-5xl mx-auto mb-16">
+              <div className="flex flex-col items-center text-center max-w-5xl mx-auto mb-16 px-4">
                 <div className="mb-8 animate-fade-in">
                   <Link href={`/category/${categorySlug}`}>
                     <span className="premium-gradient px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.3em] shadow-xl text-white hover:scale-105 transition-transform inline-block">
@@ -68,7 +75,7 @@ export default async function NewsDetails({
                   </Link>
                 </div>
 
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground mb-10 leading-[1] tracking-tighter uppercase editorial-heading animate-fade-in-up">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground mb-10 leading-[1.1] tracking-tighter uppercase editorial-heading animate-fade-in-up">
                   {post.title}
                 </h1>
 
@@ -112,7 +119,7 @@ export default async function NewsDetails({
 
           <div className="max-w-3xl mx-auto px-4 space-y-8 relative z-10">
             {/* THE GIST (EXECUTIVE SUMMARY) */}
-            <GistBox content={post.excerpt || (post.description ? stripTags(post.description).substring(0, 250) + '...' : '')} />
+            <GistBox content={getSummary()} />
 
             <div className="bg-card/30 backdrop-blur-sm rounded-3xl p-2 border border-white/5">
               <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
