@@ -3,7 +3,7 @@ import Script from 'next/script'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-import { fetchPostBySlug, fetchLatestPosts, getImageUrl } from '@/lib/api'
+import { fetchPostBySlug, fetchLatestPosts, getImageUrl, fetchCategoryPosts, fetchTopPosts } from '@/lib/api'
 import NewsCard from '@/components/NewsCard'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import AISummary from '@/components/AISummary'
@@ -14,6 +14,7 @@ import AdBanner from '@/components/AdBanner'
 import GistBox from '@/components/GistBox'
 import FloatingShare from '@/components/FloatingShare'
 import UpNextPeek from '@/components/UpNextPeek'
+import DiscoveryGrid from '@/components/DiscoveryGrid'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 // ... (omitting generateMetadata for brevity, but I will keep it in the final file)
@@ -33,10 +34,35 @@ export default async function NewsDetails({
       // ... (keep 404 logic)
     }
 
-    const latestPosts = await fetchLatestPosts(6);
+    // Parallel Fetching for 16-Story Discovery Grid
+    const categorySlug = post.categories?.[0]?.cat_data?.slug || 'news';
+    
+    const [categoryPosts, topPosts, latestPosts] = await Promise.all([
+      fetchCategoryPosts(categorySlug, 10), // Fetch more to allow for filtering
+      fetchTopPosts(10),
+      fetchLatestPosts(10)
+    ]);
+
+    // De-duplication Logic
+    const usedIds = new Set([post.id]);
+    
+    const filterUnique = (posts: any[], limit: number) => {
+      const unique: any[] = [];
+      for (const p of (posts || [])) {
+        if (!usedIds.has(p.id) && unique.length < limit) {
+          unique.push(p);
+          usedIds.add(p.id);
+        }
+      }
+      return unique;
+    };
+
+    const related = filterUnique(categoryPosts, 6);
+    const trending = filterUnique(topPosts, 6);
+    const highlights = filterUnique(latestPosts, 4);
+
     const displayImage = getImageUrl(post.thumbnails?.url);
     const categoryTitle = post.categories?.[0]?.cat_data?.title || 'News';
-    const categorySlug = post.categories?.[0]?.cat_data?.slug || 'news';
     const postDateFormatted = post.created_at 
       ? new Date(post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
       : 'Recent News';
@@ -55,7 +81,7 @@ export default async function NewsDetails({
         <Header />
         <ReadingProgress />
         <FloatingShare url={`${SITE_URL}/news/${slug}`} title={post.title} />
-        {latestPosts && latestPosts[0] && <UpNextPeek post={latestPosts[0]} />}
+        {trending && trending[0] && <UpNextPeek post={trending[0]} />}
         
         <article className="pt-24 pb-24 relative overflow-hidden transition-colors duration-500">
            {/* IMMERSIVE BACKGROUND DECOR */}
@@ -252,19 +278,12 @@ export default async function NewsDetails({
           </div>
         </article>
 
-        <section className="bg-card py-24 px-4 transition-colors duration-500 border-t border-border">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between mb-16">
-              <h2 className="text-4xl font-black text-foreground tracking-tight italic">Recommended for you</h2>
-              <div className="h-1 flex-grow mx-8 bg-border rounded-full" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-              {Array.isArray(latestPosts) && latestPosts.map((p) => (
-                <NewsCard key={p.id} post={p} />
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* 16-STORY SMART DISCOVERY GRID */}
+        <DiscoveryGrid 
+          related={related} 
+          trending={trending} 
+          highlights={highlights} 
+        />
 
         <Footer />
       </main>
