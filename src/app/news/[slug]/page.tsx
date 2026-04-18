@@ -99,7 +99,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
     };
 
     return (
-      <main className="min-h-screen bg-background" data-deploy-v="newsroom-2.1">
+      <main className="min-h-screen bg-background" data-deploy-v="newsroom-2.2">
         <Header />
         <ReadingProgress />
         <FloatingShare url={`${SITE_URL}/news/${slug}`} title={post.title} />
