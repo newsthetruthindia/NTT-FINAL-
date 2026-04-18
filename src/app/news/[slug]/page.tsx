@@ -1,21 +1,21 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import Header from '../../../components/Header'
+import Footer from '../../../components/Footer'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { fetchPostBySlug, fetchLatestPosts, getImageUrl, fetchCategoryPosts, fetchTopPosts } from '@/lib/api'
-import NewsCard from '@/components/NewsCard'
-import Breadcrumbs from '@/components/Breadcrumbs'
-import AISummary from '@/components/AISummary'
-import AudioPlayer from '@/components/AudioPlayer'
-import ShareCard from '@/components/ShareCard'
-import ReadingProgress from '@/components/ReadingProgress'
-import AdBanner from '@/components/AdBanner'
-import GistBox from '@/components/GistBox'
-import FloatingShare from '@/components/FloatingShare'
-import UpNextPeek from '@/components/UpNextPeek'
-import DiscoveryGrid from '@/components/DiscoveryGrid'
+import { fetchPostBySlug, fetchLatestPosts, getImageUrl, fetchCategoryPosts, fetchTopPosts } from '../../../lib/api'
+import NewsCard from '../../../components/NewsCard'
+import Breadcrumbs from '../../../components/Breadcrumbs'
+import AISummary from '../../../components/AISummary'
+import AudioPlayer from '../../../components/AudioPlayer'
+import ShareCard from '../../../components/ShareCard'
+import ReadingProgress from '../../../components/ReadingProgress'
+import AdBanner from '../../../components/AdBanner'
+import GistBox from '../../../components/GistBox'
+import FloatingShare from '../../../components/FloatingShare'
+import UpNextPeek from '../../../components/UpNextPeek'
+import DiscoveryGrid from '../../../components/DiscoveryGrid'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 
@@ -99,7 +99,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
     };
 
     return (
-      <main className="min-h-screen bg-background">
+      <main className="min-h-screen bg-background" data-deploy-v="newsroom-2.1">
         <Header />
         <ReadingProgress />
         <FloatingShare url={`${SITE_URL}/news/${slug}`} title={post.title} />
