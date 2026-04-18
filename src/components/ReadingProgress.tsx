@@ -20,11 +20,18 @@ export default function ReadingProgress() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-1 z-[100] pointer-events-none">
+    <div className="fixed top-0 left-0 w-full h-1 z-[100] pointer-events-none overflow-hidden">
+      {/* Base track */}
+      <div className="absolute inset-0 bg-foreground/5 backdrop-blur-sm" />
+      
+      {/* Progress handle */}
       <div 
-        className="h-full bg-linear-to-r from-[#8C0000] via-[#E11D48] to-[#8C0000] shadow-[0_0_20px_rgba(225,29,72,0.8)] transition-all duration-200 ease-out"
+        className="relative h-full bg-linear-to-r from-[#8C0000] via-[#FF1A1A] to-[#8C0000] shadow-[0_0_15px_rgba(140,0,0,0.6)] transition-all duration-300 ease-out"
         style={{ width: `${progress}%` }}
-      />
+      >
+        {/* Glow effect at the tip */}
+        <div className="absolute right-0 top-0 h-full w-20 bg-linear-to-r from-transparent to-white/40 blur-sm" />
+      </div>
     </div>
   );
 }
