@@ -125,7 +125,6 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
 
                 <h1 
                   className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground mb-8 leading-[1.1] tracking-tighter uppercase editorial-heading animate-fade-in-up"
-                  style={{ fontStyle: 'italic' }}
                 >
                   {post.title}
                 </h1>

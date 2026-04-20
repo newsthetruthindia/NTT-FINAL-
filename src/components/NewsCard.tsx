@@ -85,7 +85,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           </div>
         </div>
         <div className="sm:w-[55%] p-6 md:p-8 flex flex-col justify-center">
-          <h2 className="text-xl lg:text-3xl font-black text-foreground mb-4 leading-tight tracking-tighter group-hover:text-primary transition-colors line-clamp-3 editorial-heading uppercase italic">
+          <h2 className="text-xl lg:text-3xl font-black text-foreground mb-4 leading-tight tracking-tighter group-hover:text-primary transition-colors line-clamp-3 editorial-heading uppercase">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           {displayExcerpt && (
@@ -165,7 +165,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
         </div>
       </div>
       <div className="p-8 pb-10 flex flex-col flex-grow">
-        <h3 className="text-2xl md:text-3xl font-black text-foreground leading-[1.1] mb-5 group-hover:text-primary transition-all duration-500 line-clamp-2 editorial-heading tracking-tight uppercase italic">
+        <h3 className="text-2xl md:text-3xl font-black text-foreground leading-[1.1] mb-5 group-hover:text-primary transition-all duration-500 line-clamp-2 editorial-heading tracking-tight uppercase">
           <Link href={`/news/${slug}`}>{title}</Link>
         </h3>
         {displayExcerpt && (
