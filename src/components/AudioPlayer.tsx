@@ -17,7 +17,6 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
   const utterance = useRef<SpeechSynthesisUtterance | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Initialize voices and load preference
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedGender = localStorage.getItem('ntt_preferred_voice_gender') as 'male' | 'female';
@@ -35,18 +34,12 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
 
   const getBestVoice = () => {
     if (voices.length === 0) return null;
-    
-    // Filter for Indian English voices
     const inVoices = voices.filter(v => v.lang.includes('IN') || v.name.toLowerCase().includes('india'));
     
     if (preferredGender === 'male') {
-      // Look for Ravi or other male-coded names
-      return inVoices.find(v => v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || 
-             inVoices[0] || null;
+      return inVoices.find(v => v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || inVoices[0] || null;
     } else {
-      // Look for Heera or other female-coded names
-      return inVoices.find(v => v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('female')) || 
-             inVoices[0] || null;
+      return inVoices.find(v => v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('female')) || inVoices[0] || null;
     }
   };
 
@@ -54,37 +47,20 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
     if (audioUrl) {
       audioRef.current = new Audio(audioUrl);
       const audio = audioRef.current;
-
-      audio.onended = () => {
-        setIsPlaying(false);
-        setProgress(0);
-      };
-
-      audio.ontimeupdate = () => {
-        if (audio.duration) {
-          setProgress((audio.currentTime / audio.duration) * 100);
-        }
-      };
+      audio.onended = () => { setIsPlaying(false); setProgress(0); };
+      audio.ontimeupdate = () => { if (audio.duration) setProgress((audio.currentTime / audio.duration) * 100); };
     } else {
       synth.current = window.speechSynthesis;
     }
-    // Clean up on unmount
     return () => {
       synth.current?.cancel();
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      if (audioRef.current) { audioRef.current.pause(); audioRef.current = null; }
     };
   }, [audioUrl]);
 
   const togglePlay = () => {
     if (audioUrl && audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
+      if (isPlaying) { audioRef.current.pause(); } else { audioRef.current.play(); }
       setIsPlaying(!isPlaying);
       return;
     }
@@ -100,23 +76,15 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
       } else {
         const cleanText = text.replace(/<[^>]*>/g, '');
         utterance.current = new SpeechSynthesisUtterance(cleanText);
-        utterance.current.rate = 0.95; // Slightly slower for better clarity
+        utterance.current.rate = 0.95;
         utterance.current.pitch = 1.0;
         
         const selectedVoice = getBestVoice();
-        if (selectedVoice) {
-          utterance.current.voice = selectedVoice;
-        }
+        if (selectedVoice) { utterance.current.voice = selectedVoice; }
         
-        utterance.current.onend = () => {
-          setIsPlaying(false);
-          setProgress(0);
-        };
-        
+        utterance.current.onend = () => { setIsPlaying(false); setProgress(0); };
         utterance.current.onboundary = (event) => {
-          const charIndex = event.charIndex;
-          const totalChars = cleanText.length;
-          setProgress((charIndex / totalChars) * 100);
+          setProgress((event.charIndex / cleanText.length) * 100);
         };
 
         synth.current.speak(utterance.current);
@@ -135,57 +103,42 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
     setIsPlaying(false);
     setProgress(0);
   };
+
   return (
-    <div className="mb-12 relative group">
-      {/* Outer Glow Effect */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/5 to-primary/20 rounded-[40px] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-      
-      <div className="relative overflow-hidden rounded-[18px] border border-white/20 bg-[#050505] shadow-xl p-0.5">
-        <div className="relative rounded-[16px] bg-zinc-900/60 p-3 md:p-3.5 flex flex-col md:flex-row items-center gap-5">
+    <div className="mb-4 relative w-full group">
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:shadow-md">
+        <div className="p-3 md:p-4 flex flex-col md:flex-row items-center gap-4 md:gap-5">
           
-          {/* Play/Pause Button Section */}
           <div className="relative shrink-0">
             <button 
               onClick={togglePlay}
-              className="relative z-10 w-11 h-11 rounded-full flex items-center justify-center text-white shadow-xl transition-all duration-500 hover:scale-105 active:scale-95 group/btn"
+              className={`w-12 h-12 rounded-full flex items-center justify-center text-white transition-all duration-300 ${isPlaying ? 'bg-primary shadow-md' : 'bg-primary hover:bg-primary/90'}`}
               aria-label={isPlaying ? "Pause" : "Play"}
             >
-              {/* Button Layered Gradients */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary via-rose-500 to-orange-500 animate-gradient-xy" />
-              <div className="absolute inset-0 rounded-full bg-black/10 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
-              
               {isPlaying ? (
-                <div className="relative flex gap-1 h-5 items-center">
-                  <span className="w-1 h-full bg-white rounded-full animate-[bounce_1s_infinite_-0.3s]" />
-                  <span className="w-1 h-full bg-white rounded-full animate-[bounce_1s_infinite_-0.15s]" />
-                  <span className="w-1 h-full bg-white rounded-full animate-[bounce_1s_infinite]" />
-                </div>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 4h4v16H6zm8 0h4v16h-4z" />
+                </svg>
               ) : (
-                <svg className="relative w-8 h-8 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               )}
             </button>
-            
-            {/* Pulsing Ring when playing */}
             {isPlaying && (
-              <div className="absolute -inset-4 border-2 border-primary/30 rounded-full animate-ping opacity-20" />
+              <div className="absolute -inset-1 border border-primary/20 rounded-full animate-ping opacity-60 pointer-events-none" />
             )}
           </div>
 
-          <div className="flex-grow w-full space-y-5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-primary/20 bg-primary/5 transition-all duration-300 ${isPlaying ? 'scale-105 shadow-lg shadow-primary/10' : ''}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${isPlaying ? 'bg-primary animate-pulse' : 'bg-white/20'}`} />
-                  <span className="text-[9px] font-black uppercase tracking-[0.15em] text-white font-sans bg-black/20 px-1.5 py-0.5 rounded">
-                    {isPlaying ? 'Now Narrating' : 'Listen to Story'}
-                  </span>
-                </div>
+          <div className="flex-grow w-full space-y-2.5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-3">
+                <span className={`text-xs font-bold uppercase tracking-wider ${isPlaying ? 'text-primary' : 'text-foreground/80'}`}>
+                  {isPlaying ? 'Now Narrating' : 'Listen to Article'}
+                </span>
 
-                {/* Voice Selector Toggle */}
                 {!audioUrl && (
-                  <div className="flex items-center gap-1 bg-white/5 rounded-full p-0.5 border border-white/10 scale-90 md:scale-100">
+                  <div className="flex items-center gap-1 bg-muted rounded-full p-1 border border-border">
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
@@ -193,10 +146,10 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
                         localStorage.setItem('ntt_preferred_voice_gender', 'female');
                         if (isPlaying) stopPlay();
                       }}
-                      className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${preferredGender === 'female' ? 'bg-primary text-white shadow-lg' : 'hover:bg-white/5 text-white/40'}`}
+                      className={`w-6 h-6 flex items-center justify-center rounded-full transition-all text-[11px] ${preferredGender === 'female' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
                       title="Female Narrator"
                     >
-                      <span className="text-[12px]">👩</span>
+                      👩
                     </button>
                     <button 
                       onClick={(e) => {
@@ -205,81 +158,48 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
                         localStorage.setItem('ntt_preferred_voice_gender', 'male');
                         if (isPlaying) stopPlay();
                       }}
-                      className={`w-6 h-6 flex items-center justify-center rounded-full transition-all ${preferredGender === 'male' ? 'bg-primary text-white shadow-lg' : 'hover:bg-white/5 text-white/40'}`}
+                      className={`w-6 h-6 flex items-center justify-center rounded-full transition-all text-[11px] ${preferredGender === 'male' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
                       title="Male Narrator"
                     >
-                      <span className="text-[12px]">👨</span>
+                      👨
                     </button>
                   </div>
                 )}
                 
                 {audioUrl && (
-                  <div className="flex items-center gap-2 text-primary">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                  <div className="flex items-center gap-1.5 text-primary opacity-80">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                     </svg>
-                    <span className="text-[10px] font-black uppercase tracking-widest opacity-80">HQ Audio</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider">HQ Audio</span>
                   </div>
                 )}
               </div>
 
-              {/* Animated Waveform (Static on wait, dynamic on play) */}
-              <div className="flex items-end gap-[3px] h-6 px-4">
-                {[0.4, 0.7, 1.0, 0.8, 0.5, 0.9, 0.6, 0.4, 0.8, 1.0, 0.7].map((h, i) => (
-                  <div 
-                    key={i}
-                    className={`w-1.5 bg-primary/20 rounded-full transition-all duration-500 ${isPlaying ? 'animate-waveform-slow' : ''}`}
-                    style={{ 
-                      height: `${h * 100}%`,
-                      animationDelay: `${i * 0.1}s`
-                    }}
-                  />
-                ))}
-              </div>
+              {isPlaying && (
+                <button 
+                  onClick={stopPlay}
+                  className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors flex items-center gap-1 px-2"
+                >
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                    <rect x="6" y="6" width="12" height="12" rx="2" />
+                  </svg>
+                  Stop
+                </button>
+              )}
             </div>
 
-            {/* Premium Progress Bar */}
-            <div className="relative py-1 group/progress cursor-pointer">
-              <div className="h-1.5 bg-white/10 rounded-full overflow-hidden relative">
+            <div className="relative group/progress w-full pt-1">
+              <div className="h-1 bg-muted rounded-full overflow-hidden relative w-full">
                 <div 
-                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-rose-500 shadow-[0_0_20px_rgba(255,0,0,0.4)] transition-all duration-300 ease-out"
+                  className="absolute top-0 left-0 h-full bg-primary transition-all duration-300 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
-              {/* Progress Thumb (Glow) */}
-              <div 
-                className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full shadow-[0_0_15px_rgba(255,0,0,0.6)] opacity-0 group-hover/progress:opacity-100 transition-opacity z-10"
-                style={{ left: `calc(${progress}% - 8px)` }}
-              />
             </div>
           </div>
-
-          {/* Controls Group */}
-          {isPlaying && (
-            <div className="flex items-center gap-3 shrink-0">
-               <button 
-                onClick={stopPlay}
-                className="w-12 h-12 flex items-center justify-center bg-foreground/5 hover:bg-rose-500/10 rounded-full transition-all text-foreground/40 hover:text-rose-500 group/stop"
-                title="Stop Narrating"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <rect x="6" y="6" width="12" height="12" rx="3" />
-                </svg>
-              </button>
-            </div>
-          )}
         </div>
       </div>
-      
-      <style jsx>{`
-        @keyframes waveform-slow {
-          0%, 100% { height: 30%; opacity: 0.3; }
-          50% { height: 100%; opacity: 1; }
-        }
-        .animate-waveform-slow {
-          animation: waveform-slow 1.2s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 }

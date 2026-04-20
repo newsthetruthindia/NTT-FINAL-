@@ -3,67 +3,59 @@
 import { useState } from 'react';
 
 interface AISummaryProps {
-  content: string;
+  content?: string;
+  points?: string[];
 }
 
-export default function AISummary({ content }: AISummaryProps) {
+export default function AISummary({ content, points }: AISummaryProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const summaryPoints = [
-    "Investigation reveals critical gaps in local policy implementation.",
-    "Election Commissioner emphasizes zero-tolerance for administrative interference.",
-    "Community leaders call for more transparent reporting and civic engagement.",
-    "Analysis suggest significant shifts in voter sentiment across North Bengal."
-  ];
+  // If no AI summary points are provided by the backend, dynamically hide the component.
+  if (!points || points.length === 0) {
+    return null;
+  }
 
   return (
-    <div className="relative group/ai">
-      {/* Animated Subtle Border Glow */}
-      <div className="absolute -inset-[1px] bg-gradient-to-r from-primary/30 via-primary/5 to-primary/30 rounded-[32px] blur-[2px] opacity-100 transition-opacity duration-1000 group-hover/ai:opacity-100" />
-      
-      <div className="relative rounded-[20px] overflow-hidden border border-white/20 bg-[#050505] shadow-xl transition-all duration-500">
+    <div className="relative group/ai mb-8">
+      <div className="relative rounded-2xl overflow-hidden border border-border bg-card shadow-sm transition-all duration-300 hover:shadow-md">
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-5 py-2.5 flex items-center justify-between group text-left relative z-10"
+          className="w-full px-4 py-3 flex items-center justify-between group text-left relative z-10 transition-colors hover:bg-muted/50"
         >
           <div className="flex items-center gap-4">
-            <div className="relative w-8 h-8 shrink-0">
-              <div className="absolute inset-0 bg-primary/20 rounded-lg animate-pulse" />
-              <div className="absolute inset-0 flex items-center justify-center text-primary">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M19,9L17.75,12.75L14,14L17.75,15.25L19,19L20.25,15.25L24,14L20.25,12.75L19,9M9,2L7.17,7.17L2,9L7.17,10.83L9,16L10.83,10.83L16,9L10.83,7.17L9,2M19,2L18.39,3.61L16.78,4.22L18.39,4.83L19,6.44L19.61,4.83L21.22,4.22L19.61,3.61L19,2Z" />
-                </svg>
-              </div>
+            <div className="relative w-8 h-8 shrink-0 flex items-center justify-center bg-primary/10 rounded-lg text-primary">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19,9L17.75,12.75L14,14L17.75,15.25L19,19L20.25,15.25L24,14L20.25,12.75L19,9M9,2L7.17,7.17L2,9L7.17,10.83L9,16L10.83,10.83L16,9L10.83,7.17L9,2M19,2L18.39,3.61L16.78,4.22L18.39,4.83L19,6.44L19.61,4.83L21.22,4.22L19.61,3.61L19,2Z" />
+              </svg>
             </div>
             <div>
               <div className="flex items-center gap-2 mb-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-                <h3 className="text-[11px] font-black uppercase tracking-[0.25em] text-white">AI Intelligence</h3>
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">AI Intelligence</h3>
               </div>
-              <p className="text-[9px] text-white/50 font-black uppercase tracking-widest leading-none">Instant Story Synthesis</p>
+              <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-widest leading-none">Instant Story Synthesis</p>
             </div>
           </div>
-          <div className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center transform transition-all duration-500 group-hover:bg-primary/20 ${isOpen ? 'rotate-180 bg-primary/20 text-primary' : 'text-white/40'}`}>
+          <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${isOpen ? 'rotate-180 bg-primary/10 border-primary/20 text-primary' : 'bg-transparent border-border text-muted-foreground group-hover:border-primary/50'}`}>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
             </svg>
           </div>
         </button>
 
         {isOpen && (
-          <div className="px-8 pb-8 animate-in fade-in slide-in-from-top-4 duration-700">
-            <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8" />
+          <div className="px-5 pb-5 md:px-8 md:pb-6 animate-in fade-in slide-in-from-top-2 duration-300">
+            <div className="h-px bg-border mb-6 w-full" />
             
-            <div className="space-y-6 relative">
-              {/* Vertical line connecting points */}
-              <div className="absolute left-[7px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-primary/40 via-primary/10 to-transparent" />
+            <div className="space-y-5 relative">
+              <div className="absolute left-[5px] top-2 bottom-2 w-[2px] bg-border" />
               
               <ul className="space-y-4">
-                {summaryPoints.map((point, i) => (
+                {points.map((point, i) => (
                   <li key={i} className="flex gap-4 group/item relative">
-                    <div className="w-[10px] h-[10px] rounded-full bg-black border-2 border-primary shadow-[0_0_8px_rgba(255,0,0,0.3)] shrink-0 mt-1.5 relative z-10 transition-transform group-hover/item:scale-125" />
-                    <div className="space-y-1">
-                      <p className="text-base md:text-lg text-white font-semibold leading-relaxed tracking-tight">
+                    <div className="w-3 h-3 rounded-full bg-card border-[3px] border-primary shrink-0 mt-1 relative z-10" />
+                    <div>
+                      <p className="text-sm md:text-base text-foreground/90 font-medium leading-relaxed tracking-tight">
                         {point}
                       </p>
                     </div>
@@ -72,11 +64,11 @@ export default function AISummary({ content }: AISummaryProps) {
               </ul>
             </div>
 
-            <div className="mt-12 p-6 rounded-3xl bg-primary/5 border border-primary/10 flex items-center gap-4">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+            <div className="mt-8 p-4 rounded-xl bg-muted/50 border border-border flex items-center gap-3">
+              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
               </div>
-              <p className="text-[10px] text-primary/80 font-black uppercase tracking-[0.15em] leading-relaxed">
+              <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider leading-snug">
                 Summary generated by NTT Intelligence. Review original content for full context.
               </p>
             </div>

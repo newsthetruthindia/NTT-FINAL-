@@ -106,10 +106,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
         {trending[0] && <UpNextPeek post={trending[0]} />}
 
         <article className="pt-24 pb-24 relative overflow-hidden transition-colors duration-500">
-          {/* IMMERSIVE BACKGROUND DECOR */}
-          <div className="absolute top-0 left-0 w-full h-[1000px] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-          <div className="absolute top-[10%] -right-40 w-[600px] h-[600px] bg-primary/10 blur-[150px] rounded-full pointer-events-none animate-pulse" />
-          <div className="absolute top-[30%] -left-40 w-[400px] h-[400px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
 
           {/* ── HERO HEADER ─────────────────────────────────────────────────────── */}
           <div className="relative z-10 pt-16 pb-20">
@@ -175,14 +172,14 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
 
           {/* ── ARTICLE BODY ──────────────────────────────────────────────────────── */}
           <div className="max-w-3xl mx-auto px-4 space-y-8 relative z-10">
-            {/* THE GIST */}
-            <GistBox content={getSummary()} />
-
-            <div className="bg-card/30 backdrop-blur-sm rounded-3xl p-2 border border-white/5">
-              <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
+            {/* UTILITY STRIP (Gist, Audio, AI) */}
+            <div className="space-y-6 pt-2 pb-6 border-b border-border/40">
+              <GistBox content={getSummary()} />
+              <div className="flex flex-col gap-2">
+                <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
+                <AISummary content={articleContent} points={post.ai_summary_points} />
+              </div>
             </div>
-
-            <AISummary content={articleContent} />
 
             <div className="py-12">
               <AdBanner />
