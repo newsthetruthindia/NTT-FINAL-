@@ -72,8 +72,8 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
       return result;
     };
 
-    const related    = filterUnique(categoryPosts, 6);
-    const trending   = filterUnique(topPosts,      6);
+    const related    = filterUnique(categoryPosts, 8);
+    const trending   = filterUnique(topPosts,      8);
     const highlights = filterUnique(latestPosts,   4);
 
     // ── Article content processing ─────────────────────────────────────────────

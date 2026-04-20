@@ -34,12 +34,14 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
 
   const getBestVoice = () => {
     if (voices.length === 0) return null;
-    const inVoices = voices.filter(v => v.lang.includes('IN') || v.name.toLowerCase().includes('india'));
+    
+    // Strictly prefer Indian English to avoid Hindi voices reading English poorly
+    const inVoices = voices.filter(v => v.lang === 'en-IN' || v.lang.includes('IN') || v.name.toLowerCase().includes('india'));
     
     if (preferredGender === 'male') {
-      return inVoices.find(v => v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || inVoices[0] || null;
+      return inVoices.find(v => v.name.toLowerCase().includes('rishi') || v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || inVoices.find(v => v.lang === 'en-IN') || inVoices[0] || voices[0];
     } else {
-      return inVoices.find(v => v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('female')) || inVoices[0] || null;
+      return inVoices.find(v => v.name.toLowerCase().includes('veena') || v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('female')) || inVoices.find(v => v.lang === 'en-IN') || inVoices[0] || voices[0];
     }
   };
 

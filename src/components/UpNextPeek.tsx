@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getImageUrl } from '../lib/api';
 
 interface UpNextPeekProps {
   post: {
@@ -51,7 +52,7 @@ export default function UpNextPeek({ post }: UpNextPeekProps) {
         <div className="flex gap-4">
           <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 border border-white/5">
             <img 
-              src={post.thumbnails?.url ? (post.thumbnails.url.startsWith('http') ? post.thumbnails.url : `https://backend.newsthetruth.com/${post.thumbnails.url}`) : '/placeholder.jpg'} 
+              src={getImageUrl(post.thumbnails?.url)}
               alt={post.title}
               className="w-full h-full object-cover"
             />
