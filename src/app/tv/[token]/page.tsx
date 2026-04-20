@@ -165,7 +165,7 @@ export default function TVMonitor() {
                                         ) : (
                                             <div style={{position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', opacity:0.1}}>
                                                  <div style={{fontSize:'8px', marginBottom: '5px'}}>PREPARING...</div>
-                                                 <div style={{fontSize:'12px', fontWeight:'bold'}}>0{{index + 1}}</div>
+                                                 <div style={{fontSize:'12px', fontWeight:'bold'}}>0{index + 1}</div>
                                             </div>
                                         )}
                                     </div>
