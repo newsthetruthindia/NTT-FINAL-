@@ -123,9 +123,15 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                   </Link>
                 </div>
 
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground mb-10 leading-[1.1] tracking-tighter uppercase editorial-heading animate-fade-in-up">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground mb-8 leading-[1.1] tracking-tighter uppercase italic editorial-heading animate-fade-in-up">
                   {post.title}
                 </h1>
+
+                {post.subtitle && (
+                   <h2 className="text-xl md:text-2xl font-medium text-foreground/70 italic mb-10 animate-fade-in delay-100">
+                     {post.subtitle}
+                   </h2>
+                )}
 
                 <div className="flex flex-wrap items-center justify-center gap-6 text-foreground/40 text-[11px] font-black uppercase tracking-[0.2em] animate-fade-in">
                   <div className="flex items-center gap-3">
