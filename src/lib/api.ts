@@ -2,7 +2,7 @@
 // We use a Next.js catch-all route as a proxy to handle complex paths and query params
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
 const API_BASE = '/api/proxy/';
-const INTERNAL_API_URL = 'http://117.252.16.132/api/';
+const INTERNAL_API_URL = 'https://backend.newsthetruth.com/api/';
 
 // Use absolute working IP on server, relative proxy on client
 const API_URL = typeof window === 'undefined' 
