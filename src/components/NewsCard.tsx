@@ -123,21 +123,21 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
             sizes="(max-width: 1024px) 100vw, 85vw"
             className="absolute inset-0 object-cover transition-transform duration-1000 group-hover:scale-105"
           />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-8 lg:p-16 flex flex-col justify-end">
-          <div className="mb-8 z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-            <span className="premium-gradient px-6 py-2 rounded-full text-[11px] font-heading font-black uppercase tracking-[0.25em] text-white shadow-[0_0_20px_rgba(255,0,0,0.3)]">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-8 lg:p-12 flex flex-col justify-end">
+          <div className="mb-6 z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+            <span className="premium-gradient px-5 py-1.5 rounded-full text-[10px] font-heading font-black uppercase tracking-[0.25em] text-white shadow-[0_0_20px_rgba(255,0,0,0.3)]">
               {categoryName}
             </span>
           </div>
-          <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-[1.05] tracking-tighter group-hover:text-primary transition-all duration-500 editorial-heading z-10 uppercase italic translate-y-4 group-hover:translate-y-0 shadow-text">
+          <h2 className="text-3xl lg:text-4xl font-black text-white mb-4 leading-tight tracking-tighter group-hover:text-primary transition-all duration-500 editorial-heading z-10 uppercase translate-y-4 group-hover:translate-y-0 shadow-text max-w-2xl">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
-          <div className="flex items-center gap-6 text-white/50 text-xs font-heading font-black uppercase tracking-[0.2em] z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">
+          <div className="flex items-center gap-6 text-white/50 text-[10px] font-heading font-black uppercase tracking-[0.2em] z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">
             <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 {formattedDate}
             </span>
-            <span className="w-px h-4 bg-white/20"></span>
+            <span className="w-px h-3 bg-white/20"></span>
             <div className="text-white hover:text-primary transition-colors cursor-pointer">
               {renderAttribution()}
             </div>
