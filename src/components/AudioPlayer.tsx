@@ -35,13 +35,22 @@ export default function AudioPlayer({ text, audioUrl }: AudioPlayerProps) {
   const getBestVoice = () => {
     if (voices.length === 0) return null;
     
-    // Strictly prefer Indian English to avoid Hindi voices reading English poorly
-    const inVoices = voices.filter(v => v.lang === 'en-IN' || v.lang.includes('IN') || v.name.toLowerCase().includes('india'));
+    const exactMale = voices.find(v => v.name.includes('Rishi') || v.name.includes('Ravi'));
+    const exactFemale = voices.find(v => v.name.includes('Veena') || v.name.includes('Heera'));
+    const anyEnIn = voices.filter(v => v.lang === 'en-IN' || v.lang === 'en_IN');
+    const anyIn = voices.filter(v => v.lang.includes('IN') || v.name.toLowerCase().includes('india'));
+    const gbVoices = voices.filter(v => v.lang.includes('GB') || v.lang.includes('UK'));
     
     if (preferredGender === 'male') {
-      return inVoices.find(v => v.name.toLowerCase().includes('rishi') || v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || inVoices.find(v => v.lang === 'en-IN') || inVoices[0] || voices[0];
+      return exactMale || 
+             anyEnIn.find(v => v.name.toLowerCase().includes('male')) || anyEnIn[0] || 
+             anyIn.find(v => v.name.toLowerCase().includes('male')) || anyIn[0] || 
+             gbVoices.find(v => v.name.toLowerCase().includes('male')) || gbVoices[0] || voices[0];
     } else {
-      return inVoices.find(v => v.name.toLowerCase().includes('veena') || v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('female')) || inVoices.find(v => v.lang === 'en-IN') || inVoices[0] || voices[0];
+      return exactFemale || 
+             anyEnIn.find(v => v.name.toLowerCase().includes('female')) || anyEnIn[0] || 
+             anyIn.find(v => v.name.toLowerCase().includes('female')) || anyIn[0] || 
+             gbVoices.find(v => v.name.toLowerCase().includes('female')) || gbVoices[0] || voices[0];
     }
   };
 

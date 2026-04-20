@@ -45,10 +45,10 @@ export default function ShareCard({ title, quote, reporterName = 'NTT Desk' }: S
           <p className="text-gray-500 text-sm font-bold uppercase tracking-widest">— Reported by {reporterName}</p>
         </div>
 
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-3">
           <button 
             onClick={handleCopy}
-            className="flex items-center gap-3 px-8 py-4 bg-white rounded-full text-black text-[11px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300 active:scale-95 shadow-xl shadow-black/20"
+            className="flex items-center gap-2 px-5 py-3 bg-white rounded-full text-black text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300 active:scale-95 shadow-xl shadow-black/20"
           >
             {copied ? 'Link Copied!' : 'Copy Link'}
             {!copied && (
@@ -62,7 +62,7 @@ export default function ShareCard({ title, quote, reporterName = 'NTT Desk' }: S
             href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-full text-white text-[11px] font-black uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
+            className="flex items-center gap-2 px-5 py-3 bg-white/5 border border-white/10 rounded-full text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
           >
             Share to X
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -74,7 +74,7 @@ export default function ShareCard({ title, quote, reporterName = 'NTT Desk' }: S
             href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-full text-white text-[11px] font-black uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
+            className="flex items-center gap-2 px-5 py-3 bg-white/5 border border-white/10 rounded-full text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
           >
             Facebook
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -86,7 +86,7 @@ export default function ShareCard({ title, quote, reporterName = 'NTT Desk' }: S
             href={`https://wa.me/?text=${shareText}%20${shareUrl}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-full text-white text-[11px] font-black uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
+            className="flex items-center gap-2 px-5 py-3 bg-white/5 border border-white/10 rounded-full text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
           >
             WhatsApp
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
