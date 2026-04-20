@@ -124,14 +124,14 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                 </div>
 
                 <h1 
-                  className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground mb-8 leading-[1.1] tracking-tighter uppercase editorial-heading animate-fade-in-up"
+                  className="text-3xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 leading-[1.1] tracking-tight uppercase editorial-heading animate-fade-in-up"
                 >
                   {post.title}
                 </h1>
 
                 {/* PREMIUM SUBTITLE / EXCERPT LINE */}
                 {(post.subtitle || post.excerpt) && (
-                  <h2 className="text-xl md:text-2xl font-medium text-foreground/70 mb-12 leading-relaxed max-w-3xl border-l-4 border-primary pl-6 italic animate-fade-in delay-200">
+                  <h2 className="text-lg md:text-xl font-medium text-foreground/70 mb-10 leading-relaxed max-w-3xl border-l-4 border-primary pl-6 animate-fade-in delay-200">
                     {post.subtitle || post.excerpt}
                   </h2>
                 )}

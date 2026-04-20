@@ -85,7 +85,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           </div>
         </div>
         <div className="sm:w-[55%] p-6 md:p-8 flex flex-col justify-center">
-          <h2 className="text-xl lg:text-3xl font-black text-foreground mb-4 leading-tight tracking-tighter group-hover:text-primary transition-colors line-clamp-3 editorial-heading uppercase">
+          <h2 className="text-lg lg:text-2xl font-bold text-foreground mb-3 leading-snug tracking-tight group-hover:text-primary transition-colors line-clamp-3 editorial-heading uppercase">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           {displayExcerpt && (
@@ -124,12 +124,12 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
             className="absolute inset-0 object-cover transition-transform duration-1000 group-hover:scale-105"
           />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-8 lg:p-12 flex flex-col justify-end">
-          <div className="mb-6 z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-            <span className="premium-gradient px-5 py-1.5 rounded-full text-[10px] font-heading font-black uppercase tracking-[0.25em] text-white shadow-[0_0_20px_rgba(255,0,0,0.3)]">
+          <div className="mb-4 z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+            <span className="premium-gradient px-4 py-1 rounded-full text-[9px] font-heading font-black uppercase tracking-[0.2em] text-white shadow-[0_0_20px_rgba(255,0,0,0.3)]">
               {categoryName}
             </span>
           </div>
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-4 leading-tight tracking-tighter group-hover:text-primary transition-all duration-500 editorial-heading z-10 uppercase translate-y-4 group-hover:translate-y-0 shadow-text max-w-2xl">
+          <h2 className="text-2xl lg:text-4xl font-bold text-white mb-4 leading-tight tracking-tight group-hover:text-primary transition-all duration-500 editorial-heading z-10 uppercase translate-y-4 group-hover:translate-y-0 shadow-text max-w-2xl">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           <div className="flex items-center gap-6 text-white/50 text-[10px] font-heading font-black uppercase tracking-[0.2em] z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">
@@ -164,12 +164,12 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           </span>
         </div>
       </div>
-      <div className="p-8 pb-10 flex flex-col flex-grow">
-        <h3 className="text-2xl md:text-3xl font-black text-foreground leading-[1.1] mb-5 group-hover:text-primary transition-all duration-500 line-clamp-2 editorial-heading tracking-tight uppercase">
+      <div className="p-6 md:p-8 pb-8 flex flex-col flex-grow">
+        <h3 className="text-xl md:text-2xl font-bold text-foreground leading-snug mb-4 group-hover:text-primary transition-all duration-500 line-clamp-2 editorial-heading tracking-tight uppercase">
           <Link href={`/news/${slug}`}>{title}</Link>
         </h3>
         {displayExcerpt && (
-          <p className="text-foreground/50 text-xs lg:text-sm mb-8 line-clamp-3 leading-relaxed font-medium">
+          <p className="text-foreground/60 text-xs md:text-sm mb-6 line-clamp-3 leading-relaxed font-medium">
             {displayExcerpt}
           </p>
         )}
