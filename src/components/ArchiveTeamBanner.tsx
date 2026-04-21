@@ -10,17 +10,6 @@ export default function ArchiveTeamBanner() {
         alt="NTT Editorial Team"
         className="absolute inset-0 w-full h-full object-cover object-top"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent flex items-center px-12 pointer-events-none">
-        <div className="max-w-md">
-           <div className="flex items-center gap-2 mb-2">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/70">Archive Custodians</span>
-           </div>
-           <h3 className="text-2xl font-black text-white uppercase tracking-tighter leading-tight">
-              Preserving <br/>The <span className="text-primary italic font-serif lowercase font-normal">Truth</span>
-           </h3>
-        </div>
-      </div>
     </div>
   );
 }
