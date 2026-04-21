@@ -68,15 +68,15 @@ export default function Newsletter() {
                 <p className="text-gray-400">The truth is now in your inbox. No spam, just pure journalism.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div className="flex flex-col md:flex-row gap-3">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                    <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Full Name"
                     required
-                    className="flex-1 bg-white/5 border-2 border-white/10 rounded-full py-5 px-8 text-white placeholder-gray-500 focus:outline-none focus:border-primary/50 transition-all text-base"
+                    className="w-full bg-white/5 border-2 border-white/10 rounded-full py-4 px-6 text-white placeholder-gray-500 focus:outline-none focus:border-primary/50 transition-all text-sm"
                   />
                   <input
                     type="email"
@@ -84,15 +84,15 @@ export default function Newsletter() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email Address"
                     required
-                    className="flex-1 bg-white/5 border-2 border-white/10 rounded-full py-5 px-8 text-white placeholder-gray-500 focus:outline-none focus:border-primary/50 transition-all text-base"
+                    className="w-full bg-white/5 border-2 border-white/10 rounded-full py-4 px-6 text-white placeholder-gray-500 focus:outline-none focus:border-primary/50 transition-all text-sm"
                   />
+                  <button 
+                    disabled={status === 'loading'}
+                    className="w-full py-4 bg-white hover:bg-primary hover:text-white text-gray-950 font-black uppercase tracking-widest text-[11px] rounded-full transition-all duration-300 disabled:opacity-50 shadow-lg lg:col-span-1"
+                  >
+                    {status === 'loading' ? 'Joining...' : 'Subscribe Now'}
+                  </button>
                 </div>
-                <button 
-                  disabled={status === 'loading'}
-                  className="w-full py-5 bg-white hover:bg-primary hover:text-white text-gray-950 font-black uppercase tracking-widest text-[13px] rounded-full transition-all duration-300 disabled:opacity-50 shadow-lg"
-                >
-                  {status === 'loading' ? 'Joining...' : 'Subscribe Now'}
-                </button>
                 {status === 'error' && (
                   <p className="text-primary text-xs font-bold px-8 text-center animate-pulse">
                     {errorMessage}

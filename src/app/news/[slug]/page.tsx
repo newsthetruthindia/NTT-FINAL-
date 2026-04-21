@@ -16,6 +16,7 @@ import GistBox from '../../../components/GistBox'
 import FloatingShare from '../../../components/FloatingShare'
 import UpNextPeek from '../../../components/UpNextPeek'
 import DiscoveryGrid from '../../../components/DiscoveryGrid'
+import ArticleGallery from '../../../components/ArticleGallery'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 
@@ -185,10 +186,40 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
               <AdBanner />
             </div>
 
-            <div
-              className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
-              dangerouslySetInnerHTML={{ __html: processedContent }}
-            />
+            {/* ARTICLEY GALLERY (MIDDLE POSITION) */}
+            {post.gallery && post.gallery.length > 0 && post.gallery_position === 'middle' ? (
+              (() => {
+                const paragraphs = processedContent.split('</p>');
+                const middleIndex = Math.min(3, Math.max(1, Math.floor(paragraphs.length / 2)));
+                const before = paragraphs.slice(0, middleIndex).join('</p>') + '</p>';
+                const after = paragraphs.slice(middleIndex).join('</p>');
+                
+                return (
+                  <>
+                    <div
+                      className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
+                      dangerouslySetInnerHTML={{ __html: before }}
+                    />
+                    <ArticleGallery images={post.gallery} />
+                    <div
+                      className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
+                      dangerouslySetInnerHTML={{ __html: after }}
+                    />
+                  </>
+                );
+              })()
+            ) : (
+              <>
+                <div
+                  className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
+                  dangerouslySetInnerHTML={{ __html: processedContent }}
+                />
+                {/* ARTICLE GALLERY (AFTER POSITION) */}
+                {post.gallery && post.gallery.length > 0 && post.gallery_position !== 'middle' && (
+                  <ArticleGallery images={post.gallery} />
+                )}
+              </>
+            )}
 
             {/* Social Embeds */}
             {(post.video_url || post.x_embed_url) && (

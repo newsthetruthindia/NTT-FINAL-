@@ -54,6 +54,17 @@ export interface Post {
   image_credit?: string;
   video_url?: string;
   x_embed_url?: string;
+  gallery_position?: 'after' | 'middle';
+  gallery?: {
+    id: number;
+    post_id: number;
+    media_id: number;
+    cat_data?: {
+      id: number;
+      url: string;
+      alt?: string;
+    }
+  }[];
 }
 
 const handleResponse = (json: any) => {

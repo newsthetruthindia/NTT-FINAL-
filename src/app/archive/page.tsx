@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CalendarArchive from '@/components/CalendarArchive';
 import ArchiveSearchBanner from '@/components/ArchiveSearchBanner';
+import ArchiveTeamBanner from '@/components/ArchiveTeamBanner';
 import ReporterGrid from '@/components/ReporterGrid';
 import { fetchArchiveSummary, fetchActiveReporters } from '@/lib/api';
 
@@ -50,6 +51,11 @@ export default async function ArchiveLandingPage() {
           <div className="lg:col-span-5 sticky top-32">
             <CalendarArchive />
           </div>
+        </div>
+
+        {/* Team Banner Section - Moved up and simplified */}
+        <div className="mb-24 flex justify-center">
+            <ArchiveTeamBanner />
         </div>
 
         {/* Search Banner Section */}
