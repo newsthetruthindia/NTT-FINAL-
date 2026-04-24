@@ -229,7 +229,7 @@ export default async function Home() {
 
           {/* Sidebar Tabs Area: Politics & World */}
           <section className="px-4 md:px-8 max-w-7xl mx-auto w-full pb-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {Array.isArray(politicsPosts) && politicsPosts.length > 0 && (
                 <div>
                   <h3 className="text-xl md:text-2xl font-black text-foreground uppercase tracking-widest mb-6 border-b-4 border-primary pb-2 inline-block">Politics</h3>
@@ -250,6 +250,10 @@ export default async function Home() {
                   </div>
                 </div>
               )}
+              <div className="flex flex-col gap-6">
+                <h3 className="text-xl md:text-2xl font-black text-foreground uppercase tracking-widest mb-2 border-b-4 border-primary/30 pb-2 inline-block">Spotlight</h3>
+                <AdBanner type="sidebar" />
+              </div>
             </div>
           </section>
         </div>

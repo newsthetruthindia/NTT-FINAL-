@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import StructuredData from "@/components/StructuredData";
+import SplashAd from "@/components/SplashAd";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -99,6 +100,7 @@ export default function RootLayout({
             <div id="main-content">
               {children}
             </div>
+            <SplashAd />
           </AuthProvider>
         </ThemeProvider>
       </body>

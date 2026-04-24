@@ -11,14 +11,34 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
   const displayName = slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  
+  // Try to get the latest post in this category for a dynamic OG image
+  const posts = await fetchCategoryPosts(slug, 1).catch(() => []);
+  const heroPost = posts?.[0];
+  const imageUrl = heroPost?.thumbnails?.url ? getImageUrl(heroPost.thumbnails.url) : '/placeholder-news.jpg';
+  const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : `${SITE_URL}${imageUrl}`;
+
   return {
     title: `${displayName} News | News The Truth`,
     description: `Latest ${displayName} news, reports, and analysis from News The Truth.`,
     openGraph: {
       title: `${displayName} | News The Truth`,
-      description: `Browse the latest ${displayName} stories.`,
+      description: `Browse the latest ${displayName} stories in ${displayName}.`,
       url: `${SITE_URL}/category/${slug}`,
       siteName: 'News The Truth',
+      images: [{
+        url: absoluteImageUrl,
+        width: 1200,
+        height: 630,
+        alt: `${displayName} News`,
+      }],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${displayName} | News The Truth`,
+      description: `Latest ${displayName} news and reports.`,
+      images: [absoluteImageUrl],
     },
     alternates: { canonical: `${SITE_URL}/category/${slug}` },
   };

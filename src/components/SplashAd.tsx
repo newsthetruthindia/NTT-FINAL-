@@ -14,10 +14,21 @@ export default function SplashAd() {
         if (!res.ok) return;
         const data = await res.json();
         
-        // Handle both { success: true, data: {...} } and direct { id: ... } responses
-        const ad = (data?.success === true && data?.data?.id) 
-          ? data.data 
-          : (data?.id ? data : null);
+        // Normalize: backend may return single object or array
+        let ad: any = null;
+
+        if (Array.isArray(data) && data.length > 0) {
+          // Pick a random one from the array
+          ad = data[Math.floor(Math.random() * data.length)];
+        } else if (data?.success === true && data?.data) {
+          if (Array.isArray(data.data) && data.data.length > 0) {
+            ad = data.data[Math.floor(Math.random() * data.data.length)];
+          } else if (data.data?.id) {
+            ad = data.data;
+          }
+        } else if (data?.id) {
+          ad = data;
+        }
 
         if (ad) {
           setAdContent(ad);
@@ -68,7 +79,7 @@ export default function SplashAd() {
           <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
             
             <h2 className="text-3xl md:text-5xl font-black text-foreground mb-6 leading-tight tracking-tighter uppercase italic">
-              {adContent.title}
+              {adContent.name || adContent.title}
             </h2>
             
             <p className="text-foreground/60 text-sm md:text-base mb-10 leading-relaxed font-medium">

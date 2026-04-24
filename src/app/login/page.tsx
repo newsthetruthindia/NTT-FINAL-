@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/components/AuthProvider';
+import GoogleLoginButton from '@/components/GoogleLoginButton';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -110,6 +111,8 @@ export default function LoginPage() {
                 ) : 'Authenticate Now'}
               </button>
             </form>
+
+            <GoogleLoginButton />
 
             <p className="text-center text-foreground/40 mt-12 text-[10px] font-black uppercase tracking-[0.2em]">
               New to News The Truth? <Link href="/register" className="text-primary hover:underline ml-2">Secure Registration</Link>

@@ -30,14 +30,33 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   try {
     const post = await fetchPostBySlug(slug);
     if (!post) return { title: 'Article Not Found | NTT' };
+    const description = post.excerpt || stripTags(post.description || '').substring(0, 160);
+    const imageUrl = post.thumbnails?.url ? getImageUrl(post.thumbnails.url) : `${SITE_URL}/placeholder-news.jpg`;
+    
+    // Ensure absolute URL for OG image
+    const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : `${SITE_URL}${imageUrl}`;
+
     return {
       title: `${post.title} | News The Truth`,
-      description: post.excerpt || stripTags(post.description || '').substring(0, 160),
+      description: description,
       openGraph: {
         title: post.title,
-        description: post.excerpt || '',
-        images: post.thumbnails?.url ? [getImageUrl(post.thumbnails.url)] : [],
+        description: description,
+        images: [{
+          url: absoluteImageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        }],
         url: `${SITE_URL}/news/${slug}`,
+        type: 'article',
+        siteName: 'News The Truth',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: post.title,
+        description: description,
+        images: [absoluteImageUrl],
       },
     };
   } catch {
@@ -306,6 +325,11 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
             )}
 
             <ShareCard title={post.title} reporterName={reporterName} />
+
+            {/* Sidebar/Article Ad */}
+            <div className="mt-12">
+              <AdBanner type="sidebar" className="max-w-md mx-auto" />
+            </div>
           </div>
         </article>
 

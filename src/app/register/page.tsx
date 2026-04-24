@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/components/AuthProvider';
+import GoogleLoginButton from '@/components/GoogleLoginButton';
 
 export default function RegisterPage() {
   const [firstname, setFirstname] = useState('');
@@ -137,6 +138,8 @@ export default function RegisterPage() {
                 ) : 'Create Account'}
               </button>
             </form>
+
+            <GoogleLoginButton />
 
             <p className="text-center text-foreground/40 mt-12 text-[10px] font-black uppercase tracking-[0.2em]">
               Already have an account? <Link href="/login" className="text-primary hover:underline ml-2">Sign In</Link>

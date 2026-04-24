@@ -60,6 +60,15 @@ export async function GET(
     
     const contentType = res.headers.get('content-type') || '';
     
+    // Support XML for RSS feeds
+    if (contentType.includes('application/xml') || contentType.includes('text/xml')) {
+      const xmlData = await res.text();
+      return new NextResponse(xmlData, {
+        status: res.status,
+        headers: { 'Content-Type': contentType }
+      });
+    }
+
     // If backend returns a non-JSON response (HTML error page / redirect), return safe fallback
     if (!contentType.includes('application/json')) {
       // For sponsor/ad endpoints, return empty success to prevent frontend crashes
