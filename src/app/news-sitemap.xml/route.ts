@@ -5,7 +5,7 @@ const API_URL = 'http://117.252.16.132/api/';
 
 export async function GET() {
   try {
-    const res = await fetch(`${API_URL}posts/latest?limit=100`, {
+    const res = await fetch(`https://backend.newsthetruth.com/api/posts/latest?limit=100`, {
       headers: { Accept: 'application/json' },
       next: { revalidate: 1800 }, // Revalidate every 30 minutes
     });
@@ -24,6 +24,20 @@ export async function GET() {
       return pubDate >= twoDaysAgo;
     });
 
+    // Helper to safely escape XML special characters
+    const escapeXml = (unsafe: string) => {
+        return unsafe.replace(/[<>&"']/g, (c) => {
+            switch (c) {
+                case '<': return '&lt;';
+                case '>': return '&gt;';
+                case '&': return '&amp;';
+                case '"': return '&quot;';
+                case "'": return '&apos;';
+                default: return c;
+            }
+        });
+    };
+
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
@@ -36,7 +50,7 @@ export async function GET() {
         <news:language>en</news:language>
       </news:publication>
       <news:publication_date>${new Date(post.created_at).toISOString()}</news:publication_date>
-      <news:title>${post.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')}</news:title>
+      <news:title>${escapeXml(post.title)}</news:title>
     </news:news>
   </url>
   `).join('')}

@@ -20,6 +20,14 @@ const nextConfig = {
       { protocol: 'https', hostname: 'ntt-final.vercel.app' },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/feed/news',
+        destination: '/api/feed/news',
+      },
+    ]
+  },
   async redirects() {
     return [
       {

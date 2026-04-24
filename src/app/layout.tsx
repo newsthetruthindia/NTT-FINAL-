@@ -19,6 +19,12 @@ const leagueSpartan = League_Spartan({
   display: 'swap',
 });
 
+export const viewport = {
+  themeColor: "#ff0000",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   title: {
     default: "NTT | News The Truth",
@@ -27,7 +33,6 @@ export const metadata: Metadata = {
   description: "NTT: Authentic storytelling and citizen journalism. Questions will be asked.",
   metadataBase: new URL('https://newsthetruth.com'),
   manifest: "/manifest.json",
-  themeColor: "#ff0000",
   keywords: ["news", "truth", "ntt", "citizen journalism", "india news", "exclusive reports"],
   authors: [{ name: "NTT Editorial Desk" }],
   openGraph: {

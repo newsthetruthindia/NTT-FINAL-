@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 export const dynamic = 'force-dynamic'
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   let slug = '';
   try {
     const resolvedParams = await params;
