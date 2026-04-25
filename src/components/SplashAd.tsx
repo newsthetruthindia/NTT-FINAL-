@@ -53,7 +53,8 @@ export default function SplashAd() {
   // Developer Note: Ad image size is mandatory for optimal "Premium Spotlight" rendering.
   // Recommended size: 1080x1080 for square or 1920x1080 for wide ads.
 
-  if (!isOpen || !adContent || ['/login', '/register'].includes(pathname)) return null;
+  const isAuthPage = pathname?.includes('/login') || pathname?.includes('/register');
+  if (!isOpen || !adContent || isAuthPage) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-500">
