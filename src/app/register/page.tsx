@@ -1,7 +1,6 @@
 'use client';
 
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/components/AuthProvider';
@@ -153,10 +152,6 @@ export default function RegisterPage() {
           </div>
         </div>
       </div>
-    </main>
->
-    </main>
->
     </main>
   );
 }
