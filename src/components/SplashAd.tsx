@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function SplashAd() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [adContent, setAdContent] = useState<any>(null);
 
@@ -51,7 +53,7 @@ export default function SplashAd() {
   // Developer Note: Ad image size is mandatory for optimal "Premium Spotlight" rendering.
   // Recommended size: 1080x1080 for square or 1920x1080 for wide ads.
 
-  if (!isOpen || !adContent) return null;
+  if (!isOpen || !adContent || ['/login', '/register'].includes(pathname)) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-500">

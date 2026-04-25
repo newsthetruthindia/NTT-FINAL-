@@ -53,7 +53,7 @@ export default function LoginPage() {
  
       <Header />
       
-      <div className="flex-grow pt-20 flex items-center justify-center px-4 relative z-10">
+      <div className="flex-grow pt-28 flex items-center justify-center px-4 relative z-10">
         <div className="w-full max-w-md p-[1.2px] bg-gradient-to-b from-primary/40 to-transparent rounded-[32px] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.5)] animate-fade-in-up">
           <div className="bg-[#0b1120]/95 rounded-[31px] p-6 md:p-8 border border-white/10 shadow-inner backdrop-blur-3xl">
             <div className="text-center mb-5">
