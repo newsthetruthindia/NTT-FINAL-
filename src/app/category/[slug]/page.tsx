@@ -2,12 +2,12 @@ import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import NewsCard from '@/components/NewsCard'
-import { fetchCategoryPosts } from '@/lib/api'
+import { fetchCategoryPosts, getImageUrl } from '@/lib/api'
 import { notFound } from 'next/navigation'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
   const displayName = slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
