@@ -49,15 +49,15 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="min-h-screen relative flex flex-col bg-background overflow-hidden">
+    <main className="h-screen relative flex flex-col bg-background overflow-hidden">
       {/* Premium Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full premium-gradient opacity-10 pointer-events-none" />
       <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute -bottom-[20%] -right-[10%] w-[60%] h-[60%] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-
+ 
       <Header />
       
-      <div className="flex-grow flex items-center justify-center px-4 py-2 md:py-4 relative z-10">
+      <div className="flex-grow pt-20 flex items-center justify-center px-4 relative z-10">
         <div className="w-full max-w-md p-[1.2px] bg-gradient-to-b from-primary/40 to-transparent rounded-[32px] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.5)] animate-fade-in-up">
           <div className="bg-[#0b1120]/95 rounded-[31px] p-6 md:p-8 border border-white/10 shadow-inner backdrop-blur-3xl">
             <div className="text-center mb-5">
@@ -153,6 +153,8 @@ export default function RegisterPage() {
           </div>
         </div>
       </div>
+    </main>
+>
     </main>
 >
     </main>
