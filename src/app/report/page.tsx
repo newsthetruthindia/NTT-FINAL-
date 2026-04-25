@@ -1,63 +1,52 @@
+'use client';
+
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import ReportForm from '@/components/ReportForm';
 
 export default function ReportPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="h-screen relative flex flex-col bg-[#0b1120] overflow-hidden">
+      {/* Premium Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full premium-gradient opacity-10 pointer-events-none" />
+      <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute -bottom-[20%] -right-[10%] w-[60%] h-[60%] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+
       <Header />
       
-      {/* Hero Section */}
-      <section className="pt-40 pb-20 px-4 bg-gray-50 overflow-hidden relative">
-        {/* Background Accents */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -translate-x-1/2 translate-y-1/2" />
-        
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">
-            Become a Citizen Journalist
-          </span>
-          <h1 className="text-5xl md:text-8xl font-black text-gray-950 mb-8 leading-[1.05] tracking-tighter">
-            Share the Truth<br/>
-            <span className="text-gray-400">with the World.</span>
-          </h1>
-          <p className="text-gray-600 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
-            Truth is the foundation of a free society. If you have witnessed corruption, local news, 
-            or an investigative story, share it with us securely. Your identity is protected.
-          </p>
-        </div>
-      </section>
-
-      {/* Form Section */}
-      <section className="py-24 px-4 max-w-4xl mx-auto -mt-12 relative z-20">
-        <ReportForm />
-      </section>
-
-      {/* Safety Section */}
-      <section className="py-24 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
-          <div className="space-y-4">
-            <h3 className="text-xl font-black text-gray-950 tracking-tight">Encrypted Channel</h3>
-            <p className="text-gray-500 leading-relaxed text-sm">
-              Every submission is transmitted via end-to-end encrypted tunnels. We do not store your IP address or browser metadata.
+      <div className="flex-grow pt-24 pb-4 flex flex-col items-center justify-center px-4 relative z-10 overflow-y-auto no-scrollbar">
+        <div className="my-auto w-full max-w-4xl space-y-4">
+          <div className="text-center space-y-2 mb-2">
+            <span className="text-primary font-black uppercase tracking-[0.4em] text-[8px] animate-fade-in">
+              Become a Citizen Journalist
+            </span>
+            <h1 className="text-3xl md:text-5xl font-black text-white leading-none tracking-tighter animate-fade-in-up">
+              SHARE THE TRUTH<span className="text-primary">.</span>
+            </h1>
+            <p className="text-white/60 text-[11px] leading-relaxed max-w-lg mx-auto animate-fade-in-up">
+              Secure, anonymous, and encrypted. Your identity is protected by NTT's legal desk.
             </p>
           </div>
-          <div className="space-y-4">
-            <h3 className="text-xl font-black text-gray-950 tracking-tight">Source Protection</h3>
-            <p className="text-gray-500 leading-relaxed text-sm">
-              NTT Journalists are legally bound to protect our sources. We will never disclose your identity without your explicit permission.
-            </p>
+
+          <div className="animate-fade-in-up [animation-delay:200ms]">
+            <ReportForm />
           </div>
-          <div className="space-y-4">
-            <h3 className="text-xl font-black text-gray-950 tracking-tight">Fact Check Process</h3>
-            <p className="text-gray-500 leading-relaxed text-sm">
-              Our investigative desk reviews every submission. We fact-check through multiple independent sources before publishing.
-            </p>
+          
+          <div className="flex justify-center gap-6 pt-2 opacity-40 hover:opacity-100 transition-opacity duration-500">
+             <div className="flex items-center gap-1.5">
+                <div className="w-1 h-1 bg-primary rounded-full animate-pulse" />
+                <span className="text-[7px] font-black uppercase tracking-[0.2em] text-white">Encrypted Tunnel</span>
+             </div>
+             <div className="flex items-center gap-1.5">
+                <div className="w-1 h-1 bg-primary rounded-full animate-pulse" />
+                <span className="text-[7px] font-black uppercase tracking-[0.2em] text-white">Source Protection</span>
+             </div>
+             <div className="flex items-center gap-1.5">
+                <div className="w-1 h-1 bg-primary rounded-full animate-pulse" />
+                <span className="text-[7px] font-black uppercase tracking-[0.2em] text-white">Fact Checked</span>
+             </div>
           </div>
         </div>
-      </section>
-
-      <Footer />
+      </div>
     </main>
   );
 }
