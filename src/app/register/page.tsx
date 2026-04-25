@@ -58,76 +58,76 @@ export default function RegisterPage() {
       <Header />
       
       <div className="flex-grow flex items-center justify-center px-4 py-24 relative z-10">
-        <div className="w-full max-w-md p-1 bg-white/40 rounded-[40px] backdrop-blur-3xl border border-white/20 shadow-2xl animate-fade-in-up">
-          <div className="bg-white/80 rounded-[39px] p-10 border border-white/10 shadow-inner">
+        <div className="w-full max-w-lg p-[1px] bg-gradient-to-br from-primary/30 to-border/10 rounded-[40px] backdrop-blur-3xl shadow-2xl animate-fade-in-up">
+          <div className="bg-card/90 rounded-[39px] p-8 md:p-12 border border-white/5 shadow-inner backdrop-blur-xl">
             <div className="text-center mb-10">
-               <h1 className="text-4xl font-black text-foreground font-heading tracking-tighter leading-none mb-2">
-                 JOIN<br/>NTT<span className="text-primary text-5xl">.</span>
+               <h1 className="text-4xl md:text-5xl font-black text-foreground font-heading tracking-tighter leading-none mb-3">
+                 JOIN<br/>NTT<span className="text-primary text-6xl">.</span>
                </h1>
-               <p className="text-foreground/40 text-[10px] font-black uppercase tracking-[0.4em] mb-8">Start Your Journey</p>
-               <p className="text-foreground/60 text-sm font-sans leading-relaxed">Create your verified NTT account to begin.</p>
+               <p className="text-primary font-black text-[10px] uppercase tracking-[0.5em] mb-4">Start Your Journey</p>
+               <p className="text-foreground/60 text-sm font-sans leading-relaxed max-w-[280px] mx-auto">Create your verified NTT account to begin your professional journey.</p>
             </div>
-
-            <form className="space-y-5" onSubmit={handleSubmit}>
+ 
+            <form className="space-y-6" onSubmit={handleSubmit}>
               {error && (
                 <div className="bg-rose-500/10 text-rose-500 text-[11px] font-bold px-5 py-4 rounded-2xl border border-rose-500/20 animate-shake">
                   {error}
                 </div>
               )}
-
-              <div className="grid grid-cols-2 gap-4">
+ 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">First Name</label>
+                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/60 ml-1">First Name</label>
                   <input 
                     type="text" 
                     value={firstname}
                     onChange={(e) => setFirstname(e.target.value)}
                     required
-                    className="w-full px-5 py-4 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
+                    className="w-full px-5 py-4 bg-background/40 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-sm" 
                     placeholder="John"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Last Name</label>
+                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/60 ml-1">Last Name</label>
                   <input 
                     type="text" 
                     value={lastname}
                     onChange={(e) => setLastname(e.target.value)}
                     required
-                    className="w-full px-5 py-4 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
+                    className="w-full px-5 py-4 bg-background/40 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-sm" 
                     placeholder="Doe"
                   />
                 </div>
               </div>
-
+ 
               <div className="space-y-2">
-                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Account Identity (Email)</label>
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/60 ml-1">Account Identity (Email)</label>
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full px-6 py-5 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
+                  className="w-full px-6 py-4 bg-background/40 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-sm" 
                   placeholder="name@example.com"
                 />
               </div>
-
+ 
               <div className="space-y-2">
-                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Secure Key (Password)</label>
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/60 ml-1">Secure Key (Password)</label>
                 <input 
                   type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={8}
-                  className="w-full px-6 py-5 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
+                  className="w-full px-6 py-4 bg-background/40 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-sm" 
                   placeholder="••••••••"
                 />
               </div>
-
+ 
               <button 
                 disabled={isLoading}
-                className="w-full py-5 premium-gradient text-white text-[12px] font-black uppercase tracking-[0.2em] rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 disabled:opacity-50 mt-4"
+                className="w-full py-5 premium-gradient text-white text-[12px] font-black uppercase tracking-[0.3em] rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 disabled:opacity-50 mt-4"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -135,13 +135,19 @@ export default function RegisterPage() {
                     <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.15s]" />
                     <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" />
                   </span>
-                ) : 'Create Account'}
+                ) : 'Create Account Now'}
               </button>
             </form>
-
+ 
+            <div className="my-8 flex items-center gap-4">
+               <div className="h-[1px] flex-grow bg-border/40"></div>
+               <span className="text-[9px] font-black text-foreground/30 uppercase tracking-widest">OR</span>
+               <div className="h-[1px] flex-grow bg-border/40"></div>
+            </div>
+ 
             <GoogleLoginButton />
-
-            <p className="text-center text-foreground/40 mt-12 text-[10px] font-black uppercase tracking-[0.2em]">
+ 
+            <p className="text-center text-foreground/40 mt-10 text-[10px] font-black uppercase tracking-[0.2em]">
               Already have an account? <Link href="/login" className="text-primary hover:underline ml-2">Sign In</Link>
             </p>
           </div>
