@@ -17,6 +17,7 @@ import FloatingShare from '../../../components/FloatingShare'
 import UpNextPeek from '../../../components/UpNextPeek'
 import DiscoveryGrid from '../../../components/DiscoveryGrid'
 import ArticleGallery from '../../../components/ArticleGallery'
+import ArticleTracker from '../../../components/ArticleTracker'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 
@@ -121,6 +122,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
     return (
       <main className="min-h-screen bg-background" data-deploy-v="newsroom-2.2">
         <Header />
+        <ArticleTracker postId={post.id} />
         <ReadingProgress />
         <FloatingShare url={`${SITE_URL}/news/${slug}`} title={post.title} />
         {trending[0] && <UpNextPeek post={trending[0]} />}
