@@ -47,7 +47,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="h-screen relative flex flex-col bg-background overflow-hidden">
+    <main className="h-screen relative flex flex-col bg-[#0b1120] overflow-hidden dark">
       {/* Premium Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full premium-gradient opacity-10 pointer-events-none" />
       <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
