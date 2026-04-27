@@ -112,7 +112,7 @@ export default function RegisterPage() {
                 </div>
   
                 <div className="space-y-1">
-                  <label className="block text-[8px] font-black uppercase tracking-[0.15em] text-white/30 ml-1">Secure Key</label>
+                  <label className="block text-[8px] font-black uppercase tracking-[0.15em] text-white/30 ml-1">Password</label>
                   <input 
                     type="password" 
                     value={password}

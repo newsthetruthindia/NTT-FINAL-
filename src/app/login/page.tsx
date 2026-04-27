@@ -85,7 +85,7 @@ export default function LoginPage() {
   
                 <div className="space-y-1">
                   <div className="flex justify-between items-center ml-1">
-                    <label className="block text-[8px] font-black uppercase tracking-[0.15em] text-white/30">Secure Key</label>
+                    <label className="block text-[8px] font-black uppercase tracking-[0.15em] text-white/30">Password</label>
                     <Link href="/forgot-password" title="Forgot Password" className="text-[8px] font-black uppercase tracking-widest text-primary hover:scale-105 transition-transform">Recover Access</Link>
                   </div>
                   <input 

@@ -26,7 +26,7 @@ function ResetPasswordForm() {
     setMessage('');
 
     if (password !== passwordConfirmation) {
-      setError('Key match failure: Passwords do not align.');
+      setError('Password match failure: Passwords do not align.');
       return;
     }
 
@@ -72,7 +72,7 @@ function ResetPasswordForm() {
             SECURE<br/>RESET<span className="text-primary text-5xl">.</span>
           </h1>
           <p className="text-foreground/40 text-[10px] font-black uppercase tracking-[0.4em] mb-8">Authorizing New Credentials</p>
-          <p className="text-foreground/60 text-sm font-sans leading-relaxed">Define your new secure access key below.</p>
+          <p className="text-foreground/60 text-sm font-sans leading-relaxed">Define your new secure password below.</p>
         </div>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -88,7 +88,7 @@ function ResetPasswordForm() {
           )}
           
           <div className="space-y-2">
-            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">New Secure Key</label>
+            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">New Password</label>
             <input 
               type="password" 
               value={password}
@@ -100,7 +100,7 @@ function ResetPasswordForm() {
           </div>
 
           <div className="space-y-2">
-            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Confirm New Key</label>
+            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Confirm New Password</label>
             <input 
               type="password" 
               value={passwordConfirmation}
