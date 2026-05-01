@@ -89,6 +89,40 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* OneSignal Web Push SDK */}
+        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.OneSignalDeferred = window.OneSignalDeferred || [];
+              OneSignalDeferred.push(async function(OneSignal) {
+                await OneSignal.init({
+                  appId: "${process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID || ''}",
+                  safari_web_id: "${process.env.NEXT_PUBLIC_ONESIGNAL_SAFARI_WEB_ID || ''}",
+                  notifyButton: {
+                    enable: true,
+                    size: 'small',
+                    position: 'bottom-left',
+                    showCredit: false,
+                    text: {
+                      'tip.state.unsubscribed': 'Subscribe for Breaking News',
+                      'tip.state.subscribed':   'You are subscribed ✓',
+                      'tip.state.blocked':      'Notifications blocked',
+                      'message.prenotify':      '🔔 Subscribe for breaking news alerts',
+                      'message.action.subscribed':   'Thanks for subscribing!',
+                      'message.action.resubscribed': 'You are subscribed.',
+                      'message.action.unsubscribed': 'Unsubscribed.',
+                      'dialog.main.title':      'Manage Notifications',
+                      'dialog.main.button.subscribe': 'Subscribe',
+                      'dialog.main.button.unsubscribe': 'Unsubscribe',
+                    }
+                  },
+                  allowLocalhostAsSecureOrigin: true,
+                });
+              });
+            `,
+          }}
+        />
         <StructuredData />
       </head>
       <body
