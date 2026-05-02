@@ -5,12 +5,20 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/sitemap-news.xml",
+      "destination": "/api/sitemap-news"
+    },
+    {
+      "source": "/feed/news",
+      "destination": "/api/feed/news"
+    },
+    {
       "source": "/admin/:path*",
-      "destination": "http://117.252.16.132/admin/:path*"
+      "destination": "https://backend.newsthetruth.com/admin/:path*"
     },
     {
       "source": "/admin",
-      "destination": "http://117.252.16.132/admin"
+      "destination": "https://backend.newsthetruth.com/admin"
     }
   ]
 }
