@@ -13,6 +13,10 @@
       "destination": "/api/feed/news"
     },
     {
+      "source": "/feed/syndication.xml",
+      "destination": "/api/feed/syndication"
+    },
+    {
       "source": "/admin/:path*",
       "destination": "https://backend.newsthetruth.com/admin/:path*"
     },
