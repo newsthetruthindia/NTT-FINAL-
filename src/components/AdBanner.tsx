@@ -65,7 +65,7 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
 
   const ad = ads[currentIndex];
   const rawPath = ad.media?.path || ad.image_url;
-  const imageSrc = rawPath ? `https://backend.newsthetruth.com/storage/${rawPath.replace(/^\/+/, '')}` : null;
+  const imageSrc = rawPath ? `https://backend.newsthetruth.com/${rawPath.replace(/^\/+/, '')}` : null;
 
   return (
     <div className={`relative group overflow-hidden rounded-3xl border border-border bg-card/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 ${className}`}>

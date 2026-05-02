@@ -195,14 +195,13 @@ export const fetchVideos = async (): Promise<Video[]> => {
 export const getImageUrl = (path?: any) => {
   if (!path || typeof path !== 'string') return '/placeholder-news.jpg';
   
-  const STORAGE_BASE = 'https://backend.newsthetruth.com/storage/';
+  const BASE_URL = 'https://backend.newsthetruth.com/';
 
-  // If it's already a full URL, ensure it points to the correct storage base
+  // If it's already a full URL
   if (path.startsWith('http')) {
+    // If it contains /storage/, convert it to direct /
     if (path.includes('/storage/')) {
-       const parts = path.split('/storage/');
-       const cleanPath = parts[parts.length - 1];
-       return `${STORAGE_BASE}${cleanPath.replace(/^\/+/, '')}`;
+       return path.replace('/storage/', '/');
     }
     return path;
   }
@@ -213,7 +212,7 @@ export const getImageUrl = (path?: any) => {
       cleanPath = cleanPath.substring(8);
   }
   
-  return `${STORAGE_BASE}${cleanPath}`;
+  return `${BASE_URL}${cleanPath}`;
 };
 
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
