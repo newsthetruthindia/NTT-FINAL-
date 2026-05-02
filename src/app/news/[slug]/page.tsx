@@ -20,6 +20,7 @@ import ArticleGallery from '../../../components/ArticleGallery'
 import ArticleTracker from '../../../components/ArticleTracker'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
+export const revalidate = 7200 // 2 hours
 
 const stripTags = (html?: string) => {
   if (!html) return '';
