@@ -195,26 +195,25 @@ export const fetchVideos = async (): Promise<Video[]> => {
 export const getImageUrl = (path?: any) => {
   if (!path || typeof path !== 'string') return '/placeholder-news.jpg';
   
-  // If it's already a full URL pointing to the VPS or older domain
+  const STORAGE_BASE = 'https://backend.newsthetruth.com/storage/';
+
+  // If it's already a full URL, ensure it points to the correct storage base
   if (path.startsWith('http')) {
-    // Standardize VPS IPs or known domains to use our internal proxy /api/storage/
-    if (path.includes('117.252.16.132/storage/') || path.includes('newsthetruth.com/storage/') || path.includes('backend.newsthetruth.com/storage/')) {
+    if (path.includes('/storage/')) {
        const parts = path.split('/storage/');
        const cleanPath = parts[parts.length - 1];
-       return `/api/storage/${cleanPath.replace(/^\/+/, '')}`;
+       return `${STORAGE_BASE}${cleanPath.replace(/^\/+/, '')}`;
     }
     return path;
   }
   
-  // Handle relative paths from the backend (ensure no double slashes or redundant storage/ prefixes)
+  // Handle relative paths
   let cleanPath = path.replace(/^\/+/, '');
-  
-  // If the path already has storage/ prefix from the backend, remove it before prepending /api/storage/
   if (cleanPath.startsWith('storage/')) {
       cleanPath = cleanPath.substring(8);
   }
   
-  return `/api/storage/${cleanPath}`;
+  return `${STORAGE_BASE}${cleanPath}`;
 };
 
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {

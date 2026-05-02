@@ -72,7 +72,7 @@ export default function SplashAd() {
           <div className="md:w-1/2 relative aspect-[2/3] bg-black/20">
             {(adContent.media?.path || adContent.image_url) && (
               <img 
-                src={`/api/storage/${(adContent.media?.path || adContent.image_url).replace(/^\/+/, '')}`} 
+                src={`https://backend.newsthetruth.com/storage/${(adContent.media?.path || adContent.image_url).replace(/^\/+/, '')}`} 
                 alt={adContent.title || adContent.name}
                 className="absolute inset-0 w-full h-full object-cover"
               />
