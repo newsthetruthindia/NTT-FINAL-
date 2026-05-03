@@ -1,4 +1,4 @@
-// Version: 1.1.6 - Catch-all Proxy Migration
+// Version: 1.1.7 - Media Resolver Proxy
 // We use a Next.js catch-all route as a proxy to handle complex paths and query params
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
 const API_BASE = '/api/proxy/';
@@ -195,26 +195,16 @@ export const fetchVideos = async (): Promise<Video[]> => {
 export const getImageUrl = (path?: any) => {
   if (!path || typeof path !== 'string') return '/placeholder-news.jpg';
   
-  const BASE_URL = 'https://backend.newsthetruth.com/';
-
-  // If it's already a full URL
+  // If it's already a full URL, return it as is
   if (path.startsWith('http')) {
     return path;
   }
   
-  // Handle relative paths
-  let cleanPath = path.replace(/^\/+/, '');
+  const cleanPath = path.replace(/^\/+/, '');
   
-  // Storage prefix logic based on backend asset mapping:
-  // 1. uploads/media/ is served directly from the public directory.
-  // 2. All other assets (uploads/202x/, uploads/avatars/) require the /storage/ prefix.
-  if (cleanPath.startsWith('uploads/media/')) {
-      // Do nothing, leave it as is
-  } else if (!cleanPath.startsWith('storage/')) {
-      cleanPath = `storage/${cleanPath}`;
-  }
-  
-  return `${BASE_URL}${cleanPath}`;
+  // We use our specialized media resolver to handle inconsistent backend paths
+  // (Some files require /storage/ prefix, others are served directly)
+  return `/api/media?path=${encodeURIComponent(cleanPath)}`;
 };
 
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
