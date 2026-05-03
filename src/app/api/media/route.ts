@@ -30,14 +30,24 @@ export async function GET(request: NextRequest) {
   
   try {
     // Try the first candidate
-    const res1 = await fetch(candidates[0], { method: 'HEAD', cache: 'no-store' });
-    if (res1.ok) {
+    const res1 = await fetch(candidates[0], { 
+      method: 'HEAD', 
+      cache: 'no-store',
+      redirect: 'manual' 
+    });
+    
+    if (res1.ok && res1.headers.get('content-type')?.startsWith('image/')) {
       return NextResponse.redirect(candidates[0], { status: 302 });
     }
 
     // Try the second candidate
-    const res2 = await fetch(candidates[1], { method: 'HEAD', cache: 'no-store' });
-    if (res2.ok) {
+    const res2 = await fetch(candidates[1], { 
+      method: 'HEAD', 
+      cache: 'no-store',
+      redirect: 'manual'
+    });
+    
+    if (res2.ok && res2.headers.get('content-type')?.startsWith('image/')) {
       return NextResponse.redirect(candidates[1], { status: 302 });
     }
 
