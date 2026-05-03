@@ -205,10 +205,12 @@ export const getImageUrl = (path?: any) => {
   // Handle relative paths
   let cleanPath = path.replace(/^\/+/, '');
   
-  // All media assets on the production server are served via the /storage/ alias.
-  // This includes news images (uploads/2026/...), media (uploads/media/...), 
-  // and staff photos (staff/...).
-  if (!cleanPath.startsWith('storage/')) {
+  // Storage prefix logic based on backend asset mapping:
+  // 1. uploads/media/ is served directly from the public directory.
+  // 2. All other assets (uploads/202x/, uploads/avatars/) require the /storage/ prefix.
+  if (cleanPath.startsWith('uploads/media/')) {
+      // Do nothing, leave it as is
+  } else if (!cleanPath.startsWith('storage/')) {
       cleanPath = `storage/${cleanPath}`;
   }
   
