@@ -54,8 +54,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(candidates[1], { status: 302 });
     }
 
-    // If both fail, redirect to placeholder or return 404
-    return NextResponse.redirect(`${BASE_URL}placeholder-news.jpg`, { status: 302 });
+    // If both fail, redirect to local placeholder
+    return NextResponse.redirect(new URL('/placeholder-news.jpg', request.url), { status: 302 });
   } catch (error) {
     // On network error, fallback to first candidate and let browser handle it
     return NextResponse.redirect(candidates[0], { status: 302 });
