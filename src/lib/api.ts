@@ -199,17 +199,17 @@ export const getImageUrl = (path?: any) => {
 
   // If it's already a full URL
   if (path.startsWith('http')) {
-    // If it contains /storage/, convert it to direct /
-    if (path.includes('/storage/')) {
-       return path.replace('/storage/', '/');
-    }
     return path;
   }
   
   // Handle relative paths
   let cleanPath = path.replace(/^\/+/, '');
-  if (cleanPath.startsWith('storage/')) {
-      cleanPath = cleanPath.substring(8);
+  
+  // All media assets on the production server are served via the /storage/ alias.
+  // This includes news images (uploads/2026/...), media (uploads/media/...), 
+  // and staff photos (staff/...).
+  if (!cleanPath.startsWith('storage/')) {
+      cleanPath = `storage/${cleanPath}`;
   }
   
   return `${BASE_URL}${cleanPath}`;
