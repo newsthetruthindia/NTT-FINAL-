@@ -36,7 +36,10 @@ export async function GET(request: NextRequest) {
       redirect: 'manual' 
     });
     
-    if (res1.ok && res1.headers.get('content-type')?.startsWith('image/')) {
+    const isImage = (contentType: string | null) => 
+      contentType?.startsWith('image/') || contentType === 'application/octet-stream';
+    
+    if (res1.ok && isImage(res1.headers.get('content-type'))) {
       return NextResponse.redirect(candidates[0], { status: 302 });
     }
 
@@ -47,7 +50,7 @@ export async function GET(request: NextRequest) {
       redirect: 'manual'
     });
     
-    if (res2.ok && res2.headers.get('content-type')?.startsWith('image/')) {
+    if (res2.ok && isImage(res2.headers.get('content-type'))) {
       return NextResponse.redirect(candidates[1], { status: 302 });
     }
 
