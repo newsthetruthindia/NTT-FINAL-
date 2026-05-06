@@ -114,7 +114,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
 
   if (variant === 'hero') {
     return (
-      <div className="group relative h-full min-h-[550px] lg:min-h-[650px] w-full overflow-hidden rounded-[40px] shadow-2xl transition-all duration-700">
+      <div className="group relative h-full min-h-[550px] lg:min-h-[650px] w-full overflow-hidden rounded-3xl lg:rounded-[40px] shadow-2xl transition-all duration-700">
           <Image 
             src={displayImage} 
             alt={title}
@@ -123,7 +123,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
             sizes="(max-width: 1024px) 100vw, 85vw"
             className="absolute inset-0 object-cover transition-transform duration-1000 group-hover:scale-105"
           />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-8 lg:p-12 flex flex-col justify-end">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-6 md:p-8 lg:p-12 flex flex-col justify-end">
           <div className="mb-4 z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
             <span className="premium-gradient px-4 py-1 rounded-full text-[9px] font-heading font-black uppercase tracking-[0.2em] text-white shadow-[0_0_20px_rgba(255,0,0,0.3)]">
               {categoryName}
@@ -148,7 +148,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   }
 
   return (
-    <div className="group flex flex-col bg-card/40 backdrop-blur-sm rounded-[32px] overflow-hidden border border-white/5 h-full transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_32px_64px_rgba(0,0,0,0.4)] hover:border-primary/10">
+    <div className="group flex flex-col bg-card/40 backdrop-blur-sm rounded-3xl lg:rounded-[32px] overflow-hidden border border-white/5 h-full transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_32px_64px_rgba(0,0,0,0.4)] hover:border-primary/10">
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image 
             src={displayImage} 
@@ -164,7 +164,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           </span>
         </div>
       </div>
-      <div className="p-6 md:p-8 pb-8 flex flex-col flex-grow">
+      <div className="p-5 sm:p-6 md:p-8 pb-6 sm:pb-8 flex flex-col flex-grow">
         <h3 className="text-xl md:text-2xl font-bold text-foreground leading-snug mb-4 group-hover:text-primary transition-all duration-500 line-clamp-2 editorial-heading tracking-tight uppercase">
           <Link href={`/news/${slug}`}>{title}</Link>
         </h3>

@@ -207,7 +207,7 @@ export default function Header() {
                     key={item}
                     href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block py-4 px-4 text-sm font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                    className="block py-5 px-6 text-base font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
                   >
                     {item}
                   </Link>
@@ -218,7 +218,7 @@ export default function Header() {
                 <Link
                   href="/report"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 py-4 px-4 text-sm font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                  className="flex items-center gap-3 py-5 px-6 text-base font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
                 >
                   <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                   Report News
@@ -226,14 +226,14 @@ export default function Header() {
                 <Link
                   href="/about"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-4 px-4 text-sm font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                  className="block py-5 px-6 text-base font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
                 >
                   About
                 </Link>
                 <Link
                   href="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-4 px-4 text-sm font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                  className="block py-5 px-6 text-base font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
                 >
                   Contact
                 </Link>

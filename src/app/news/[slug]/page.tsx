@@ -135,11 +135,11 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
         <FloatingShare url={`${SITE_URL}/news/${slug}`} title={post.title} />
         {trending[0] && <UpNextPeek post={trending[0]} />}
 
-        <article className="pt-24 pb-24 relative overflow-hidden transition-colors duration-500">
+        <article className="pt-20 lg:pt-24 pb-16 lg:pb-24 relative overflow-hidden transition-colors duration-500">
           <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
 
           {/* ── HERO HEADER ─────────────────────────────────────────────────────── */}
-          <div className="relative z-10 pt-16 pb-20">
+          <div className="relative z-10 pt-12 lg:pt-16 pb-16 lg:pb-20">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
               <div className="flex flex-col items-center text-center max-w-5xl mx-auto mb-16 px-4">
                 <div className="mb-8 animate-fade-in">
@@ -151,7 +151,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                 </div>
 
                 <h1 
-                  className="text-3xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 leading-[1.1] tracking-tight uppercase editorial-heading animate-fade-in-up"
+                  className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 leading-[1.1] tracking-tight uppercase editorial-heading animate-fade-in-up"
                 >
                   {post.title}
                 </h1>
@@ -183,7 +183,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
 
               {/* HIGH-IMPACT HERO IMAGE */}
               <div className="max-w-6xl mx-auto animate-fade-in">
-                <div className="relative aspect-video lg:aspect-[21/9] rounded-[48px] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-white/5 group bg-card">
+                <div className="relative aspect-video lg:aspect-[21/9] rounded-3xl lg:rounded-[48px] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-white/5 group bg-card">
                   <img
                     src={displayImage}
                     alt={post.title}
