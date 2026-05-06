@@ -63,6 +63,11 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "NTT",
   },
+  verification: {
+    other: {
+      'msvalidate.01': '4D023AEA285FF0CDAA1ACEB2258129A7',
+    },
+  },
 };
 
 export default function RootLayout({

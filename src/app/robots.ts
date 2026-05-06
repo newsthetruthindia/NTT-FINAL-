@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ntt-final.vercel.app'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
   
   return {
     rules: [
@@ -11,6 +11,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/diagnose/', '/login', '/register', '/forgot-password', '/reset-password'],
       },
     ],
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: [
+        `${siteUrl}/sitemap.xml`,
+        `${siteUrl}/sitemap-news.xml`,
+    ],
   }
 }

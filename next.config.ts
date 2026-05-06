@@ -32,6 +32,14 @@ const nextConfig: NextConfig = {
         destination: '/api/feed/news',
       },
       {
+        source: '/feed/news.xml',
+        destination: '/api/feed/news',
+      },
+      {
+        source: '/feed/syndication.xml',
+        destination: '/api/feed/news',
+      },
+      {
         source: '/sitemap-news.xml',
         destination: '/api/sitemap-news',
       },
