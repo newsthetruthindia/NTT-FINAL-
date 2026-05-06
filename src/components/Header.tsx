@@ -69,8 +69,7 @@ export default function Header() {
           <div className="flex items-center gap-4 xl:gap-8">
             {/* Global Actions Group */}
             <div className="flex items-center gap-4 xl:gap-8">
-              {/* Search Hidden as per user request */}
-              {/* <button
+              <button
                 onClick={() => setIsSearchOpen(true)}
                 className="flex items-center gap-2.5 group/search relative z-50 pointer-events-auto"
                 id="search-trigger-main"
@@ -82,7 +81,7 @@ export default function Header() {
                   </svg>
                 </div>
                 <span className="hidden xl:block text-[10px] font-black uppercase tracking-widest text-foreground/60 group-hover/search:text-primary">Search</span>
-              </button> */}
+              </button>
 
               <Link
                 href="/report"
@@ -212,6 +211,18 @@ export default function Header() {
                     {item}
                   </Link>
                 ))}
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsSearchOpen(true);
+                  }}
+                  className="w-full flex items-center gap-4 py-5 px-6 text-base font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  Search
+                </button>
               </div>
               <div className="h-px bg-border my-6" />
               <div className="space-y-1">
