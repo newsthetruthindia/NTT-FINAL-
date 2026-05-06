@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export const revalidate = 7200 // 2 hours
+export const revalidate = 43200 // 12 hours
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   let slug = '';

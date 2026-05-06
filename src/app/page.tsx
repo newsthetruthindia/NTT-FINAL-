@@ -6,7 +6,7 @@ import VideoGallery from '@/components/VideoGallery'
 import AdBanner from '@/components/AdBanner'
 import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos } from '@/lib/api'
 
-export const revalidate = 7200 // 2 hours (Instant update handled by webhook)
+export const revalidate = 43200 // 12 hours
 
 export default async function Home() {
   let topPosts: any[] = [];
