@@ -133,7 +133,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
         <ArticleTracker postId={post.id} />
         <ReadingProgress />
         <FloatingShare url={`${SITE_URL}/news/${slug}`} title={post.title} />
-        {trending[0] && <UpNextPeek post={trending[0]} />}
+        {highlights[0] && <UpNextPeek post={highlights[0]} />}
 
         <article className="pt-20 lg:pt-24 pb-16 lg:pb-24 relative overflow-hidden transition-colors duration-500">
           <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
