@@ -78,6 +78,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://backend.newsthetruth.com" />
+        <link rel="dns-prefetch" href="https://backend.newsthetruth.com" />
+        <link rel="preconnect" href="https://cdn.onesignal.com" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

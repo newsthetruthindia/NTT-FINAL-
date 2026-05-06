@@ -53,12 +53,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         url: `${SITE_URL}/news/${slug}`,
         type: 'article',
         siteName: 'News The Truth',
+        section: post.categories?.[0]?.cat_data?.title || 'News',
+        publishedTime: post.created_at,
+        authors: [post.reporter_name || 'NTT Editorial Desk'],
       },
       twitter: {
         card: 'summary_large_image',
         title: post.title,
         description: description,
         images: [absoluteImageUrl],
+        creator: '@newsthetruth',
+      },
+      alternates: {
+        canonical: `${SITE_URL}/news/${slug}`,
       },
     };
   } catch {
