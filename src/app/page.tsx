@@ -113,7 +113,7 @@ export default async function Home() {
                 {tags.slice(0, 12).map((tag: any) => tag && tag.id && (
                   <button 
                     key={tag.id} 
-                    className="bg-card hover:bg-primary px-5 py-2 rounded-full text-[11px] font-bold text-foreground/80 hover:text-white border border-border hover:border-primary transition-all duration-300 shadow-sm"
+                    className="bg-card hover:bg-primary px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest text-foreground/80 hover:text-white border border-border hover:border-primary transition-all duration-300 shadow-sm"
                   >
                     <span className="text-primary group-hover:text-white/60 transition-colors mr-1">#</span>
                     {tag.title}
