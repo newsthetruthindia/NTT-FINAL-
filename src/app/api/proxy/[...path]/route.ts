@@ -88,6 +88,7 @@ export async function GET(
     const data = await res.json();
     return NextResponse.json(data, { status: res.ok ? 200 : res.status });
 
+
   } catch (err: any) {
     if (path.startsWith('sponsor/')) {
       return NextResponse.json({ success: false, data: null });
