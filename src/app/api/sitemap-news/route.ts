@@ -8,8 +8,10 @@ export const revalidate = 0;
 
 async function fetchRecentPosts() {
   try {
+    const backendBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
     const res = await fetch(
-      `https://backend.newsthetruth.com/api/posts/latest?limit=50`,
+      `${apiBase}posts/latest?limit=50`,
       { cache: 'no-store', headers: { Accept: 'application/json' } }
     );
     if (!res.ok) return [];

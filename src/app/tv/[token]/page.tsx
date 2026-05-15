@@ -13,7 +13,9 @@ export default function TVMonitor() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch(`https://backend.newsthetruth.com/api/v1/monitor/${token}`);
+                const backendBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+                const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
+                const res = await fetch(`${apiBase}v1/monitor/${token}`);
                 if (!res.ok) throw new Error('Failed to fetch');
                 const json = await res.json();
                 setData(json);

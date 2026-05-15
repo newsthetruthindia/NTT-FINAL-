@@ -3,7 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const apiUrl = `https://backend.newsthetruth.com/api/feed/news`;
+  const backendBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
+  const apiUrl = `${apiBase}feed/news`;
   
   try {
     const res = await fetch(apiUrl, { 

@@ -46,8 +46,10 @@ export async function GET(
   cappedSearchParams.set('limit', String(safeLimit));
   const finalSearchParams = cappedSearchParams.toString();
   
-  // Directly targeting the VPS API via professional subdomain
-  const apiUrl = `https://backend.newsthetruth.com/api/${path}${finalSearchParams ? `?${finalSearchParams}` : ''}`;
+  // Dynamically target the backend based on environment
+  const backendBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
+  const apiUrl = `${apiBase}${path}${finalSearchParams ? `?${finalSearchParams}` : ''}`;
   
   try {
     const forwardHeaders: Record<string, string> = { 'Accept': 'application/json' };
@@ -106,7 +108,9 @@ export async function POST(
   const path = pathArray.join('/');
   const searchParams = request.nextUrl.searchParams.toString();
   
-  const apiUrl = `https://backend.newsthetruth.com/api/${path}${searchParams ? `?${searchParams}` : ''}`;
+  const backendBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
+  const apiUrl = `${apiBase}${path}${searchParams ? `?${searchParams}` : ''}`;
   const body = await request.json();
 
   try {

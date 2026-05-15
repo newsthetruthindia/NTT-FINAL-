@@ -17,7 +17,12 @@ export async function GET(request: NextRequest) {
   }
 
   const cleanPath = path.replace(/^\/+/, '');
-  const BASE_URL = 'https://backend.newsthetruth.com/';
+  
+  // Dynamically determine the base URL (removing the /api suffix if present)
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  const BASE_URL = apiUrl.replace(/\/api\/?$/, '').endsWith('/') 
+    ? apiUrl.replace(/\/api\/?$/, '') 
+    : `${apiUrl.replace(/\/api\/?$/, '')}/`;
 
   // Resolution candidates in order of priority
   const candidates = [

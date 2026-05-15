@@ -78,8 +78,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://backend.newsthetruth.com" />
-        <link rel="dns-prefetch" href="https://backend.newsthetruth.com" />
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') || "http://127.0.0.1:8000"} />
+        <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') || "http://127.0.0.1:8000"} />
         <link rel="preconnect" href="https://cdn.onesignal.com" />
         <script
           dangerouslySetInnerHTML={{

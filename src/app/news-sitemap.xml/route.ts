@@ -5,7 +5,9 @@ const API_URL = 'http://117.252.16.132/api/';
 
 export async function GET() {
   try {
-    const res = await fetch(`https://backend.newsthetruth.com/api/posts/latest?limit=100`, {
+    const backendBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
+    const res = await fetch(`${apiBase}posts/latest?limit=100`, {
       headers: { Accept: 'application/json' },
       next: { revalidate: 1800 }, // Revalidate every 30 minutes
     });
