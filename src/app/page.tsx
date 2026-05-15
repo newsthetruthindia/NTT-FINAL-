@@ -6,7 +6,7 @@ import VideoGallery from '@/components/VideoGallery'
 import AdBanner from '@/components/AdBanner'
 import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos } from '@/lib/api'
 
-export const revalidate = 60 // Temporarily set to 60s to force cache refresh after backend reconnection
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   let topPosts: any[] = [];
