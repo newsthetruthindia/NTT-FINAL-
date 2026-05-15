@@ -47,7 +47,7 @@ export async function GET(
   const finalSearchParams = cappedSearchParams.toString();
   
   // Dynamically target the backend based on environment
-  const backendBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  const backendBase = process.env.NEXT_PUBLIC_API_URL || 'https://backend.newsthetruth.com/api';
   const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
   const apiUrl = `${apiBase}${path}${finalSearchParams ? `?${finalSearchParams}` : ''}`;
   
@@ -108,7 +108,7 @@ export async function POST(
   const path = pathArray.join('/');
   const searchParams = request.nextUrl.searchParams.toString();
   
-  const backendBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  const backendBase = process.env.NEXT_PUBLIC_API_URL || 'https://backend.newsthetruth.com/api';
   const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
   const apiUrl = `${apiBase}${path}${searchParams ? `?${searchParams}` : ''}`;
   const body = await request.json();
