@@ -109,16 +109,32 @@ export default async function Home() {
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/60">Trending Now</span>
               </div>
               
-              <div className="flex-1 overflow-x-auto whitespace-nowrap py-2 flex gap-3 scroll-smooth no-scrollbar select-none">
-                {tags.slice(0, 12).map((tag: any) => tag && tag.id && (
-                  <button 
-                    key={tag.id} 
-                    className="bg-card hover:bg-primary px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest text-foreground/80 hover:text-white border border-border hover:border-primary transition-all duration-300 shadow-sm"
-                  >
-                    <span className="text-primary group-hover:text-white/60 transition-colors mr-1">#</span>
-                    {tag.title}
-                  </button>
-                ))}
+              <div className="flex-1 overflow-hidden py-2 relative flex items-center group">
+                {/* Gradient Masks for smooth fade out at edges */}
+                <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10"></div>
+                
+                <div className="flex gap-3 animate-marquee pl-3">
+                  {tags.slice(0, 12).map((tag: any) => tag && tag.id && (
+                    <button 
+                      key={tag.id} 
+                      className="bg-card hover:bg-primary px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest text-foreground/80 hover:text-white border border-border hover:border-primary transition-all duration-300 shadow-sm shrink-0"
+                    >
+                      <span className="text-primary group-hover:text-white/60 transition-colors mr-1">#</span>
+                      {tag.title}
+                    </button>
+                  ))}
+                  {/* DUPLICATE TAGS FOR SEAMLESS INFINITE MARQUEE */}
+                  {tags.slice(0, 12).map((tag: any) => tag && tag.id && (
+                    <button 
+                      key={`${tag.id}-dup`} 
+                      className="bg-card hover:bg-primary px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest text-foreground/80 hover:text-white border border-border hover:border-primary transition-all duration-300 shadow-sm shrink-0"
+                    >
+                      <span className="text-primary group-hover:text-white/60 transition-colors mr-1">#</span>
+                      {tag.title}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
