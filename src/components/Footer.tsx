@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-950 text-gray-400 py-16 border-t border-gray-800 transition-colors duration-500">
       <div className="container mx-auto px-4 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12">
           <div className="md:col-span-1">
             <span className="text-2xl font-heading font-black tracking-tighter mb-6 block text-white">
               NTT<span className="text-primary">.</span>
@@ -39,17 +39,23 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-heading font-bold uppercase tracking-widest text-xs mb-6 text-white">Support & Policies</h4>
+            <h4 className="font-heading font-bold uppercase tracking-widest text-xs mb-6 text-white">Support</h4>
             <ul className="space-y-4 text-sm">
               <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
+              <li><Link href="/physical-office" className="hover:text-primary transition-colors">Physical Office</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-heading font-bold uppercase tracking-widest text-xs mb-6 text-white">Policies</h4>
+            <ul className="space-y-4 text-sm">
               <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
               <li><Link href="/editorial-policy" className="hover:text-primary transition-colors">Editorial Policy</Link></li>
               <li><Link href="/fact-check-policy" className="hover:text-primary transition-colors">Fact Check Policy</Link></li>
               <li><Link href="/corrections-policy" className="hover:text-primary transition-colors">Corrections Policy</Link></li>
               <li><Link href="/ownership-disclosure" className="hover:text-primary transition-colors">Ownership Disclosure</Link></li>
-              <li><Link href="/journalist-verification" className="hover:text-primary transition-colors">Journalist Verification</Link></li>
-              <li><Link href="/physical-office" className="hover:text-primary transition-colors">Physical Office</Link></li>
+              <li><Link href="/journalist-verification" className="hover:text-primary transition-colors">Journal Verification</Link></li>
             </ul>
           </div>
 

@@ -15,6 +15,13 @@ export default function PhysicalOfficePage() {
             <p>
               While News The Truth operates a decentralized network of journalists across the country, our central operations are based in our physical headquarters.
             </p>
+            <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100 mt-8 mb-8">
+              <h3 className="font-bold text-gray-900 mb-2 uppercase tracking-wide">Mailing & Office Address</h3>
+              <p className="text-gray-700 font-medium">
+                20B ABDUL HAMID STREET<br />
+                KOLKATA 700069
+              </p>
+            </div>
             <p>
               Please reach out to us via our secure Contact or Press Portal for any inquiries. For security reasons, walk-in visits are strictly by appointment only.
             </p>
