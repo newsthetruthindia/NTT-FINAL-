@@ -39,11 +39,17 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-heading font-bold uppercase tracking-widest text-xs mb-6 text-white">Support</h4>
+            <h4 className="font-heading font-bold uppercase tracking-widest text-xs mb-6 text-white">Support & Policies</h4>
             <ul className="space-y-4 text-sm">
               <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
               <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/editorial-policy" className="hover:text-primary transition-colors">Editorial Policy</Link></li>
+              <li><Link href="/fact-check-policy" className="hover:text-primary transition-colors">Fact Check Policy</Link></li>
+              <li><Link href="/corrections-policy" className="hover:text-primary transition-colors">Corrections Policy</Link></li>
+              <li><Link href="/ownership-disclosure" className="hover:text-primary transition-colors">Ownership Disclosure</Link></li>
+              <li><Link href="/journalist-verification" className="hover:text-primary transition-colors">Journalist Verification</Link></li>
+              <li><Link href="/physical-office" className="hover:text-primary transition-colors">Physical Office</Link></li>
             </ul>
           </div>
 
