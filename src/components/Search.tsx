@@ -41,7 +41,7 @@ export default function Search({ isOpen, onClose }: SearchProps) {
     onClose();
   };
 
-  if (!isOpen) return null;
+  // Removed early return so the form stays in the DOM for SEO/crawlers
 
   const popularTags = [
     { label: 'India News', slug: 'india' },
@@ -51,7 +51,7 @@ export default function Search({ isOpen, onClose }: SearchProps) {
   ];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] px-4">
+    <div className={`fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] px-4 transition-all duration-300 ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-background/80 backdrop-blur-2xl animate-in fade-in duration-500"
@@ -73,7 +73,7 @@ export default function Search({ isOpen, onClose }: SearchProps) {
             </button>
           </div>
 
-          <form onSubmit={handleSearch} className="relative">
+          <form action="/search" method="GET" onSubmit={handleSearch} className="relative">
             <div className="absolute left-0 top-1/2 -translate-y-1/2 text-primary">
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -82,6 +82,7 @@ export default function Search({ isOpen, onClose }: SearchProps) {
             <input
               ref={inputRef}
               type="text"
+              name="q"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search reports, topics, or authors..."
