@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import NttImage from '@/components/NttImage';
 import { Post, getImageUrl } from '@/lib/api';
 
 interface NewsCardProps {
@@ -43,7 +43,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
     return (
       <div className="group flex items-center gap-4 p-3 bg-card/40 hover:bg-card/70 backdrop-blur-sm rounded-2xl transition-all duration-500 border border-white/5 hover:border-primary/20 hover:shadow-2xl">
         <div className="w-20 h-20 flex-shrink-0 relative overflow-hidden rounded-xl shadow-inner border border-white/5">
-          <Image 
+          <NttImage 
             src={displayImage} 
             alt={title}
             fill
@@ -70,7 +70,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
     return (
       <div className="group flex flex-col sm:flex-row h-full w-full overflow-hidden rounded-[24px] md:rounded-[32px] bg-card/60 backdrop-blur-sm border border-white/5 hover:border-primary/20 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500">
         <div className="sm:w-[45%] relative overflow-hidden h-[200px] sm:h-auto min-h-[200px]">
-          <Image 
+          <NttImage 
             src={displayImage} 
             alt={title}
             fill
@@ -115,7 +115,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   if (variant === 'hero') {
     return (
       <div className="group relative h-full min-h-[550px] lg:min-h-[650px] w-full overflow-hidden rounded-3xl lg:rounded-[40px] shadow-2xl transition-all duration-700">
-          <Image 
+          <NttImage 
             src={displayImage} 
             alt={title}
             fill
@@ -150,7 +150,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   return (
     <div className="group flex flex-col bg-card/40 backdrop-blur-sm rounded-3xl lg:rounded-[32px] overflow-hidden border border-white/5 h-full transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_32px_64px_rgba(0,0,0,0.4)] hover:border-primary/10">
       <div className="relative aspect-[16/10] overflow-hidden">
-        <Image 
+        <NttImage 
             src={displayImage} 
             alt={title}
             fill

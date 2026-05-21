@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
+import NttImage from '@/components/NttImage';
 import { getImageUrl } from '../lib/api';
 
 interface AdBannerProps {
@@ -78,7 +78,7 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
         className={`flex items-center justify-center bg-background/50 relative overflow-hidden ${type === 'banner' ? 'aspect-[4/1] w-full' : 'aspect-square w-full'}`}
       >
          {imageSrc ? (
-           <Image 
+           <NttImage 
             key={ad.id}
             src={imageSrc} 
             alt={ad.name} 

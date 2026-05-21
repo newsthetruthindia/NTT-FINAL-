@@ -5,6 +5,8 @@ import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import StructuredData from "@/components/StructuredData";
 import SplashAd from "@/components/SplashAd";
+import { TickerProvider } from "@/components/TickerProvider";
+import { fetchLatestPosts } from "@/lib/api";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -70,11 +72,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const latest = await fetchLatestPosts(5).catch(() => []);
+  const tickerItems =
+    latest.length > 0
+      ? latest.map((post) => ({
+          title: post.title,
+          href: `/news/${post.slug}`,
+        }))
+      : [{ title: "Latest news from NTT Desk", href: "/" }];
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -144,10 +155,12 @@ export default function RootLayout({
         </a>
         <ThemeProvider>
           <AuthProvider>
-            <div id="main-content">
-              {children}
-            </div>
-            <SplashAd />
+            <TickerProvider items={tickerItems}>
+              <div id="main-content">
+                {children}
+              </div>
+              <SplashAd />
+            </TickerProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

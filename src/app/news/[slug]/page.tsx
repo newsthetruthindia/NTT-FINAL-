@@ -3,7 +3,7 @@ import Script from 'next/script'
 import Header from '../../../components/Header'
 import Footer from '../../../components/Footer'
 import Link from 'next/link'
-import Image from 'next/image'
+import NttImage from '@/components/NttImage'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed'
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 import { notFound } from 'next/navigation'
@@ -170,7 +170,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden bg-primary/10 border border-border shadow-md relative">
                       {post.user?.thumbnails?.url ? (
-                        <Image src={getImageUrl(post.user.thumbnails.url)} alt="" fill sizes="40px" className="object-cover" />
+                        <NttImage src={getImageUrl(post.user.thumbnails.url)} alt="" fill sizes="40px" className="object-cover" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-primary italic text-xs font-black">NTT</div>
                       )}
@@ -187,7 +187,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
               {/* HIGH-IMPACT HERO IMAGE */}
               <div className="max-w-6xl mx-auto animate-fade-in">
                 <div className="relative aspect-video lg:aspect-[21/9] rounded-3xl lg:rounded-[48px] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-white/5 group bg-card">
-                  <Image
+                  <NttImage
                     src={displayImage}
                     alt={post.title}
                     fill
@@ -293,7 +293,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                 <div className="flex flex-col md:flex-row gap-8 items-start">
                   <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-primary/10 border-4 border-background shadow-xl flex-shrink-0 relative">
                     {post.user.thumbnails?.url ? (
-                      <Image src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} fill sizes="128px" className="object-cover" />
+                      <NttImage src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} fill sizes="128px" className="object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-4xl font-black text-primary bg-primary/5">
                         {reporterName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'NTT'}

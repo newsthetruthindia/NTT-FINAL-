@@ -4,7 +4,8 @@ import withSerwistInit from "@serwist/next";
 const withSerwist = withSerwistInit({
   swSrc: "src/sw.ts",
   swDest: "public/sw.js",
-  disable: process.env.NODE_ENV === "development", // Only run SW in production
+  // PWA service worker duplicates CDN traffic on Vercel free tier
+  disable: process.env.NODE_ENV === "development" || process.env.VERCEL === "1",
 });
 
 const nextConfig: NextConfig = {
@@ -15,8 +16,9 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    // VPS optimizes uploads; Vercel _next/image breaks /api/media redirects (400).
+    // NEVER remove unoptimized — Vercel image transforms exhaust the free tier (5K/mo).
     unoptimized: true,
+    minimumCacheTTL: 86400,
     remotePatterns: [
       { protocol: 'http', hostname: '117.252.16.132' },
       { protocol: 'https', hostname: '117.252.16.132' },

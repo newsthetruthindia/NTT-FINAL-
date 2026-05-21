@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export const revalidate = 3600;
+export const revalidate = 7200;
 
 // Google News Sitemap — only articles from the last 48 hours are eligible
 // Reference: https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap

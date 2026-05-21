@@ -11,7 +11,8 @@ export default function SplashAd() {
   const [adContent, setAdContent] = useState<any>(null);
 
   useEffect(() => {
-    // Fetch active splash ad from the API
+    if (pathname !== '/') return;
+
     const fetchAd = async () => {
       try {
         const res = await fetch('/api/proxy/sponsor/splash');
@@ -43,7 +44,7 @@ export default function SplashAd() {
     };
 
     fetchAd();
-  }, []);
+  }, [pathname]);
 
   const isAuthPage = pathname?.includes('/login') || pathname?.includes('/register') || pathname?.includes('/report');
   if (!isOpen || !adContent || isAuthPage) return null;

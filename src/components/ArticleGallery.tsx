@@ -1,7 +1,7 @@
 'use client';
 
 import { getImageUrl } from '@/lib/api';
-import Image from 'next/image';
+import NttImage from '@/components/NttImage';
 import { useState } from 'react';
 
 interface GalleryImage {
@@ -43,7 +43,7 @@ export default function ArticleGallery({ images }: ArticleGalleryProps) {
                             }`}
                             onClick={() => setActiveImage(url)}
                         >
-                            <Image
+                            <NttImage
                                 src={url}
                                 alt={img.cat_data?.alt || 'Gallery image'}
                                 fill
@@ -71,7 +71,7 @@ export default function ArticleGallery({ images }: ArticleGalleryProps) {
                         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </button>
                     <div className="relative w-full h-full max-w-6xl max-h-[85vh]">
-                        <Image
+                        <NttImage
                             src={activeImage}
                             alt="Lightbox view"
                             fill

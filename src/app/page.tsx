@@ -6,7 +6,7 @@ import VideoGallery from '@/components/VideoGallery'
 import AdBanner from '@/components/AdBanner'
 import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos } from '@/lib/api'
 
-export const revalidate = 3600
+export const revalidate = 7200
 
 export default async function Home() {
   let topPosts: any[] = [];

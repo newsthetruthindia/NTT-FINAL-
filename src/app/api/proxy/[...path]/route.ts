@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const EDGE_CACHE_SECONDS = 600;
+const EDGE_CACHE_SECONDS = 1800;
 
 // Public read endpoints safe to cache at the edge (cuts CPU + origin transfer).
 const CACHEABLE_GET = [

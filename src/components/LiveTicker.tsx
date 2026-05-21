@@ -2,48 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { fetchLatestPosts } from '@/lib/api';
-
-type TickerItem = { title: string; href: string };
-
-const FALLBACK: TickerItem[] = [
-  { title: 'Loading latest news from NTT Desk...', href: '/' },
-];
+import { useTickerItems } from './TickerProvider';
 
 export default function LiveTicker() {
-  const [items, setItems] = useState<TickerItem[]>(FALLBACK);
+  const items = useTickerItems();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    let cancelled = false;
-
-    const loadHeadlines = async () => {
-      const posts = await fetchLatestPosts(5);
-      if (cancelled || posts.length === 0) return;
-
-      setItems(
-        posts.map((post) => ({
-          title: post.title,
-          href: `/news/${post.slug}`,
-        }))
-      );
-      setCurrentIndex(0);
-    };
-
-    loadHeadlines();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
     if (items.length <= 1) return;
-
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % items.length);
     }, 5000);
-
     return () => clearInterval(timer);
   }, [items.length]);
 
