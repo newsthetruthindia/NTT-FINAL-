@@ -13,13 +13,19 @@ type NttImageProps = {
 
 const PLACEHOLDER = '/placeholder-news.jpg';
 
-function storageFallbackSrc(src: string): string | null {
-  if (!src.includes('backend.newsthetruth.com/')) return null;
-  if (src.includes('/storage/')) return null;
-  return src.replace(
-    'backend.newsthetruth.com/',
-    'backend.newsthetruth.com/storage/'
-  );
+function fallbackSrc(src: string): string | null {
+  if (src.includes('/api/media?')) return null;
+  if (src.includes('backend.newsthetruth.com/') && !src.includes('/storage/')) {
+    return src.replace(
+      'backend.newsthetruth.com/',
+      'backend.newsthetruth.com/storage/'
+    );
+  }
+  const match = src.match(/uploads\/[^?#]+/);
+  if (match) {
+    return `/api/media?path=${encodeURIComponent(match[0])}`;
+  }
+  return null;
 }
 
 /** Native img — never uses Vercel Image Optimization (free-tier safe) */
@@ -37,9 +43,9 @@ export default function NttImage({
   const handleError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const img = e.currentTarget;
     if (img.dataset.fallback === 'done') return;
-    const altSrc = storageFallbackSrc(img.src);
-    if (altSrc && img.dataset.fallback !== 'storage') {
-      img.dataset.fallback = 'storage';
+    const altSrc = fallbackSrc(img.src);
+    if (altSrc && img.dataset.fallback !== 'retry') {
+      img.dataset.fallback = 'retry';
       img.src = altSrc;
       return;
     }

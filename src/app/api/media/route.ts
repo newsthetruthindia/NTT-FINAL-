@@ -24,11 +24,10 @@ export async function GET(request: NextRequest) {
     ? apiUrl.replace(/\/api\/?$/, '') 
     : `${apiUrl.replace(/\/api\/?$/, '')}/`;
 
-  // Try storage/ first for uploads/* — many legacy files only exist under storage/uploads/
-  const candidates =
-    cleanPath.startsWith('uploads/') || cleanPath.startsWith('public/uploads/')
-      ? [`${BASE_URL}storage/${cleanPath}`, `${BASE_URL}${cleanPath}`]
-      : [`${BASE_URL}${cleanPath}`, `${BASE_URL}storage/${cleanPath}`];
+  const candidates = [
+    `${BASE_URL}${cleanPath}`,
+    `${BASE_URL}storage/${cleanPath}`,
+  ];
 
   // For uploads/media/, we specifically check both because of backend inconsistency
   // (Recent files are direct, older files are in storage alias)
