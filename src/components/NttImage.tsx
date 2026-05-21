@@ -1,3 +1,5 @@
+'use client';
+
 type NttImageProps = {
   src: string;
   alt: string;
@@ -8,6 +10,17 @@ type NttImageProps = {
   width?: number;
   height?: number;
 };
+
+const PLACEHOLDER = '/placeholder-news.jpg';
+
+function storageFallbackSrc(src: string): string | null {
+  if (!src.includes('backend.newsthetruth.com/')) return null;
+  if (src.includes('/storage/')) return null;
+  return src.replace(
+    'backend.newsthetruth.com/',
+    'backend.newsthetruth.com/storage/'
+  );
+}
 
 /** Native img — never uses Vercel Image Optimization (free-tier safe) */
 export default function NttImage({
@@ -21,6 +34,19 @@ export default function NttImage({
 }: NttImageProps) {
   const loading = priority ? 'eager' : 'lazy';
 
+  const handleError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    if (img.dataset.fallback === 'done') return;
+    const altSrc = storageFallbackSrc(img.src);
+    if (altSrc && img.dataset.fallback !== 'storage') {
+      img.dataset.fallback = 'storage';
+      img.src = altSrc;
+      return;
+    }
+    img.dataset.fallback = 'done';
+    img.src = PLACEHOLDER;
+  };
+
   if (fill) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
@@ -30,6 +56,7 @@ export default function NttImage({
         className={`${className} absolute inset-0 h-full w-full`}
         loading={loading}
         decoding="async"
+        onError={handleError}
       />
     );
   }
@@ -44,6 +71,7 @@ export default function NttImage({
       className={className}
       loading={loading}
       decoding="async"
+      onError={handleError}
     />
   );
 }

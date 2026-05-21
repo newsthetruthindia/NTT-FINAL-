@@ -209,7 +209,17 @@ export const getImageUrl = (path?: any) => {
   }
 
   const cleanPath = path.replace(/^\/+/, '');
-  return `${MEDIA_BASE}/${cleanPath}`;
+
+  // Older VPS files live under storage/uploads/... — direct /uploads/... often returns HTML.
+  // The media resolver HEAD-checks both locations and redirects to the real file.
+  return `/api/media?path=${encodeURIComponent(cleanPath)}`;
+};
+
+/** Absolute URL for Open Graph / RSS (same resolver, full site origin) */
+export const getAbsoluteImageUrl = (path?: string) => {
+  const url = getImageUrl(path);
+  if (url.startsWith('http')) return url;
+  return `${SITE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
 };
 
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
