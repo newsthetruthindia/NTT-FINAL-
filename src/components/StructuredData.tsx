@@ -1,34 +1,36 @@
 import React from 'react';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
+
 export default function StructuredData() {
   const organizationData = {
-    "@context": "https://schema.org",
-    "@type": "NewsMediaOrganization",
-    "name": "NTT",
-    "url": "https://newsthetruth.com",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://ntt-final.vercel.app/icon-512.png"
+    '@context': 'https://schema.org',
+    '@type': 'NewsMediaOrganization',
+    name: 'NTT',
+    url: SITE_URL,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE_URL}/icon-512.png`,
     },
-    "sameAs": [
-      "https://facebook.com/newsthetruth india",
-      "https://twitter.com/newsthetruth"
-    ]
+    sameAs: [
+      'https://www.facebook.com/newsthetruthindia',
+      'https://twitter.com/newsthetruth',
+    ],
   };
 
   const webSiteData = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "NTT",
-    "url": "https://ntt-final.vercel.app",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://ntt-final.vercel.app/search?q={search_term_string}"
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'NTT',
+    url: SITE_URL,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
       },
-      "query-input": "required name=search_term_string"
-    }
+      'query-input': 'required name=search_term_string',
+    },
   };
 
   return (

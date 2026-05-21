@@ -1,6 +1,10 @@
 // Version: 1.1.7 - Media Resolver Proxy
 // We use a Next.js catch-all route as a proxy to handle complex paths and query params
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
+const MEDIA_BASE = (
+  process.env.NEXT_PUBLIC_MEDIA_URL ||
+  (process.env.NEXT_PUBLIC_API_URL || 'https://backend.newsthetruth.com/api').replace(/\/api\/?$/, '')
+).replace(/\/$/, '');
 const API_BASE = '/api/proxy/';
 let INTERNAL_API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend.newsthetruth.com/api/';
 if (!INTERNAL_API_URL.endsWith('/')) INTERNAL_API_URL += '/';
@@ -70,7 +74,8 @@ export interface Post {
 
 const handleResponse = (json: any) => {
   if (!json) return [];
-  
+  if (json.success === false) return [];
+
   // 1. Handle paginated structure { data: { data: [...] } }
   if (json?.data?.data && Array.isArray(json.data.data)) return json.data.data;
   // 2. Handle wrapped structure { data: [...] } OR { news: [...] } etc
@@ -195,17 +200,13 @@ export const fetchVideos = async (): Promise<Video[]> => {
 
 export const getImageUrl = (path?: any) => {
   if (!path || typeof path !== 'string') return '/placeholder-news.jpg';
-  
-  // If it's already a full URL, return it as is
+
   if (path.startsWith('http')) {
     return path;
   }
-  
+
   const cleanPath = path.replace(/^\/+/, '');
-  
-  // We use our specialized media resolver to handle inconsistent backend paths
-  // (Some files require /storage/ prefix, others are served directly)
-  return `/api/media?path=${encodeURIComponent(cleanPath)}`;
+  return `${MEDIA_BASE}/${cleanPath}`;
 };
 
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
