@@ -5,7 +5,7 @@ import { fetchUserById, fetchPostsByUserId, getImageUrl } from '@/lib/api'
 import { notFound } from 'next/navigation'
 import ReporterAvatar from './ReporterAvatar'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 export default async function ReporterProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;

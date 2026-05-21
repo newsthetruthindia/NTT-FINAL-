@@ -6,7 +6,7 @@ import ArchiveTeamBanner from '@/components/ArchiveTeamBanner';
 import ReporterGrid from '@/components/ReporterGrid';
 import { fetchArchiveSummary, fetchActiveReporters } from '@/lib/api';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export default async function ArchiveLandingPage() {
   // Fetch dynamic data for the archive

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 86400;
 
 /**
  * Media Resolver API
@@ -45,7 +45,10 @@ export async function GET(request: NextRequest) {
       contentType?.startsWith('image/') || contentType === 'application/octet-stream';
     
     if (res1.ok && isImage(res1.headers.get('content-type'))) {
-      return NextResponse.redirect(candidates[0], { status: 302 });
+      return NextResponse.redirect(candidates[0], {
+        status: 302,
+        headers: { 'Cache-Control': 'public, max-age=86400, s-maxage=86400' },
+      });
     }
 
     // Try the second candidate
@@ -56,7 +59,10 @@ export async function GET(request: NextRequest) {
     });
     
     if (res2.ok && isImage(res2.headers.get('content-type'))) {
-      return NextResponse.redirect(candidates[1], { status: 302 });
+      return NextResponse.redirect(candidates[1], {
+        status: 302,
+        headers: { 'Cache-Control': 'public, max-age=86400, s-maxage=86400' },
+      });
     }
 
     // If both fail, redirect to local placeholder

@@ -1,18 +1,17 @@
 import { NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 3600;
 
 // Google News Sitemap — only articles from the last 48 hours are eligible
 // Reference: https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap
 
 async function fetchRecentPosts() {
   try {
-    const backendBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const backendBase = process.env.NEXT_PUBLIC_API_URL || 'https://backend.newsthetruth.com/api';
     const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
     const res = await fetch(
       `${apiBase}posts/latest?limit=50`,
-      { cache: 'no-store', headers: { Accept: 'application/json' } }
+      { next: { revalidate: 3600 }, headers: { Accept: 'application/json' } }
     );
     if (!res.ok) return [];
     const json = await res.json();

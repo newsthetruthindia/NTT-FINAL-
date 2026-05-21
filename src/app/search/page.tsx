@@ -3,6 +3,8 @@ import Footer from '@/components/Footer';
 import NewsCard from '@/components/NewsCard';
 import { searchPosts } from '@/lib/api';
 
+export const revalidate = 3600;
+
 export default async function SearchPage({
   searchParams,
 }: {

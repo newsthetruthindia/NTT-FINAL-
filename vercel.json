@@ -3,6 +3,35 @@
   "framework": "nextjs",
   "cleanUrls": true,
   "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/api/proxy/posts/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/api/proxy/post/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/api/proxy/sponsor/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=600, stale-while-revalidate=86400"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/sitemap-news.xml",

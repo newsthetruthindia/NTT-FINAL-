@@ -1,5 +1,8 @@
 // Version: 1.1.7 - Media Resolver Proxy
 // We use a Next.js catch-all route as a proxy to handle complex paths and query params
+/** Shared ISR window — 60s caused 178K+ ISR writes/month on Vercel free tier */
+export const API_REVALIDATE = 3600;
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
 const MEDIA_BASE = (
   process.env.NEXT_PUBLIC_MEDIA_URL ||
@@ -97,7 +100,7 @@ const handleResponse = (json: any) => {
 export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/latest?limit=${limit}`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -112,7 +115,7 @@ export const fetchLatestPosts = async (limit = 10): Promise<Post[]> => {
 export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/top?limit=${limit}`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -125,7 +128,7 @@ export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
 
 export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
   const res = await fetch(`${API_URL}post/${slug}`, { 
-    next: { revalidate: 60 },
+    next: { revalidate: API_REVALIDATE },
     headers: { 'Accept': 'application/json' }
   });
   if (!res.ok) return null;
@@ -136,7 +139,7 @@ export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
 export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any> => {
   try {
     const res = await fetch(`${API_URL}posts/category/${slug}?limit=${limit}`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -150,7 +153,7 @@ export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any>
 export const fetchCategories = async (): Promise<any[]> => {
   try {
     const res = await fetch(`${API_URL}categories`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -164,7 +167,7 @@ export const fetchCategories = async (): Promise<any[]> => {
 export const fetchTags = async (): Promise<any[]> => {
   try {
     const res = await fetch(`${API_URL}tags`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -187,7 +190,7 @@ export interface Video {
 export const fetchVideos = async (): Promise<Video[]> => {
   try {
     const res = await fetch(`${API_URL}videos`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -212,7 +215,7 @@ export const getImageUrl = (path?: any) => {
 export const searchPosts = async (query: string, limit = 20): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/search?q=${encodeURIComponent(query)}&limit=${limit}`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -227,7 +230,7 @@ export const searchPosts = async (query: string, limit = 20): Promise<Post[]> =>
 export const fetchArchivePosts = async (date: string, limit = 20): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/archive?date=${date}&limit=${limit}`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -242,7 +245,7 @@ export const fetchArchivePosts = async (date: string, limit = 20): Promise<Post[
 export const fetchUserById = async (userId: number): Promise<any> => {
   try {
     const res = await fetch(`${API_URL}user/${userId}`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return null;
@@ -256,7 +259,7 @@ export const fetchUserById = async (userId: number): Promise<any> => {
 export const fetchPostsByUserId = async (userId: number, limit = 100): Promise<Post[]> => {
   try {
     const res = await fetch(`${API_URL}posts/user/${userId}?limit=${limit}`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -270,7 +273,7 @@ export const fetchPostsByUserId = async (userId: number, limit = 100): Promise<P
 export const fetchActiveReporters = async (): Promise<any[]> => {
   try {
     const res = await fetch(`${API_URL}reporters`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return [];
@@ -284,7 +287,7 @@ export const fetchActiveReporters = async (): Promise<any[]> => {
 export const fetchArchiveSummary = async (): Promise<any | null> => {
   try {
     const res = await fetch(`${API_URL}archive/stats`, { 
-      next: { revalidate: 60 },
+      next: { revalidate: API_REVALIDATE },
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return null;

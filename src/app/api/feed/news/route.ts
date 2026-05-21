@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 1800;
 
 export async function GET() {
-  const backendBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  const backendBase = process.env.NEXT_PUBLIC_API_URL || 'https://backend.newsthetruth.com/api';
   const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
   const apiUrl = `${apiBase}feed/news`;
   
   try {
     const res = await fetch(apiUrl, { 
-      cache: 'no-store',
+      next: { revalidate: 1800 },
       headers: { 'Accept': 'application/xml' },
     });
     
@@ -23,7 +23,7 @@ export async function GET() {
       status: 200,
       headers: { 
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=600'
+        'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=86400'
       }
     });
 

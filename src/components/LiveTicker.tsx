@@ -31,11 +31,9 @@ export default function LiveTicker() {
     };
 
     loadHeadlines();
-    const refresh = setInterval(loadHeadlines, 5 * 60 * 1000);
 
     return () => {
       cancelled = true;
-      clearInterval(refresh);
     };
   }, []);
 

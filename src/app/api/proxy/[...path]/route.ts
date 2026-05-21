@@ -1,22 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
+const EDGE_CACHE_SECONDS = 600;
 
-// SECURITY: Paths that require authentication to proxy.
-// These contain PII or admin-level data and must not be forwarded
-// unless the request includes a valid Bearer token.
-const AUTH_REQUIRED_PATHS = [
-  /^user\/\d+$/,      // /api/user/{id} — exposes PII, salaries, 2FA secrets
-  /^users/,           // any /api/users/* route
-  /^auth\/logout/,    // logout must be authed
+// Public read endpoints safe to cache at the edge (cuts CPU + origin transfer).
+const CACHEABLE_GET = [
+  /^posts\//,
+  /^post\//,
+  /^categories\/?$/,
+  /^tags\/?$/,
+  /^videos\/?$/,
+  /^reporters\/?$/,
+  /^archive\/stats\/?$/,
+  /^sponsor\//,
+  /^poll\/active\/?$/,
 ];
 
-// SECURITY: Paths that are completely blocked (admin/internal endpoints)
+const AUTH_REQUIRED_PATHS = [
+  /^user\/\d+$/,
+  /^users/,
+  /^auth\/logout/,
+];
+
 const BLOCKED_PATHS = [
   /^admin/,
   /^filament/,
   /^\.well-known/,
 ];
+
+function isCacheablePublicGet(path: string, hasAuth: boolean): boolean {
+  if (hasAuth) return false;
+  return CACHEABLE_GET.some((pattern) => pattern.test(path));
+}
+
+function cacheControlHeader(): string {
+  return `public, s-maxage=${EDGE_CACHE_SECONDS}, stale-while-revalidate=86400`;
+}
 
 export async function GET(
   request: NextRequest,
@@ -26,70 +44,68 @@ export async function GET(
   const pathArray = resolvedParams.path;
   const path = pathArray.join('/');
   const searchParams = request.nextUrl.searchParams.toString();
-  
-  // SECURITY: Block admin/internal paths entirely
-  if (BLOCKED_PATHS.some(r => r.test(path))) {
+
+  if (BLOCKED_PATHS.some((r) => r.test(path))) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  // SECURITY: Require auth header for sensitive user data paths
   const authHeader = request.headers.get('Authorization');
-  if (AUTH_REQUIRED_PATHS.some(r => r.test(path)) && !authHeader) {
+  if (AUTH_REQUIRED_PATHS.some((r) => r.test(path)) && !authHeader) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  // SECURITY: Cap the limit param to prevent DoS via forced memory exhaustion
   const url = new URL(request.url);
   const rawLimit = parseInt(url.searchParams.get('limit') || '20');
   const safeLimit = Math.min(isNaN(rawLimit) ? 20 : rawLimit, 50);
   const cappedSearchParams = new URLSearchParams(searchParams);
   cappedSearchParams.set('limit', String(safeLimit));
   const finalSearchParams = cappedSearchParams.toString();
-  
-  // Dynamically target the backend based on environment
+
   const backendBase = process.env.NEXT_PUBLIC_API_URL || 'https://backend.newsthetruth.com/api';
   const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
   const apiUrl = `${apiBase}${path}${finalSearchParams ? `?${finalSearchParams}` : ''}`;
-  
-  try {
-    const forwardHeaders: Record<string, string> = { 'Accept': 'application/json' };
-    if (authHeader) forwardHeaders['Authorization'] = authHeader;
+  const cacheable = isCacheablePublicGet(path, !!authHeader);
 
-    const res = await fetch(apiUrl, { 
-      cache: 'no-store',
-      headers: forwardHeaders,
-    });
-    
+  try {
+    const forwardHeaders: Record<string, string> = { Accept: 'application/json' };
+    if (authHeader) forwardHeaders.Authorization = authHeader;
+
+    const res = await fetch(
+      apiUrl,
+      cacheable
+        ? { next: { revalidate: EDGE_CACHE_SECONDS }, headers: forwardHeaders }
+        : { cache: 'no-store', headers: forwardHeaders }
+    );
+
     const contentType = res.headers.get('content-type') || '';
-    
-    // Support XML for RSS feeds
+
     if (contentType.includes('application/xml') || contentType.includes('text/xml')) {
       const xmlData = await res.text();
       return new NextResponse(xmlData, {
         status: res.status,
-        headers: { 'Content-Type': contentType }
+        headers: {
+          'Content-Type': contentType,
+          ...(cacheable ? { 'Cache-Control': cacheControlHeader() } : {}),
+        },
       });
     }
 
-    // If backend returns a non-JSON response (HTML error page / redirect), return safe fallback
     if (!contentType.includes('application/json')) {
-      // For sponsor/ad endpoints, return empty success to prevent frontend crashes
       if (path.startsWith('sponsor/')) {
         return NextResponse.json({ success: false, data: null });
       }
-      // For single-resource endpoints, return null data
       if (path.includes('user/') || path.includes('post/')) {
         return NextResponse.json({ success: false, data: null });
       }
       return NextResponse.json({ success: true, data: [], items: [] });
     }
 
-    // Backend returned JSON — pass it through as-is (even if {}, 404, etc.)
     const data = await res.json();
-    return NextResponse.json(data, { status: res.ok ? 200 : res.status });
-
-
-  } catch (err: any) {
+    return NextResponse.json(data, {
+      status: res.ok ? 200 : res.status,
+      headers: cacheable ? { 'Cache-Control': cacheControlHeader() } : undefined,
+    });
+  } catch {
     if (path.startsWith('sponsor/')) {
       return NextResponse.json({ success: false, data: null });
     }
@@ -108,7 +124,7 @@ export async function POST(
   const pathArray = resolvedParams.path;
   const path = pathArray.join('/');
   const searchParams = request.nextUrl.searchParams.toString();
-  
+
   const backendBase = process.env.NEXT_PUBLIC_API_URL || 'https://backend.newsthetruth.com/api';
   const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
   const apiUrl = `${apiBase}${path}${searchParams ? `?${searchParams}` : ''}`;
@@ -117,18 +133,20 @@ export async function POST(
   try {
     const res = await fetch(apiUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      cache: 'no-store',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(body),
     });
-    
+
     const contentType = res.headers.get('content-type');
     if (!res.ok || (contentType && !contentType.includes('application/json'))) {
-        return NextResponse.json({ error: 'Backend error' }, { status: res.status });
+      return NextResponse.json({ error: 'Backend error' }, { status: res.status });
     }
 
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Request failed';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -5,6 +5,8 @@ import CalendarArchive from '@/components/CalendarArchive';
 import ArchiveTeamBanner from '@/components/ArchiveTeamBanner';
 import { fetchArchivePosts } from '@/lib/api';
 
+export const revalidate = 3600;
+
 export default async function ArchiveDatePage({
   params,
 }: {
