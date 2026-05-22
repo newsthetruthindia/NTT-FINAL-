@@ -214,12 +214,20 @@ export const getImageUrl = (path?: any) => {
   //  - 1 Function Invocation per image (326K/1M used)
   //  - CPU time (7h57m/4h — 2x over free tier)
   //  - ~100-300ms redirect latency per image (improves LCP)
-  if (
-    cleanPath.startsWith('uploads/') ||
-    cleanPath.startsWith('storage/') ||
-    cleanPath.startsWith('media/')
-  ) {
-    return `${MEDIA_BASE}/storage/${cleanPath.replace(/^storage\//, '')}`;
+  //
+  // VPS path rules (confirmed via HEAD checks):
+  //   uploads/media/...  → backend.newsthetruth.com/uploads/media/...    (direct, NO /storage/ prefix)
+  //   storage/uploads/...→ backend.newsthetruth.com/uploads/...          (strip storage/ prefix)
+  //   media/...          → backend.newsthetruth.com/uploads/media/...    (add uploads/ prefix)
+  if (cleanPath.startsWith('uploads/')) {
+    return `${MEDIA_BASE}/${cleanPath}`;
+  }
+  if (cleanPath.startsWith('storage/')) {
+    // Strip the storage/ prefix — VPS serves directly at /uploads/...
+    return `${MEDIA_BASE}/${cleanPath.replace(/^storage\//, '')}`;
+  }
+  if (cleanPath.startsWith('media/')) {
+    return `${MEDIA_BASE}/uploads/${cleanPath}`;
   }
 
   // Fallback: use the media resolver for ambiguous paths
