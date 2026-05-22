@@ -5,15 +5,6 @@
   "trailingSlash": false,
   "headers": [
     {
-      "source": "/((?!api|_next).*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, s-maxage=1800, stale-while-revalidate=86400"
-        }
-      ]
-    },
-    {
       "source": "/api/proxy/posts/:path*",
       "headers": [
         {

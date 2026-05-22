@@ -6,7 +6,9 @@ import VideoGallery from '@/components/VideoGallery'
 import AdBanner from '@/components/AdBanner'
 import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos } from '@/lib/api'
 
-export const revalidate = 7200
+// On-demand revalidation ONLY — no time-based ISR.
+// Page updates when backend calls POST /api/revalidate after publishing.
+export const revalidate = false
 
 export default async function Home() {
   let topPosts: any[] = [];
