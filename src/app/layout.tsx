@@ -1,17 +1,26 @@
 import type { Metadata } from "next";
 import { Poppins, League_Spartan } from "next/font/google";
+import Script from "next/script";
+import dynamic from "next/dynamic";
 import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import StructuredData from "@/components/StructuredData";
-import SplashAd from "@/components/SplashAd";
 import { TickerProvider } from "@/components/TickerProvider";
 import { fetchLatestPosts } from "@/lib/api";
 
+// Lazy-load SplashAd — it only shows on homepage after 1.5s delay anyway.
+// Loading it eagerly wastes CPU + bandwidth on every page navigation.
+// Note: No { ssr: false } needed — SplashAd is 'use client' with useEffect guard.
+const SplashAd = dynamic(() => import("@/components/SplashAd"));
+
+// Reduced from 7 weights (300-900) to 4 weights (400,600,700,800).
+// Eliminates 3 font file downloads (~30-50KB on mobile).
+// Saves: Origin Transfer (11.03GB / 10GB exceeded) + faster LCP.
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "600", "700", "800"],
   display: 'swap',
 });
 
@@ -91,7 +100,7 @@ export default async function RootLayout({
       <head>
         <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') || "https://backend.newsthetruth.com"} />
         <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') || "https://backend.newsthetruth.com"} />
-        <link rel="preconnect" href="https://cdn.onesignal.com" />
+        {/* Theme init — must run synchronously before paint to prevent FOUC */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -108,9 +117,22 @@ export default async function RootLayout({
             `,
           }}
         />
-        {/* OneSignal Web Push SDK */}
-        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer />
-        <script
+        <StructuredData />
+      </head>
+      <body
+        className={`${poppins.variable} ${leagueSpartan.variable} antialiased`}
+      >
+        {/* OneSignal Web Push SDK — loaded with lazyOnload strategy.
+            Previously loaded with <script defer>, which competed with hero image
+            for bandwidth. lazyOnload defers to after page is fully interactive.
+            Saves: CPU time + bandwidth for initial load. */}
+        <Script
+          src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
+          strategy="lazyOnload"
+        />
+        <Script
+          id="onesignal-init"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -142,11 +164,6 @@ export default async function RootLayout({
             `,
           }}
         />
-        <StructuredData />
-      </head>
-      <body
-        className={`${poppins.variable} ${leagueSpartan.variable} antialiased`}
-      >
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-primary focus:text-white focus:rounded-full focus:text-sm focus:font-bold focus:shadow-lg"

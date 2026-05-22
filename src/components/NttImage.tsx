@@ -9,6 +9,8 @@ type NttImageProps = {
   sizes?: string;
   width?: number;
   height?: number;
+  /** Optional aspect ratio (e.g. "16/10") to reserve space and prevent CLS */
+  aspectRatio?: string;
 };
 
 const PLACEHOLDER = '/placeholder-news.jpg';
@@ -28,7 +30,8 @@ function fallbackSrc(src: string): string | null {
   return null;
 }
 
-/** Native img — never uses Vercel Image Optimization (free-tier safe) */
+/** Native img — never uses Vercel Image Optimization (free-tier safe).
+ *  Adds fetchpriority="high" for LCP-critical images when priority=true. */
 export default function NttImage({
   src,
   alt,
@@ -37,6 +40,7 @@ export default function NttImage({
   priority,
   width,
   height,
+  aspectRatio,
 }: NttImageProps) {
   const loading = priority ? 'eager' : 'lazy';
 
@@ -53,6 +57,9 @@ export default function NttImage({
     img.src = PLACEHOLDER;
   };
 
+  // fetchPriority tells the browser to prioritize the LCP image over other resources
+  const fetchPriorityValue = priority ? 'high' : undefined;
+
   if (fill) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
@@ -62,6 +69,8 @@ export default function NttImage({
         className={`${className} absolute inset-0 h-full w-full`}
         loading={loading}
         decoding="async"
+        // @ts-ignore — fetchPriority is a valid HTML attribute, TS types lag behind
+        fetchPriority={fetchPriorityValue}
         onError={handleError}
       />
     );
@@ -75,8 +84,11 @@ export default function NttImage({
       width={width}
       height={height}
       className={className}
+      style={aspectRatio ? { aspectRatio } : undefined}
       loading={loading}
       decoding="async"
+      // @ts-ignore
+      fetchPriority={fetchPriorityValue}
       onError={handleError}
     />
   );

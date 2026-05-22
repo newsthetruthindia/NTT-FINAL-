@@ -204,14 +204,25 @@ export const fetchVideos = async (): Promise<Video[]> => {
 export const getImageUrl = (path?: any) => {
   if (!path || typeof path !== 'string') return '/placeholder-news.jpg';
 
-  if (path.startsWith('http')) {
-    return path;
-  }
+  // Already a full URL — pass through directly
+  if (path.startsWith('http')) return path;
 
   const cleanPath = path.replace(/^\/+/, '');
 
-  // Older VPS files live under storage/uploads/... — direct /uploads/... often returns HTML.
-  // The media resolver HEAD-checks both locations and redirects to the real file.
+  // Direct VPS paths — resolve immediately to backend URL.
+  // This skips the /api/media proxy function, saving:
+  //  - 1 Function Invocation per image (326K/1M used)
+  //  - CPU time (7h57m/4h — 2x over free tier)
+  //  - ~100-300ms redirect latency per image (improves LCP)
+  if (
+    cleanPath.startsWith('uploads/') ||
+    cleanPath.startsWith('storage/') ||
+    cleanPath.startsWith('media/')
+  ) {
+    return `${MEDIA_BASE}/storage/${cleanPath.replace(/^storage\//, '')}`;
+  }
+
+  // Fallback: use the media resolver for ambiguous paths
   return `/api/media?path=${encodeURIComponent(cleanPath)}`;
 };
 

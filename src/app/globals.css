@@ -48,7 +48,23 @@
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+}
+
+/* Theme transitions — ONLY on elements that need smooth dark/light switching.
+   The old * { transition } rule applied to every DOM element (hundreds!),
+   causing CLS micro-shifts and degrading INP on every interaction. */
+body,
+header,
+main,
+footer,
+nav,
+.bg-card,
+.bg-background,
+.glass-card,
+.section-header {
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.3s ease;
 }
 
 html,

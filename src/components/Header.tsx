@@ -1,12 +1,16 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useState, useEffect, useRef } from 'react';
-import Search from './Search';
 import LanguageToggle from './LanguageToggle';
 import ThemeToggle from './ThemeToggle';
 import LiveTicker from './LiveTicker';
 import { useAuth } from './AuthProvider';
+
+// Lazy-load Search — heavy overlay modal, only needed when user clicks search.
+// Saves CPU + hydration time on every page load (reduces INP).
+const Search = dynamic(() => import('./Search'), { ssr: false });
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
