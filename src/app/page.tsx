@@ -4,7 +4,7 @@ import NewsCard from '@/components/NewsCard'
 import Newsletter from '@/components/Newsletter'
 import VideoGallery from '@/components/VideoGallery'
 import AdBanner from '@/components/AdBanner'
-import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos, getImageUrl } from '@/lib/api'
+import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos } from '@/lib/api'
 
 export const revalidate = 7200
 
@@ -62,17 +62,10 @@ export default async function Home() {
   // Trending sidebar: Shows the next 5 stories in the queue.
   const trendingPosts = latestPosts.filter(p => p.id !== heroId).slice(0, 5);
 
-  // Preload the hero image — tells browser to start downloading the LCP image
-  // BEFORE it parses the React component tree. Directly fixes LCP > 2.5s.
-  const heroImageUrl = heroPost ? getImageUrl(heroPost.thumbnails?.url) : null;
+
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
-      {/* LCP preload — highest priority image download */}
-      {heroImageUrl && heroImageUrl !== '/placeholder-news.jpg' && (
-        // @ts-ignore — fetchpriority is valid HTML
-        <link rel="preload" as="image" href={heroImageUrl} fetchPriority="high" />
-      )}
       <Header />
       
       <div className="pt-[130px]">

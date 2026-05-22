@@ -131,13 +131,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
     };
 
     return (
-      <main className="min-h-screen bg-background" data-deploy-v="newsroom-2.3">
-        {/* LCP Preload — starts downloading the hero image BEFORE React renders
-            the component tree. This is the #1 fix for the 218-URL LCP >2.5s issue. */}
-        {displayImage && displayImage !== '/placeholder-news.jpg' && (
-          // @ts-ignore — fetchpriority is valid HTML
-          <link rel="preload" as="image" href={displayImage} fetchPriority="high" />
-        )}
+      <main className="min-h-screen bg-background" data-deploy-v="newsroom-2.4">
         <Header />
         <ArticleTracker postId={post.id} />
         <ReadingProgress />

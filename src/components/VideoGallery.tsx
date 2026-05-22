@@ -1,22 +1,41 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { fetchVideos } from '@/lib/api';
-
+import { useState, useEffect, useCallback } from 'react';
 import { Video } from '@/lib/api';
 
 interface VideoGalleryProps {
   videos: Video[];
 }
 
+/**
+ * VideoGallery — YouTube Spotlight section.
+ *
+ * Performance notes:
+ * - The featured video uses a click-to-play facade: shows a static thumbnail
+ *   until the user clicks, THEN loads the YouTube iframe (~1MB JS).
+ * - All playlist thumbnails use loading="lazy" + decoding="async" so they
+ *   never appear as <link rel="preload"> in <head>.
+ * - Previously this component caused ~92 <link rel="preload" as="image"> tags
+ *   in the HTML head, all competing with the hero image for bandwidth.
+ */
 export default function VideoGallery({ videos }: VideoGalleryProps) {
   const [activeVideo, setActiveVideo] = useState<Video | null>(videos[0] || null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     if (videos.length > 0 && !activeVideo) {
       setActiveVideo(videos[0]);
     }
   }, [videos]);
+
+  const handlePlayClick = useCallback(() => {
+    setIsPlaying(true);
+  }, []);
+
+  const handleVideoSelect = useCallback((video: Video) => {
+    setActiveVideo(video);
+    setIsPlaying(false); // Reset to facade when switching videos
+  }, []);
 
   if (videos.length === 0) return null;
 
@@ -46,18 +65,47 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Featured Video */}
+          {/* Featured Video — click-to-play facade pattern */}
           <div className="lg:col-span-8 group">
             <div className="relative aspect-video rounded-2xl md:rounded-[32px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black">
               {activeVideo ? (
-                <iframe 
-                  key={activeVideo.youtube_id}
-                  src={`https://www.youtube.com/embed/${activeVideo.youtube_id}?rel=0&modestbranding=1&autoplay=0`}
-                  className="w-full h-full"
-                  title={activeVideo.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe>
+                isPlaying ? (
+                  /* Actual YouTube iframe — only loaded after user clicks play */
+                  <iframe 
+                    key={activeVideo.youtube_id}
+                    src={`https://www.youtube.com/embed/${activeVideo.youtube_id}?rel=0&modestbranding=1&autoplay=1`}
+                    className="w-full h-full"
+                    title={activeVideo.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  /* Facade — static thumbnail + play button (no iframe JS loaded) */
+                  <button
+                    onClick={handlePlayClick}
+                    className="w-full h-full relative cursor-pointer group/play"
+                    aria-label={`Play ${activeVideo.title}`}
+                  >
+                    {/* Use hqdefault for the featured video — good quality, small size */}
+                    <img
+                      src={`https://img.youtube.com/vi/${activeVideo.youtube_id}/hqdefault.jpg`}
+                      alt={activeVideo.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    {/* Dark overlay */}
+                    <div className="absolute inset-0 bg-black/30 group-hover/play:bg-black/40 transition-colors" />
+                    {/* Play button */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/90 flex items-center justify-center shadow-[0_0_40px_rgba(255,26,26,0.5)] group-hover/play:scale-110 transition-transform duration-300">
+                        <svg className="w-8 h-8 md:w-10 md:h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </button>
+                )
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-white/20">
                   <span className="animate-pulse font-black uppercase tracking-widest text-xs">Loading Spotlight...</span>
@@ -66,7 +114,7 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
             </div>
             <div className="mt-6 md:mt-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
                 <div className="flex-1">
-                    <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 border border-primary/20">Playing Now</span>
+                    <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 border border-primary/20">{isPlaying ? 'Playing Now' : 'Click to Play'}</span>
                     <h3 className="text-2xl md:text-3xl font-black text-white group-hover:text-primary transition-colors leading-[1.2]">{activeVideo?.title}</h3>
                 </div>
                 <a 
@@ -81,7 +129,7 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
             </div>
           </div>
 
-          {/* Playlist - Strictly Fixed Height to match video */}
+          {/* Playlist - All thumbnails lazy-loaded */}
           <div className="lg:col-span-4 flex flex-col max-h-[600px]">
             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 border-b border-white/10 pb-4 mb-6 flex items-center justify-between">
               Latest Stories
@@ -92,11 +140,19 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
               {videos.map((video) => (
                 <button 
                   key={video.id} 
-                  onClick={() => setActiveVideo(video)}
+                  onClick={() => handleVideoSelect(video)}
                   className={`flex items-center gap-4 p-3 rounded-2xl w-full text-left transition-all group ${activeVideo?.id === video.id ? 'bg-primary/20 border-primary/30 ring-1 ring-primary/20' : 'hover:bg-white/5 border-transparent'} border`}
                 >
                   <div className="w-24 md:w-28 aspect-video rounded-xl overflow-hidden shrink-0 border border-white/10 bg-gray-900 relative">
-                    <img src={`https://img.youtube.com/vi/${video.youtube_id}/mqdefault.jpg`} alt="" className={`w-full h-full object-cover transition-all duration-500 ${activeVideo?.id === video.id ? 'grayscale-0 scale-110' : 'grayscale group-hover:grayscale-0'}`} />
+                    {/* loading="lazy" + decoding="async" prevents these from
+                        appearing as <link rel="preload"> in <head> */}
+                    <img
+                      src={`https://img.youtube.com/vi/${video.youtube_id}/mqdefault.jpg`}
+                      alt=""
+                      className={`w-full h-full object-cover transition-all duration-500 ${activeVideo?.id === video.id ? 'grayscale-0 scale-110' : 'grayscale group-hover:grayscale-0'}`}
+                      loading="lazy"
+                      decoding="async"
+                    />
                     {activeVideo?.id === video.id && (
                         <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
                             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center animate-pulse">
