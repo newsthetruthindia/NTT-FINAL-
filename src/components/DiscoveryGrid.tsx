@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { getImageUrl, Post } from '../lib/api';
+import NttImage from './NttImage';
 
 interface DiscoveryGridProps {
   related: Post[];
@@ -45,10 +46,12 @@ function DiscoverySection({ title, subtitle, data, accentColor = 'text-foregroun
             className="group flex flex-col bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500"
           >
             <div className="relative aspect-video overflow-hidden bg-card">
-              <img
+              <NttImage
                 src={getImageUrl(post.thumbnails?.url)}
                 alt={post.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               {post.categories?.[0]?.cat_data?.title && (
                 <div className="absolute top-3 left-3">

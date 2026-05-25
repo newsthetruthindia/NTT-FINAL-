@@ -202,32 +202,29 @@ export const fetchVideos = async (): Promise<Video[]> => {
 };
 
 export const getImageUrl = (path?: any) => {
-  if (!path || typeof path !== 'string') return '/placeholder-news.jpg';
+  if (!path || typeof path !== 'string' || path.trim() === '' || path === 'null') return '/placeholder-news.jpg';
 
   // Already a full URL — pass through directly
   if (path.startsWith('http')) return path;
 
-  const cleanPath = path.replace(/^\/+/, '');
+  let cleanPath = path.replace(/^\/+/, '');
+  
+  if (cleanPath.startsWith('public/')) {
+    cleanPath = cleanPath.replace(/^public\//, '');
+  }
 
   // Direct VPS paths — resolve immediately to backend URL.
-  // This skips the /api/media proxy function, saving:
-  //  - 1 Function Invocation per image (326K/1M used)
-  //  - CPU time (7h57m/4h — 2x over free tier)
-  //  - ~100-300ms redirect latency per image (improves LCP)
-  //
-  // VPS path rules (confirmed via HEAD checks):
-  //   uploads/media/...  → backend.newsthetruth.com/uploads/media/...    (direct, NO /storage/ prefix)
-  //   storage/uploads/...→ backend.newsthetruth.com/uploads/...          (strip storage/ prefix)
-  //   media/...          → backend.newsthetruth.com/uploads/media/...    (add uploads/ prefix)
   if (cleanPath.startsWith('uploads/')) {
-    return `${MEDIA_BASE}/${cleanPath}`;
+    return `${MEDIA_BASE}/storage/${cleanPath}`;
   }
   if (cleanPath.startsWith('storage/')) {
-    // Strip the storage/ prefix — VPS serves directly at /uploads/...
-    return `${MEDIA_BASE}/${cleanPath.replace(/^storage\//, '')}`;
+    return `${MEDIA_BASE}/${cleanPath}`;
   }
   if (cleanPath.startsWith('media/')) {
-    return `${MEDIA_BASE}/uploads/${cleanPath}`;
+    return `${MEDIA_BASE}/storage/uploads/${cleanPath}`;
+  }
+  if (cleanPath.startsWith('v1/')) {
+    return `${MEDIA_BASE}/${cleanPath}`;
   }
 
   // Fallback: use the media resolver for ambiguous paths
@@ -317,6 +314,20 @@ export const fetchArchiveSummary = async (): Promise<any | null> => {
   try {
     const res = await fetch(`${API_URL}archive/stats`, { 
       next: { revalidate: API_REVALIDATE },
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data ?? null;
+  } catch {
+    return null;
+  }
+};
+
+export const fetchActivePoll = async (): Promise<any | null> => {
+  try {
+    const res = await fetch(`${API_URL}polls/active`, { 
+      next: { revalidate: 60 }, // Polls update more frequently
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return null;
