@@ -1,7 +1,7 @@
 // Version: 1.1.7 - Media Resolver Proxy
 // We use a Next.js catch-all route as a proxy to handle complex paths and query params
-/** Shared ISR window — keep ≥1h on Vercel free tier (60s caused 178K ISR writes/mo) */
-export const API_REVALIDATE = 7200;
+/** Shared ISR window — keep ≥1h on Vercel free tier (60s caused 178K ISR writes/mo). Now on Pro plan, safely set to 60s. */
+export const API_REVALIDATE = 60;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
 const MEDIA_BASE = (
