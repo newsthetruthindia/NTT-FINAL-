@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getImageUrl } from '../lib/api';
 
+import NttImage from '@/components/NttImage';
+
 interface UpNextPeekProps {
   post: {
     title: string;
@@ -50,11 +52,12 @@ export default function UpNextPeek({ post }: UpNextPeekProps) {
       <div className="p-6">
         <span className="text-[9px] font-black text-primary uppercase tracking-[0.2em] mb-3 block">Coming Up Next</span>
         <div className="flex gap-4">
-          <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 border border-white/5">
-            <img 
+          <div className="relative w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 border border-white/5">
+            <NttImage 
               src={getImageUrl(post.thumbnails?.url)}
               alt={post.title}
-              className="w-full h-full object-cover"
+              className="object-cover"
+              fill
             />
           </div>
           <div className="flex flex-col justify-center">
