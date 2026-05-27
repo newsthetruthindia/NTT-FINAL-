@@ -7,14 +7,14 @@ interface PollOption {
   id: number;
   poll_id: number;
   option_text: string;
-  votes_count: number;
+  vote_count: number;
 }
 
 interface Poll {
   id: number;
   title: string;
   options: PollOption[];
-  votes_count: number;
+  total_votes: number;
 }
 
 export default function PollWidget({ initialPoll }: { initialPoll: Poll | null }) {
@@ -53,13 +53,13 @@ export default function PollWidget({ initialPoll }: { initialPoll: Poll | null }
         // Optimistically update vote counts
         const updatedOptions = poll.options.map(opt => {
           if (opt.id === selectedOption) {
-            return { ...opt, votes_count: opt.votes_count + 1 };
+            return { ...opt, vote_count: opt.vote_count + 1 };
           }
           return opt;
         });
         setPoll({
           ...poll,
-          votes_count: poll.votes_count + 1,
+          total_votes: poll.total_votes + 1,
           options: updatedOptions
         });
       } else {
@@ -84,8 +84,8 @@ export default function PollWidget({ initialPoll }: { initialPoll: Poll | null }
 
       <div className="space-y-3 relative z-10">
         {poll.options.map((option) => {
-          const percentage = poll.votes_count > 0 
-            ? Math.round((option.votes_count / poll.votes_count) * 100) 
+          const percentage = poll.total_votes > 0 
+            ? Math.round((option.vote_count / poll.total_votes) * 100) 
             : 0;
 
           return (
@@ -150,7 +150,7 @@ export default function PollWidget({ initialPoll }: { initialPoll: Poll | null }
       
       {voted && (
         <div className="mt-5 text-center text-xs font-bold text-foreground/50 uppercase tracking-widest">
-          Total Votes: {poll.votes_count}
+          Total Votes: {poll.total_votes}
         </div>
       )}
     </div>
