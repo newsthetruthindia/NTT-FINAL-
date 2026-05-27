@@ -81,7 +81,7 @@ export default async function ReporterProfilePage({ params }: { params: Promise<
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-16">
             <div>
               <h2 className="text-3xl font-black text-foreground tracking-tighter uppercase mb-1">
-                Story Archive <span>({posts.length})</span>
+                Story Archive <span>({user.posts_count ?? posts.length})</span>
               </h2>
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground/40">
                 Arranged from most recent to oldest
