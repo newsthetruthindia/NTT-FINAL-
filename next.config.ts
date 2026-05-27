@@ -16,8 +16,6 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    // NEVER remove unoptimized — Vercel image transforms exhaust the free tier (5K/mo).
-    unoptimized: true,
     minimumCacheTTL: 86400,
     remotePatterns: [
       { protocol: 'http', hostname: '117.252.16.132' },

@@ -1,5 +1,8 @@
 'use client';
 
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+
 type NttImageProps = {
   src: string;
   alt: string;
@@ -30,66 +33,73 @@ function fallbackSrc(src: string): string | null {
   return null;
 }
 
-/** Native img — never uses Vercel Image Optimization (free-tier safe).
- *  Adds fetchpriority="high" for LCP-critical images when priority=true. */
+/** 
+ * Upgraded to use official Next.js Image Optimization.
+ * Vercel Pro Plan active: 5,000 source images allowed.
+ */
 export default function NttImage({
   src,
   alt,
   className = '',
   fill,
   priority,
+  sizes,
   width,
   height,
   aspectRatio,
 }: NttImageProps) {
-  const loading = priority ? 'eager' : 'lazy';
+  const [imgSrc, setImgSrc] = useState(src);
+  const [hasError, setHasError] = useState(false);
 
-  const handleError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = e.currentTarget;
-    if (img.dataset.fallback === 'done') return;
-    const altSrc = fallbackSrc(img.src);
-    if (altSrc && img.dataset.fallback !== 'retry') {
-      img.dataset.fallback = 'retry';
-      img.src = altSrc;
-      return;
+  // Sync state if src prop changes
+  useEffect(() => {
+    setImgSrc(src);
+    setHasError(false);
+  }, [src]);
+
+  const handleError = () => {
+    if (hasError) {
+        setImgSrc(PLACEHOLDER);
+        return;
     }
-    img.dataset.fallback = 'done';
-    img.src = PLACEHOLDER;
+    const altSrc = fallbackSrc(imgSrc);
+    if (altSrc) {
+        setImgSrc(altSrc);
+        setHasError(true);
+    } else {
+        setImgSrc(PLACEHOLDER);
+        setHasError(true);
+    }
   };
 
-  // fetchPriority tells the browser to prioritize the LCP image over other resources
-  const fetchPriorityValue = priority ? 'high' : undefined;
+  const style = aspectRatio ? { aspectRatio } : undefined;
 
   if (fill) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={src}
-        alt={alt}
-        className={`${className} absolute inset-0 h-full w-full`}
-        loading={loading}
-        decoding="async"
-        // @ts-ignore — fetchPriority is a valid HTML attribute, TS types lag behind
-        fetchPriority={fetchPriorityValue}
+      <Image
+        src={imgSrc || PLACEHOLDER}
+        alt={alt || ''}
+        className={className}
+        fill
+        priority={priority}
+        sizes={sizes || "100vw"}
         onError={handleError}
+        style={style}
       />
     );
   }
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
+    <Image
+      src={imgSrc || PLACEHOLDER}
+      alt={alt || ''}
+      width={width || 500}
+      height={height || 300}
       className={className}
-      style={aspectRatio ? { aspectRatio } : undefined}
-      loading={loading}
-      decoding="async"
-      // @ts-ignore
-      fetchPriority={fetchPriorityValue}
+      priority={priority}
+      sizes={sizes}
       onError={handleError}
+      style={style}
     />
   );
 }
