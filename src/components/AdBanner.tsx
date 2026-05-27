@@ -75,7 +75,7 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
         href={ad.link_url} 
         target="_blank" 
         rel="noopener noreferrer"
-        className={`flex items-center justify-center bg-background/50 relative overflow-hidden ${type === 'banner' ? 'h-32 md:h-48 w-full' : 'h-64 w-full'}`}
+        className={`flex items-center justify-center bg-background/50 relative overflow-hidden ${type === 'banner' ? 'aspect-[4/1] w-full' : 'aspect-square w-full'}`}
       >
          {imageSrc ? (
            <NttImage 
