@@ -4,7 +4,9 @@ import NewsCard from '@/components/NewsCard'
 import Newsletter from '@/components/Newsletter'
 import VideoGallery from '@/components/VideoGallery'
 import AdBanner from '@/components/AdBanner'
-import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos } from '@/lib/api'
+import PollWidget from '@/components/PollWidget'
+import { preload } from 'react-dom'
+import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos, fetchActivePoll, getImageUrl } from '@/lib/api'
 
 // On-demand revalidation ONLY — no time-based ISR.
 // Page updates when backend calls POST /api/revalidate after publishing.
@@ -22,6 +24,7 @@ export default async function Home() {
   let yourTruthPosts: any[] = [];
   let politicsPosts: any[] = [];
   let statePosts: any[] = [];
+  let activePoll: any = null;
 
   try {
     const results = await Promise.all([
@@ -36,6 +39,7 @@ export default async function Home() {
       fetchCategoryPosts('your-truth', 4).catch(() => []),
       fetchCategoryPosts('politics', 4).catch(() => []),
       fetchCategoryPosts('bengal', 4).catch(() => []),
+      fetchActivePoll().catch(() => null),
     ]);
 
     topPosts = results[0] || [];
@@ -49,6 +53,7 @@ export default async function Home() {
     yourTruthPosts = results[8] || [];
     politicsPosts = results[9] || [];
     statePosts = results[10] || [];
+    activePoll = results[11] || null;
 
     // All fetches now parallelized
   } catch (err) {
@@ -60,6 +65,13 @@ export default async function Home() {
   // SIMPLE HERO LOGIC: The absolute latest story always takes the top spot automatically.
   const heroPost = latestPosts?.[0] || null;
   const heroId = heroPost?.id;
+
+  if (heroPost) {
+    const heroImgUrl = getImageUrl(heroPost.thumbnails?.url);
+    if (heroImgUrl) {
+      preload(heroImgUrl, { as: 'image', fetchPriority: 'high' });
+    }
+  }
 
   // Trending sidebar: Shows the next 5 stories in the queue.
   const trendingPosts = latestPosts.filter(p => p.id !== heroId).slice(0, 5);
@@ -90,6 +102,11 @@ export default async function Home() {
             </div>
             
             <div className="lg:col-span-4 flex flex-col gap-4">
+              {activePoll && (
+                <div className="mb-4">
+                  <PollWidget initialPoll={activePoll} />
+                </div>
+              )}
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-xs font-black uppercase tracking-[0.2em] text-foreground border-l-4 border-primary pl-3">Trending Now</h4>
               </div>
@@ -197,8 +214,8 @@ export default async function Home() {
           )}
 
           {/* Native Feed Ad */}
-          <section className="px-4 md:px-8 max-w-7xl mx-auto w-full">
-             <AdBanner />
+          <section className="w-full my-8">
+             <AdBanner className="!rounded-none !border-x-0" />
           </section>
 
           {/* Featured: The Exclusive Truth */}

@@ -52,12 +52,12 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
     fetchAds();
   }, [type]);
 
-  // Rotate ads every 6 seconds if there are multiple
+  // Rotate ads every 3.5 seconds if there are multiple
   useEffect(() => {
     if (ads.length <= 1) return;
     const interval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % ads.length);
-    }, 6000);
+    }, 3500);
     return () => clearInterval(interval);
   }, [ads.length]);
 
