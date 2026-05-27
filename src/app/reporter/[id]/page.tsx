@@ -24,7 +24,7 @@ export default async function ReporterProfilePage({ params }: { params: Promise<
   const fullName = `${user.firstname} ${user.lastname || ''}`.trim();
   const avatarUrl = getImageUrl(user.thumbnails?.url);
   const designation = user.details?.designation || 'News Reporter';
-  const bio = user.details?.bio || `Senior reporter covering critical stories for News The Truth.`;
+  const bio = user.details?.bio || `Dedicated reporter covering critical stories for News The Truth.`;
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
