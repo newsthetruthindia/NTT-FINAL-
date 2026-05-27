@@ -214,8 +214,8 @@ export default async function Home() {
           )}
 
           {/* Native Feed Ad */}
-          <section className="w-full my-8">
-             <AdBanner className="!rounded-none !border-x-0" />
+          <section className="px-4 md:px-8 max-w-7xl mx-auto w-full my-8">
+             <AdBanner />
           </section>
 
           {/* Featured: The Exclusive Truth */}
