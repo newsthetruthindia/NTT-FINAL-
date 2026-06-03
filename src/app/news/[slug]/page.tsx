@@ -147,7 +147,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
           <div className="relative z-10 pt-12 lg:pt-16 pb-16 lg:pb-20">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
               <div className="flex flex-col items-center text-center max-w-5xl mx-auto mb-16 px-4">
-                <div className="mb-8 animate-fade-in">
+                <div className="mb-8">
                   <Link href={`/category/${categorySlug}`}>
                     <span className="premium-gradient px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.3em] shadow-xl text-white hover:scale-105 transition-transform inline-block">
                       {categoryTitle}
@@ -156,19 +156,19 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                 </div>
 
                 <h1 
-                  className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 leading-[1.1] tracking-tight uppercase editorial-heading animate-fade-in-up"
+                  className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 leading-[1.1] tracking-tight uppercase editorial-heading"
                 >
                   {post.title}
                 </h1>
 
                 {/* PREMIUM SUBTITLE / EXCERPT LINE */}
                 {(post.subtitle || post.excerpt) && (
-                  <h2 className="text-lg md:text-xl font-medium text-foreground/70 mb-10 leading-relaxed max-w-3xl border-l-4 border-primary pl-6 animate-fade-in delay-200">
+                  <h2 className="text-lg md:text-xl font-medium text-foreground/70 mb-10 leading-relaxed max-w-3xl border-l-4 border-primary pl-6">
                     {post.subtitle || post.excerpt}
                   </h2>
                 )}
 
-                <div className="flex flex-wrap items-center justify-center gap-6 text-foreground/40 text-[11px] font-black uppercase tracking-[0.2em] animate-fade-in">
+                <div className="flex flex-wrap items-center justify-center gap-6 text-foreground/40 text-[11px] font-black uppercase tracking-[0.2em]">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden bg-primary/10 border border-border shadow-md relative">
                       {post.user?.thumbnails?.url ? (
@@ -187,7 +187,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
               </div>
 
               {/* HIGH-IMPACT HERO IMAGE */}
-              <div className="max-w-6xl mx-auto animate-fade-in">
+              <div className="max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-[21/9] rounded-3xl lg:rounded-[48px] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-white/5 group bg-card">
                   <NttImage
                     src={displayImage}
