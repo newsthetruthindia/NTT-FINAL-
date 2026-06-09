@@ -22,6 +22,7 @@ import DiscoveryGrid from '../../../components/DiscoveryGrid'
 import ArticleGallery from '../../../components/ArticleGallery'
 import ArticleTracker from '../../../components/ArticleTracker'
 import PollWidget from '../../../components/PollWidget'
+import DOMPurify from 'isomorphic-dompurify'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 export const revalidate = 43200 // 12 hours
@@ -235,12 +236,12 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                   <>
                     <div
                       className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
-                      dangerouslySetInnerHTML={{ __html: before }}
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(before, { USE_PROFILES: { html: true } }) }}
                     />
                     <ArticleGallery images={post.gallery} />
                     <div
                       className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
-                      dangerouslySetInnerHTML={{ __html: after }}
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(after, { USE_PROFILES: { html: true } }) }}
                     />
                   </>
                 );
@@ -249,7 +250,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
               <>
                 <div
                   className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
-                  dangerouslySetInnerHTML={{ __html: processedContent }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(processedContent, { USE_PROFILES: { html: true } }) }}
                 />
                 {/* ARTICLE GALLERY (AFTER POSITION) */}
                 {post.gallery && post.gallery.length > 0 && post.gallery_position !== 'middle' && (
@@ -362,7 +363,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
         <Header />
         <div className="pt-32 text-center text-red-500 px-8">
           <h1 className="text-4xl font-black mb-4">Something went wrong</h1>
-          <p className="text-lg opacity-60">{err?.message || 'Unknown error'}</p>
+          <p className="text-lg opacity-60">We encountered an issue loading this article. Please try again later.</p>
         </div>
         <Footer />
       </main>

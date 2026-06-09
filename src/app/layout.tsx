@@ -158,7 +158,6 @@ export default async function RootLayout({
                       'dialog.main.button.unsubscribe': 'Unsubscribe',
                     }
                   },
-                  allowLocalhostAsSecureOrigin: true,
                 });
               });
             `,
