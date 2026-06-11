@@ -22,7 +22,7 @@ import DiscoveryGrid from '../../../components/DiscoveryGrid'
 import ArticleGallery from '../../../components/ArticleGallery'
 import ArticleTracker from '../../../components/ArticleTracker'
 import PollWidget from '../../../components/PollWidget'
-import DOMPurify from 'isomorphic-dompurify'
+import SanitizedContent from '../../../components/SanitizedContent'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 export const revalidate = 43200 // 12 hours
@@ -235,23 +235,23 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                 
                 return (
                   <>
-                    <div
+                    <SanitizedContent
+                      html={before}
                       className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
-                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(before, { USE_PROFILES: { html: true } }) }}
                     />
                     <ArticleGallery images={post.gallery} />
-                    <div
+                    <SanitizedContent
+                      html={after}
                       className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
-                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(after, { USE_PROFILES: { html: true } }) }}
                     />
                   </>
                 );
               })()
             ) : (
               <>
-                <div
+                <SanitizedContent
+                  html={processedContent}
                   className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(processedContent, { USE_PROFILES: { html: true } }) }}
                 />
                 {/* ARTICLE GALLERY (AFTER POSITION) */}
                 {post.gallery && post.gallery.length > 0 && post.gallery_position !== 'middle' && (
