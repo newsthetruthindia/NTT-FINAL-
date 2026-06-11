@@ -81,9 +81,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function NewsDetails({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
+  const post = await fetchPostBySlug(slug);
+  if (!post) notFound();
+
   try {
-    const post = await fetchPostBySlug(slug);
-    if (!post) notFound();
 
     // ── Parallel Fetching for 16-Story Discovery Grid ──────────────────────────
     const categorySlug = post.categories?.[0]?.cat_data?.slug || 'news';

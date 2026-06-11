@@ -58,7 +58,8 @@ export interface Post {
   };
   reporter_name?: string;
   audio_clip_url?: string;
-  subtitle?: string;
+  ai_summary_points?: string[];
+  [key: string]: any;
   image_credit?: string;
   video_url?: string;
   x_embed_url?: string;
@@ -127,13 +128,18 @@ export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
 };
 
 export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
-  const res = await fetch(`${API_URL}post/${slug}`, { 
-    next: { revalidate: API_REVALIDATE },
-    headers: { 'Accept': 'application/json' }
-  });
-  if (!res.ok) return null;
-  const json = await res.json();
-  return json.data;
+  try {
+    const res = await fetch(`${API_URL}post/${slug}`, { 
+      next: { revalidate: API_REVALIDATE },
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data;
+  } catch (error) {
+    console.error("fetchPostBySlug error:", error);
+    return null;
+  }
 };
 
 export const fetchCategoryPosts = async (slug: string, limit = 20): Promise<any> => {
