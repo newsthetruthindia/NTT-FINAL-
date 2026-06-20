@@ -4,9 +4,9 @@ import NewsCard from '@/components/NewsCard'
 import Newsletter from '@/components/Newsletter'
 import VideoGallery from '@/components/VideoGallery'
 import AdBanner from '@/components/AdBanner'
-import PollWidget from '@/components/PollWidget'
+import PollWidgetClient from '@/components/PollWidgetClient'
 import { preload } from 'react-dom'
-import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos, fetchActivePoll, getImageUrl } from '@/lib/api'
+import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos, getImageUrl } from '@/lib/api'
 
 // On-demand revalidation ONLY — no time-based ISR.
 // Page updates when backend calls POST /api/revalidate after publishing.
@@ -24,7 +24,7 @@ export default async function Home() {
   let yourTruthPosts: any[] = [];
   let politicsPosts: any[] = [];
   let statePosts: any[] = [];
-  let activePoll: any = null;
+
 
   try {
     const results = await Promise.all([
@@ -39,7 +39,6 @@ export default async function Home() {
       fetchCategoryPosts('your-truth', 4).catch(() => []),
       fetchCategoryPosts('politics', 4).catch(() => []),
       fetchCategoryPosts('bengal', 4).catch(() => []),
-      fetchActivePoll().catch(() => null),
     ]);
 
     topPosts = results[0] || [];
@@ -53,7 +52,6 @@ export default async function Home() {
     yourTruthPosts = results[8] || [];
     politicsPosts = results[9] || [];
     statePosts = results[10] || [];
-    activePoll = results[11] || null;
 
     // All fetches now parallelized
   } catch (err) {
@@ -102,11 +100,9 @@ export default async function Home() {
             </div>
             
             <div className="lg:col-span-4 flex flex-col gap-4">
-              {activePoll && (
-                <div className="mb-4">
-                  <PollWidget initialPoll={activePoll} />
-                </div>
-              )}
+              <div className="mb-4">
+                <PollWidgetClient />
+              </div>
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-xs font-black uppercase tracking-[0.2em] text-foreground border-l-4 border-primary pl-3">Trending Now</h4>
               </div>

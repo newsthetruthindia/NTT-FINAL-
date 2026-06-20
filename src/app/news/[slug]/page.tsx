@@ -7,7 +7,7 @@ import NttImage from '@/components/NttImage'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed'
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 import { notFound } from 'next/navigation'
-import { fetchPostBySlug, fetchLatestPosts, getImageUrl, fetchCategoryPosts, fetchTopPosts, fetchActivePoll } from '../../../lib/api'
+import { fetchPostBySlug, fetchLatestPosts, getImageUrl, fetchCategoryPosts, fetchTopPosts } from '../../../lib/api'
 import NewsCard from '../../../components/NewsCard'
 import Breadcrumbs from '../../../components/Breadcrumbs'
 import AISummary from '../../../components/AISummary'
@@ -21,7 +21,7 @@ import UpNextPeek from '../../../components/UpNextPeek'
 import DiscoveryGrid from '../../../components/DiscoveryGrid'
 import ArticleGallery from '../../../components/ArticleGallery'
 import ArticleTracker from '../../../components/ArticleTracker'
-import PollWidget from '../../../components/PollWidget'
+import PollWidgetClient from '../../../components/PollWidgetClient'
 import SanitizedContent from '../../../components/SanitizedContent'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
@@ -88,11 +88,10 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
 
     // ── Parallel Fetching for 16-Story Discovery Grid ──────────────────────────
     const categorySlug = post.categories?.[0]?.cat_data?.slug || 'news';
-    const [categoryPosts, topPosts, latestPosts, activePoll] = await Promise.all([
+    const [categoryPosts, topPosts, latestPosts] = await Promise.all([
       fetchCategoryPosts(categorySlug, 10).catch(() => [] as any[]),
       fetchTopPosts(10).catch(() => [] as any[]),
       fetchLatestPosts(10).catch(() => [] as any[]),
-      fetchActivePoll().catch(() => null),
     ]);
 
     // De-duplication: exclude the current article from all sections
@@ -345,7 +344,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
             {/* Sidebar/Article Ad */}
             <div className="mt-12">
               <div className="max-w-md mx-auto space-y-8">
-                {activePoll && <PollWidget initialPoll={activePoll} />}
+                <PollWidgetClient />
                 <AdBanner type="sidebar" />
               </div>
             </div>
