@@ -1,13 +1,24 @@
 'use client';
 
-import { Facebook, Twitter, Linkedin, MessageCircle, Share2 } from 'lucide-react';
-
 interface FloatingShareProps {
   url: string;
   title: string;
+  postId: number;
 }
 
-export default function FloatingShare({ url, title }: FloatingShareProps) {
+export default function FloatingShare({ url, title, postId }: FloatingShareProps) {
+  const handleShare = async () => {
+    try {
+      await fetch(`/api/proxy/posts/track`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ post_id: postId, type: 'share' }),
+      });
+    } catch {
+      // Silent fail
+    }
+  };
+
   const shareLinks = [
     { 
       name: 'Facebook', 
@@ -46,6 +57,7 @@ export default function FloatingShare({ url, title }: FloatingShareProps) {
           <a
             key={link.name}
             href={link.href}
+            onClick={handleShare}
             target="_blank"
             rel="noopener noreferrer"
             className={`w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-foreground/60 transition-all duration-300 ${link.color} hover:text-white hover:scale-110 shadow-lg border border-white/5`}

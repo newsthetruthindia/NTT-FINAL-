@@ -1,17 +1,25 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { 
-  ClipboardIcon,
-  CheckIcon
-} from '@heroicons/react/24/outline';
 
 interface SocialSidebarProps {
   title: string;
   url: string;
+  postId: number;
 }
 
-const SocialSidebar: React.FC<SocialSidebarProps> = ({ title, url }) => {
+const SocialSidebar: React.FC<SocialSidebarProps> = ({ title, url, postId }) => {
+  const handleShare = async () => {
+    try {
+      await fetch(`/api/proxy/posts/track`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ post_id: postId, type: 'share' }),
+      });
+    } catch {
+      // Silent fail
+    }
+  };
   const [copied, setCopied] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -59,6 +67,7 @@ const SocialSidebar: React.FC<SocialSidebarProps> = ({ title, url }) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(url);
     setCopied(true);
+    handleShare();
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -69,6 +78,7 @@ const SocialSidebar: React.FC<SocialSidebarProps> = ({ title, url }) => {
           <a
             key={link.name}
             href={link.href}
+            onClick={handleShare}
             target="_blank"
             rel="noopener noreferrer"
             className={`w-12 h-12 rounded-full flex items-center justify-center text-foreground/50 transition-all duration-300 ${link.color} transform hover:scale-110`}
@@ -83,7 +93,11 @@ const SocialSidebar: React.FC<SocialSidebarProps> = ({ title, url }) => {
           className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${copied ? 'bg-success text-white' : 'text-foreground/50 hover:bg-primary hover:text-white'}`}
           aria-label="Copy link"
         >
-          {copied ? <CheckIcon className="w-5 h-5" /> : <ClipboardIcon className="w-5 h-5" />}
+          {copied ? (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+          ) : (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
+          )}
         </button>
       </div>
     </div>

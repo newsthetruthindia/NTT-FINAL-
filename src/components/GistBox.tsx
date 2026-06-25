@@ -1,5 +1,9 @@
 'use client';
 
+interface GistBoxProps {
+  content?: string;
+}
+
 export default function GistBox({ content }: GistBoxProps) {
   if (!content) return null;
 
