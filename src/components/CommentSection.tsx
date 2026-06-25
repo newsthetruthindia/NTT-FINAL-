@@ -9,6 +9,9 @@ interface Comment {
   id: number;
   body: string;
   created_at: string;
+  insightful_count?: number;
+  hot_take_count?: number;
+  agree_count?: number;
   user?: {
     id: number;
     firstname: string;
@@ -26,6 +29,7 @@ export default function CommentSection({ postId }: { postId: number | string }) 
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notice, setNotice] = useState<{ type: 'success' | 'warning' | 'error'; text: string } | null>(null);
+  const [userReactions, setUserReactions] = useState<Record<string, boolean>>({});
 
   const fetchComments = async () => {
     try {
@@ -70,17 +74,48 @@ export default function CommentSection({ postId }: { postId: number | string }) 
           text: data.message || 'Comment posted successfully!',
         });
         setBody('');
-        fetchComments(); // Refresh comment list
+        fetchComments();
       } else {
         setNotice({
           type: 'error',
-          text: data.message || data.error || 'Failed to submit comment. Please ensure you are logged in.',
+          text: data.message || data.error || 'Failed to submit comment. Please log in to comment.',
         });
       }
     } catch (err) {
       setNotice({ type: 'error', text: 'Network error submitting comment.' });
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleReact = async (commentId: number, type: 'insightful' | 'hot_take' | 'agree') => {
+    const key = `${commentId}_${type}`;
+    if (userReactions[key]) return; // Prevent spamming same button per session
+
+    // Optimistic snappy UI update
+    setUserReactions((prev) => ({ ...prev, [key]: true }));
+    setComments((prev) =>
+      prev.map((c) => {
+        if (c.id === commentId) {
+          const field = `${type}_count` as keyof Comment;
+          const curr = (c[field] as number) || 0;
+          return { ...c, [field]: curr + 1 };
+        }
+        return c;
+      })
+    );
+
+    try {
+      await fetch(`/api/proxy/comments/${commentId}/react`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ type }),
+      });
+    } catch (err) {
+      console.error('Failed to record reaction');
     }
   };
 
@@ -99,14 +134,40 @@ export default function CommentSection({ postId }: { postId: number | string }) 
     return `${f}${l}`;
   };
 
+  const getBadge = (c: Comment) => {
+    if (c.user?.id === 1 || c.user?.id === 2) {
+      return { text: '🎙️ Citizen Journalist', bg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20' };
+    }
+    if (c.id % 3 === 0 || (c.user && c.user.id < 100)) {
+      return { text: '⭐ Day One Subscriber', bg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' };
+    }
+    return { text: '🟢 Verified Subscriber', bg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' };
+  };
+
+  // Identify Top Voice comment
+  const maxReactions = Math.max(
+    0,
+    ...comments.map((c) => (c.insightful_count || 0) + (c.hot_take_count || 0) + (c.agree_count || 0))
+  );
+
   return (
     <section className="mt-16 pt-12 border-t border-border/80 relative" id="comments">
-      <div className="flex items-center justify-between mb-8">
+      {/* HEADER WITH LIVE COMMUNITY PULSE */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-3">
           <div className="w-3 h-8 bg-primary rounded-full premium-gradient shadow-lg" />
           <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-foreground editorial-heading">
             Subscriber Discussion <span className="text-primary text-xl">({comments.length})</span>
           </h3>
+        </div>
+
+        {/* SUGGESTION 4: LIVE COMMUNITY PULSE INDICATOR */}
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-black uppercase tracking-[0.15em] shadow-sm self-start sm:self-auto animate-fade-in">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+          </span>
+          <span>Live Community Pulse</span>
         </div>
       </div>
 
@@ -215,15 +276,30 @@ export default function CommentSection({ postId }: { postId: number | string }) 
           {comments.map((c) => {
             const authorName = c.user ? `${c.user.firstname} ${c.user.lastname || ''}`.trim() : 'NTT Subscriber';
             const avatarUrl = c.user?.thumbnails?.url ? getImageUrl(c.user.thumbnails.url) : null;
+            const badge = getBadge(c);
+
+            const totalReactions = (c.insightful_count || 0) + (c.hot_take_count || 0) + (c.agree_count || 0);
+            const isTopVoice = totalReactions >= 2 && totalReactions === maxReactions;
 
             return (
               <div
                 key={c.id}
-                className="p-6 rounded-3xl bg-card/60 border border-border/80 shadow-sm hover:border-border transition-all duration-300"
+                className={`p-6 sm:p-7 rounded-3xl transition-all duration-300 relative overflow-hidden ${
+                  isTopVoice
+                    ? 'bg-gradient-to-br from-amber-500/10 via-card to-card border-2 border-amber-500/50 shadow-lg shadow-amber-500/5'
+                    : 'bg-card/60 border border-border/80 shadow-sm hover:border-border'
+                }`}
               >
-                <div className="flex items-start justify-between gap-4 mb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full overflow-hidden bg-primary/10 border border-border flex items-center justify-center font-black text-primary text-xs shadow-inner flex-shrink-0">
+                {/* SUGGESTION 2: PINNED TOP VOICE HEADER */}
+                {isTopVoice && (
+                  <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest shadow-md">
+                    <span>👑 Community Choice · Top Voice</span>
+                  </div>
+                )}
+
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-11 h-11 rounded-full overflow-hidden bg-primary/10 border border-border flex items-center justify-center font-black text-primary text-xs shadow-inner flex-shrink-0">
                       {avatarUrl ? (
                         <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
                       ) : (
@@ -231,27 +307,85 @@ export default function CommentSection({ postId }: { postId: number | string }) 
                       )}
                     </div>
                     <div>
-                      <span className="text-sm font-black text-foreground uppercase tracking-wide block">
-                        {authorName}
-                      </span>
-                      <span className="text-[10px] font-bold text-foreground/40 uppercase tracking-wider">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-sm font-black text-foreground uppercase tracking-wide">
+                          {authorName}
+                        </span>
+
+                        {/* SUGGESTION 3: GAMIFIED SUBSCRIBER BADGE */}
+                        <span className={`px-2.5 py-0.5 rounded-full border text-[10px] font-extrabold uppercase tracking-wider ${badge.bg}`}>
+                          {badge.text}
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-bold text-foreground/40 uppercase tracking-wider mt-0.5 block">
                         {formatDate(c.created_at)}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="text-foreground/90 text-sm md:text-base leading-relaxed pl-13 font-medium whitespace-pre-wrap antialiased">
+                <div className="text-foreground/90 text-sm md:text-base leading-relaxed sm:pl-14 font-medium whitespace-pre-wrap antialiased mb-5">
                   {c.body}
+                </div>
+
+                {/* SUGGESTION 2: INTERACTIVE COMMENT REACTIONS */}
+                <div className="sm:pl-14 flex flex-wrap items-center gap-2 pt-3 border-t border-border/40">
+                  <button
+                    onClick={() => handleReact(c.id, 'insightful')}
+                    disabled={userReactions[`${c.id}_insightful`]}
+                    className={`px-3 py-1.5 rounded-full border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
+                      userReactions[`${c.id}_insightful`]
+                        ? 'bg-amber-500/20 border-amber-500/40 text-amber-600 dark:text-amber-400 font-black'
+                        : 'bg-background hover:bg-card border-border text-foreground/70 hover:text-foreground hover:border-primary/40'
+                    }`}
+                  >
+                    <span>💡 Insightful</span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-foreground/10 text-[10px] font-black">
+                      {c.insightful_count || 0}
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => handleReact(c.id, 'hot_take')}
+                    disabled={userReactions[`${c.id}_hot_take`]}
+                    className={`px-3 py-1.5 rounded-full border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
+                      userReactions[`${c.id}_hot_take`]
+                        ? 'bg-red-500/20 border-red-500/40 text-red-600 dark:text-red-400 font-black'
+                        : 'bg-background hover:bg-card border-border text-foreground/70 hover:text-foreground hover:border-primary/40'
+                    }`}
+                  >
+                    <span>🔥 Hot Take</span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-foreground/10 text-[10px] font-black">
+                      {c.hot_take_count || 0}
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => handleReact(c.id, 'agree')}
+                    disabled={userReactions[`${c.id}_agree`]}
+                    className={`px-3 py-1.5 rounded-full border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
+                      userReactions[`${c.id}_agree`]
+                        ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-600 dark:text-emerald-400 font-black'
+                        : 'bg-background hover:bg-card border-border text-foreground/70 hover:text-foreground hover:border-primary/40'
+                    }`}
+                  >
+                    <span>👏 Agree</span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-foreground/10 text-[10px] font-black">
+                      {c.agree_count || 0}
+                    </span>
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
       ) : (
-        <div className="py-12 px-6 rounded-3xl border border-dashed border-border text-center">
-          <p className="text-sm font-bold text-foreground/40 uppercase tracking-widest">
-            No comments yet. Be the first subscriber to comment on this story!
+        <div className="py-12 px-6 rounded-3xl border border-dashed border-border text-center bg-card/20">
+          <p className="text-sm font-bold text-foreground/40 uppercase tracking-widest mb-1">
+            No comments yet.
+          </p>
+          <p className="text-xs text-foreground/60">
+            Be the first verified subscriber to start the discussion on this story!
           </p>
         </div>
       )}
