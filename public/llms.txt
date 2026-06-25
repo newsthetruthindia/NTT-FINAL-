@@ -1,0 +1,24 @@
+# NTT (News The Truth)
+
+> Independent, State-of-the-Art Investigative Journalism Platform covering India, World, Politics, and breaking news.
+
+## Core Sections
+
+- [Latest News](https://newsthetruth.com/): Real-time breaking news and top stories
+- [India News](https://newsthetruth.com/category/india): National news and policy analysis
+- [World News](https://newsthetruth.com/category/world): Global affairs and international reporting
+- [Politics](https://newsthetruth.com/category/politics): Political developments and governance
+- [Archive](https://newsthetruth.com/archive): Historical article search and directory
+- [Reporters & Editorial Desk](https://newsthetruth.com/reporter): Our verified newsroom journalists
+
+## API & AI Feeds
+
+- [News Sitemap](https://newsthetruth.com/sitemap-news.xml): XML sitemap for recent news articles
+- [Main Sitemap](https://newsthetruth.com/sitemap.xml): Full site index
+
+## Editorial & Trust Policies
+
+- [Editorial Policy](https://newsthetruth.com/editorial-policy)
+- [Fact-Check Policy](https://newsthetruth.com/fact-check-policy)
+- [Corrections Policy](https://newsthetruth.com/corrections-policy)
+- [Ownership & Funding Disclosure](https://newsthetruth.com/ownership-disclosure)

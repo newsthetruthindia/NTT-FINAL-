@@ -6,15 +6,29 @@ interface ShareCardProps {
   title: string;
   quote?: string;
   reporterName?: string;
+  postId: number;
 }
 
-export default function ShareCard({ title, quote, reporterName = 'NTT Desk' }: ShareCardProps) {
+export default function ShareCard({ title, quote, reporterName = 'NTT Desk', postId }: ShareCardProps) {
   const [copied, setCopied] = useState(false);
+
+  const handleShare = async () => {
+    try {
+      await fetch(`/api/proxy/posts/track`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ post_id: postId, type: 'share' }),
+      });
+    } catch {
+      // Silent fail
+    }
+  };
 
   const handleCopy = () => {
     const url = window.location.href;
     navigator.clipboard.writeText(url);
     setCopied(true);
+    handleShare();
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -48,6 +62,7 @@ export default function ShareCard({ title, quote, reporterName = 'NTT Desk' }: S
         <div className="flex flex-wrap gap-3">
           <button 
             onClick={handleCopy}
+            aria-label="Copy Article Link"
             className="flex items-center gap-2 px-5 py-3 bg-white rounded-full text-black text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300 active:scale-95 shadow-xl shadow-black/20"
           >
             {copied ? 'Link Copied!' : 'Copy Link'}
@@ -60,8 +75,10 @@ export default function ShareCard({ title, quote, reporterName = 'NTT Desk' }: S
           
           <a 
             href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
+            onClick={handleShare}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Share story to X"
             className="flex items-center gap-2 px-5 py-3 bg-white/5 border border-white/10 rounded-full text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
           >
             Share to X
@@ -72,8 +89,10 @@ export default function ShareCard({ title, quote, reporterName = 'NTT Desk' }: S
 
           <a 
             href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
+            onClick={handleShare}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Share story to Facebook"
             className="flex items-center gap-2 px-5 py-3 bg-white/5 border border-white/10 rounded-full text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
           >
             Facebook
@@ -84,8 +103,10 @@ export default function ShareCard({ title, quote, reporterName = 'NTT Desk' }: S
           
           <a 
             href={`https://wa.me/?text=${shareText}%20${shareUrl}`}
+            onClick={handleShare}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Share story to WhatsApp"
             className="flex items-center gap-2 px-5 py-3 bg-white/5 border border-white/10 rounded-full text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
           >
             WhatsApp

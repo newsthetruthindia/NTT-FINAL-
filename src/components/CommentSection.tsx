@@ -182,7 +182,7 @@ export default function CommentSection({ postId }: { postId: number | string }) 
           }`}
         >
           <span>{notice.text}</span>
-          <button onClick={() => setNotice(null)} className="opacity-60 hover:opacity-100 ml-4 font-black">✕</button>
+          <button onClick={() => setNotice(null)} aria-label="Dismiss notice" className="opacity-60 hover:opacity-100 ml-4 font-black">✕</button>
         </div>
       )}
 
@@ -208,7 +208,10 @@ export default function CommentSection({ postId }: { postId: number | string }) 
               </div>
             </div>
 
+            <label htmlFor="comment-body-input" className="sr-only">Share your perspective</label>
             <textarea
+              id="comment-body-input"
+              aria-label="Comment body"
               value={body}
               onChange={(e) => setBody(e.target.value)}
               placeholder="Share your perspective on this article... (Keep discussion respectful)"
@@ -333,6 +336,7 @@ export default function CommentSection({ postId }: { postId: number | string }) 
                   <button
                     onClick={() => handleReact(c.id, 'insightful')}
                     disabled={userReactions[`${c.id}_insightful`]}
+                    aria-label={`Mark comment insightful (${c.insightful_count || 0})`}
                     className={`px-3 py-1.5 rounded-full border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
                       userReactions[`${c.id}_insightful`]
                         ? 'bg-amber-500/20 border-amber-500/40 text-amber-600 dark:text-amber-400 font-black'
@@ -348,6 +352,7 @@ export default function CommentSection({ postId }: { postId: number | string }) 
                   <button
                     onClick={() => handleReact(c.id, 'hot_take')}
                     disabled={userReactions[`${c.id}_hot_take`]}
+                    aria-label={`Mark comment hot take (${c.hot_take_count || 0})`}
                     className={`px-3 py-1.5 rounded-full border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
                       userReactions[`${c.id}_hot_take`]
                         ? 'bg-red-500/20 border-red-500/40 text-red-600 dark:text-red-400 font-black'
@@ -363,6 +368,7 @@ export default function CommentSection({ postId }: { postId: number | string }) 
                   <button
                     onClick={() => handleReact(c.id, 'agree')}
                     disabled={userReactions[`${c.id}_agree`]}
+                    aria-label={`Agree with comment (${c.agree_count || 0})`}
                     className={`px-3 py-1.5 rounded-full border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
                       userReactions[`${c.id}_agree`]
                         ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-600 dark:text-emerald-400 font-black'
