@@ -23,6 +23,7 @@ import ArticleGallery from '../../../components/ArticleGallery'
 import ArticleTracker from '../../../components/ArticleTracker'
 import PollWidgetClient from '../../../components/PollWidgetClient'
 import SanitizedContent from '../../../components/SanitizedContent'
+import CommentSection from '../../../components/CommentSection'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 export const revalidate = 43200 // 12 hours
@@ -138,7 +139,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
         <Header />
         <ArticleTracker postId={post.id} />
         <ReadingProgress />
-        <FloatingShare url={`${SITE_URL}/news/${slug}`} title={post.title} />
+        <FloatingShare url={`${SITE_URL}/news/${slug}`} title={post.title} postId={post.id} />
         {highlights[0] && <UpNextPeek post={highlights[0]} />}
 
         <article className="pt-20 lg:pt-24 pb-16 lg:pb-24 relative overflow-hidden transition-colors duration-500">
@@ -339,7 +340,8 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
               </div>
             )}
 
-            <ShareCard title={post.title} reporterName={reporterName} />
+            <ShareCard title={post.title} reporterName={reporterName} postId={post.id} />
+            <CommentSection postId={post.id} />
 
             {/* Sidebar/Article Ad */}
             <div className="mt-12">

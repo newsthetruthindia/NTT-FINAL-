@@ -28,7 +28,7 @@ const BLOCKED_PATHS = [
 ];
 
 function isCacheablePublicGet(path: string, hasAuth: boolean): boolean {
-  if (hasAuth) return false;
+  if (hasAuth || path.includes('/comments')) return false;
   return CACHEABLE_GET.some((pattern) => pattern.test(path));
 }
 
@@ -130,11 +130,15 @@ export async function POST(
   const apiUrl = `${apiBase}${path}${searchParams ? `?${searchParams}` : ''}`;
   const body = await request.json();
 
+  const forwardHeaders: Record<string, string> = { 'Content-Type': 'application/json', Accept: 'application/json' };
+  const authHeader = request.headers.get('Authorization');
+  if (authHeader) forwardHeaders.Authorization = authHeader;
+
   try {
     const res = await fetch(apiUrl, {
       method: 'POST',
       cache: 'no-store',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: forwardHeaders,
       body: JSON.stringify(body),
     });
 
