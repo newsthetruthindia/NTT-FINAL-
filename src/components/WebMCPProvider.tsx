@@ -4,9 +4,8 @@ import React, { useEffect } from 'react';
 
 export default function WebMCPProvider() {
   useEffect(() => {
-    // Check for Model Context Protocol WebMCP API (Imperative API) across standard browser targets
-    const mcp = (typeof document !== 'undefined' && (document as any).modelContext) ||
-                (typeof navigator !== 'undefined' && (navigator as any).modelContext) ||
+    const mcp = (typeof navigator !== 'undefined' && (navigator as any).modelContext) ||
+                (typeof document !== 'undefined' && (document as any).modelContext) ||
                 (typeof window !== 'undefined' && (window as any).modelContext);
 
     if (mcp && typeof mcp.registerTool === 'function') {
@@ -65,13 +64,90 @@ export default function WebMCPProvider() {
   }, []);
 
   return (
-    <div hidden aria-hidden="true" style={{ display: 'none' }}>
-      <form action="/search" method="GET" data-mcp-tool="searchArticles" data-mcp-description="Search investigative journalism articles, breaking news reports, topics, or journalists on NTT.">
-        <input type="text" name="q" data-mcp-param="query" data-mcp-description="The search query keyword or topic" />
-      </form>
-      <form action="/api/proxy/v1/subscribe" method="POST" data-mcp-tool="subscribeNewsletter" data-mcp-description="Subscribe to NTT weekly investigative journalism briefings and breaking news alerts.">
-        <input type="email" name="email" data-mcp-param="email" data-mcp-description="Subscriber email address" />
-      </form>
-    </div>
+    <>
+      {/* Synchronous inline script to register WebMCP tools before React hydration */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              try {
+                var mcp = (typeof navigator !== 'undefined' && navigator.modelContext) ||
+                          (typeof document !== 'undefined' && document.modelContext) ||
+                          (typeof window !== 'undefined' && window.modelContext);
+                if (mcp && typeof mcp.registerTool === 'function') {
+                  mcp.registerTool({
+                    name: 'get_latest_news',
+                    description: 'Fetch the latest breaking news articles from NTT.',
+                    inputSchema: { type: 'object', properties: { limit: { type: 'number' } } },
+                    execute: async function({ limit }) {
+                      var res = await fetch('https://backend.newsthetruth.com/api/posts?limit=' + (limit || 5));
+                      return await res.json();
+                    }
+                  });
+                  mcp.registerTool({
+                    name: 'search_articles',
+                    description: 'Search investigative news articles on NTT.',
+                    inputSchema: { type: 'object', properties: { query: { type: 'string' } }, required: ['query'] },
+                    execute: async function({ query }) {
+                      var res = await fetch('https://backend.newsthetruth.com/api/posts?search=' + encodeURIComponent(query));
+                      return await res.json();
+                    }
+                  });
+                }
+              } catch(e) {}
+            })();
+          `
+        }}
+      />
+
+      {/* Screen-reader accessible declarative form registry (guaranteed in DOM accessibility tree for Lighthouse) */}
+      <div className="sr-only" aria-label="WebMCP Declarative Tool Registry">
+        <form
+          action="/search"
+          method="GET"
+          toolname="search_articles"
+          data-toolname="search_articles"
+          data-mcp-tool="search_articles"
+          tooldescription="Search investigative news reports, breaking articles, topics, or journalists on NTT."
+          data-tooldescription="Search investigative news reports, breaking articles, topics, or journalists on NTT."
+          data-mcp-description="Search investigative news reports, breaking articles, topics, or journalists on NTT."
+        >
+          <input
+            type="text"
+            name="q"
+            paramname="query"
+            data-paramname="query"
+            data-mcp-param="query"
+            paramdescription="Search query keywords"
+            data-paramdescription="Search query keywords"
+            data-mcp-description="Search query keywords"
+          />
+          <button type="submit">Search</button>
+        </form>
+
+        <form
+          action="/api/proxy/v1/subscribe"
+          method="POST"
+          toolname="subscribe_newsletter"
+          data-toolname="subscribe_newsletter"
+          data-mcp-tool="subscribe_newsletter"
+          tooldescription="Subscribe to NTT weekly investigative journalism briefings and breaking news alerts."
+          data-tooldescription="Subscribe to NTT weekly investigative journalism briefings and breaking news alerts."
+          data-mcp-description="Subscribe to NTT weekly investigative journalism briefings and breaking news alerts."
+        >
+          <input
+            type="email"
+            name="email"
+            paramname="email"
+            data-paramname="email"
+            data-mcp-param="email"
+            paramdescription="Subscriber email address"
+            data-paramdescription="Subscriber email address"
+            data-mcp-description="Subscriber email address"
+          />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </>
   );
 }

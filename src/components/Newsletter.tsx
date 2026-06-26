@@ -68,7 +68,16 @@ export default function Newsletter() {
               </div>
             ) : (
               <div className="relative">
-                <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full relative z-10" data-mcp-tool="subscribeNewsletter" data-mcp-description="Subscribe to NTT weekly investigative journalism briefings.">
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex flex-col gap-6 w-full relative z-10"
+                  toolname="subscribeNewsletter"
+                  data-toolname="subscribeNewsletter"
+                  data-mcp-tool="subscribeNewsletter"
+                  tooldescription="Subscribe to NTT weekly investigative journalism briefings."
+                  data-tooldescription="Subscribe to NTT weekly investigative journalism briefings."
+                  data-mcp-description="Subscribe to NTT weekly investigative journalism briefings."
+                >
                   <div className="relative p-2 bg-white/5 border border-white/10 rounded-[32px] focus-within:border-primary/50 focus-within:bg-white/10 transition-all duration-500 shadow-inner group/input">
                     <div className="flex items-center">
                        <div className="pl-4 text-gray-500 group-focus-within/input:text-primary transition-colors">
@@ -83,7 +92,11 @@ export default function Newsletter() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email address"
                         required
+                        paramname="email"
+                        data-paramname="email"
                         data-mcp-param="email"
+                        paramdescription="Subscriber email address"
+                        data-paramdescription="Subscriber email address"
                         data-mcp-description="Subscriber email address"
                         className="w-full bg-transparent py-5 px-4 text-white placeholder-gray-500 focus:outline-none text-base md:text-lg font-medium"
                       />
