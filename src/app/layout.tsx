@@ -6,6 +6,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import StructuredData from "@/components/StructuredData";
+import WebMCPProvider from "@/components/WebMCPProvider";
 import { TickerProvider } from "@/components/TickerProvider";
 import { fetchLatestPosts } from "@/lib/api";
 
@@ -118,6 +119,8 @@ export default async function RootLayout({
           }}
         />
         <StructuredData />
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt" />
+        <link rel="alternate" type="text/plain" href="/llms-full.txt" title="LLMs-full.txt" />
       </head>
       <body
         className={`${poppins.variable} ${leagueSpartan.variable} antialiased`}
@@ -176,6 +179,7 @@ export default async function RootLayout({
                 {children}
               </div>
               <SplashAd />
+              <WebMCPProvider />
             </TickerProvider>
           </AuthProvider>
         </ThemeProvider>

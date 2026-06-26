@@ -1,0 +1,32 @@
+# NTT (News The Truth) Full Documentation
+
+> Independent, State-of-the-Art Investigative Journalism Platform covering India, World, Politics, West Bengal, and breaking news.
+
+## Comprehensive Content Sections & Endpoints
+
+### News Feeds & Sections
+- **Main Homepage**: https://newsthetruth.com/
+- **India News**: https://newsthetruth.com/category/india (National news, governance, economics, internal security)
+- **World News**: https://newsthetruth.com/category/world (Geopolitical affairs, global conflicts, diplomacy)
+- **Politics**: https://newsthetruth.com/category/politics (Elections, policy debates, legislative tracking)
+- **West Bengal**: https://newsthetruth.com/category/bengal (Regional reporting, Kolkata desk, investigative local news)
+- **Archive Directory**: https://newsthetruth.com/archive (Searchable database of historical reports)
+- **Journalist Desk**: https://newsthetruth.com/reporter (Verified profiles of newsroom investigative reporters)
+
+### Machine-Readable Indexes & Sitemaps
+- **News Sitemap**: https://newsthetruth.com/sitemap-news.xml (Google News XML format, updated dynamically)
+- **Standard Sitemap**: https://newsthetruth.com/sitemap.xml (Comprehensive URL directory)
+- **WebMCP Manifest**: https://newsthetruth.com/.well-known/mcp.json (Structured Model Context Protocol tool registry)
+
+### AI Agent Capabilities & WebMCP Tools
+NTT supports both Declarative (`data-mcp-tool`) and Imperative (`document.modelContext.registerTool`) browser agent capabilities:
+1. `search_articles(query)`: Search investigative news articles by keyword.
+2. `get_latest_news(limit)`: Retrieve real-time breaking news.
+3. `get_categories()`: Enumerate news sections.
+4. `subscribeNewsletter(email)`: Join the weekly investigative briefing.
+
+## Trust, Ethics & Governance Policies
+- **Editorial Policy**: https://newsthetruth.com/editorial-policy
+- **Fact-Check Policy**: https://newsthetruth.com/fact-check-policy
+- **Corrections Policy**: https://newsthetruth.com/corrections-policy
+- **Ownership & Funding Disclosure**: https://newsthetruth.com/ownership-disclosure

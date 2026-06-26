@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "name": "NTT Investigative Journalism Platform",
+  "description": "State-of-the-art independent investigative journalism platform covering India, World, Politics, West Bengal, and breaking news.",
+  "contact_email": "desk@newsthetruth.com",
+  "capabilities": {
+    "tools": [
+      {
+        "name": "search_articles",
+        "description": "Search investigative news articles, reports, and breaking news on NTT by keyword or topic.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": { "type": "string", "description": "Search keyword or topic string" }
+          },
+          "required": ["query"]
+        }
+      },
+      {
+        "name": "get_latest_news",
+        "description": "Fetch the latest breaking news articles and top investigative reports from NTT.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": { "type": "number", "description": "Number of articles to return" }
+          }
+        }
+      },
+      {
+        "name": "get_categories",
+        "description": "Get all available news sections and categories (India, World, Politics, Bengal).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "subscribeNewsletter",
+        "description": "Subscribe an email address to receive weekly investigative briefings.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "email": { "type": "string", "format": "email", "description": "Subscriber email address" }
+          },
+          "required": ["email"]
+        }
+      }
+    ]
+  }
+}

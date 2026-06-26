@@ -68,7 +68,7 @@ export default function Newsletter() {
               </div>
             ) : (
               <div className="relative">
-                <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full relative z-10">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full relative z-10" data-mcp-tool="subscribeNewsletter" data-mcp-description="Subscribe to NTT weekly investigative journalism briefings.">
                   <div className="relative p-2 bg-white/5 border border-white/10 rounded-[32px] focus-within:border-primary/50 focus-within:bg-white/10 transition-all duration-500 shadow-inner group/input">
                     <div className="flex items-center">
                        <div className="pl-4 text-gray-500 group-focus-within/input:text-primary transition-colors">
@@ -78,10 +78,13 @@ export default function Newsletter() {
                       </div>
                       <input
                         type="email"
+                        name="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email address"
                         required
+                        data-mcp-param="email"
+                        data-mcp-description="Subscriber email address"
                         className="w-full bg-transparent py-5 px-4 text-white placeholder-gray-500 focus:outline-none text-base md:text-lg font-medium"
                       />
                       <button 
