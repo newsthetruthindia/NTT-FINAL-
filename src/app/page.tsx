@@ -58,7 +58,7 @@ export default async function Home() {
     console.error("Home Page Data Fetch Error:", err);
   }
 
-  const videos = Array.isArray(allVideos) ? allVideos.filter(v => v?.type === 'video') : [];
+  const videos = Array.isArray(allVideos) ? allVideos.filter(v => v?.type === 'video' && !/\b(LIVE|Live)\b/.test(v?.title || '')) : [];
   
   // SIMPLE HERO LOGIC: The absolute latest story always takes the top spot automatically.
   const heroPost = latestPosts?.[0] || null;

@@ -57,7 +57,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">General Inquiries</h3>
-                  <p className="text-xl font-black text-foreground">contact@newsthetruth.com</p>
+                  <p className="text-xl font-black text-foreground">feedback.ntt@gmail.com</p>
                 </div>
               </div>
 

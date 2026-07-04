@@ -19,12 +19,14 @@ interface VideoGalleryProps {
  *   in the HTML head, all competing with the hero image for bandwidth.
  */
 export default function VideoGallery({ videos }: VideoGalleryProps) {
-  const [activeVideo, setActiveVideo] = useState<Video | null>(videos[0] || null);
+  const displayVideos = videos.filter(v => !/\b(LIVE|Live)\b/.test(v?.title || ''));
+  const listVideos = displayVideos.length > 0 ? displayVideos : videos;
+  const [activeVideo, setActiveVideo] = useState<Video | null>(listVideos[0] || null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    if (videos.length > 0 && !activeVideo) {
-      setActiveVideo(videos[0]);
+    if (listVideos.length > 0 && (!activeVideo || !listVideos.some(v => v.id === activeVideo.id))) {
+      setActiveVideo(listVideos[0]);
     }
   }, [videos]);
 
@@ -37,7 +39,7 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
     setIsPlaying(false); // Reset to facade when switching videos
   }, []);
 
-  if (videos.length === 0) return null;
+  if (listVideos.length === 0) return null;
 
   return (
     <section className="py-16 md:py-24 bg-gray-950 text-white rounded-[40px] md:rounded-[60px] my-6 md:my-10 mx-4 md:mx-8 overflow-hidden shadow-2xl relative border border-white/5">
@@ -133,11 +135,11 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
           <div className="lg:col-span-4 flex flex-col max-h-[600px]">
             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 border-b border-white/10 pb-4 mb-6 flex items-center justify-between">
               Latest Stories
-              <span className="text-[9px] bg-white/5 px-2 py-0.5 rounded-full">{videos.length} Videos</span>
+              <span className="text-[9px] bg-white/5 px-2 py-0.5 rounded-full">{listVideos.length} Videos</span>
             </h4>
             
             <div className="overflow-y-auto pr-4 space-y-4 custom-scrollbar lg:max-h-[520px]">
-              {videos.map((video) => (
+              {listVideos.map((video) => (
                 <button 
                   key={video.id} 
                   onClick={() => handleVideoSelect(video)}
