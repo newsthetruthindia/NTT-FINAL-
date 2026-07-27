@@ -207,6 +207,38 @@ export const fetchVideos = async (): Promise<Video[]> => {
   }
 };
 
+export const fetchYoutubeRSSVideos = async (): Promise<Video[]> => {
+  try {
+    const res = await fetch('https://www.youtube.com/feeds/videos.xml?channel_id=UCIWDXl6ONt_zAcCRviqu8bA', {
+      next: { revalidate: 3600 },
+      headers: { 'Accept': 'application/xml' }
+    });
+    if (!res.ok) return [];
+    const xml = await res.text();
+    const entries = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)];
+    
+    return entries.slice(0, 15).map((m, i) => {
+      const entry = m[1];
+      const titleMatch = entry.match(/<title>(.*?)<\/title>/);
+      const idMatch = entry.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
+      // Basic decode of XML entities like &quot; and &amp;
+      let title = titleMatch ? titleMatch[1] : '';
+      title = title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+      return {
+        id: 9000 + i, // Fake ID
+        title: title,
+        youtube_id: idMatch ? idMatch[1] : '',
+        type: 'video',
+        is_featured: false,
+        sort_order: i
+      };
+    });
+  } catch (err) {
+    console.error('fetchYoutubeRSSVideos error:', err);
+    return [];
+  }
+};
+
 export const getImageUrl = (path?: any) => {
   if (!path || typeof path !== 'string' || path.trim() === '' || path === 'null') return '/placeholder-news.jpg';
 

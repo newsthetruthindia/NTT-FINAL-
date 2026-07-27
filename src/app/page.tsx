@@ -6,7 +6,7 @@ import VideoGallery from '@/components/VideoGallery'
 import AdBanner from '@/components/AdBanner'
 import PollWidgetClient from '@/components/PollWidgetClient'
 import { preload } from 'react-dom'
-import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos, getImageUrl } from '@/lib/api'
+import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos, fetchYoutubeRSSVideos, getImageUrl } from '@/lib/api'
 
 // On-demand revalidation ONLY — no time-based ISR.
 // Page updates when backend calls POST /api/revalidate after publishing.
@@ -32,7 +32,7 @@ export default async function Home() {
       fetchLatestPosts(12).catch(() => []),
       fetchCategories().catch(() => []),
       fetchTags().catch(() => []),
-      fetchVideos().catch(() => []),
+      fetchYoutubeRSSVideos().catch(() => []),
       fetchCategoryPosts('india', 6).catch(() => []),
       fetchCategoryPosts('the-exclusive-truth', 1).catch(() => []),
       fetchCategoryPosts('the-untold-truth', 1).catch(() => []),
