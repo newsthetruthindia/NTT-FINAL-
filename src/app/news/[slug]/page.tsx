@@ -24,6 +24,7 @@ import ArticleTracker from '../../../components/ArticleTracker'
 import PollWidgetClient from '../../../components/PollWidgetClient'
 import SanitizedContent from '../../../components/SanitizedContent'
 import CommentSection from '../../../components/CommentSection'
+import SoftPaywall from '../../../components/SoftPaywall'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com'
 export const revalidate = 43200 // 12 hours
@@ -277,7 +278,8 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
           </div>
 
           {/* ── ARTICLE BODY ──────────────────────────────────────────────────────── */}
-          <div className="max-w-3xl mx-auto px-4 space-y-8 relative z-10">
+          <SoftPaywall />
+          <div id="premium-article-body" className="max-w-3xl mx-auto px-4 space-y-8 relative z-10">
             {/* UTILITY STRIP (Gist, Audio, AI) */}
             <div className="space-y-6 pt-2 pb-6 border-b border-border/40">
               <div className="article-summary">

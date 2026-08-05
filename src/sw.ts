@@ -29,14 +29,14 @@ self.addEventListener("push", (event: any) => {
     data = { title: "NTT News", body: event.data.text() };
   }
 
-  const options: NotificationOptions = {
+  const options = {
     body: data.body || "Read the latest news from NTT.",
     icon: data.icon || "/icon-192.png",
     badge: "/icon-192.png",
     tag: "ntt-news",
-    renotify: true,
+    vibrate: [200, 100, 200],
     data: { url: data.url || "/" },
-  };
+  } as any;
 
   event.waitUntil(
     self.registration.showNotification(data.title || "🔴 NTT Breaking News", options)
@@ -48,8 +48,8 @@ self.addEventListener("notificationclick", (event: any) => {
   event.notification.close();
   const targetUrl = event.notification.data?.url || "/";
   event.waitUntil(
-    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
-      const existing = clients.find((c) => c.url === targetUrl && "focus" in c);
+    (self as any).clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients: any[]) => {
+      const existing = clients.find((c: any) => c.url === targetUrl && "focus" in c);
       if (existing) return existing.focus();
       return self.clients.openWindow(targetUrl);
     })

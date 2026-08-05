@@ -67,6 +67,12 @@ export function middleware(request: NextRequest) {
     const token = request.cookies.get('ntt_auth_token')?.value;
 
     if (!token) {
+      // If they are visiting an article page, we now let them through to see the Soft Paywall
+      if (path.startsWith('/news/')) {
+        return NextResponse.next();
+      }
+
+      // For other protected pages like /search or /reporter, we still redirect
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('redirect', path);
       loginUrl.searchParams.set('reason', 'auth_required');
