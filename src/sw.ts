@@ -19,7 +19,7 @@ const serwist = new Serwist({
 });
 
 // Handle push events from OneSignal
-self.addEventListener("push", (event) => {
+self.addEventListener("push", (event: any) => {
   if (!event.data) return;
 
   let data: { title?: string; body?: string; url?: string; icon?: string } = {};
@@ -44,7 +44,7 @@ self.addEventListener("push", (event) => {
 });
 
 // Handle notification clicks — open the article
-self.addEventListener("notificationclick", (event) => {
+self.addEventListener("notificationclick", (event: any) => {
   event.notification.close();
   const targetUrl = event.notification.data?.url || "/";
   event.waitUntil(
