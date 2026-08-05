@@ -1,8 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-/** Scrapers that burn free-tier bandwidth without helping SEO */
 const BLOCKED_AGENTS =
-  /ahrefs|semrush|dotbot|petalbot|bytespider|gptbot|claudebot|mj12bot|barkrowler|dataforseo|serpstat|megaindex/i;
+  /dotbot|petalbot|bytespider|mj12bot|barkrowler|dataforseo|serpstat|megaindex/i;
+
+// Pages that require authentication to view
+const PROTECTED_PATTERNS = [
+  /^\/news\/.+/,       // Article detail pages
+  /^\/category\/.+/,   // Category listing pages
+  /^\/search/,         // Search results
+  /^\/archive/,        // Archive
+  /^\/reporter\/.+/,   // Reporter profiles
+  /^\/tv/,             // TV section
+];
+
+// Pages that should never be blocked (even if they match above)
+const PUBLIC_PATHS = [
+  '/',
+  '/login',
+  '/register',
+  '/verify-email',
+  '/forgot-password',
+  '/reset-password',
+  '/about',
+  '/contact',
+  '/privacy',
+  '/terms',
+  '/corrections-policy',
+  '/editorial-policy',
+  '/fact-check-policy',
+  '/journalist-verification',
+  '/ownership-disclosure',
+  '/physical-office',
+  '/report',
+];
 
 export function middleware(request: NextRequest) {
   const ua = request.headers.get('user-agent') || '';
@@ -15,6 +45,32 @@ export function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
     if (path.startsWith('/test-api') || path.startsWith('/diagnose')) {
       return NextResponse.redirect(new URL('/', request.url));
+    }
+  }
+
+  const path = request.nextUrl.pathname;
+
+  // Allow public paths
+  if (PUBLIC_PATHS.includes(path)) {
+    return NextResponse.next();
+  }
+
+  // Allow API routes, auth callbacks, static assets
+  if (path.startsWith('/api/') || path.startsWith('/auth/') || path.startsWith('/_next/')) {
+    return NextResponse.next();
+  }
+
+  // Check if this is a protected route
+  const isProtected = PROTECTED_PATTERNS.some((pattern) => pattern.test(path));
+
+  if (isProtected) {
+    const token = request.cookies.get('ntt_auth_token')?.value;
+
+    if (!token) {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('redirect', path);
+      loginUrl.searchParams.set('reason', 'auth_required');
+      return NextResponse.redirect(loginUrl);
     }
   }
 

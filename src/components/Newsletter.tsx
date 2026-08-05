@@ -71,10 +71,8 @@ export default function Newsletter() {
                 <form
                   onSubmit={handleSubmit}
                   className="flex flex-col gap-6 w-full relative z-10"
-                  toolname="subscribeNewsletter"
                   data-toolname="subscribeNewsletter"
                   data-mcp-tool="subscribeNewsletter"
-                  tooldescription="Subscribe to NTT weekly investigative journalism briefings."
                   data-tooldescription="Subscribe to NTT weekly investigative journalism briefings."
                   data-mcp-description="Subscribe to NTT weekly investigative journalism briefings."
                 >
@@ -92,10 +90,8 @@ export default function Newsletter() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email address"
                         required
-                        paramname="email"
                         data-paramname="email"
                         data-mcp-param="email"
-                        paramdescription="Subscriber email address"
                         data-paramdescription="Subscriber email address"
                         data-mcp-description="Subscriber email address"
                         className="w-full bg-transparent py-5 px-4 text-white placeholder-gray-500 focus:outline-none text-base md:text-lg font-medium"

@@ -47,6 +47,17 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   keywords: ["news", "truth", "ntt", "citizen journalism", "india news", "exclusive reports"],
   authors: [{ name: "NTT Editorial Desk" }],
+  alternates: {
+    canonical: 'https://newsthetruth.com',
+    types: {
+      'application/rss+xml': [
+        { url: '/feed.xml', title: 'NTT | News The Truth — RSS Feed' },
+      ],
+    },
+    languages: {
+      'en-IN': 'https://newsthetruth.com',
+    },
+  },
   openGraph: {
     title: "NTT | News The Truth",
     description: "NTT: Authentic storytelling and citizen journalism. Questions will be asked.",
@@ -54,10 +65,10 @@ export const metadata: Metadata = {
     siteName: "NTT",
     images: [
       {
-        url: "/icon-512.png",
-        width: 512,
-        height: 512,
-        alt: "NTT News Logo",
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "NTT — News The Truth",
       },
     ],
     locale: "en_IN",
@@ -67,8 +78,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "NTT | News The Truth",
     description: "NTT: Authentic storytelling and citizen journalism. Questions will be asked.",
-    images: ["/icon-512.png"],
-    creator: "@newsthetruth",
+    images: ["/og-image.png"],
+    creator: "@newsthetruthin",
   },
   appleWebApp: {
     capable: true,

@@ -205,14 +205,23 @@ export default function Header() {
             </div>
             <div className="flex-grow overflow-y-auto p-6">
               <div className="space-y-1">
-                {['India', 'World', 'Bengal', 'Politics', 'Archive'].map((item) => (
+                {[
+                  { label: 'India', href: '/category/india' },
+                  { label: 'World', href: '/category/world' },
+                  { label: 'Bengal', href: '/category/bengal' },
+                  { label: 'Politics', href: '/category/politics' },
+                  { label: 'The Exclusive Truth', href: '/category/the-exclusive-truth' },
+                  { label: 'The Untold Truth', href: '/category/the-untold-truth' },
+                  { label: 'Your Truth', href: '/category/your-truth' },
+                  { label: 'Archive', href: '/archive' },
+                ].map((item) => (
                   <Link
-                    key={item}
-                    href={item === 'Archive' ? '/archive' : `/category/${item.toLowerCase()}`}
+                    key={item.label}
+                    href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="block py-5 px-6 text-base font-bold uppercase tracking-[0.2em] text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 ))}
                 <button

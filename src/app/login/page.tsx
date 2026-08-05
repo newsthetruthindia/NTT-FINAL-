@@ -31,17 +31,26 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (!res.ok) {
+        // Handle unverified email — redirect to verification page
+        if (data.requires_verification) {
+          window.location.href = `/verify-email?email=${encodeURIComponent(data.email || email.trim())}`;
+          return;
+        }
         throw new Error(data.message || 'Login failed');
       }
 
       login(data.access_token, data.user);
-      window.location.href = '/'; 
+      // Redirect to originally requested page, or homepage
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get('redirect') || '/';
+      window.location.href = redirect;
     } catch (err: any) {
       setError(err.message || 'An error occurred during login');
     } finally {
       setIsLoading(false);
     }
   };
+
 
   return (
     <main className="h-screen relative flex flex-col bg-[#0b1120] overflow-hidden dark">
@@ -63,6 +72,12 @@ export default function LoginPage() {
                  <p className="text-primary font-black text-[9px] uppercase tracking-[0.4em] mb-2">Access the Truth Gateway</p>
                  <p className="text-white/60 text-[11px] font-sans leading-relaxed max-w-[280px] mx-auto">Sign in with your verified NTT credentials.</p>
               </div>
+
+              {typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('reason') === 'auth_required' && (
+                <div className="bg-amber-500/10 text-amber-400 text-[10px] font-bold px-4 py-2.5 rounded-xl border border-amber-500/20 mb-3 text-center">
+                  🔒 Sign in to read articles on News The Truth
+                </div>
+              )}
   
               <form className="space-y-3" onSubmit={handleSubmit}>
                 {error && (

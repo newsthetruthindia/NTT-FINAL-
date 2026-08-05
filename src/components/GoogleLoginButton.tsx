@@ -6,7 +6,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
 export default function GoogleLoginButton() {
   const handleGoogleLogin = () => {
     if (!GOOGLE_CLIENT_ID) {
-      alert('Google Client ID is not configured. Please add NEXT_PUBLIC_GOOGLE_CLIENT_ID to your .env file.');
+      // Silently log — don't show the button at all if not configured
+      console.warn('Google OAuth not configured');
       return;
     }
 
@@ -18,6 +19,11 @@ export default function GoogleLoginButton() {
     
     window.location.href = url;
   };
+
+  // Don't render the Google button at all if not configured
+  if (!GOOGLE_CLIENT_ID) {
+    return null;
+  }
 
   return (
     <div className="space-y-4">

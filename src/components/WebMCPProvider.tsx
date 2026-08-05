@@ -105,20 +105,16 @@ export default function WebMCPProvider() {
         <form
           action="/search"
           method="GET"
-          toolname="search_articles"
           data-toolname="search_articles"
           data-mcp-tool="search_articles"
-          tooldescription="Search investigative news reports, breaking articles, topics, or journalists on NTT."
           data-tooldescription="Search investigative news reports, breaking articles, topics, or journalists on NTT."
           data-mcp-description="Search investigative news reports, breaking articles, topics, or journalists on NTT."
         >
           <input
             type="text"
             name="q"
-            paramname="query"
             data-paramname="query"
             data-mcp-param="query"
-            paramdescription="Search query keywords"
             data-paramdescription="Search query keywords"
             data-mcp-description="Search query keywords"
           />
@@ -128,20 +124,16 @@ export default function WebMCPProvider() {
         <form
           action="/api/proxy/v1/subscribe"
           method="POST"
-          toolname="subscribe_newsletter"
           data-toolname="subscribe_newsletter"
           data-mcp-tool="subscribe_newsletter"
-          tooldescription="Subscribe to NTT weekly investigative journalism briefings and breaking news alerts."
           data-tooldescription="Subscribe to NTT weekly investigative journalism briefings and breaking news alerts."
           data-mcp-description="Subscribe to NTT weekly investigative journalism briefings and breaking news alerts."
         >
           <input
             type="email"
             name="email"
-            paramname="email"
             data-paramname="email"
             data-mcp-param="email"
-            paramdescription="Subscriber email address"
             data-paramdescription="Subscriber email address"
             data-mcp-description="Subscriber email address"
           />

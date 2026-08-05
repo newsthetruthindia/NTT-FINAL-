@@ -19,6 +19,21 @@ interface Reporter {
 export default function ReporterGrid({ reporters }: { reporters: Reporter[] }) {
   if (!reporters || reporters.length === 0) return null;
 
+  // Reorder: move Ankit Salvi to appear after Soonakshi Ghosh
+  const isAnkit = (r: Reporter) => r.firstname?.toLowerCase() === 'ankit' && r.lastname?.toLowerCase() === 'salvi';
+  const isSoonakshi = (r: Reporter) => r.firstname?.toLowerCase() === 'soonakshi' || r.firstname?.toLowerCase() === 'sonakshi';
+
+  const reordered = (() => {
+    const ankit = reporters.find(isAnkit);
+    if (!ankit) return reporters;
+    const withoutAnkit = reporters.filter(r => !isAnkit(r));
+    const soonakshiIdx = withoutAnkit.findIndex(isSoonakshi);
+    if (soonakshiIdx === -1) return [...withoutAnkit, ankit]; // put at end if Soonakshi not found
+    const result = [...withoutAnkit];
+    result.splice(soonakshiIdx + 1, 0, ankit);
+    return result;
+  })();
+
   return (
     <section className="py-24">
       <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-4">
@@ -34,9 +49,10 @@ export default function ReporterGrid({ reporters }: { reporters: Reporter[] }) {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-10">
-        {reporters.map((reporter) => {
+        {reordered.map((reporter) => {
           const fullName = `${reporter.firstname} ${reporter.lastname || ''}`.trim();
-          const avatarUrl = getImageUrl(reporter.thumbnails?.url);
+          const ankitSalvi = isAnkit(reporter);
+          const avatarUrl = ankitSalvi ? '/ankit-salvi-placeholder.jpg' : getImageUrl(reporter.thumbnails?.url);
           
           return (
             <Link 
@@ -48,7 +64,7 @@ export default function ReporterGrid({ reporters }: { reporters: Reporter[] }) {
                 <img 
                   src={avatarUrl} 
                   alt={fullName}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110"
+                  className={`w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110 ${ankitSalvi ? 'grayscale opacity-40' : 'grayscale group-hover:grayscale-0'}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-6">
                   <span className="text-white text-[9px] font-black uppercase tracking-widest">View Profile</span>

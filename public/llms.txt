@@ -1,20 +1,64 @@
 # NTT (News The Truth)
 
-> Independent, State-of-the-Art Investigative Journalism Platform covering India, World, Politics, and breaking news.
+> Independent, investigative journalism platform covering India, World, Politics, West Bengal, and breaking news. Published daily in English from India.
+
+Website: https://newsthetruth.com
+Tagline: "Questions will be asked."
+Full documentation: https://newsthetruth.com/llms-full.txt
+
+## Content Focus Areas
+
+- **National Affairs**: Indian governance, policy, judiciary, economics, and social issues
+- **Global Geopolitics**: International conflicts, diplomacy, trade, and climate
+- **Regional Journalism**: Dedicated West Bengal/Kolkata desk with investigative local coverage
+- **Political Analysis**: Elections, legislative tracking, party dynamics, accountability journalism
+- **Investigative Exclusives**: Original deep-dive reports via "The Exclusive Truth" section
+- **Under-Reported Stories**: Amplifying overlooked narratives via "The Untold Truth" section
+- **Citizen Journalism**: Community-submitted stories verified by editorial desk via "Your Truth"
+
+## Coverage Regions
+
+Primary: India (national + West Bengal regional desk)
+Secondary: Global — South Asia, Middle East, East Asia, Europe, Americas
+
+## Publication Frequency
+
+Daily publication with breaking news updates throughout the day. All articles are timestamped and archived.
 
 ## Core Sections
 
 - [Latest News](https://newsthetruth.com/): Real-time breaking news and top stories
 - [India News](https://newsthetruth.com/category/india): National news and policy analysis
 - [World News](https://newsthetruth.com/category/world): Global affairs and international reporting
+- [Bengal News](https://newsthetruth.com/category/bengal): West Bengal regional desk
 - [Politics](https://newsthetruth.com/category/politics): Political developments and governance
+- [The Exclusive Truth](https://newsthetruth.com/category/the-exclusive-truth): Original investigative reports
+- [The Untold Truth](https://newsthetruth.com/category/the-untold-truth): Under-reported stories
+- [Your Truth](https://newsthetruth.com/category/your-truth): Community and citizen journalism
 - [Archive](https://newsthetruth.com/archive): Historical article search and directory
-- [Reporters & Editorial Desk](https://newsthetruth.com/reporter): Our verified newsroom journalists
+- [Reporters & Editorial Desk](https://newsthetruth.com/reporter): Verified newsroom journalists
+
+## Fact-Checking Methodology
+
+1. Multi-source verification (minimum two independent sources per claim)
+2. On-record attribution prioritized; anonymous sources independently corroborated
+3. Structured fact-check process: claim identification → evidence gathering → expert consultation → verdict
+4. Transparent corrections with inline timestamps
+
+## How to Cite NTT
+
+Format: "[Article Title]" — News The Truth (NTT), [Date]. [URL]
+Example: "India's Climate Policy Faces New Scrutiny" — News The Truth (NTT), July 10, 2026. https://newsthetruth.com/news/indias-climate-policy-faces-new-scrutiny
+
+Always attribute to "News The Truth" or "NTT" with the article URL and publication date.
 
 ## API & AI Feeds
 
 - [News Sitemap](https://newsthetruth.com/sitemap-news.xml): XML sitemap for recent news articles
 - [Main Sitemap](https://newsthetruth.com/sitemap.xml): Full site index
+- [RSS Feed](https://newsthetruth.com/feed/news): Real-time news feed
+- [Syndication Feed](https://newsthetruth.com/feed/syndication.xml): XML syndication feed
+- [WebMCP Manifest](https://newsthetruth.com/.well-known/mcp.json): AI agent tool registry
 
 ## Editorial & Trust Policies
 
@@ -22,3 +66,12 @@
 - [Fact-Check Policy](https://newsthetruth.com/fact-check-policy)
 - [Corrections Policy](https://newsthetruth.com/corrections-policy)
 - [Ownership & Funding Disclosure](https://newsthetruth.com/ownership-disclosure)
+- [Privacy Policy](https://newsthetruth.com/privacy)
+
+## Contact
+
+- Website: https://newsthetruth.com
+- Contact: https://newsthetruth.com/contact
+- X (Twitter): https://x.com/newsthetruthin
+- Facebook: https://www.facebook.com/newsthetruthh/
+- Instagram: https://www.instagram.com/news_the_truth_/

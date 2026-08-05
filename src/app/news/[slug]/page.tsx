@@ -38,14 +38,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   try {
     const post = await fetchPostBySlug(slug);
     if (!post) return { title: 'Article Not Found | NTT' };
-    const description = post.excerpt || stripTags(post.description || '').substring(0, 160);
+    const description = post.meta_description || post.excerpt || stripTags(post.description || '').substring(0, 160);
     const imageUrl = post.thumbnails?.url ? getImageUrl(post.thumbnails.url) : `${SITE_URL}/placeholder-news.jpg`;
     
     // Ensure absolute URL for OG image
     const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : `${SITE_URL}${imageUrl}`;
 
     return {
-      title: `${post.title} | News The Truth`,
+      title: `${post.meta_title || post.title} | News The Truth`,
       description: description,
       openGraph: {
         title: post.title,
@@ -61,6 +61,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         siteName: 'News The Truth',
         section: post.categories?.[0]?.cat_data?.title || 'News',
         publishedTime: post.created_at,
+        modifiedTime: post.updated_at,
+        tags: post.tags?.map((t: any) => t.name) || [],
         authors: [post.reporter_name || 'NTT Editorial Desk'],
       },
       twitter: {
@@ -137,6 +139,70 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
     return (
       <main className="min-h-screen bg-background" data-deploy-v="newsroom-2.4">
         <Header />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                '@context': 'https://schema.org',
+                '@type': 'NewsArticle',
+                headline: post.title,
+                datePublished: post.created_at,
+                dateModified: post.updated_at || post.created_at,
+                author: {
+                  '@type': 'Person',
+                  name: reporterName,
+                },
+                publisher: {
+                  '@type': 'NewsMediaOrganization',
+                  name: 'News The Truth',
+                  logo: {
+                    '@type': 'ImageObject',
+                    url: `${SITE_URL}/logo.png`,
+                  },
+                },
+                image: post.thumbnails?.url ? getImageUrl(post.thumbnails.url) : `${SITE_URL}/placeholder-news.jpg`,
+                articleSection: categoryTitle,
+                description: post.meta_description || post.excerpt || stripTags(post.description || '').substring(0, 160),
+                mainEntityOfPage: {
+                  '@type': 'WebPage',
+                  '@id': `${SITE_URL}/news/${slug}`,
+                },
+                isAccessibleForFree: true,
+                inLanguage: 'en',
+                wordCount: wordCount,
+                speakable: {
+                  '@type': 'SpeakableSpecification',
+                  cssSelector: ['.article-summary', 'h1'],
+                },
+              },
+              {
+                '@context': 'https://schema.org',
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                  {
+                    '@type': 'ListItem',
+                    position: 1,
+                    name: 'Home',
+                    item: SITE_URL,
+                  },
+                  {
+                    '@type': 'ListItem',
+                    position: 2,
+                    name: categoryTitle,
+                    item: `${SITE_URL}/category/${categorySlug}`,
+                  },
+                  {
+                    '@type': 'ListItem',
+                    position: 3,
+                    name: post.title,
+                    item: `${SITE_URL}/news/${slug}`,
+                  },
+                ],
+              },
+            ]),
+          }}
+        />
         <ArticleTracker postId={post.id} />
         <ReadingProgress />
         <FloatingShare url={`${SITE_URL}/news/${slug}`} title={post.title} postId={post.id} />
@@ -182,7 +248,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                     <span className="text-foreground/60 font-black">{reporterName}</span>
                   </div>
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/30" />
-                  <span>{postDateFormatted}</span>
+                  <time dateTime={post.created_at}>{postDateFormatted}</time>
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/30" />
                   <span className="bg-primary/10 text-primary px-3 py-1 rounded-full">{readingTime} MIN READ</span>
                 </div>
@@ -214,7 +280,9 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
           <div className="max-w-3xl mx-auto px-4 space-y-8 relative z-10">
             {/* UTILITY STRIP (Gist, Audio, AI) */}
             <div className="space-y-6 pt-2 pb-6 border-b border-border/40">
-              <GistBox content={getSummary()} />
+              <div className="article-summary">
+                <GistBox content={getSummary()} />
+              </div>
               <div className="flex flex-col gap-2">
                 <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
                 <AISummary content={articleContent} points={post.ai_summary_points} />
@@ -289,7 +357,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                 )}
               </div>
             )}
-            <Script src="https://platform.twitter.com/widgets.js" strategy="afterInteractive" />
+            {post.x_embed_url && <Script src="https://platform.twitter.com/widgets.js" strategy="afterInteractive" />}
 
             {/* Meet the Reporter */}
             {post.user && (

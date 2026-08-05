@@ -131,7 +131,10 @@ export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
   try {
     const res = await fetch(`${API_URL}post/${slug}`, { 
       next: { revalidate: API_REVALIDATE },
-      headers: { 'Accept': 'application/json' }
+      headers: { 
+        'Accept': 'application/json',
+        'X-Internal-Secret': process.env.INTERNAL_API_SECRET || 'ntt_internal_ssr_bypass_2026'
+      }
     });
     if (!res.ok) return null;
     const json = await res.json();

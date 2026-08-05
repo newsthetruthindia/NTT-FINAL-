@@ -37,8 +37,16 @@ export default function RegisterPage() {
         throw new Error(errorMessage || 'Registration failed');
       }
 
-      login(data.access_token, data.user);
-      window.location.href = '/'; 
+      // Registration now requires email verification
+      if (data.requires_verification) {
+        window.location.href = `/verify-email?email=${encodeURIComponent(email)}`;
+        return;
+      }
+      // Fallback if server returns token directly (shouldn't happen with new backend)
+      if (data.access_token) {
+        login(data.access_token, data.user);
+        window.location.href = '/';
+      }
     } catch (err: any) {
       setError(err.message || 'An error occurred during registration');
     } finally {

@@ -18,6 +18,8 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
     ? new Date(created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
     : 'Recent';
 
+  const isoDateString = created_at ? new Date(created_at).toISOString() : undefined;
+
   // Fallback for excerpt to maintain card height consistency
   const displayExcerpt = excerpt || (post.description ? post.description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : '');
 
@@ -97,7 +99,11 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
             <div className="flex items-center gap-3 text-foreground/40 text-[10px] font-black uppercase tracking-widest italic">
               <span className="flex items-center gap-2">
                 <span className="w-1 h-1 rounded-full bg-primary" />
-                {formattedDate}
+                {isoDateString ? (
+                  <time dateTime={isoDateString}>{formattedDate}</time>
+                ) : (
+                  formattedDate
+                )}
               </span>
               <span className="text-primary font-black ml-2">{renderAttribution()}</span>
             </div>
@@ -135,7 +141,11 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
           <div className="flex items-center gap-6 text-white/50 text-[10px] font-heading font-black uppercase tracking-[0.2em] z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">
             <span className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                {formattedDate}
+                {isoDateString ? (
+                  <time dateTime={isoDateString}>{formattedDate}</time>
+                ) : (
+                  formattedDate
+                )}
             </span>
             <span className="w-px h-3 bg-white/20"></span>
             <div className="text-white hover:text-primary transition-colors cursor-pointer">
@@ -178,7 +188,11 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
             <div className="flex items-center gap-3">
               <span className="italic flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                {formattedDate}
+                {isoDateString ? (
+                  <time dateTime={isoDateString}>{formattedDate}</time>
+                ) : (
+                  formattedDate
+                )}
               </span>
               <span className="text-primary/70">{renderAttribution()}</span>
             </div>

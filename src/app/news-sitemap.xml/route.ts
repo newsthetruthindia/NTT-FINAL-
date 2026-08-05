@@ -9,7 +9,7 @@ export async function GET() {
     const apiBase = backendBase.endsWith('/') ? backendBase : `${backendBase}/`;
     const res = await fetch(`${apiBase}posts/latest?limit=100`, {
       headers: { Accept: 'application/json' },
-      next: { revalidate: 1800 }, // Revalidate every 30 minutes
+      next: { tags: ['posts'] }, // Instant Revalidation (ISR) triggered by API
     });
 
     if (!res.ok) throw new Error('Failed to fetch posts');

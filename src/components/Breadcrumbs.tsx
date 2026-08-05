@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
+
 interface BreadcrumbItem {
   label: string;
   href?: string;
@@ -10,29 +12,56 @@ interface BreadcrumbsProps {
 }
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
+  // Build the JSON-LD BreadcrumbList schema from items
+  const allItems = [{ label: 'Home', href: '/' }, ...(items || [])];
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: allItems.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.label,
+      ...(item.href
+        ? { item: `${SITE_URL}${item.href}` }
+        : {}),
+    })),
+  };
+
   if (!items || !Array.isArray(items)) {
     return (
-      <nav className="flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.25em] text-gray-600 mb-10 overflow-x-auto whitespace-nowrap scrollbar-hide">
-        <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-      </nav>
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        />
+        <nav className="flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.25em] text-gray-600 mb-10 overflow-x-auto whitespace-nowrap scrollbar-hide">
+          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+        </nav>
+      </>
     );
   }
 
   return (
-    <nav className="flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.25em] text-gray-600 mb-10 overflow-x-auto whitespace-nowrap scrollbar-hide">
-      <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-      {items.map((item, index) => (
-        <div key={index} className="flex items-center gap-2">
-          <span>/</span>
-          {item.href ? (
-            <Link href={item.href} className="hover:text-primary transition-colors">
-              {item.label}
-            </Link>
-          ) : (
-            <span className="text-gray-900">{item.label}</span>
-          )}
-        </div>
-      ))}
-    </nav>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <nav className="flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.25em] text-gray-600 mb-10 overflow-x-auto whitespace-nowrap scrollbar-hide">
+        <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+        {items.map((item, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <span>/</span>
+            {item.href ? (
+              <Link href={item.href} className="hover:text-primary transition-colors">
+                {item.label}
+              </Link>
+            ) : (
+              <span className="text-gray-900">{item.label}</span>
+            )}
+          </div>
+        ))}
+      </nav>
+    </>
   );
 }

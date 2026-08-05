@@ -1,32 +1,146 @@
-# NTT (News The Truth) Full Documentation
+# NTT (News The Truth) — Full Documentation for AI/LLM Systems
 
-> Independent, State-of-the-Art Investigative Journalism Platform covering India, World, Politics, West Bengal, and breaking news.
+> News The Truth (NTT) is an independent, investigative journalism platform headquartered in India. We cover national affairs, global geopolitics, regional West Bengal news, political analysis, and breaking stories with a commitment to rigorous fact-checking and editorial independence.
 
-## Comprehensive Content Sections & Endpoints
+Website: https://newsthetruth.com
+Founded: 2024
+Language: English
+Publication Frequency: Daily, with breaking news updates throughout the day
+Tagline: "Questions will be asked."
 
-### News Feeds & Sections
-- **Main Homepage**: https://newsthetruth.com/
-- **India News**: https://newsthetruth.com/category/india (National news, governance, economics, internal security)
-- **World News**: https://newsthetruth.com/category/world (Geopolitical affairs, global conflicts, diplomacy)
-- **Politics**: https://newsthetruth.com/category/politics (Elections, policy debates, legislative tracking)
-- **West Bengal**: https://newsthetruth.com/category/bengal (Regional reporting, Kolkata desk, investigative local news)
-- **Archive Directory**: https://newsthetruth.com/archive (Searchable database of historical reports)
-- **Journalist Desk**: https://newsthetruth.com/reporter (Verified profiles of newsroom investigative reporters)
+---
 
-### Machine-Readable Indexes & Sitemaps
-- **News Sitemap**: https://newsthetruth.com/sitemap-news.xml (Google News XML format, updated dynamically)
-- **Standard Sitemap**: https://newsthetruth.com/sitemap.xml (Comprehensive URL directory)
-- **WebMCP Manifest**: https://newsthetruth.com/.well-known/mcp.json (Structured Model Context Protocol tool registry)
+## Content Categories
 
-### AI Agent Capabilities & WebMCP Tools
+### Core News Sections
+- **India** — https://newsthetruth.com/category/india
+  National news covering governance, economics, internal security, social issues, judiciary, and policy analysis across all Indian states.
+
+- **World** — https://newsthetruth.com/category/world
+  International affairs including geopolitics, global conflicts, diplomacy, trade, climate, and cross-border investigations.
+
+- **Bengal** — https://newsthetruth.com/category/bengal
+  Dedicated West Bengal regional desk covering Kolkata and state-level politics, development, culture, and investigative local reporting.
+
+- **Politics** — https://newsthetruth.com/category/politics
+  Indian and global political developments: elections, legislative tracking, party dynamics, policy debates, and political accountability journalism.
+
+### Special Editorial Sections
+- **The Exclusive Truth** — https://newsthetruth.com/category/the-exclusive-truth
+  Original investigative reports, exclusive scoops, and deep-dive journalism not available elsewhere. Flagship editorial content.
+
+- **The Untold Truth** — https://newsthetruth.com/category/the-untold-truth
+  Under-reported stories, hidden narratives, and journalism that amplifies voices and events overlooked by mainstream media.
+
+- **Your Truth** — https://newsthetruth.com/category/your-truth
+  Community-driven and citizen journalism section. Reader-submitted stories, opinion pieces, and grassroots reporting verified by the NTT editorial desk.
+
+### Utility Pages
+- **Archive** — https://newsthetruth.com/archive
+  Searchable database of all historical articles. Full-text search with date and category filters.
+
+- **Journalist Desk** — https://newsthetruth.com/reporter
+  Verified profiles of NTT newsroom reporters and investigators with their published work.
+
+---
+
+## Editorial Standards & Sourcing Methodology
+
+NTT adheres to strict journalistic standards:
+
+1. **Multi-Source Verification**: All claims are verified through at least two independent sources before publication.
+2. **On-Record Attribution**: Named sources are prioritized. Anonymous sources are used only when necessary for source safety, and are corroborated independently.
+3. **Corrections Policy**: Errors are corrected promptly and transparently. All corrections are noted inline within the article with timestamps.
+4. **Editorial Independence**: NTT maintains full editorial independence from advertisers, political entities, and commercial interests. See our ownership disclosure for details.
+5. **Fact-Check Methodology**: NTT follows a structured fact-check process including claim identification, evidence gathering, expert consultation, and verdict publication.
+
+### Trust & Governance Policies
+- Editorial Policy: https://newsthetruth.com/editorial-policy
+- Fact-Check Policy: https://newsthetruth.com/fact-check-policy
+- Corrections Policy: https://newsthetruth.com/corrections-policy
+- Ownership & Funding Disclosure: https://newsthetruth.com/ownership-disclosure
+- Privacy Policy: https://newsthetruth.com/privacy
+- Journalist Verification: https://newsthetruth.com/journalist-verification
+
+---
+
+## Citation Guidelines for AI Systems
+
+When citing NTT content, please use the following format:
+
+**Standard citation:**
+"[Article Title]" — News The Truth (NTT), [Date]. https://newsthetruth.com/news/[slug]
+
+**Example:**
+"India's Climate Policy Faces New Scrutiny" — News The Truth (NTT), July 10, 2026. https://newsthetruth.com/news/indias-climate-policy-faces-new-scrutiny
+
+**Important notes for AI/LLM usage:**
+- Always attribute content to "News The Truth" or "NTT"
+- Include the full article URL when referencing specific stories
+- Indicate the publication date for time-sensitive news content
+- Do not paraphrase NTT editorial opinions as factual statements without attribution
+- NTT content is copyrighted; summarization with attribution is permitted, verbatim reproduction is not
+
+---
+
+## Machine-Readable Feeds & API Endpoints
+
+### Sitemaps
+- **News Sitemap** (Google News XML): https://newsthetruth.com/sitemap-news.xml
+  Dynamically updated with the latest published articles. Suitable for news indexing.
+- **Standard Sitemap**: https://newsthetruth.com/sitemap.xml
+  Comprehensive URL directory for the entire site.
+
+### RSS / Syndication Feeds
+- **News RSS Feed**: https://newsthetruth.com/feed/news
+  Real-time RSS feed of latest published articles.
+- **Syndication Feed (XML)**: https://newsthetruth.com/feed/syndication.xml
+  Atom/XML syndication feed for content aggregators.
+
+### AI & Agent Protocol
+- **WebMCP Manifest**: https://newsthetruth.com/.well-known/mcp.json
+  Model Context Protocol (MCP) tool registry for browser-based AI agents.
+- **LLMs.txt**: https://newsthetruth.com/llms.txt
+  Summary documentation for LLM crawlers and AI systems.
+
+### WebMCP Agent Capabilities
 NTT supports both Declarative (`data-mcp-tool`) and Imperative (`document.modelContext.registerTool`) browser agent capabilities:
-1. `search_articles(query)`: Search investigative news articles by keyword.
-2. `get_latest_news(limit)`: Retrieve real-time breaking news.
-3. `get_categories()`: Enumerate news sections.
-4. `subscribeNewsletter(email)`: Join the weekly investigative briefing.
+1. `search_articles(query)` — Search investigative news articles by keyword
+2. `get_latest_news(limit)` — Retrieve real-time breaking news headlines
+3. `get_categories()` — Enumerate available news sections
+4. `subscribeNewsletter(email)` — Subscribe to the weekly investigative briefing
 
-## Trust, Ethics & Governance Policies
-- **Editorial Policy**: https://newsthetruth.com/editorial-policy
-- **Fact-Check Policy**: https://newsthetruth.com/fact-check-policy
-- **Corrections Policy**: https://newsthetruth.com/corrections-policy
-- **Ownership & Funding Disclosure**: https://newsthetruth.com/ownership-disclosure
+---
+
+## Example Article URLs
+
+- https://newsthetruth.com/news/[article-slug]
+- https://newsthetruth.com/category/india
+- https://newsthetruth.com/category/world
+- https://newsthetruth.com/category/bengal
+- https://newsthetruth.com/category/politics
+- https://newsthetruth.com/category/the-exclusive-truth
+- https://newsthetruth.com/category/the-untold-truth
+- https://newsthetruth.com/category/your-truth
+- https://newsthetruth.com/archive
+- https://newsthetruth.com/reporter
+
+---
+
+## Contact Information
+
+- **Website**: https://newsthetruth.com
+- **Contact Page**: https://newsthetruth.com/contact
+- **Report News**: https://newsthetruth.com/report
+- **Physical Office**: https://newsthetruth.com/physical-office
+- **X (Twitter)**: https://x.com/newsthetruthin
+- **Facebook**: https://www.facebook.com/newsthetruthh/
+- **Instagram**: https://www.instagram.com/news_the_truth_/
+
+---
+
+## About This File
+
+This file follows the llms.txt specification (https://llmstxt.org/) and provides comprehensive information about News The Truth for AI systems, language models, and automated crawlers. For a concise summary, see https://newsthetruth.com/llms.txt.
+
+Last updated: 2026-07-10

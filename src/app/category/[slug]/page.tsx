@@ -70,12 +70,35 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     );
   }
 
+  const displayName = slug.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
   const heroPost = posts[0];
   const gridPosts = posts.slice(1);
+
+  // CollectionPage + ItemList JSON-LD for SEO
+  const collectionLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${displayName} News`,
+    description: `Latest ${displayName} news, reports, and analysis from News The Truth.`,
+    url: `${SITE_URL}/category/${slug}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: posts.slice(0, 10).map((post: any, index: number) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `${SITE_URL}/news/${post.slug}`,
+        name: post.title,
+      })),
+    },
+  };
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
       <Header />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }}
+      />
       
       <div className="pt-32 pb-24 max-w-7xl mx-auto px-4 lg:px-12">
         <header className="mb-16">
@@ -108,3 +131,4 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     </main>
   )
 }
+

@@ -6,15 +6,26 @@ export default function StructuredData() {
   const organizationData = {
     '@context': 'https://schema.org',
     '@type': 'NewsMediaOrganization',
+    '@id': 'https://newsthetruth.com/#organization',
     name: 'NTT',
     url: SITE_URL,
+    description:
+      'NTT (News The Truth) is an independent investigative journalism platform covering India, World, Politics, and breaking news with a focus on citizen journalism and authentic storytelling.',
+    foundingDate: '2023',
     logo: {
       '@type': 'ImageObject',
       url: `${SITE_URL}/icon-512.png`,
     },
+    publishingPrinciples: 'https://newsthetruth.com/editorial-policy',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'editorial',
+      url: 'https://newsthetruth.com/contact',
+    },
     sameAs: [
-      'https://www.facebook.com/newsthetruthindia',
-      'https://twitter.com/newsthetruth',
+      'https://www.facebook.com/newsthetruthh/',
+      'https://x.com/newsthetruthin',
+      'https://www.instagram.com/newsthetruthindia',
     ],
   };
 
