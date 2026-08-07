@@ -136,7 +136,7 @@ export default function Header() {
                           rel="noopener noreferrer"
                           className="px-4 py-2 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-primary hover:text-white transition-all duration-300"
                         >
-                          Admin
+                          {user.firstname || 'Admin'}
                         </a>
                       ) : (
                         <div className="hidden sm:block text-[10px] font-black uppercase tracking-widest text-foreground/40">
