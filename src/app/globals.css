@@ -249,7 +249,13 @@ h2 {
   width: max-content;
 }
 
+.animate-ticker {
+  animation: marquee 210s linear infinite;
+  width: max-content;
+}
+
 /* Pause animation on hover for better UX */
-.group:hover .animate-marquee {
+.group:hover .animate-marquee,
+.group:hover .animate-ticker {
   animation-play-state: paused;
 }

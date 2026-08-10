@@ -27,7 +27,7 @@ export default function LiveTicker() {
 
       {/* Marquee Container */}
       <div className="flex-grow relative h-full flex items-center overflow-hidden group">
-        <div className="flex animate-marquee whitespace-nowrap pl-4">
+        <div className="flex animate-ticker whitespace-nowrap pl-4">
           {items.map((item, index) => (
             <div key={index} className="flex items-center gap-4 mx-6">
               <p className="text-[11px] font-bold tracking-wide">
