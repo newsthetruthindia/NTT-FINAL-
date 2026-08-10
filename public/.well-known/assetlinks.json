@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.newsthetruth.twa",
+    "sha256_cert_fingerprints": ["8F:F0:10:5A:59:8A:C5:F1:72:60:E5:60:74:78:CB:B6:86:3A:5B:D6:35:76:96:E7:4C:FD:F8:E7:72:28:E3:0D"]
+  }
+}]
