@@ -250,7 +250,7 @@ h2 {
 }
 
 .animate-ticker {
-  animation: marquee 210s linear infinite;
+  animation: marquee 100s linear infinite;
   width: max-content;
 }
 
