@@ -16,6 +16,7 @@ export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isIndependenceDay, setIsIndependenceDay] = useState(false);
   const lastScrollY = useRef(0);
   const { user, logout, isLoading } = useAuth();
 
@@ -37,6 +38,13 @@ export default function Header() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Independence Day check (Including 14th temporarily for testing)
+    const today = new Date();
+    if (today.getMonth() === 7 && (today.getDate() === 15 || today.getDate() === 14)) {
+      setIsIndependenceDay(true);
+    }
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -48,12 +56,19 @@ export default function Header() {
         <LiveTicker />
         <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between h-20 max-w-7xl relative z-10">
           {/* Left: Logo */}
-          <div className="shrink-0">
+          <div className="shrink-0 relative">
             <Link href="/" className="flex items-center group">
-              <span className="text-3xl lg:text-4xl font-black tracking-tighter text-foreground group-hover:text-primary transition-all duration-500">
-                NTT<span className="text-primary text-4xl">.</span>
+              <span className={`text-3xl lg:text-4xl font-black tracking-tighter transition-all duration-500 ${isIndependenceDay ? 'bg-gradient-to-r from-[#FF9933] via-[#FFFFFF] to-[#138808] text-transparent bg-clip-text drop-shadow-md' : 'text-foreground group-hover:text-primary'}`}>
+                NTT<span className={isIndependenceDay ? 'text-[#138808] text-4xl' : 'text-primary text-4xl'}>.</span>
               </span>
             </Link>
+            {isIndependenceDay && (
+              <div className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap hidden md:block pointer-events-none">
+                <span className="text-[9px] font-black uppercase tracking-widest bg-gradient-to-r from-[#FF9933] via-[#FFFFFF] to-[#138808] text-transparent bg-clip-text drop-shadow-sm">
+                  Happy Independence Day
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Center: Navigation */}

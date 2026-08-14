@@ -151,8 +151,13 @@ export default async function RootLayout({
             __html: `
               window.OneSignalDeferred = window.OneSignalDeferred || [];
               OneSignalDeferred.push(async function(OneSignal) {
+                const appId = "${process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID || ''}";
+                if (!appId) {
+                  console.warn('OneSignal not initialized: NEXT_PUBLIC_ONESIGNAL_APP_ID is missing.');
+                  return;
+                }
                 await OneSignal.init({
-                  appId: "${process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID || ''}",
+                  appId: appId,
                   safari_web_id: "${process.env.NEXT_PUBLIC_ONESIGNAL_SAFARI_WEB_ID || ''}",
                   notifyButton: {
                     enable: true,
