@@ -63,7 +63,7 @@ export default function LiveDataHub() {
             <span className="text-[10px] font-black uppercase tracking-widest text-white">Markets</span>
           </div>
           <div className="flex-grow overflow-hidden flex items-center group">
-            <div className="flex animate-marquee whitespace-nowrap">
+            <div className="flex animate-marquee whitespace-nowrap" style={{ animationDuration: '30s' }}>
               {stocks.map((stock, i) => (
                 <div key={i} className="flex items-center gap-2 mx-6 text-[11px] font-bold">
                   <span className="text-foreground/80">{stock.symbol}</span>
