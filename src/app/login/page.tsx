@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
+import FacebookLoginButton from '@/components/FacebookLoginButton';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -134,6 +135,7 @@ export default function LoginPage() {
               </div>
   
               <GoogleLoginButton />
+              <FacebookLoginButton />
   
               <p className="text-center text-white/20 mt-5 text-[9px] font-black uppercase tracking-[0.15em]">
                 New to News The Truth? <Link href="/register" className="text-primary hover:underline ml-1">Secure Registration</Link>

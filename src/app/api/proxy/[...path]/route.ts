@@ -143,7 +143,14 @@ export async function POST(
     });
 
     const contentType = res.headers.get('content-type');
-    if (!res.ok || (contentType && !contentType.includes('application/json'))) {
+    
+    // If it's JSON, we want to return the actual body even if it's an error (400, 401, etc.)
+    if (contentType && contentType.includes('application/json')) {
+      const data = await res.json();
+      return NextResponse.json(data, { status: res.status });
+    }
+
+    if (!res.ok) {
       return NextResponse.json({ error: 'Backend error' }, { status: res.status });
     }
 

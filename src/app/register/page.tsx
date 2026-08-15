@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
+import FacebookLoginButton from '@/components/FacebookLoginButton';
 
 export default function RegisterPage() {
   const [firstname, setFirstname] = useState('');
@@ -153,6 +154,7 @@ export default function RegisterPage() {
               </div>
   
               <GoogleLoginButton />
+              <FacebookLoginButton />
   
               <p className="text-center text-white/20 mt-5 text-[9px] font-black uppercase tracking-[0.15em]">
                 Already have an account? <Link href="/login" className="text-primary hover:underline ml-1">Authenticate Access</Link>
