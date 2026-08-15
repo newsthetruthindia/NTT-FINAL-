@@ -15,6 +15,20 @@ function to12hr(time24: string): string {
   return `${hour12}:${m.toString().padStart(2, '0')} ${period}`;
 }
 
+// Calculate US AQI from PM2.5
+function calculateAQI(pm25: number): number {
+  if (pm25 < 0) return 0;
+  let cLow, cHigh, iLow, iHigh;
+  if (pm25 <= 12.0) { cLow = 0; cHigh = 12.0; iLow = 0; iHigh = 50; }
+  else if (pm25 <= 35.4) { cLow = 12.1; cHigh = 35.4; iLow = 51; iHigh = 100; }
+  else if (pm25 <= 55.4) { cLow = 35.5; cHigh = 55.4; iLow = 101; iHigh = 150; }
+  else if (pm25 <= 150.4) { cLow = 55.5; cHigh = 150.4; iLow = 151; iHigh = 200; }
+  else if (pm25 <= 250.4) { cLow = 150.5; cHigh = 250.4; iLow = 201; iHigh = 300; }
+  else if (pm25 <= 350.4) { cLow = 250.5; cHigh = 350.4; iLow = 301; iHigh = 400; }
+  else { cLow = 350.5; cHigh = 500.4; iLow = 401; iHigh = 500; }
+  return Math.round(((iHigh - iLow) / (cHigh - cLow)) * (pm25 - cLow) + iLow);
+}
+
 export async function GET() {
   const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
   if (!WEATHER_API_KEY) {
@@ -148,12 +162,12 @@ export async function GET() {
 
     // --- 5. Fetch Weather & Tides ---
     for (const city of cities) {
-      const forecastRes = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}&days=3&aqi=yes`);
+      const forecastRes = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}, India&days=3&aqi=yes`);
       const forecastData = await forecastRes.json();
 
       let tideData: any = null;
       if (city !== 'Delhi') {
-        const marineRes = await fetch(`http://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${city}&days=3`);
+        const marineRes = await fetch(`http://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${city}, India&days=3`);
         const marineJson = await marineRes.json();
         tideData = marineJson?.forecast?.forecastday;
       }
@@ -178,11 +192,16 @@ export async function GET() {
           tideStr = `H: ${highTime} | L: ${lowTime}`;
         }
 
+        let aqiValue = 'N/A';
+        if (day.day.air_quality?.['pm2_5']) {
+          aqiValue = calculateAQI(day.day.air_quality['pm2_5']).toString();
+        }
+
         results[dayKey].push({
           name: city.toUpperCase(),
           temp: `${Math.round(day.day.avgtemp_c)}°C`,
           icon: day.day.condition.text.includes('Rain') ? '🌧️' : day.day.condition.text.includes('Cloud') ? '☁️' : '☀️',
-          aqi: day.day.air_quality?.['pm2_5'] ? Math.round(day.day.air_quality['pm2_5']) : 'N/A',
+          aqi: aqiValue,
           aqiStatus,
           tide: tideStr,
         });
