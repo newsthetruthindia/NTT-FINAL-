@@ -187,33 +187,8 @@ export default function LiveDataHub() {
 
           </div>
 
-          {/* Right Column: Sports & Horoscope */}
+          {/* Right Column: Horoscope */}
           <div className="flex flex-col gap-6">
-            
-            {/* Sports Widget */}
-            <div className="bg-background/50 border border-border/50 rounded-2xl p-5 relative overflow-hidden group hover:border-primary/30 transition-colors flex flex-col justify-center min-h-[160px]">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl" />
-              <div className="flex items-center justify-between mb-4 relative z-10">
-                <span className="text-[10px] font-black uppercase tracking-widest text-foreground/60 flex items-center gap-2">
-                  <span className="text-sm">🏏</span> Live Sports
-                </span>
-                <span className="text-[8px] font-black uppercase tracking-widest text-red-500 bg-red-500/10 px-2 py-0.5 rounded-full animate-pulse border border-red-500/20">Live</span>
-              </div>
-              <div className="flex justify-between items-center text-center relative z-10">
-                <div className="flex flex-col items-center">
-                  <span className="text-2xl mb-1 drop-shadow">🇮🇳</span>
-                  <span className="text-[11px] font-black tracking-widest text-foreground">IND</span>
-                  <span className="text-sm font-black text-foreground mt-1">214/3</span>
-                </div>
-                <div className="text-[9px] font-bold text-foreground/40 uppercase tracking-widest bg-background/80 border border-border/50 px-2 py-1 rounded-full">Vs</div>
-                <div className="flex flex-col items-center">
-                  <span className="text-2xl mb-1 drop-shadow">🇦🇺</span>
-                  <span className="text-[11px] font-black tracking-widest text-foreground">AUS</span>
-                  <span className="text-sm font-black text-foreground mt-1">189/8</span>
-                </div>
-              </div>
-              <p className="mt-4 text-[9px] font-bold text-foreground/70 text-center italic border-t border-border/50 pt-3 relative z-10">India needs 12 runs in 8 balls</p>
-            </div>
 
             {/* Horoscope Widget */}
             <div className="bg-background/50 border border-border/50 rounded-2xl p-5 relative overflow-hidden hover:border-primary/30 transition-colors flex flex-col flex-grow min-h-[160px]">
