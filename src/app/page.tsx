@@ -5,6 +5,7 @@ import Newsletter from '@/components/Newsletter'
 import VideoGallery from '@/components/VideoGallery'
 import AdBanner from '@/components/AdBanner'
 import PollWidgetClient from '@/components/PollWidgetClient'
+import LiveDataHub from '@/components/LiveDataHub'
 import { preload } from 'react-dom'
 import { fetchLatestPosts, fetchTopPosts, fetchCategories, fetchCategoryPosts, fetchTags, fetchVideos, fetchYoutubeRSSVideos, getImageUrl } from '@/lib/api'
 
@@ -291,6 +292,7 @@ export default async function Home() {
           </section>
         </div>
 
+        <LiveDataHub />
         <Newsletter />
       </div>
       <Footer />
