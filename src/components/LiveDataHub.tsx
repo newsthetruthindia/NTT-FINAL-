@@ -38,10 +38,10 @@ export default function LiveDataHub() {
 
 
   const fuelData = [
-    { city: 'DELHI', petrol: '₹94.72', diesel: '₹87.62' },
-    { city: 'MUMBAI', petrol: '₹104.21', diesel: '₹92.15' },
-    { city: 'KOLKATA', petrol: '₹103.94', diesel: '₹90.76' },
-    { city: 'CHENNAI', petrol: '₹100.75', diesel: '₹92.34' },
+    { city: 'DELHI', petrol: '₹102.12', diesel: '₹95.20' },
+    { city: 'MUMBAI', petrol: '₹111.21', diesel: '₹97.83' },
+    { city: 'KOLKATA', petrol: '₹113.51', diesel: '₹99.82' },
+    { city: 'CHENNAI', petrol: '₹107.77', diesel: '₹99.55' },
   ];
 
   const getAqiColor = (status: string) => {
