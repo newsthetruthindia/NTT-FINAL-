@@ -259,3 +259,12 @@ h2 {
 .group:hover .animate-ticker {
   animation-play-state: paused;
 }
+
+/* Hide scrollbar for zodiac picker */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

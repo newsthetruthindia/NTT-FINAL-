@@ -1,7 +1,19 @@
 import { NextResponse } from 'next/server';
 import yahooFinance from 'yahoo-finance2';
+import * as cheerio from 'cheerio';
 
 export const revalidate = 300; // Cache for 5 minutes
+
+const ZODIAC_SIGNS = ['aries','taurus','gemini','cancer','leo','virgo','libra','scorpio','sagittarius','capricorn','aquarius','pisces'];
+
+// Convert 24hr time "14:30" to "2:30 PM"
+function to12hr(time24: string): string {
+  if (!time24 || time24 === '--:--') return '--:--';
+  const [h, m] = time24.split(':').map(Number);
+  const period = h >= 12 ? 'PM' : 'AM';
+  const hour12 = h % 12 || 12;
+  return `${hour12}:${m.toString().padStart(2, '0')} ${period}`;
+}
 
 export async function GET() {
   const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
@@ -12,7 +24,8 @@ export async function GET() {
   const cities = ['Delhi', 'Mumbai', 'Kolkata', 'Chennai'];
   const results: any = { Today: [], Tomorrow: [], 'Day 3': [] };
   const marketData: any = {};
-  let horoscope = null;
+  const horoscopes: any = {};
+  const fuelData: any[] = [];
 
   try {
     // --- 1. Fetch Crypto (CoinGecko) ---
@@ -27,12 +40,11 @@ export async function GET() {
     try {
       const symbols = ['^BSESN', '^NSEI', 'INR=X', 'EURINR=X', 'GC=F'];
       const quotes = await yahooFinance.quote(symbols);
-      quotes.forEach(q => {
+      quotes.forEach((q: any) => {
         marketData[q.symbol] = { price: q.regularMarketPrice, change: q.regularMarketChangePercent };
       });
     } catch(e) { 
       console.error('Yahoo error', e); 
-      // Fallback mocks if API fails so UI doesn't show dashes
       marketData['^BSESN'] = { price: 72400.15, change: 0.12 };
       marketData['^NSEI'] = { price: 22040.70, change: 0.45 };
       marketData['INR=X'] = { price: 83.15, change: 0.05 };
@@ -40,20 +52,105 @@ export async function GET() {
       marketData['GC=F'] = { price: 2350.50, change: 0.15 };
     }
 
-    // --- 3. Fetch Horoscope ---
+    // --- 3. Fetch ALL Horoscopes (parallel) ---
     try {
-      const horoRes = await fetch('https://ohmanda.com/api/horoscope/leo');
-      const horoData = await horoRes.json();
-      horoscope = horoData.horoscope;
+      const horoPromises = ZODIAC_SIGNS.map(sign =>
+        fetch(`https://ohmanda.com/api/horoscope/${sign}`)
+          .then(r => r.json())
+          .then(d => ({ sign, text: d.horoscope }))
+          .catch(() => ({ sign, text: null }))
+      );
+      const horoResults = await Promise.all(horoPromises);
+      horoResults.forEach(({ sign, text }) => {
+        if (text) horoscopes[sign] = text;
+      });
     } catch(e) { console.error('Horoscope error', e); }
 
-    // --- 4. Fetch Weather & Tides ---
+    // --- 4. Fetch Fuel Prices (scrape GoodReturns) ---
+    try {
+      const fuelCities: { [key: string]: { petrol: string; diesel: string } } = {
+        'Delhi': { petrol: '₹102.12', diesel: '₹95.20' },
+        'Mumbai': { petrol: '₹111.21', diesel: '₹97.83' },
+        'Kolkata': { petrol: '₹113.51', diesel: '₹99.82' },
+        'Chennai': { petrol: '₹107.77', diesel: '₹99.55' },
+      };
+
+      // Try scraping petrol prices from JSON-LD
+      try {
+        const petrolRes = await fetch('https://www.goodreturns.in/petrol-price.html', {
+          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+        });
+        const petrolHtml = await petrolRes.text();
+        const $p = cheerio.load(petrolHtml);
+        
+        $p('script[type="application/ld+json"]').each((_, el) => {
+          try {
+            const json = JSON.parse($p(el).html() || '');
+            if (json['@type'] === 'FAQPage' && json.mainEntity) {
+              json.mainEntity.forEach((faq: any) => {
+                const q = faq.name || '';
+                const a = faq.acceptedAnswer?.text || '';
+                for (const city of Object.keys(fuelCities)) {
+                  if (q.includes(city) || a.includes(city)) {
+                    const match = a.match(/(?:Rs\.?|₹)\s*([\d,.]+)/);
+                    if (match) {
+                      fuelCities[city].petrol = '₹' + match[1].replace(/[.,]+$/, '');
+                    }
+                  }
+                }
+              });
+            }
+          } catch {}
+        });
+      } catch(e) { console.error('Petrol scrape error', e); }
+
+      // Try scraping diesel prices from JSON-LD
+      try {
+        const dieselRes = await fetch('https://www.goodreturns.in/diesel-price.html', {
+          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+        });
+        const dieselHtml = await dieselRes.text();
+        const $d = cheerio.load(dieselHtml);
+        
+        $d('script[type="application/ld+json"]').each((_, el) => {
+          try {
+            const json = JSON.parse($d(el).html() || '');
+            if (json['@type'] === 'FAQPage' && json.mainEntity) {
+              json.mainEntity.forEach((faq: any) => {
+                const q = faq.name || '';
+                const a = faq.acceptedAnswer?.text || '';
+                for (const city of Object.keys(fuelCities)) {
+                  if (q.includes(city) || a.includes(city)) {
+                    const match = a.match(/(?:Rs\.?|₹)\s*([\d,.]+)/);
+                    if (match) {
+                      fuelCities[city].diesel = '₹' + match[1].replace(/[.,]+$/, '');
+                    }
+                  }
+                }
+              });
+            }
+          } catch {}
+        });
+      } catch(e) { console.error('Diesel scrape error', e); }
+
+      for (const [city, prices] of Object.entries(fuelCities)) {
+        fuelData.push({ city: city.toUpperCase(), petrol: prices.petrol, diesel: prices.diesel });
+      }
+    } catch(e) {
+      console.error('Fuel error', e);
+      fuelData.push(
+        { city: 'DELHI', petrol: '₹102.12', diesel: '₹95.20' },
+        { city: 'MUMBAI', petrol: '₹111.21', diesel: '₹97.83' },
+        { city: 'KOLKATA', petrol: '₹113.51', diesel: '₹99.82' },
+        { city: 'CHENNAI', petrol: '₹107.77', diesel: '₹99.55' },
+      );
+    }
+
+    // --- 5. Fetch Weather & Tides ---
     for (const city of cities) {
-      // 1. Fetch Forecast (for Weather and AQI)
       const forecastRes = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}&days=3&aqi=yes`);
       const forecastData = await forecastRes.json();
 
-      // 2. Fetch Marine (for Tides) - Only for coastal cities
       let tideData: any = null;
       if (city !== 'Delhi') {
         const marineRes = await fetch(`http://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${city}&days=3`);
@@ -61,25 +158,24 @@ export async function GET() {
         tideData = marineJson?.forecast?.forecastday;
       }
 
-      // 3. Format Data
       forecastData?.forecast?.forecastday?.forEach((day: any, index: number) => {
         let dayKey = 'Today';
         if (index === 1) dayKey = 'Tomorrow';
         if (index === 2) dayKey = 'Day 3';
 
-        // Map AQI US-EPA index (1-6) to Good/Moderate/Poor
         let aqiStatus = 'Good';
         const epaIndex = day.day.air_quality?.['us-epa-index'] || 1;
         if (epaIndex >= 3 && epaIndex <= 4) aqiStatus = 'Moderate';
         if (epaIndex >= 5) aqiStatus = 'Poor';
 
-        // Extract High/Low Tide
         let tideStr = null;
         if (tideData && tideData[index]) {
           const tides = tideData[index].day.tides?.[0]?.tide || [];
-          const high = tides.find((t: any) => t.tide_type === 'HIGH')?.tide_time.split(' ')[1] || '--:--';
-          const low = tides.find((t: any) => t.tide_type === 'LOW')?.tide_time.split(' ')[1] || '--:--';
-          tideStr = `H: ${high} | L: ${low}`;
+          const highTide = tides.find((t: any) => t.tide_type === 'HIGH');
+          const lowTide = tides.find((t: any) => t.tide_type === 'LOW');
+          const highTime = highTide ? to12hr(highTide.tide_time.split(' ')[1]) : '--:--';
+          const lowTime = lowTide ? to12hr(lowTide.tide_time.split(' ')[1]) : '--:--';
+          tideStr = `H: ${highTime} | L: ${lowTime}`;
         }
 
         results[dayKey].push({
@@ -93,7 +189,7 @@ export async function GET() {
       });
     }
 
-    return NextResponse.json({ weatherData: results, marketData, horoscope });
+    return NextResponse.json({ weatherData: results, marketData, horoscopes, fuelData });
   } catch (error) {
     console.error('Error fetching live data:', error);
     return NextResponse.json({ error: 'Failed to fetch live data' }, { status: 500 });

@@ -1,12 +1,29 @@
 'use client';
 import { useState, useEffect } from 'react';
 
+const ZODIAC_SIGNS = [
+  { key: 'aries', symbol: '♈', name: 'Aries' },
+  { key: 'taurus', symbol: '♉', name: 'Taurus' },
+  { key: 'gemini', symbol: '♊', name: 'Gemini' },
+  { key: 'cancer', symbol: '♋', name: 'Cancer' },
+  { key: 'leo', symbol: '♌', name: 'Leo' },
+  { key: 'virgo', symbol: '♍', name: 'Virgo' },
+  { key: 'libra', symbol: '♎', name: 'Libra' },
+  { key: 'scorpio', symbol: '♏', name: 'Scorpio' },
+  { key: 'sagittarius', symbol: '♐', name: 'Sagittarius' },
+  { key: 'capricorn', symbol: '♑', name: 'Capricorn' },
+  { key: 'aquarius', symbol: '♒', name: 'Aquarius' },
+  { key: 'pisces', symbol: '♓', name: 'Pisces' },
+];
+
 export default function LiveDataHub() {
   const [weatherDay, setWeatherDay] = useState('Today');
+  const [selectedSign, setSelectedSign] = useState('aries');
 
   const [weatherData, setWeatherData] = useState<any>({ Today: [], Tomorrow: [], 'Day 3': [] });
   const [marketData, setMarketData] = useState<any>(null);
-  const [horoscope, setHoroscope] = useState<string>('');
+  const [horoscopes, setHoroscopes] = useState<any>({});
+  const [fuelData, setFuelData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,7 +32,8 @@ export default function LiveDataHub() {
       .then(data => {
         if (data.weatherData) setWeatherData(data.weatherData);
         if (data.marketData) setMarketData(data.marketData);
-        if (data.horoscope) setHoroscope(data.horoscope);
+        if (data.horoscopes) setHoroscopes(data.horoscopes);
+        if (data.fuelData) setFuelData(data.fuelData);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -35,9 +53,8 @@ export default function LiveDataHub() {
     { symbol: 'Loading Markets...', price: '', change: '', up: true }
   ];
 
-
-
-  const fuelData = [
+  // Fallback fuel data if API hasn't returned yet
+  const displayFuel = fuelData.length > 0 ? fuelData : [
     { city: 'DELHI', petrol: '₹102.12', diesel: '₹95.20' },
     { city: 'MUMBAI', petrol: '₹111.21', diesel: '₹97.83' },
     { city: 'KOLKATA', petrol: '₹113.51', diesel: '₹99.82' },
@@ -49,6 +66,9 @@ export default function LiveDataHub() {
     if (status === 'Moderate') return 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 border-yellow-500/30';
     return 'bg-red-500/20 text-red-600 dark:text-red-400 border-red-500/30';
   };
+
+  const currentSign = ZODIAC_SIGNS.find(z => z.key === selectedSign) || ZODIAC_SIGNS[0];
+  const currentHoroscope = horoscopes[selectedSign] || '';
 
   return (
     <section className="px-4 md:px-8 max-w-7xl mx-auto w-full pb-12">
@@ -149,7 +169,7 @@ export default function LiveDataHub() {
                 </h3>
               </div>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {fuelData.map((fuel) => (
+                {displayFuel.map((fuel: any) => (
                   <div key={fuel.city} className="flex flex-col bg-background/50 border border-border/50 rounded-2xl p-4 hover:border-primary/30 transition-all hover:-translate-y-1 hover:shadow-lg">
                     <span className="text-[11px] font-black uppercase tracking-widest text-foreground/60 mb-4">{fuel.city}</span>
                     <div className="flex justify-between items-center mb-2">
@@ -196,7 +216,7 @@ export default function LiveDataHub() {
             </div>
 
             {/* Horoscope Widget */}
-            <div className="bg-background/50 border border-border/50 rounded-2xl p-5 relative overflow-hidden hover:border-primary/30 transition-colors flex flex-col justify-center flex-grow min-h-[160px]">
+            <div className="bg-background/50 border border-border/50 rounded-2xl p-5 relative overflow-hidden hover:border-primary/30 transition-colors flex flex-col flex-grow min-h-[160px]">
               <div className="absolute top-0 left-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl" />
               <div className="flex items-center justify-between mb-3 relative z-10">
                 <span className="text-[10px] font-black uppercase tracking-widest text-foreground/60 flex items-center gap-2">
@@ -204,15 +224,40 @@ export default function LiveDataHub() {
                 </span>
                 <span className="text-[9px] font-bold text-foreground/40">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
               </div>
-              <div className="relative z-10">
+
+              {/* Zodiac Sign Picker */}
+              <div className="relative z-10 mb-3 -mx-1">
+                <div className="flex gap-1 overflow-x-auto pb-2 scrollbar-hide">
+                  {ZODIAC_SIGNS.map((sign) => (
+                    <button
+                      key={sign.key}
+                      onClick={() => setSelectedSign(sign.key)}
+                      className={`shrink-0 flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg transition-all text-center ${
+                        selectedSign === sign.key 
+                          ? 'bg-primary/20 border border-primary/40 shadow-sm' 
+                          : 'hover:bg-foreground/5 border border-transparent'
+                      }`}
+                      title={sign.name}
+                    >
+                      <span className="text-base leading-none">{sign.symbol}</span>
+                      <span className={`text-[7px] font-black uppercase tracking-widest leading-none ${
+                        selectedSign === sign.key ? 'text-primary' : 'text-foreground/40'
+                      }`}>{sign.name.slice(0, 3)}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative z-10 flex-grow">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[11px] font-black uppercase tracking-widest text-primary">Leo</span>
+                  <span className="text-base">{currentSign.symbol}</span>
+                  <span className="text-[11px] font-black uppercase tracking-widest text-primary">{currentSign.name}</span>
                 </div>
                 {loading ? (
                   <p className="text-[11px] text-foreground/40 animate-pulse font-medium">Stargazing...</p>
                 ) : (
                   <p className="text-[11px] text-foreground/80 leading-relaxed font-medium">
-                    {horoscope || "A sudden insight today could shift your perspective on a long-standing project. Trust your instincts, but verify facts before acting."}
+                    {currentHoroscope || "Today's horoscope is being written by the stars..."}
                   </p>
                 )}
               </div>
