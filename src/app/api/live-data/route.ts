@@ -183,23 +183,38 @@ export async function GET() {
         if (epaIndex >= 5) aqiStatus = 'Poor';
 
         let tideStr = null;
-        if (tideData && tideData[index]) {
-          const tides = tideData[index].day.tides?.[0]?.tide || [];
-          const highTide = tides.find((t: any) => t.tide_type === 'HIGH');
-          const lowTide = tides.find((t: any) => t.tide_type === 'LOW');
-          const highTime = highTide ? to12hr(highTide.tide_time.split(' ')[1]) : '--:--';
-          const lowTime = lowTide ? to12hr(lowTide.tide_time.split(' ')[1]) : '--:--';
+        if (tideData && tideData[index]?.day?.tides?.[0]?.tide) {
+          const tides = tideData[index].day.tides[0].tide;
+          const formatTime = (tStr: string) => {
+            if (!tStr) return '--';
+            const date = new Date(tStr);
+            let h = date.getHours();
+            const m = date.getMinutes();
+            const period = h >= 12 ? 'PM' : 'AM';
+            h = h % 12;
+            const hour12 = h ? h : 12;
+            return `${hour12}:${m.toString().padStart(2, '0')} ${period}`;
+          };
+          
+          const firstHigh = tides.find((t: any) => t.tide_type === 'HIGH');
+          const firstLow = tides.find((t: any) => t.tide_type === 'LOW');
+          
+          const highTime = firstHigh ? formatTime(firstHigh.tide_time) : '--';
+          const lowTime = firstLow ? formatTime(firstLow.tide_time) : '--';
           tideStr = `H: ${highTime} | L: ${lowTime}`;
         }
 
         let aqiValue = 'N/A';
-        if (day.day.air_quality?.['pm2_5']) {
-          aqiValue = calculateAQI(day.day.air_quality['pm2_5']).toString();
+        const pm25 = index === 0 ? forecastData.current.air_quality?.['pm2_5'] : day.day.air_quality?.['pm2_5'];
+        if (pm25) {
+          aqiValue = calculateAQI(pm25).toString();
         }
+
+        const tempC = index === 0 ? forecastData.current.temp_c : day.day.avgtemp_c;
 
         results[dayKey].push({
           name: city.toUpperCase(),
-          temp: `${Math.round(day.day.avgtemp_c)}°C`,
+          temp: `${Math.round(tempC)}°C`,
           icon: day.day.condition.text.includes('Rain') ? '🌧️' : day.day.condition.text.includes('Cloud') ? '☁️' : '☀️',
           aqi: aqiValue,
           aqiStatus,
