@@ -29,6 +29,24 @@ function calculateAQI(pm25: number): number {
   return Math.round(((iHigh - iLow) / (cHigh - cLow)) * (pm25 - cLow) + iLow);
 }
 
+// Map WMO Weather codes to Emojis
+function getWeatherEmoji(code: number): string {
+  // 0: Clear sky
+  // 1, 2, 3: Mainly clear, partly cloudy, and overcast
+  // 45, 48: Fog and depositing rime fog
+  // 51, 53, 55: Drizzle
+  // 61, 63, 65: Rain
+  // 71, 73, 75: Snow fall
+  // 77: Snow grains
+  // 80, 81, 82: Rain showers
+  // 85, 86: Snow showers
+  // 95: Thunderstorm
+  // 96, 99: Thunderstorm with slight and heavy hail
+  if (code === 0 || code === 1) return '☀️';
+  if (code === 2 || code === 3 || code === 45 || code === 48) return '☁️';
+  return '🌧️';
+}
+
 export async function GET() {
   const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
   if (!WEATHER_API_KEY) {
@@ -161,9 +179,20 @@ export async function GET() {
     }
 
     // --- 5. Fetch Weather & Tides ---
+    const cityCoords: Record<string, {lat: number, lon: number}> = {
+      'Delhi': { lat: 28.6139, lon: 77.2090 },
+      'Mumbai': { lat: 19.0760, lon: 72.8777 },
+      'Kolkata': { lat: 22.5726, lon: 88.3639 },
+      'Chennai': { lat: 13.0827, lon: 80.2707 }
+    };
+
     for (const city of cities) {
       const forecastRes = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}, India&days=3&aqi=yes`);
       const forecastData = await forecastRes.json();
+
+      const coords = cityCoords[city];
+      const openMeteoRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata&forecast_days=3`);
+      const openMeteoData = await openMeteoRes.json();
 
       let tideData: any = null;
       if (city !== 'Delhi') {
@@ -210,14 +239,19 @@ export async function GET() {
           aqiValue = calculateAQI(pm25).toString();
         }
 
-        const tempC = index === 0 ? forecastData.current.temp_c : day.day.avgtemp_c;
-        const conditionText = (index === 0 ? forecastData.current.condition.text : day.day.condition.text).toLowerCase();
-        
+        let tempC = 0;
         let iconEmoji = '☀️';
-        if (conditionText.includes('rain') || conditionText.includes('drizzle') || conditionText.includes('shower') || conditionText.includes('thunder')) {
-          iconEmoji = '🌧️';
-        } else if (conditionText.includes('cloud') || conditionText.includes('overcast') || conditionText.includes('fog') || conditionText.includes('mist')) {
-          iconEmoji = '☁️';
+        
+        if (openMeteoData) {
+          if (index === 0) {
+            tempC = openMeteoData.current?.temperature_2m || 0;
+            iconEmoji = getWeatherEmoji(openMeteoData.current?.weather_code || 0);
+          } else {
+            const maxTemp = openMeteoData.daily?.temperature_2m_max?.[index] || 0;
+            const minTemp = openMeteoData.daily?.temperature_2m_min?.[index] || 0;
+            tempC = (maxTemp + minTemp) / 2;
+            iconEmoji = getWeatherEmoji(openMeteoData.daily?.weather_code?.[index] || 0);
+          }
         }
 
         results[dayKey].push({
