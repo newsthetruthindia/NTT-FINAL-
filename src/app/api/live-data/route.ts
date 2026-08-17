@@ -86,6 +86,7 @@ export async function GET() {
 
     // --- 3. Fetch Horoscopes ---
     try {
+      const ZODIAC_SIGNS = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'];
       await Promise.all(ZODIAC_SIGNS.map(async (sign) => {
         try {
           const res = await fetch(`https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sign}&day=today`);
