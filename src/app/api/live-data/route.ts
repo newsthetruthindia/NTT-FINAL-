@@ -211,11 +211,19 @@ export async function GET() {
         }
 
         const tempC = index === 0 ? forecastData.current.temp_c : day.day.avgtemp_c;
+        const conditionText = (index === 0 ? forecastData.current.condition.text : day.day.condition.text).toLowerCase();
+        
+        let iconEmoji = '☀️';
+        if (conditionText.includes('rain') || conditionText.includes('drizzle') || conditionText.includes('shower') || conditionText.includes('thunder')) {
+          iconEmoji = '🌧️';
+        } else if (conditionText.includes('cloud') || conditionText.includes('overcast') || conditionText.includes('fog') || conditionText.includes('mist')) {
+          iconEmoji = '☁️';
+        }
 
         results[dayKey].push({
           name: city.toUpperCase(),
           temp: `${Math.round(tempC)}°C`,
-          icon: day.day.condition.text.includes('Rain') ? '🌧️' : day.day.condition.text.includes('Cloud') ? '☁️' : '☀️',
+          icon: iconEmoji,
           aqi: aqiValue,
           aqiStatus,
           tide: tideStr,
