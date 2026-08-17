@@ -84,19 +84,34 @@ export async function GET() {
       marketData['GC=F'] = { price: 2350.50, change: 0.15 };
     }
 
-    // --- 3. Fetch ALL Horoscopes (parallel) ---
+    // --- 3. Fetch Horoscopes ---
     try {
-      const horoPromises = ZODIAC_SIGNS.map(sign =>
-        fetch(`https://ohmanda.com/api/horoscope/${sign}`)
-          .then(r => r.json())
-          .then(d => ({ sign, text: d.horoscope }))
-          .catch(() => ({ sign, text: null }))
-      );
-      const horoResults = await Promise.all(horoPromises);
-      horoResults.forEach(({ sign, text }) => {
-        if (text) horoscopes[sign] = text;
+      await Promise.all(ZODIAC_SIGNS.map(async (sign) => {
+        try {
+          const res = await fetch(`https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sign}&day=today`);
+          if (res.ok) {
+            const data = await res.json();
+            horoscopes[sign] = data.data.horoscope;
+          } else {
+            throw new Error('API failed');
+          }
+        } catch (e) {
+          // Fallback to Ohmanda if the first API fails
+          const res2 = await fetch(`https://ohmanda.com/api/horoscope/${sign}`);
+          if (res2.ok) {
+            const data2 = await res2.json();
+            horoscopes[sign] = data2.horoscope;
+          } else {
+            horoscopes[sign] = `The stars are aligning for you today, ${sign.charAt(0).toUpperCase() + sign.slice(1)}. Trust your intuition and embrace new opportunities.`;
+          }
+        }
+      }));
+    } catch(e) {
+      console.error('Horoscope error', e);
+      ZODIAC_SIGNS.forEach(sign => {
+        if (!horoscopes[sign]) horoscopes[sign] = "The stars are shining bright for you today! Check back later for your specific celestial forecast.";
       });
-    } catch(e) { console.error('Horoscope error', e); }
+    }
 
     // --- 4. Fetch Fuel Prices (scrape GoodReturns) ---
     try {
