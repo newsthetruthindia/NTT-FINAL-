@@ -14,8 +14,7 @@ export default async function ArchiveDatePage({
 }) {
   const { date } = await params;
   
-  // Format: [year, month, day]
-  if (!date || date.length < 3) {
+  if (!date || date.length === 0) {
     return (
       <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
         <Header />
@@ -27,13 +26,28 @@ export default async function ArchiveDatePage({
     );
   }
 
-  const [year, month, day] = date;
-  const formattedDate = `${year}-${month}-${day}`;
-  const displayDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toLocaleDateString('default', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  });
+  let formattedDate = '';
+  let displayDate = '';
+
+  if (date.length === 1) {
+    // Year only
+    const [year] = date;
+    formattedDate = year;
+    displayDate = year;
+  } else if (date.length >= 3) {
+    // Full date
+    const [year, month, day] = date;
+    formattedDate = `${year}-${month}-${day}`;
+    displayDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toLocaleDateString('default', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  } else {
+    // Unsupported format (e.g. year + month only)
+    formattedDate = date[0]; // fallback to year
+    displayDate = date[0];
+  }
 
   const posts = await fetchArchivePosts(formattedDate);
 

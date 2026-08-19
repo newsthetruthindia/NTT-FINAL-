@@ -75,7 +75,7 @@ export default async function ArchiveLandingPage() {
                 <h3 className="text-xs font-black uppercase tracking-[0.3em] text-foreground/40 mb-6">Browse by Year</h3>
                 <div className="flex flex-wrap gap-4">
                   {['2026', '2025', '2024', '2023'].map(year => (
-                    <a key={year} href={`/search?q=${year}`} className="px-5 py-2.5 rounded-full bg-card/50 border border-border text-foreground hover:bg-foreground hover:text-background transition-all duration-300 text-xs font-bold tracking-tight shadow-sm">
+                    <a key={year} href={`/archive/${year}`} className="px-5 py-2.5 rounded-full bg-card/50 border border-border text-foreground hover:bg-foreground hover:text-background transition-all duration-300 text-xs font-bold tracking-tight shadow-sm">
                       {year}
                     </a>
                   ))}
