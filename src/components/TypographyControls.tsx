@@ -6,19 +6,22 @@ export default function TypographyControls() {
   const [size, setSize] = useState<'base' | 'large' | 'xlarge'>('large');
 
   useEffect(() => {
-    // Target the main article text
-    const articleBody = document.querySelector('#premium-article-body .prose');
-    if (!articleBody) return;
+    // Target all parts of the main article text
+    const articleBodies = document.querySelectorAll('.article-content');
+    if (articleBodies.length === 0) return;
 
-    articleBody.classList.remove('prose-base', 'prose-lg', 'prose-xl');
-    
-    if (size === 'base') {
-      articleBody.classList.add('prose-base');
-    } else if (size === 'large') {
-      articleBody.classList.add('prose-lg');
-    } else if (size === 'xlarge') {
-      articleBody.classList.add('prose-xl');
-    }
+    articleBodies.forEach(body => {
+      // Remove all possible prose sizing classes, including the responsive ones
+      body.classList.remove('prose-sm', 'prose-base', 'prose-lg', 'prose-xl', 'prose-2xl', 'sm:prose-lg', 'md:prose-xl');
+      
+      if (size === 'base') {
+        body.classList.add('prose-base');
+      } else if (size === 'large') {
+        body.classList.add('prose-lg');
+      } else if (size === 'xlarge') {
+        body.classList.add('prose-xl');
+      }
+    });
   }, [size]);
 
   return (

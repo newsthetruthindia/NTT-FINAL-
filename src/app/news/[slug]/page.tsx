@@ -255,14 +255,6 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                   <span className="bg-primary/10 text-primary px-3 py-1 rounded-full">{readingTime} MIN READ</span>
                 </div>
                 
-                {/* AUDIO & ACCESSIBILITY CONTROLS */}
-                <div className="w-full max-w-2xl mx-auto flex flex-col md:flex-row items-center gap-4">
-                  <div className="flex-grow w-full">
-                    <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
-                  </div>
-                  <TypographyControls />
-                </div>
-
               </div>
 
               {/* HIGH-IMPACT HERO IMAGE */}
@@ -304,6 +296,14 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
 
               <div className="py-12">
                 <AdBanner />
+              </div>
+
+              {/* AUDIO & ACCESSIBILITY CONTROLS */}
+              <div className="flex flex-col md:flex-row items-center gap-4 mb-8 bg-card/20 p-4 rounded-3xl border border-white/5">
+                <div className="flex-grow w-full">
+                  <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
+                </div>
+                <TypographyControls />
               </div>
 
               {/* ARTICLEY GALLERY (MIDDLE POSITION) */}
