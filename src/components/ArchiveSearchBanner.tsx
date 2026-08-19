@@ -15,17 +15,17 @@ export default function ArchiveSearchBanner() {
   };
 
   return (
-    <section className="relative w-full overflow-hidden rounded-[48px] bg-[#0A0A0A] px-8 py-20 lg:px-16 lg:py-32 border border-white/5">
+    <section className="relative w-full overflow-hidden rounded-[48px] bg-[#0A0A0A] px-8 py-12 lg:px-16 lg:py-16 border border-white/5">
       {/* Background patterns */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 blur-[120px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full -translate-x-1/3 translate-y-1/3 pointer-events-none" />
       
       <div className="relative z-10 max-w-4xl mx-auto text-center">
-        <span className="inline-block px-4 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.4em] mb-8 border border-primary/30">
+        <span className="inline-block px-4 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.4em] mb-6 border border-primary/30">
           Global News Finder
         </span>
         
-        <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter mb-12 uppercase leading-none">
+        <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-8 uppercase leading-none">
           Looking for <span className="text-primary italic lowercase font-serif font-normal">something</span> specific?
         </h2>
         
@@ -34,8 +34,8 @@ export default function ArchiveSearchBanner() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search 4,100+ articles..."
-            className="w-full bg-white/5 border-2 border-white/10 text-white rounded-[32px] px-8 py-6 md:px-12 md:py-8 text-xl md:text-2xl font-bold placeholder:text-white/30 focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all duration-500"
+            placeholder="Search 5,000+ articles..."
+            className="w-full bg-white/5 border-2 border-white/10 text-white rounded-[32px] px-8 py-5 md:px-10 md:py-6 text-xl md:text-2xl font-bold placeholder:text-white/30 focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all duration-500"
           />
           <button 
             type="submit"
