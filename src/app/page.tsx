@@ -202,9 +202,9 @@ export default async function Home() {
                   <h2 className="title">The <span>India</span></h2>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
                 {indiaPosts.map((post: any) => post && post.id && (
-                  <NewsCard key={post.id} post={post} variant="landscape" />
+                  <NewsCard key={post.id} post={post} />
                 ))}
               </div>
             </section>
