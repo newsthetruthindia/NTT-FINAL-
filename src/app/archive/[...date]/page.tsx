@@ -28,28 +28,41 @@ export default async function ArchiveDatePage({
 
   let formattedDate = '';
   let displayDate = '';
+  const [year] = date;
+  const currentMonth = date.length >= 2 ? date[1] : null;
 
   if (date.length === 1) {
     // Year only
-    const [year] = date;
     formattedDate = year;
     displayDate = year;
+  } else if (date.length === 2) {
+    // Year + Month
+    const month = date[1];
+    formattedDate = `${year}-${month}`;
+    displayDate = new Date(parseInt(year), parseInt(month) - 1, 1).toLocaleDateString('default', {
+      month: 'long',
+      year: 'numeric'
+    });
   } else if (date.length >= 3) {
     // Full date
-    const [year, month, day] = date;
+    const month = date[1];
+    const day = date[2];
     formattedDate = `${year}-${month}-${day}`;
     displayDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toLocaleDateString('default', {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
     });
-  } else {
-    // Unsupported format (e.g. year + month only)
-    formattedDate = date[0]; // fallback to year
-    displayDate = date[0];
   }
 
   const posts = await fetchArchivePosts(formattedDate);
+  
+  const months = [
+    { num: '01', name: 'Jan' }, { num: '02', name: 'Feb' }, { num: '03', name: 'Mar' },
+    { num: '04', name: 'Apr' }, { num: '05', name: 'May' }, { num: '06', name: 'Jun' },
+    { num: '07', name: 'Jul' }, { num: '08', name: 'Aug' }, { num: '09', name: 'Sep' },
+    { num: '10', name: 'Oct' }, { num: '11', name: 'Nov' }, { num: '12', name: 'Dec' }
+  ];
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
@@ -63,9 +76,28 @@ export default async function ArchiveDatePage({
           <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tighter flex flex-wrap items-center gap-x-6">
             Stories from <span className="text-primary italic lowercase font-serif font-normal">{displayDate}</span>
           </h1>
-          <p className="text-foreground/60 mt-4 text-base font-medium italic">
+          <p className="text-foreground/60 mt-4 text-base font-medium italic mb-8">
             Found {posts.length} stories in our deep archive.
           </p>
+
+          {/* Month Filter UI */}
+          <div className="flex flex-wrap gap-2">
+             <a 
+               href={`/archive/${year}`}
+               className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${!currentMonth ? 'bg-primary text-white shadow-md shadow-primary/20' : 'bg-card border border-border text-foreground hover:border-primary/50'}`}
+             >
+               All {year}
+             </a>
+             {months.map(m => (
+               <a
+                 key={m.num}
+                 href={`/archive/${year}/${m.num}`}
+                 className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${currentMonth === m.num ? 'bg-primary text-white shadow-md shadow-primary/20' : 'bg-card border border-border text-foreground hover:border-primary/50'}`}
+               >
+                 {m.name}
+               </a>
+             ))}
+          </div>
         </header>
 
         {/* Team Banner Section */}
