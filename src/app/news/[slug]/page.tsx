@@ -284,26 +284,27 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
           <div className="max-w-[1400px] mx-auto px-4 lg:px-8 flex flex-col lg:flex-row gap-12 xl:gap-20 relative z-10 justify-center">
             {/* Main Article Column */}
             <div id="premium-article-body" className="flex-grow w-full max-w-3xl space-y-8">
-              {/* UTILITY STRIP (Gist, AI) */}
-              <div className="space-y-6 pt-2 pb-6 border-b border-border/40">
-                <div className="article-summary">
-                  <GistBox content={getSummary()} />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <AISummary content={articleContent} points={post.ai_summary_points} />
-                </div>
-              </div>
-
               <div className="py-12">
                 <AdBanner />
               </div>
 
-              {/* AUDIO & ACCESSIBILITY CONTROLS */}
-              <div className="flex flex-col md:flex-row items-center gap-4 mb-8 bg-card/20 p-4 rounded-3xl border border-white/5">
-                <div className="flex-grow w-full">
-                  <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
+              {/* UNIFIED UTILITY STRIP (Gist, AI, Audio, Typography) */}
+              <div className="space-y-6 pt-2 pb-8 border-b border-border/40">
+                <div className="article-summary">
+                  <GistBox content={getSummary()} />
                 </div>
-                <TypographyControls />
+                
+                <div className="flex flex-col gap-4">
+                  <AISummary content={articleContent} points={post.ai_summary_points} />
+                  
+                  {/* AUDIO & ACCESSIBILITY CONTROLS */}
+                  <div className="flex flex-col md:flex-row items-center gap-4 bg-card/20 p-4 rounded-3xl border border-white/5">
+                    <div className="flex-grow w-full">
+                      <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
+                    </div>
+                    <TypographyControls />
+                  </div>
+                </div>
               </div>
 
               {/* ARTICLEY GALLERY (MIDDLE POSITION) */}
