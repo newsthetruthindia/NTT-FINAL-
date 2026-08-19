@@ -47,7 +47,7 @@ export default function FloatingShare({ url, title, postId }: FloatingShareProps
   ];
 
   return (
-    <div className="hidden xl:flex fixed left-8 top-1/2 -translate-y-1/2 flex-col gap-4 z-40 animate-fade-in-left">
+    <div className="hidden 2xl:flex fixed left-8 top-1/2 -translate-y-1/2 flex-col gap-4 z-40 animate-fade-in-left">
       <div className="flex flex-col gap-3 p-2 bg-card/40 backdrop-blur-xl border border-white/5 rounded-full shadow-2xl">
         <div className="w-10 h-10 flex items-center justify-center text-primary/40 mb-1">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
