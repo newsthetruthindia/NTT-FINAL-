@@ -267,3 +267,4 @@ h2 {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+@media (max-width: 1024px) { html, body { overflow-x: hidden; } }
