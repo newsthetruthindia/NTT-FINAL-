@@ -34,7 +34,7 @@ export default async function Home() {
       fetchCategories().catch(() => []),
       fetchTags().catch(() => []),
       fetchYoutubeRSSVideos().catch(() => []),
-      fetchCategoryPosts('india', 6).catch(() => []),
+      fetchCategoryPosts('india', 8).catch(() => []),
       fetchCategoryPosts('the-exclusive-truth', 1).catch(() => []),
       fetchCategoryPosts('the-untold-truth', 1).catch(() => []),
       fetchCategoryPosts('your-truth', 4).catch(() => []),
