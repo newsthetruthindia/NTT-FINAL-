@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 import CalendarArchive from '@/components/CalendarArchive';
 import ArchiveSearchBanner from '@/components/ArchiveSearchBanner';
 import ArchiveTeamBanner from '@/components/ArchiveTeamBanner';
+import OnThisDayArchive from '@/components/OnThisDayArchive';
 import ReporterGrid from '@/components/ReporterGrid';
 import { fetchArchiveSummary, fetchActiveReporters } from '@/lib/api';
 
@@ -70,8 +71,9 @@ export default async function ArchiveLandingPage() {
             </div>
           </div>
           
-          {/* Right Column: Calendar */}
-          <div className="lg:col-span-5 sticky top-32">
+          {/* Right Column: History & Calendar */}
+          <div className="lg:col-span-5 sticky top-32 space-y-12">
+            <OnThisDayArchive />
             <CalendarArchive />
           </div>
         </div>

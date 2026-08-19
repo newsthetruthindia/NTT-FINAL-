@@ -127,6 +127,20 @@ export const fetchTopPosts = async (limit = 6): Promise<Post[]> => {
   }
 };
 
+export const fetchOnThisDay = async (limit = 4): Promise<Post[]> => {
+  try {
+    const res = await fetch(`${API_URL}posts/on-this-day?limit=${limit}`, { 
+      next: { revalidate: API_REVALIDATE },
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return handleResponse(json);
+  } catch {
+    return [];
+  }
+};
+
 export const fetchPostBySlug = async (slug: string): Promise<Post | null> => {
   try {
     const res = await fetch(`${API_URL}post/${slug}`, { 
