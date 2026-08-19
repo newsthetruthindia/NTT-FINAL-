@@ -25,8 +25,13 @@ export default async function ArchiveLandingPage() {
       
       <div className="pt-32 pb-24 max-w-7xl mx-auto px-4 lg:px-12">
         {/* Search Banner Section - Moved to absolute top for instant utility */}
-        <div className="mb-24">
+        <div className="mb-16">
           <ArchiveSearchBanner />
+        </div>
+
+        {/* Team Banner Section - Moved back to top */}
+        <div className="mb-24 flex justify-center">
+            <ArchiveTeamBanner />
         </div>
 
         {/* Main Split Section */}
@@ -96,13 +101,8 @@ export default async function ArchiveLandingPage() {
         </div>
 
         {/* Reporter Grid Section */}
-        <div className="border-t border-border pt-24 mb-24">
+        <div className="border-t border-border pt-24 mb-12">
           <ReporterGrid reporters={reporters} />
-        </div>
-
-        {/* Team Banner Section - Moved to bottom */}
-        <div className="flex justify-center">
-            <ArchiveTeamBanner />
         </div>
       </div>
 
