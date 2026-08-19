@@ -94,7 +94,7 @@ export default function Newsletter() {
                         data-mcp-param="email"
                         data-paramdescription="Subscriber email address"
                         data-mcp-description="Subscriber email address"
-                        className="w-full bg-transparent py-5 px-4 text-white placeholder-gray-500 focus:outline-none text-base md:text-lg font-medium"
+                        className="flex-1 min-w-0 bg-transparent py-5 px-4 text-white placeholder-gray-500 focus:outline-none text-base md:text-lg font-medium"
                       />
                       <button 
                         disabled={status === 'loading'}

@@ -12,6 +12,7 @@ import NewsCard from '../../../components/NewsCard'
 import Breadcrumbs from '../../../components/Breadcrumbs'
 import AISummary from '../../../components/AISummary'
 import AudioPlayer from '../../../components/AudioPlayer'
+import TypographyControls from '../../../components/TypographyControls'
 import ShareCard from '../../../components/ShareCard'
 import ReadingProgress from '../../../components/ReadingProgress'
 import AdBanner from '../../../components/AdBanner'
@@ -209,7 +210,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
         <FloatingShare url={`${SITE_URL}/news/${slug}`} title={post.title} postId={post.id} />
         {highlights[0] && <UpNextPeek post={highlights[0]} />}
 
-        <article className="pt-20 lg:pt-24 pb-16 lg:pb-24 relative overflow-hidden transition-colors duration-500">
+        <article className="pt-20 lg:pt-24 pb-16 lg:pb-24 relative transition-colors duration-500">
           <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
 
           {/* ── HERO HEADER ─────────────────────────────────────────────────────── */}
@@ -237,7 +238,7 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                   </h2>
                 )}
 
-                <div className="flex flex-wrap items-center justify-center gap-6 text-foreground/40 text-[11px] font-black uppercase tracking-[0.2em]">
+                <div className="flex flex-wrap items-center justify-center gap-6 text-foreground/40 text-[11px] font-black uppercase tracking-[0.2em] mb-10">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden bg-primary/10 border border-border shadow-md relative">
                       {post.user?.thumbnails?.url ? (
@@ -253,6 +254,15 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/30" />
                   <span className="bg-primary/10 text-primary px-3 py-1 rounded-full">{readingTime} MIN READ</span>
                 </div>
+                
+                {/* AUDIO & ACCESSIBILITY CONTROLS */}
+                <div className="w-full max-w-2xl mx-auto flex flex-col md:flex-row items-center gap-4">
+                  <div className="flex-grow w-full">
+                    <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
+                  </div>
+                  <TypographyControls />
+                </div>
+
               </div>
 
               {/* HIGH-IMPACT HERO IMAGE */}
@@ -279,147 +289,204 @@ export default async function NewsDetails({ params }: { params: Promise<{ slug: 
 
           {/* ── ARTICLE BODY ──────────────────────────────────────────────────────── */}
           <SoftPaywall />
-          <div id="premium-article-body" className="max-w-3xl mx-auto px-4 space-y-8 relative z-10">
-            {/* UTILITY STRIP (Gist, Audio, AI) */}
-            <div className="space-y-6 pt-2 pb-6 border-b border-border/40">
-              <div className="article-summary">
-                <GistBox content={getSummary()} />
-              </div>
-              <div className="flex flex-col gap-2">
-                <AudioPlayer text={articleContent} audioUrl={post.audio_clip_url} />
-                <AISummary content={articleContent} points={post.ai_summary_points} />
-              </div>
-            </div>
-
-            <div className="py-12">
-              <AdBanner />
-            </div>
-
-            {/* ARTICLEY GALLERY (MIDDLE POSITION) */}
-            {post.gallery && post.gallery.length > 0 && post.gallery_position === 'middle' ? (
-              (() => {
-                const paragraphs = processedContent.split('</p>');
-                const middleIndex = Math.min(3, Math.max(1, Math.floor(paragraphs.length / 2)));
-                const before = paragraphs.slice(0, middleIndex).join('</p>') + '</p>';
-                const after = paragraphs.slice(middleIndex).join('</p>');
-                
-                return (
-                  <>
-                    <SanitizedContent
-                      html={before}
-                      className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
-                    />
-                    <ArticleGallery images={post.gallery} />
-                    <SanitizedContent
-                      html={after}
-                      className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
-                    />
-                  </>
-                );
-              })()
-            ) : (
-              <>
-                <SanitizedContent
-                  html={processedContent}
-                  className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
-                />
-                {/* ARTICLE GALLERY (AFTER POSITION) */}
-                {post.gallery && post.gallery.length > 0 && post.gallery_position !== 'middle' && (
-                  <ArticleGallery images={post.gallery} />
-                )}
-              </>
-            )}
-
-            {/* Social Embeds */}
-            {(post.video_url || post.x_embed_url) && (
-              <div className="mt-16 space-y-12 animate-fade-in border-t border-border pt-12">
-                {post.video_url && (
-                  <div className="space-y-4">
-                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Featured Video</span>
-                    <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-border bg-black">
-                      <LiteYouTubeEmbed
-                        id={(() => {
-                          const m = post.video_url!.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&]{11})/);
-                          return m ? m[1] : '';
-                        })()}
-                        title="YouTube video player"
-                      />
-                    </div>
-                  </div>
-                )}
-                {post.x_embed_url && (
-                  <div className="space-y-4 flex flex-col items-center">
-                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] w-full">Social Highlight</span>
-                    <div className="w-full max-w-[550px] transition-transform duration-500 hover:scale-[1.01]">
-                      <blockquote className="twitter-tweet" data-theme="dark">
-                        <a href={post.x_embed_url}></a>
-                      </blockquote>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-            {post.x_embed_url && <Script src="https://platform.twitter.com/widgets.js" strategy="afterInteractive" />}
-
-            {/* Meet the Reporter */}
-            {post.user && (
-              <div className="mt-20 p-8 md:p-12 rounded-[40px] bg-card border border-border shadow-sm">
-                <div className="flex flex-col md:flex-row gap-8 items-start">
-                  <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-primary/10 border-4 border-background shadow-xl flex-shrink-0 relative">
-                    {post.user.thumbnails?.url ? (
-                      <NttImage src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} fill sizes="128px" className="object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-4xl font-black text-primary bg-primary/5">
-                        {reporterName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'NTT'}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-grow">
-                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-3 block">Meet the Reporter</span>
-                    <div className="text-3xl font-black mb-3">
-                      {isVerifiedReporter ? (
-                        <Link href={`/reporter/${post.user.id}`} className="hover:text-primary transition-colors">{reporterName}</Link>
-                      ) : (
-                        <span className="uppercase">{reporterName}</span>
-                      )}
-                    </div>
-                    {post.user.details?.designation && (
-                      <p className="text-primary font-bold text-sm mb-4 uppercase tracking-widest">{post.user.details.designation}</p>
-                    )}
-                    <p className="text-foreground/70 text-lg leading-relaxed mb-8">
-                      {isVerifiedReporter
-                        ? (post.user.details?.bio || 'A dedicated member of the NTT News Desk, committed to bringing you the unfiltered truth.')
-                        : 'Attributed Staff Member'}
-                    </p>
-                    {isVerifiedReporter && (
-                      <div className="flex items-center gap-4">
-                        {post.user.details?.twitter && (
-                          <Link href={post.user.details.twitter} target="_blank" className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300">
-                            <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                          </Link>
-                        )}
-                        {post.user.details?.linkedin && (
-                          <Link href={post.user.details.linkedin} target="_blank" className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300">
-                            <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0zM7.12 20.45H3.56V9h3.56v11.45zM5.34 7.58c-1.14 0-2.06-.93-2.06-2.06 0-1.14.92-2.06 2.06-2.06 1.14 0 2.06.93 2.06 2.06 0 1.14-.92 2.06-2.06 2.06zM20.45 20.45h-3.56v-5.6c0-1.34-.03-3.06-1.87-3.06-1.87 0-2.15 1.46-2.15 2.96v5.7h-3.56V9h3.42v1.56h.05c.48-.9 1.64-1.86 3.38-1.86 3.61 0 4.28 2.38 4.28 5.47v6.28z"/></svg>
-                          </Link>
-                        )}
-                      </div>
-                    )}
-                  </div>
+          <div className="max-w-[1400px] mx-auto px-4 lg:px-8 flex flex-col lg:flex-row gap-12 xl:gap-20 relative z-10 justify-center">
+            {/* Main Article Column */}
+            <div id="premium-article-body" className="flex-grow w-full max-w-3xl space-y-8">
+              {/* UTILITY STRIP (Gist, AI) */}
+              <div className="space-y-6 pt-2 pb-6 border-b border-border/40">
+                <div className="article-summary">
+                  <GistBox content={getSummary()} />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <AISummary content={articleContent} points={post.ai_summary_points} />
                 </div>
               </div>
-            )}
 
-            <ShareCard title={post.title} reporterName={reporterName} postId={post.id} />
-            <CommentSection postId={post.id} />
+              <div className="py-12">
+                <AdBanner />
+              </div>
 
-            {/* Sidebar/Article Ad */}
-            <div className="mt-12">
-              <div className="max-w-md mx-auto space-y-8">
-                <PollWidgetClient />
-                <AdBanner type="sidebar" />
+              {/* ARTICLEY GALLERY (MIDDLE POSITION) */}
+              {post.gallery && post.gallery.length > 0 && post.gallery_position === 'middle' ? (
+                (() => {
+                  const paragraphs = processedContent.split('</p>');
+                  const middleIndex = Math.min(3, Math.max(1, Math.floor(paragraphs.length / 2)));
+                  const before = paragraphs.slice(0, middleIndex).join('</p>') + '</p>';
+                  const after = paragraphs.slice(middleIndex).join('</p>');
+                  
+                  return (
+                    <>
+                      <SanitizedContent
+                        html={before}
+                        className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
+                      />
+                      <ArticleGallery images={post.gallery} />
+                      <SanitizedContent
+                        html={after}
+                        className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
+                      />
+                    </>
+                  );
+                })()
+              ) : (
+                <>
+                  <SanitizedContent
+                    html={processedContent}
+                    className="prose sm:prose-lg md:prose-xl max-w-none article-content selection:bg-primary/20 antialiased pt-4 text-foreground/90 leading-relaxed font-medium"
+                  />
+                  {/* ARTICLE GALLERY (AFTER POSITION) */}
+                  {post.gallery && post.gallery.length > 0 && post.gallery_position !== 'middle' && (
+                    <ArticleGallery images={post.gallery} />
+                  )}
+                </>
+              )}
+
+              {/* Social Embeds */}
+              {(post.video_url || post.x_embed_url) && (
+                <div className="mt-16 space-y-12 animate-fade-in border-t border-border pt-12">
+                  {post.video_url && (
+                    <div className="space-y-4">
+                      <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Featured Video</span>
+                      <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-border bg-black">
+                        <LiteYouTubeEmbed
+                          id={(() => {
+                            const m = post.video_url!.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&]{11})/);
+                            return m ? m[1] : '';
+                          })()}
+                          title="YouTube video player"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {post.x_embed_url && (
+                    <div className="space-y-4 flex flex-col items-center">
+                      <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] w-full">Social Highlight</span>
+                      <div className="w-full max-w-[550px] transition-transform duration-500 hover:scale-[1.01]">
+                        <blockquote className="twitter-tweet" data-theme="dark">
+                          <a href={post.x_embed_url}></a>
+                        </blockquote>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              {post.x_embed_url && <Script src="https://platform.twitter.com/widgets.js" strategy="afterInteractive" />}
+
+              {/* Meet the Reporter */}
+              {post.user && (
+                <div className="mt-20 p-8 md:p-12 rounded-[40px] bg-card border border-border shadow-sm">
+                  <div className="flex flex-col md:flex-row gap-8 items-start">
+                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-primary/10 border-4 border-background shadow-xl flex-shrink-0 relative">
+                      {post.user.thumbnails?.url ? (
+                        <NttImage src={getImageUrl(post.user.thumbnails.url)} alt={post.user.firstname} fill sizes="128px" className="object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-4xl font-black text-primary bg-primary/5">
+                          {reporterName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'NTT'}
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-grow">
+                      <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-3 block">Meet the Reporter</span>
+                      <div className="text-3xl font-black mb-3">
+                        {isVerifiedReporter ? (
+                          <Link href={`/reporter/${post.user.id}`} className="hover:text-primary transition-colors">{reporterName}</Link>
+                        ) : (
+                          <span className="uppercase">{reporterName}</span>
+                        )}
+                      </div>
+                      {post.user.details?.designation && (
+                        <p className="text-primary font-bold text-sm mb-4 uppercase tracking-widest">{post.user.details.designation}</p>
+                      )}
+                      <p className="text-foreground/70 text-lg leading-relaxed mb-8">
+                        {isVerifiedReporter
+                          ? (post.user.details?.bio || 'A dedicated member of the NTT News Desk, committed to bringing you the unfiltered truth.')
+                          : 'Attributed Staff Member'}
+                      </p>
+                      {isVerifiedReporter && (
+                        <div className="flex items-center gap-4">
+                          {post.user.details?.twitter && (
+                            <Link href={post.user.details.twitter} target="_blank" className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300">
+                              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            </Link>
+                          )}
+                          {post.user.details?.linkedin && (
+                            <Link href={post.user.details.linkedin} target="_blank" className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300">
+                              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0zM7.12 20.45H3.56V9h3.56v11.45zM5.34 7.58c-1.14 0-2.06-.93-2.06-2.06 0-1.14.92-2.06 2.06-2.06 1.14 0 2.06.93 2.06 2.06 0 1.14-.92 2.06-2.06 2.06zM20.45 20.45h-3.56v-5.6c0-1.34-.03-3.06-1.87-3.06-1.87 0-2.15 1.46-2.15 2.96v5.7h-3.56V9h3.42v1.56h.05c.48-.9 1.64-1.86 3.38-1.86 3.61 0 4.28 2.38 4.28 5.47v6.28z"/></svg>
+                            </Link>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <ShareCard title={post.title} reporterName={reporterName} postId={post.id} />
+              <CommentSection postId={post.id} />
+
+              {/* Mobile Sidebar/Article Ad */}
+              <div className="mt-12 lg:hidden">
+                <div className="max-w-md mx-auto space-y-8">
+                  <PollWidgetClient />
+                  <AdBanner type="sidebar" />
+                </div>
               </div>
             </div>
+            
+            {/* Right Sidebar (Desktop only) */}
+            <aside className="hidden lg:block w-[350px] flex-shrink-0 relative">
+              <div className="sticky top-24 space-y-10 pt-2 pb-24">
+                {/* Trending News Widget */}
+                {trending && trending.length > 0 && (
+                  <div className="space-y-5">
+                    <h3 className="text-sm font-black text-primary uppercase tracking-widest border-b-2 border-primary/20 pb-2">
+                      Trending Now
+                    </h3>
+                    <div className="flex flex-col gap-5">
+                      {trending.slice(0, 5).map((tPost: any) => (
+                        <Link href={`/news/${tPost.slug}`} key={tPost.id} className="group flex gap-4 items-start bg-card/30 p-3 rounded-2xl hover:bg-card transition-colors border border-transparent hover:border-border">
+                          <div className="w-20 h-20 relative rounded-xl overflow-hidden flex-shrink-0 bg-background border border-border shadow-sm">
+                            <NttImage
+                              src={tPost.thumbnails?.url ? getImageUrl(tPost.thumbnails.url) : `${SITE_URL}/placeholder-news.jpg`}
+                              alt={tPost.title}
+                              fill
+                              sizes="80px"
+                              className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            />
+                          </div>
+                          <div className="flex-grow pt-1">
+                            <span className="text-[9px] uppercase text-primary tracking-[0.1em] mb-1.5 block font-black">
+                              {tPost.categories?.[0]?.cat_data?.title || 'News'}
+                            </span>
+                            <h4 className="font-bold text-sm leading-snug group-hover:text-primary transition-colors line-clamp-3">
+                              {tPost.title}
+                            </h4>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="rounded-3xl overflow-hidden shadow-lg border border-border bg-card">
+                  <PollWidgetClient />
+                </div>
+                
+                <div className="sticky top-24">
+                  <AdBanner type="sidebar" />
+                </div>
+
+                {/* Fallback Static Widget to ensure sidebar is never completely empty */}
+                <div className="bg-gradient-to-br from-primary/10 to-transparent p-6 rounded-3xl border border-primary/20">
+                  <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2 block">Never Miss Out</span>
+                  <h4 className="font-black text-lg mb-4 text-white">Questions Will Be Asked.</h4>
+                  <p className="text-xs text-foreground/70 mb-6 font-medium leading-relaxed">Join our elite circle of truth-seekers. Get weekly investigative briefings.</p>
+                  <Link href="/register" className="block text-center py-3 px-4 bg-primary text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:scale-105 transition-transform shadow-xl shadow-primary/20">
+                    Subscribe Free
+                  </Link>
+                </div>
+              </div>
+            </aside>
           </div>
         </article>
 

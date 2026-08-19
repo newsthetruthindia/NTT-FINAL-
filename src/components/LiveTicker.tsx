@@ -59,7 +59,7 @@ export default function LiveTicker() {
       </div>
 
       <div className="hidden md:flex items-center gap-4 px-6 h-full shrink-0 border-l border-white/10 italic text-gray-500 text-[9px] font-bold tracking-widest uppercase relative z-20 bg-gray-950">
-        Asking the questions others refuse to ask
+        Questions Will Be Asked
       </div>
     </div>
   );

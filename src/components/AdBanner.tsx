@@ -75,16 +75,14 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = 'banner', className = '' }) 
         href={ad.link_url} 
         target="_blank" 
         rel="noopener noreferrer"
-        className={`flex items-center justify-center bg-background/50 relative overflow-hidden ${type === 'banner' ? 'aspect-[4/1] w-full' : 'aspect-square w-full'}`}
+        className="flex items-center justify-center bg-transparent relative overflow-hidden w-full"
       >
          {imageSrc ? (
-           <NttImage 
+           <img 
             key={ad.id}
             src={imageSrc} 
             alt={ad.name} 
-            fill
-            sizes="(max-width: 768px) 100vw, 80vw"
-            className="object-cover transition-all duration-700 group-hover:scale-105 animate-fade-in"
+            className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.02] animate-fade-in block"
            />
          ) : (
            <div className="text-center p-6">

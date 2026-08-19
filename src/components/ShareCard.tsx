@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface ShareCardProps {
   title: string;
@@ -11,6 +11,11 @@ interface ShareCardProps {
 
 export default function ShareCard({ title, quote, reporterName = 'NTT Desk', postId }: ShareCardProps) {
   const [copied, setCopied] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState('');
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href);
+  }, []);
 
   const handleShare = async () => {
     try {
@@ -25,7 +30,7 @@ export default function ShareCard({ title, quote, reporterName = 'NTT Desk', pos
   };
 
   const handleCopy = () => {
-    const url = window.location.href;
+    const url = currentUrl || window.location.href;
     navigator.clipboard.writeText(url);
     setCopied(true);
     handleShare();
@@ -33,7 +38,7 @@ export default function ShareCard({ title, quote, reporterName = 'NTT Desk', pos
   };
 
   const shareText = encodeURIComponent(`"${quote || title}" — Reported by NTT News`);
-  const shareUrl = typeof window !== 'undefined' ? encodeURIComponent(window.location.href) : '';
+  const shareUrl = encodeURIComponent(currentUrl);
 
   return (
     <div className="mt-12 p-10 bg-gray-950 rounded-[48px] overflow-hidden relative group border border-white/5">
