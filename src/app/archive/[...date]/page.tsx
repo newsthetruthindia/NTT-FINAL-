@@ -2,7 +2,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import NewsCard from '@/components/NewsCard';
 import CalendarArchive from '@/components/CalendarArchive';
-import ArchiveTeamBanner from '@/components/ArchiveTeamBanner';
 import { fetchArchivePosts } from '@/lib/api';
 
 export const revalidate = 7200;
@@ -99,11 +98,6 @@ export default async function ArchiveDatePage({
              ))}
           </div>
         </header>
-
-        {/* Team Banner Section */}
-        <div className="mb-16">
-          <ArchiveTeamBanner />
-        </div>
 
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
