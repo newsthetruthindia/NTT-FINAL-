@@ -49,17 +49,17 @@ export default function CalendarArchive() {
 
   return (
     <div className="bg-card border border-border rounded-[32px] p-6 shadow-sm">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex flex-col gap-1">
-          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary">Browse History</span>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-2 block">Browse History</span>
           <h3 className="text-2xl font-black text-foreground tracking-tighter uppercase">
-            {monthName} <span className="text-primary italic lowercase font-serif font-normal">{year}</span>
+            {monthName} <span className="text-primary/40">{year}</span>
           </h3>
         </div>
         <div className="flex gap-2">
           <button 
             onClick={handlePrevMonth}
-            className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center hover:bg-gray-50 transition-colors"
+            className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-card transition-colors text-foreground"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
@@ -67,7 +67,7 @@ export default function CalendarArchive() {
           </button>
           <button 
             onClick={handleNextMonth}
-            className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center hover:bg-gray-50 transition-colors"
+            className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-card transition-colors text-foreground"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -78,7 +78,7 @@ export default function CalendarArchive() {
 
       <div className="grid grid-cols-7 gap-1 mb-4">
         {weekDays.map(day => (
-          <div key={day} className="text-[10px] font-black uppercase tracking-widest text-gray-400 text-center py-2">
+          <div key={day} className="text-[10px] font-black uppercase tracking-widest text-foreground/40 text-center py-2">
             {day}
           </div>
         ))}
@@ -94,7 +94,7 @@ export default function CalendarArchive() {
                   w-full h-full rounded-2xl text-sm font-bold transition-all duration-300
                   ${selectedDate?.getDate() === day && selectedDate?.getMonth() === month && selectedDate?.getFullYear() === year
                     ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105'
-                    : 'hover:bg-primary/5 hover:text-primary text-gray-700'
+                    : 'hover:bg-primary/20 hover:text-primary text-foreground'
                   }
                 `}
               >
@@ -105,7 +105,7 @@ export default function CalendarArchive() {
         ))}
       </div>
 
-      <div className="mt-8 pt-8 border-t border-gray-50">
+      <div className="mt-8 pt-8 border-t border-border">
         <div className="flex items-center gap-4">
            <div className="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center">
               <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">

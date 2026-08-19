@@ -59,23 +59,40 @@ export default async function ArchiveLandingPage() {
             </div>
 
             {/* Category Pills / Quick Browse */}
-            <div>
-              <h3 className="text-xs font-black uppercase tracking-[0.3em] text-foreground/40 mb-6">Quick Browse Topics</h3>
-              <div className="flex flex-wrap gap-4">
-                {['India', 'World', 'Bengal', 'Politics', 'The Exclusive Truth'].map(cat => (
-                  <a key={cat} href={`/category/${cat.toLowerCase().replace(/ /g, '-')}`} className="px-6 py-3 rounded-full bg-card/50 border border-border text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 text-sm font-bold tracking-tight">
-                    {cat}
-                  </a>
-                ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div>
+                <h3 className="text-xs font-black uppercase tracking-[0.3em] text-foreground/40 mb-6">Quick Browse Topics</h3>
+                <div className="flex flex-wrap gap-4">
+                  {['India', 'World', 'Bengal', 'Politics', 'The Exclusive Truth'].map(cat => (
+                    <a key={cat} href={`/category/${cat.toLowerCase().replace(/ /g, '-')}`} className="px-5 py-2.5 rounded-full bg-card/50 border border-border text-foreground hover:bg-primary hover:text-white transition-all duration-300 text-xs font-bold tracking-tight shadow-sm">
+                      {cat}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="text-xs font-black uppercase tracking-[0.3em] text-foreground/40 mb-6">Browse by Year</h3>
+                <div className="flex flex-wrap gap-4">
+                  {['2026', '2025', '2024', '2023'].map(year => (
+                    <a key={year} href={`/search?q=${year}`} className="px-5 py-2.5 rounded-full bg-card/50 border border-border text-foreground hover:bg-foreground hover:text-background transition-all duration-300 text-xs font-bold tracking-tight shadow-sm">
+                      {year}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
           
-          {/* Right Column: History & Calendar */}
-          <div className="lg:col-span-5 sticky top-32 space-y-12">
-            <OnThisDayArchive />
+          {/* Right Column: Calendar */}
+          <div className="lg:col-span-5 sticky top-32">
             <CalendarArchive />
           </div>
+        </div>
+
+        {/* On This Day - Full Width Row */}
+        <div className="mb-24">
+          <OnThisDayArchive />
         </div>
 
         {/* Reporter Grid Section */}
