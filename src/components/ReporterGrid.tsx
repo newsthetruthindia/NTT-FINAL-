@@ -19,20 +19,35 @@ interface Reporter {
 export default function ReporterGrid({ reporters }: { reporters: Reporter[] }) {
   if (!reporters || reporters.length === 0) return null;
 
-  // Reorder: move Ankit Salvi to appear after Soonakshi Ghosh
-  const isAnkit = (r: Reporter) => r.firstname?.toLowerCase() === 'ankit' && r.lastname?.toLowerCase() === 'salvi';
-  const isSoonakshi = (r: Reporter) => r.firstname?.toLowerCase() === 'soonakshi' || r.firstname?.toLowerCase() === 'sonakshi';
+  const targetOrder = [
+    'tamal saha',
+    'titas mukherjee',
+    'dipaneeta das',
+    'soonakshi ghosh',
+    'ntt desk',
+    'admin ntt',
+    'admin'
+  ];
 
-  const reordered = (() => {
-    const ankit = reporters.find(isAnkit);
-    if (!ankit) return reporters;
-    const withoutAnkit = reporters.filter(r => !isAnkit(r));
-    const soonakshiIdx = withoutAnkit.findIndex(isSoonakshi);
-    if (soonakshiIdx === -1) return [...withoutAnkit, ankit]; // put at end if Soonakshi not found
-    const result = [...withoutAnkit];
-    result.splice(soonakshiIdx + 1, 0, ankit);
-    return result;
-  })();
+  const isAnkit = (r: Reporter) => r.firstname?.toLowerCase() === 'ankit' && r.lastname?.toLowerCase() === 'salvi';
+
+  const getFullName = (r: Reporter) => `${r.firstname || ''} ${r.lastname || ''}`.trim().toLowerCase();
+
+  const reordered = [...reporters].sort((a, b) => {
+    const nameA = getFullName(a);
+    const nameB = getFullName(b);
+
+    let indexA = targetOrder.findIndex(name => nameA.includes(name) || name === nameA);
+    let indexB = targetOrder.findIndex(name => nameB.includes(name) || name === nameB);
+
+    if (indexA === -1) indexA = 999;
+    if (indexB === -1) indexB = 999;
+
+    if (indexA !== indexB) {
+      return indexA - indexB;
+    }
+    return 0; // preserve original order for the rest
+  });
 
   return (
     <section className="py-24">
