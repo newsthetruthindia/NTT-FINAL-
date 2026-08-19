@@ -16,7 +16,7 @@ export default async function ReporterProfilePage({ params }: { params: Promise<
   // Fetch reporter details and their posts
   const [user, posts] = await Promise.all([
     fetchUserById(userId),
-    fetchPostsByUserId(userId, 100)
+    fetchPostsByUserId(userId, 1000)
   ]);
 
   if (!user) notFound();
