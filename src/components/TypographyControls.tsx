@@ -5,26 +5,21 @@ import { useState, useEffect } from 'react';
 export default function TypographyControls() {
   const [size, setSize] = useState<'base' | 'large' | 'xlarge'>('large');
 
-  useEffect(() => {
-    // Target all parts of the main article text
-    const articleBodies = document.querySelectorAll('.article-content');
-    if (articleBodies.length === 0) return;
-
-    articleBodies.forEach(body => {
-      // Use inline styles with !important to reliably override Tailwind's responsive classes
-      // without fighting React's virtual DOM className reconciler
-      if (size === 'base') {
-        (body as HTMLElement).style.setProperty('font-size', '16px', 'important');
-      } else if (size === 'large') {
-        (body as HTMLElement).style.setProperty('font-size', '20px', 'important');
-      } else if (size === 'xlarge') {
-        (body as HTMLElement).style.setProperty('font-size', '26px', 'important');
-      }
-    });
-  }, [size]);
-
   return (
-    <div className="flex items-center gap-1 bg-card/50 backdrop-blur-sm border border-border rounded-full p-1 shadow-sm shrink-0">
+    <>
+      {/* Bulletproof CSS injection that cannot be overridden by React renders or Tailwind responsive classes */}
+      <style dangerouslySetInnerHTML={{__html: `
+        ${size === 'base' ? '#premium-article-body .article-content { font-size: 16px !important; line-height: 1.7 !important; }' : ''}
+        ${size === 'large' ? '#premium-article-body .article-content { font-size: 20px !important; line-height: 1.8 !important; }' : ''}
+        ${size === 'xlarge' ? '#premium-article-body .article-content { font-size: 26px !important; line-height: 1.9 !important; }' : ''}
+        
+        /* Ensure all child paragraphs inherit this forced size */
+        #premium-article-body .article-content p,
+        #premium-article-body .article-content li {
+          font-size: 1em !important;
+        }
+      `}} />
+      <div className="flex items-center gap-1 bg-card/50 backdrop-blur-sm border border-border rounded-full p-1 shadow-sm shrink-0">
       <button
         onClick={() => setSize('base')}
         className={`w-8 h-8 flex items-center justify-center rounded-full text-[11px] font-bold transition-all ${
@@ -56,5 +51,6 @@ export default function TypographyControls() {
         A
       </button>
     </div>
+    </>
   );
 }
