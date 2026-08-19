@@ -51,14 +51,14 @@ export default function ForgotPasswordPage() {
       <Header />
       
       <div className="flex-grow flex items-center justify-center px-4 py-24 relative z-10">
-        <div className="w-full max-w-md p-1 bg-white/40 rounded-[40px] backdrop-blur-3xl border border-white/20 shadow-2xl animate-fade-in-up">
-          <div className="bg-white/80 rounded-[39px] p-10 border border-white/10 shadow-inner">
+        <div className="w-full max-w-md p-[1.2px] bg-gradient-to-b from-primary/40 to-transparent rounded-[32px] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.5)] animate-fade-in-up">
+          <div className="bg-[#0b1120]/95 rounded-[31px] p-8 md:p-10 border border-white/10 shadow-inner backdrop-blur-3xl">
             <div className="text-center mb-10">
-               <h1 className="text-4xl font-black text-foreground font-heading tracking-tighter leading-none mb-2">
+               <h1 className="text-4xl font-black text-white font-heading tracking-tighter leading-none mb-2">
                  RECOVER<br/>ACCESS<span className="text-primary text-5xl">.</span>
                </h1>
-               <p className="text-foreground/40 text-[10px] font-black uppercase tracking-[0.4em] mb-8">Verification Required</p>
-               <p className="text-foreground/60 text-sm font-sans leading-relaxed">Enter your email and we'll send a secure password recovery link.</p>
+               <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.4em] mb-8">Verification Required</p>
+               <p className="text-white/60 text-sm font-sans leading-relaxed">Enter your email and we'll send a secure password recovery link.</p>
             </div>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
@@ -73,13 +73,13 @@ export default function ForgotPasswordPage() {
                 </div>
               )}
               <div className="space-y-2">
-                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 ml-1">Verified Email Address</label>
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-white/40 ml-1">Verified Email Address</label>
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full px-6 py-5 bg-background/50 border border-border focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-foreground placeholder:text-foreground/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
+                  className="w-full px-6 py-5 bg-black/40 border border-white/10 focus:border-primary/50 rounded-2xl outline-none transition-all duration-300 font-sans text-white placeholder:text-white/20 focus:ring-4 focus:ring-primary/5 shadow-inner" 
                   placeholder="name@example.com"
                 />
               </div>
@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
             </form>
 
             <div className="text-center mt-12">
-              <Link href="/login" className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground/30 hover:text-primary transition-all duration-300">
+              <Link href="/login" className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 hover:text-primary transition-all duration-300">
                 Back to Authentication
               </Link>
             </div>

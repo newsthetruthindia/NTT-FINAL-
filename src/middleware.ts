@@ -5,12 +5,8 @@ const BLOCKED_AGENTS =
 
 // Pages that require authentication to view
 const PROTECTED_PATTERNS = [
-  /^\/news\/.+/,       // Article detail pages
-  /^\/category\/.+/,   // Category listing pages
-  /^\/search/,         // Search results
-  /^\/archive/,        // Archive
-  /^\/reporter\/.+/,   // Reporter profiles
-  /^\/tv/,             // TV section
+  /^\/settings/,
+  /^\/profile/,
 ];
 
 // Pages that should never be blocked (even if they match above)
