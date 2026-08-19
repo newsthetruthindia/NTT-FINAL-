@@ -71,7 +71,7 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
   if (variant === 'landscape') {
     return (
       <div className="group flex flex-col sm:flex-row h-full w-full overflow-hidden rounded-[24px] md:rounded-[32px] bg-card/60 backdrop-blur-sm border border-white/5 hover:border-primary/20 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500">
-        <div className="sm:w-[45%] relative overflow-hidden h-[200px] sm:h-auto min-h-[200px]">
+        <div className="sm:w-[35%] relative overflow-hidden h-[200px] sm:h-auto min-h-[200px]">
           <NttImage 
             src={displayImage} 
             alt={title}
@@ -86,18 +86,18 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
             </span>
           </div>
         </div>
-        <div className="sm:w-[55%] p-6 md:p-8 flex flex-col justify-center">
-          <h2 className="text-lg lg:text-2xl font-bold text-foreground mb-3 leading-snug tracking-tight group-hover:text-primary transition-colors line-clamp-3 editorial-heading uppercase">
+        <div className="sm:w-[65%] p-5 md:p-6 flex flex-col justify-center">
+          <h2 className="text-base lg:text-lg font-bold text-foreground mb-2 leading-snug tracking-tight group-hover:text-primary transition-colors line-clamp-3 editorial-heading">
             <Link href={`/news/${slug}`}>{title}</Link>
           </h2>
           {displayExcerpt && (
-            <p className="text-foreground/50 text-xs lg:text-sm mb-6 line-clamp-2 leading-relaxed font-medium">
+            <p className="text-foreground/60 text-xs mb-4 line-clamp-2 leading-relaxed font-medium">
               {displayExcerpt}
             </p>
           )}
-          <div className="flex items-center justify-between pt-5 border-t border-white/5 mt-auto">
-            <div className="flex items-center gap-3 text-foreground/40 text-[10px] font-black uppercase tracking-widest italic">
-              <span className="flex items-center gap-2">
+          <div className="flex items-center justify-between pt-4 border-t border-white/5 mt-auto">
+            <div className="flex flex-wrap items-center gap-2 text-foreground/50 text-[10px] font-bold uppercase tracking-wider">
+              <span className="flex items-center gap-1.5">
                 <span className="w-1 h-1 rounded-full bg-primary" />
                 {isoDateString ? (
                   <time dateTime={isoDateString}>{formattedDate}</time>
@@ -105,10 +105,10 @@ export default function NewsCard({ post, variant = 'standard' }: NewsCardProps) 
                   formattedDate
                 )}
               </span>
-              <span className="text-primary font-black ml-2">{renderAttribution()}</span>
+              <span className="text-white/80 font-black ml-1">{renderAttribution()}</span>
             </div>
-            <Link href={`/news/${slug}`} className="p-2 rounded-full bg-white/5 group-hover:bg-primary transition-all duration-300">
-              <svg className="w-4 h-4 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <Link href={`/news/${slug}`} className="shrink-0 p-2 rounded-full bg-white/5 group-hover:bg-primary transition-all duration-300">
+              <svg className="w-3.5 h-3.5 text-white/70 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </Link>
