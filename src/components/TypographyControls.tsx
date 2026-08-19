@@ -11,15 +11,14 @@ export default function TypographyControls() {
     if (articleBodies.length === 0) return;
 
     articleBodies.forEach(body => {
-      // Remove all possible prose sizing classes, including the responsive ones
-      body.classList.remove('prose-sm', 'prose-base', 'prose-lg', 'prose-xl', 'prose-2xl', 'sm:prose-lg', 'md:prose-xl');
-      
+      // Use inline styles with !important to reliably override Tailwind's responsive classes
+      // without fighting React's virtual DOM className reconciler
       if (size === 'base') {
-        body.classList.add('prose-base');
+        (body as HTMLElement).style.setProperty('font-size', '16px', 'important');
       } else if (size === 'large') {
-        body.classList.add('prose-lg');
+        (body as HTMLElement).style.setProperty('font-size', '20px', 'important');
       } else if (size === 'xlarge') {
-        body.classList.add('prose-xl');
+        (body as HTMLElement).style.setProperty('font-size', '26px', 'important');
       }
     });
   }, [size]);
