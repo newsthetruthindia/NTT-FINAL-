@@ -54,7 +54,8 @@ export default async function ArchiveDatePage({
     });
   }
 
-  const posts = await fetchArchivePosts(formattedDate);
+  // Fetch up to 1000 stories for the archive view
+  const posts = await fetchArchivePosts(formattedDate, 1000);
   
   const months = [
     { num: '01', name: 'Jan' }, { num: '02', name: 'Feb' }, { num: '03', name: 'Mar' },

@@ -56,7 +56,7 @@ export async function GET(
 
   const url = new URL(request.url);
   const rawLimit = parseInt(url.searchParams.get('limit') || '20');
-  const safeLimit = Math.min(isNaN(rawLimit) ? 20 : rawLimit, 50);
+  const safeLimit = Math.min(isNaN(rawLimit) ? 20 : rawLimit, path.startsWith('posts/archive') ? 1000 : 50);
   const cappedSearchParams = new URLSearchParams(searchParams);
   cappedSearchParams.set('limit', String(safeLimit));
   const finalSearchParams = cappedSearchParams.toString();
