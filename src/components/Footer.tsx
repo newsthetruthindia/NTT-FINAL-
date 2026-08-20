@@ -75,7 +75,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-white/5 mt-16 pt-8 text-center text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">
-          © <span suppressHydrationWarning>{new Date().getFullYear()}</span> News The Truth. All rights reserved.
+          &copy; <span suppressHydrationWarning>{new Date().getFullYear()}</span> Alethia Media and Communication Private Limited. All rights reserved.
         </div>
       </div>
     </footer>

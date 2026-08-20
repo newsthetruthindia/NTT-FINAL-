@@ -11,7 +11,7 @@ export default function AboutPage() {
         </h1>
         <div className="prose prose-xl max-w-none text-gray-700 leading-relaxed font-medium space-y-8">
           <p className="text-2xl text-foreground font-bold leading-tight">
-            News The Truth (NTT) is more than just a news portal. It is a movement dedicated to the pursuit of authentic storytelling and the protection of democratic values.
+            News The Truth (NTT), proudly operated by Alethia Media and Communication Private Limited, is more than just a news portal. It is a movement dedicated to the pursuit of authentic storytelling and the protection of democratic values.
           </p>
           <p>
             In an era of misinformation and polarized narratives, NTT stands as a beacon of integrity. Our mission is simple but profound: to provide a platform where the truth is not just reported, but protected. We focus on investigative journalism, local stories that often go unheard, and holding those in power accountable to the citizens they serve.

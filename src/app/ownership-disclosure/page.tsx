@@ -13,7 +13,7 @@ export default function OwnershipDisclosurePage() {
           <section className="space-y-4">
             <h2 className="text-2xl font-black text-gray-950 uppercase tracking-tight">Who We Are</h2>
             <p>
-              News The Truth operates with complete editorial independence. We are transparent about our ownership structure to ensure our readers know exactly who is funding our journalism.
+              News The Truth is a brand owned and operated by Alethia Media and Communication Private Limited. We operate with complete editorial independence. We are transparent about our ownership structure to ensure our readers know exactly who is funding our journalism.
             </p>
             <p>
               We are an independent media organization. Our funding comes primarily from grassroots supporters, independent sponsors, and non-partisan grants. No corporate entity or political organization dictates our editorial direction.

@@ -13,7 +13,7 @@ export default function PrivacyPage() {
           <section className="space-y-4">
             <h2 className="text-2xl font-black text-gray-950 uppercase tracking-tight">Commitment to Anonymity</h2>
             <p>
-              At News The Truth (NTT), we prioritize the safety and anonymity of our sources above all else. This policy outlines how we handle data while maintaining our commitment to free and fearless journalism.
+              At News The Truth (NTT), a brand of Alethia Media and Communication Private Limited, we prioritize the safety and anonymity of our sources above all else. This policy outlines how we handle data while maintaining our commitment to free and fearless journalism.
             </p>
           </section>
 
