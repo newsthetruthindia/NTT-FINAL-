@@ -1,7 +1,7 @@
 // Version: 1.1.7 - Media Resolver Proxy
 // We use a Next.js catch-all route as a proxy to handle complex paths and query params
-/** Shared ISR window — Increased to 1h to prevent massive ISR write loops. Relies on /api/revalidate webhook for instant updates. */
-export const API_REVALIDATE = 3600;
+/** ISR window: 5 minutes — balances freshness with cost. Stories appear within 5 min of publishing. */
+export const API_REVALIDATE = 300;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
 const MEDIA_BASE = (
