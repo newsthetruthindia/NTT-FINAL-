@@ -203,71 +203,62 @@ export async function GET() {
     };
 
     for (const city of cities) {
-      const forecastRes = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}, India&days=3&aqi=yes`);
-      const forecastData = await forecastRes.json();
-
       const coords = cityCoords[city];
-      const openMeteoRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata&forecast_days=3`);
+      
+      const openMeteoRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,relative_humidity_2m_mean,wind_speed_10m_max&timezone=Asia%2FKolkata&forecast_days=3`);
       const openMeteoData = await openMeteoRes.json();
 
-      let tideData: any = null;
-      if (city !== 'Delhi') {
-        const marineRes = await fetch(`http://api.weatherapi.com/v1/marine.json?key=${WEATHER_API_KEY}&q=${city}, India&days=3`);
-        const marineJson = await marineRes.json();
-        tideData = marineJson?.forecast?.forecastday;
-      }
+      const aqiRes = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${coords.lat}&longitude=${coords.lon}&current=pm2_5&hourly=pm2_5&timezone=Asia%2FKolkata`);
+      const aqiData = await aqiRes.json();
 
-      forecastData?.forecast?.forecastday?.forEach((day: any, index: number) => {
+      [0, 1, 2].forEach((index: number) => {
         let dayKey = 'Today';
         if (index === 1) dayKey = 'Tomorrow';
         if (index === 2) dayKey = 'Day 3';
 
-        let aqiStatus = 'Good';
-        const epaIndex = day.day.air_quality?.['us-epa-index'] || 1;
-        if (epaIndex >= 3 && epaIndex <= 4) aqiStatus = 'Moderate';
-        if (epaIndex >= 5) aqiStatus = 'Poor';
-
-        let tideStr = null;
-        if (tideData && tideData[index]?.day?.tides?.[0]?.tide) {
-          const tides = tideData[index].day.tides[0].tide;
-          const formatTime = (tStr: string) => {
-            if (!tStr) return '--';
-            const date = new Date(tStr);
-            let h = date.getHours();
-            const m = date.getMinutes();
-            const period = h >= 12 ? 'PM' : 'AM';
-            h = h % 12;
-            const hour12 = h ? h : 12;
-            return `${hour12}:${m.toString().padStart(2, '0')} ${period}`;
-          };
-          
-          const firstHigh = tides.find((t: any) => t.tide_type === 'HIGH');
-          const firstLow = tides.find((t: any) => t.tide_type === 'LOW');
-          
-          const highTime = firstHigh ? formatTime(firstHigh.tide_time) : '--';
-          const lowTime = firstLow ? formatTime(firstLow.tide_time) : '--';
-          tideStr = `H: ${highTime} | L: ${lowTime}`;
+        let pm25 = 0;
+        if (aqiData) {
+          if (index === 0) {
+            pm25 = aqiData.current?.pm2_5 || 0;
+          } else {
+            const targetIndex = (index * 24) + 12;
+            pm25 = aqiData.hourly?.pm2_5?.[targetIndex] || 0;
+          }
         }
 
         let aqiValue = 'N/A';
-        const pm25 = index === 0 ? forecastData.current.air_quality?.['pm2_5'] : day.day.air_quality?.['pm2_5'];
+        let aqiStatus = 'Good';
         if (pm25) {
-          aqiValue = calculateAQI(pm25).toString();
+          const aqi = calculateAQI(pm25);
+          aqiValue = aqi.toString();
+          if (aqi <= 50) aqiStatus = 'Good';
+          else if (aqi <= 100) aqiStatus = 'Moderate';
+          else if (aqi <= 200) aqiStatus = 'Poor';
+          else aqiStatus = 'Severe';
         }
 
         let tempC = 0;
+        let statsStr = null;
         let iconEmoji = '☀️';
         
-        if (openMeteoData) {
+        if (openMeteoData && !openMeteoData.error) {
           if (index === 0) {
             tempC = openMeteoData.current?.temperature_2m || 0;
+            const hum = openMeteoData.current?.relative_humidity_2m || 0;
+            const wind = Math.round(openMeteoData.current?.wind_speed_10m || 0);
+            statsStr = `Hum: ${hum}% | Wind: ${wind} km/h`;
             iconEmoji = getWeatherEmoji(openMeteoData.current?.weather_code || 0);
           } else {
             const maxTemp = openMeteoData.daily?.temperature_2m_max?.[index] || 0;
             const minTemp = openMeteoData.daily?.temperature_2m_min?.[index] || 0;
             tempC = (maxTemp + minTemp) / 2;
+            const hum = openMeteoData.daily?.relative_humidity_2m_mean?.[index] || 0;
+            const wind = Math.round(openMeteoData.daily?.wind_speed_10m_max?.[index] || 0);
+            statsStr = `Hum: ${hum}% | Wind: ${wind} km/h`;
             iconEmoji = getWeatherEmoji(openMeteoData.daily?.weather_code?.[index] || 0);
           }
+        } else {
+          statsStr = 'Hum: N/A | Wind: N/A';
         }
 
         results[dayKey].push({
@@ -276,7 +267,7 @@ export async function GET() {
           icon: iconEmoji,
           aqi: aqiValue,
           aqiStatus,
-          tide: tideStr,
+          tide: statsStr,
         });
       });
     }
