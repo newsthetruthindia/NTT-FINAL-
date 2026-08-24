@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import yahooFinance from 'yahoo-finance2';
 import * as cheerio from 'cheerio';
 
-export const revalidate = 300; // Cache for 5 minutes
+export const revalidate = 3600; // Cache for 1 hour — weather/fuel/horoscopes don't change every 5 min
 
 const ZODIAC_SIGNS = ['aries','taurus','gemini','cancer','leo','virgo','libra','scorpio','sagittarius','capricorn','aquarius','pisces'];
 

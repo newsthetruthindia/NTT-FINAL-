@@ -41,10 +41,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const post = await fetchPostBySlug(slug);
     if (!post) return { title: 'Article Not Found | NTT' };
     const description = post.meta_description || post.excerpt || stripTags(post.description || '').substring(0, 160);
-    const imageUrl = post.thumbnails?.url ? getImageUrl(post.thumbnails.url) : `${SITE_URL}/placeholder-news.jpg`;
     
-    // Ensure absolute URL for OG image
-    const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : `${SITE_URL}${imageUrl}`;
+    // For OG/social sharing: route through /api/media proxy which has fallback logic
+    // to resolve backend storage path inconsistencies (avoids 404s on direct URLs)
+    const ogImageUrl = (() => {
+      const raw = post.thumbnails?.url;
+      if (!raw || typeof raw !== 'string' || raw.trim() === '') return `${SITE_URL}/placeholder-news.jpg`;
+      // Extract the relative path for the media resolver
+      const cleanPath = raw.replace(/^\/+/, '').replace(/^public\//, '');
+      return `${SITE_URL}/api/media?path=${encodeURIComponent(cleanPath)}`;
+    })();
 
     return {
       title: `${post.meta_title || post.title} | News The Truth`,
@@ -53,7 +59,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         title: post.title,
         description: description,
         images: [{
-          url: absoluteImageUrl,
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: post.title,
@@ -71,7 +77,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         card: 'summary_large_image',
         title: post.title,
         description: description,
-        images: [absoluteImageUrl],
+        images: [ogImageUrl],
         creator: '@newsthetruth',
       },
       alternates: {

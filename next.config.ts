@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: false,
   },
   images: {
+    unoptimized: true,
     minimumCacheTTL: 86400,
     remotePatterns: [
       { protocol: 'http', hostname: '117.252.16.132' },

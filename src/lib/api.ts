@@ -1,7 +1,7 @@
 // Version: 1.1.7 - Media Resolver Proxy
 // We use a Next.js catch-all route as a proxy to handle complex paths and query params
-/** Shared ISR window — keep ≥1h on Vercel free tier (60s caused 178K ISR writes/mo). Now on Pro plan, safely set to 60s. */
-export const API_REVALIDATE = 60;
+/** On-demand only — no time-based polling. Updates when backend calls POST /api/revalidate after publishing. */
+export const API_REVALIDATE: false = false;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://newsthetruth.com';
 const MEDIA_BASE = (
@@ -382,7 +382,7 @@ export const fetchArchiveSummary = async (): Promise<any | null> => {
 export const fetchActivePoll = async (): Promise<any | null> => {
   try {
     const res = await fetch(`${API_URL}polls/active`, { 
-      next: { revalidate: 60 }, // Polls update more frequently
+      next: { revalidate: 3600 }, // Rely on webhooks or client-side fetch
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) return null;
