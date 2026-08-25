@@ -15,8 +15,10 @@ import { revalidateTag, revalidatePath } from 'next/cache';
  */
 export async function POST(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get('secret');
+  
+  const expectedToken = process.env.REVALIDATION_TOKEN || 'ntt_secure_revalidate_123';
 
-  if (secret !== process.env.REVALIDATION_TOKEN) {
+  if (secret !== expectedToken) {
     return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
   }
 
@@ -75,7 +77,9 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get('secret');
 
-  if (secret !== process.env.REVALIDATION_TOKEN) {
+  const expectedToken = process.env.REVALIDATION_TOKEN || 'ntt_secure_revalidate_123';
+
+  if (secret !== expectedToken) {
     return NextResponse.json({ message: 'Invalid token. Use POST with ?secret=YOUR_TOKEN' }, { status: 401 });
   }
 
